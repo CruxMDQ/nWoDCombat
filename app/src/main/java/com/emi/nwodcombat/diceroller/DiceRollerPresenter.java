@@ -20,14 +20,14 @@ public class DiceRollerPresenter implements DiceRollerContract.InputListener,
 
     @Override
     public int setAttackerDice(FragmentManager manager) {
-        NumberPickerDialogFragment dialog = NumberPickerDialogFragment.newInstance("Pick dice", Constants.DICE_ATTACKER, this);
+        DiceCalcDialogFragment dialog = DiceCalcDialogFragment.newInstance("Pick dice", Constants.DICE_ATTACKER, this);
         dialog.show(manager, "MainFragment");
         return 0;
     }
 
     @Override
     public int setDefenderDice(FragmentManager manager) {
-        NumberPickerDialogFragment dialog = NumberPickerDialogFragment.newInstance("Pick dice", Constants.DICE_DEFENDER, this);
+        DiceCalcDialogFragment dialog = DiceCalcDialogFragment.newInstance("Pick dice", Constants.DICE_DEFENDER, this);
         dialog.show(manager, "MainFragment");
         return 0;
     }

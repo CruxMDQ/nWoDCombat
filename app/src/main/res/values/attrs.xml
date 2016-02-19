@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NumberPickerWidget">
+        <attr name="widgetTitle" format="string" />
+        <attr name="minimumValue" format="integer" />
+        <attr name="maximumValue" format="integer" />
+    </declare-styleable>
+</resources>

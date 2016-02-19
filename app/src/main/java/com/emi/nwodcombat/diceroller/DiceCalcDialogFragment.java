@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.widgets.NumberPickerWidget;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,18 +20,18 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 2/18/16.
  */
-public class NumberPickerDialogFragment extends DialogFragment {
+public class DiceCalcDialogFragment extends DialogFragment {
     int number = 0;
     String tag;
     String title;
     AfterChoosingNumberListener listener;
 
-    @Bind(R.id.txtNumber) TextView txtNumber;
-    @Bind(R.id.btnDecrease) Button btnDecrease;
-    @Bind(R.id.btnIncrease) Button btnIncrease;
+    @Bind(R.id.nbpkAttribute) NumberPickerWidget nbpkAttribute;
+    @Bind(R.id.nbpkSkill) NumberPickerWidget nbpkSkill;
+    @Bind(R.id.nbpkPotency) NumberPickerWidget nbpkPotency;
 
-    public static NumberPickerDialogFragment newInstance (String title, String tag, AfterChoosingNumberListener listener) {
-        NumberPickerDialogFragment fragment = new NumberPickerDialogFragment();
+    public static DiceCalcDialogFragment newInstance (String title, String tag, AfterChoosingNumberListener listener) {
+        DiceCalcDialogFragment fragment = new DiceCalcDialogFragment();
         fragment.listener = listener;
         fragment.tag = tag;
         fragment.title = title;
@@ -42,33 +43,16 @@ public class NumberPickerDialogFragment extends DialogFragment {
         LinearLayout root = (LinearLayout) inflater.inflate(R.layout.fragment_pick_dice, null);
         ButterKnife.bind(this, root);
 
-        txtNumber.setText(String.valueOf(number));
-
-        btnDecrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (number > 1) {
-                    number--;
-                }
-                txtNumber.setText(String.valueOf(number));
-            }
-        });
-
-        btnIncrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                number++;
-                txtNumber.setText(String.valueOf(number));
-            }
-        });
-
         return new AlertDialog.Builder(getActivity())
             .setTitle(title)
             .setView(root)
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listener.afterChoosingNumber(tag, number);
+                    int total = nbpkAttribute.getNumber()
+                        + nbpkSkill.getNumber()
+                        + nbpkPotency.getNumber();
+                    listener.afterChoosingNumber(tag, total);
                 }
             })
             .create();

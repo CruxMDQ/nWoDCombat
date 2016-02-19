@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center">
 
-    <Button
-        android:id="@+id/btnDecrease"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:text="-"
-        android:background="@drawable/fab_reject"/>
-
-    <TextView
-        android:id="@+id/txtNumber"
-        android:layout_width="40dp"
+    <com.emi.nwodcombat.widgets.NumberPickerWidget
+        android:id="@+id/nbpkAttribute"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="3"/>
+        app:widgetTitle="Attribute"
+        app:maximumValue="10"
+        app:minimumValue="1"/>
 
-    <Button
-        android:id="@+id/btnIncrease"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:text="+"
-        android:background="@drawable/fab_accept"/>
+    <com.emi.nwodcombat.widgets.NumberPickerWidget
+        android:id="@+id/nbpkSkill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:widgetTitle="Skill"
+        app:maximumValue="10"
+        app:minimumValue="1"/>
+
+    <com.emi.nwodcombat.widgets.NumberPickerWidget
+        android:id="@+id/nbpkPotency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:widgetTitle="Potency"
+        app:maximumValue="10"
+        app:minimumValue="0"/>
+
 </LinearLayout>
