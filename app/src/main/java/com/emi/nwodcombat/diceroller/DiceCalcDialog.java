@@ -6,10 +6,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.widgets.NumberPickerWidget;
@@ -20,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 2/18/16.
  */
-public class DiceCalcDialogFragment extends DialogFragment {
+public class DiceCalcDialog extends DialogFragment {
     int number = 0;
     String tag;
     String title;
@@ -30,8 +27,8 @@ public class DiceCalcDialogFragment extends DialogFragment {
     @Bind(R.id.nbpkSkill) NumberPickerWidget nbpkSkill;
     @Bind(R.id.nbpkPotency) NumberPickerWidget nbpkPotency;
 
-    public static DiceCalcDialogFragment newInstance (String title, String tag, AfterChoosingNumberListener listener) {
-        DiceCalcDialogFragment fragment = new DiceCalcDialogFragment();
+    public static DiceCalcDialog newInstance (String title, String tag, AfterChoosingNumberListener listener) {
+        DiceCalcDialog fragment = new DiceCalcDialog();
         fragment.listener = listener;
         fragment.tag = tag;
         fragment.title = title;
