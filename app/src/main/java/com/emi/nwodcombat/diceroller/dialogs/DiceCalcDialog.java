@@ -57,7 +57,7 @@ public class DiceCalcDialog extends DialogFragment implements OnValueChangedList
 
         builder.setView(root);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int total = nbpkAttribute.getNumber()
@@ -77,7 +77,7 @@ public class DiceCalcDialog extends DialogFragment implements OnValueChangedList
                 positive.setEnabled(false);
             }
         });
-        
+
         return dialog;
     }
 

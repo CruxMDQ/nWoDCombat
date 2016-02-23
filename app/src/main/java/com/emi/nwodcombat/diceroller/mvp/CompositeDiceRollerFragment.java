@@ -114,25 +114,10 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
 
     @Override
     public void afterSettingRules(String tag, Rule rule) {
+        this.rule = rule;
         if (rule != null) {
             txtSpecialRules.setText(rule.getName());
-        } else txtSpecialRules.setText(R.string.RULE_REROLL_NONE);
-//        if (rule.getName().equals(Constants.DICE_REROLL_THRESHOLD)) {
-//            switch (rule.getValue()) {
-//                case 8: {
-//                    txtSpecialRules.setText(Constants.DICE_RULE_8_AGAIN);
-//                    break;
-//                }
-//                case 9: {
-//                    txtSpecialRules.setText(Constants.DICE_RULE_9_AGAIN);
-//                    break;
-//                }
-//                case 10: {
-//                    txtSpecialRules.setText(Constants.DICE_RULE_10_AGAIN);
-//                    break;
-//                }
-//            }
-//        }
+        } else txtSpecialRules.setText(R.string.rule_reroll_none);
     }
 
     @Override
@@ -141,11 +126,6 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
     }
 
     public ArrayList<Integer> rollDice() {
-//        for(Pair<String, Integer> p : rules) {
-//            if (p.first.equals(Constants.DICE_REROLL_THRESHOLD)) {
-//                return mActionListener.rollDice(diceNumber, p.second);
-//            }
-//        }
         return mActionListener.rollDice(diceNumber, rule.getValue());
     }
 

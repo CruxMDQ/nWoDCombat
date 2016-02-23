@@ -5,5 +5,6 @@
     <string name="fragment_defender">FRAGMENT_DEFENDER</string>
     <string name="fragment_attacker">FRAGMENT_ATTACKER</string>
 
-    <string name="RULE_REROLL_NONE">No rerolls allowed</string>
+    <string name="rule_reroll_none">No rerolls allowed</string>
+    <string name="button_ok">OK</string>
 </resources>

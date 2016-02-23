@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.diceroller.RollingRulesAdapter;
+import com.emi.nwodcombat.diceroller.RadioAdapter;
 import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.diceroller.interfaces.OnChoicePickedListener;
 import com.emi.nwodcombat.diceroller.pojos.Rule;
@@ -36,9 +36,6 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
 
     AlertDialog dialog;
 
-    Rule rule;
-    ArrayList<Rule> rules = new ArrayList<>();
-
     public static SpecialRollRulesDialog newInstance (String title, String tag, AfterSettingRulesListener listener) {
         SpecialRollRulesDialog fragment = new SpecialRollRulesDialog();
         fragment.listener = listener;
@@ -52,6 +49,11 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         LinearLayout root = (LinearLayout) inflater.inflate(R.layout.dialog_special_rules, null);
         ButterKnife.bind(this, root);
 
+        final RadioAdapter adapter = new RadioAdapter(getActivity(), generateRules(), this);
+
+        rvOptions.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvOptions.setAdapter(adapter);
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         alertDialogBuilder.setView(root);
@@ -59,14 +61,13 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Rule rule = (Rule) adapter.mItems.get(adapter.mSelectedItem);
+
                 listener.afterSettingRules(tag, rule);
             }
         });
 
         alertDialogBuilder.setTitle(title);
-
-        rvOptions.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvOptions.setAdapter(new RollingRulesAdapter(generateRules(), this));
 
         dialog = alertDialogBuilder.create();
 
@@ -89,50 +90,15 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
     private ArrayList<Rule> generateRules() {
         ArrayList<Rule> rules = new ArrayList<>();
 
-        rules.add(new Rule(Constants.DICE_RULE_8_AGAIN, false));
-        rules.add(new Rule(Constants.DICE_RULE_9_AGAIN, false));
-        rules.add(new Rule(Constants.DICE_RULE_10_AGAIN, false));
+        rules.add(new Rule(Constants.DICE_RULE_8_AGAIN, false, Constants.DICE_VALUE_8_AGAIN));
+        rules.add(new Rule(Constants.DICE_RULE_9_AGAIN, false, Constants.DICE_VALUE_9_AGAIN));
+        rules.add(new Rule(Constants.DICE_RULE_10_AGAIN, false, Constants.DICE_VALUE_10_AGAIN));
 
         return rules;
     }
 
     @Override
-    public void onChoicePicked(Object pick) {
-        if (pick != null) {
-            Rule rule = (Rule) pick;
-
-            switch (rule.getName()) {
-                case Constants.DICE_RULE_8_AGAIN: {
-                    rule.setValue(Constants.DICE_VALUE_8_AGAIN);
-                    break;
-                }
-                case Constants.DICE_RULE_9_AGAIN: {
-                    rule.setValue(Constants.DICE_VALUE_9_AGAIN);
-                    break;
-                }
-                case Constants.DICE_RULE_10_AGAIN: {
-                    rule.setValue(Constants.DICE_VALUE_10_AGAIN);
-                    break;
-                }
-            }
-            this.rule = rule;
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-        } else {
-            rule = null;
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        }
-    }
-
-    private void addPick(Object pick) {
-        Rule rule = (Rule) pick;
-
-        for(Rule p : rules) {
-            if (p.getName().equals(rule.getName())) {
-                rules.remove(p);
-                break;
-            }
-        }
-
-        rules.add(rule);
+    public void onChoicePicked() {
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
     }
 }
