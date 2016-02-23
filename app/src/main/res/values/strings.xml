@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">nWoDCombat</string>
     <string name="action_settings">Settings</string>
-    <string name="rules_template_two">%s, %s</string>
+    <string name="rules_template_two" formatted="false">%s, %s</string>
+    <string name="fragment_defender">FRAGMENT_DEFENDER</string>
+    <string name="fragment_attacker">FRAGMENT_ATTACKER</string>
+
+    <string name="RULE_REROLL_NONE">No rerolls allowed</string>
 </resources>

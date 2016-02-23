@@ -1,6 +1,8 @@
-package com.emi.nwodcombat.diceroller;
+package com.emi.nwodcombat.diceroller.mvp;
 
-import android.support.v4.util.Pair;
+import android.support.annotation.Nullable;
+
+import com.emi.nwodcombat.diceroller.pojos.Rule;
 
 import java.util.ArrayList;
 
@@ -11,13 +13,15 @@ public interface CompositeDiceRollerContract {
     interface View {
         void afterChoosingDice(String tag, int number);
 
-        void afterSettingRules(String tag, ArrayList<Pair<String, Boolean>> rules);
+        void afterSettingRules(String tag, @Nullable Rule rule);
 
         void setInputListener(InputListener listener);
     }
 
     interface InputListener {
         int setDice(String tag);
+
+        ArrayList<Integer> rollDice(int number, int threshold);
 
         void setSpecialRules(String tag);
     }

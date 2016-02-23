@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.diceroller;
+package com.emi.nwodcombat.diceroller.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,12 +7,16 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.diceroller.RollingRulesAdapter;
+import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
+import com.emi.nwodcombat.diceroller.interfaces.OnChoicePickedListener;
+import com.emi.nwodcombat.diceroller.pojos.Rule;
 
 import java.util.ArrayList;
 
@@ -30,7 +34,10 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
     String title;
     AfterSettingRulesListener listener;
 
-    ArrayList<Pair<String, Boolean>> rules = new ArrayList<>();
+    AlertDialog dialog;
+
+    Rule rule;
+    ArrayList<Rule> rules = new ArrayList<>();
 
     public static SpecialRollRulesDialog newInstance (String title, String tag, AfterSettingRulesListener listener) {
         SpecialRollRulesDialog fragment = new SpecialRollRulesDialog();
@@ -52,7 +59,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                listener.afterSettingRules(tag, rules);
+                listener.afterSettingRules(tag, rule);
             }
         });
 
@@ -61,7 +68,17 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         rvOptions.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvOptions.setAdapter(new RollingRulesAdapter(generateRules(), this));
 
-        return alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positive.setEnabled(false);
+            }
+        });
+
+        return dialog;
     }
 
     @Override public void onDestroyView() {
@@ -69,30 +86,53 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         ButterKnife.unbind(this);
     }
 
-    private ArrayList<String> generateRules() {
-        ArrayList<String> rules = new ArrayList<>();
+    private ArrayList<Rule> generateRules() {
+        ArrayList<Rule> rules = new ArrayList<>();
 
-        rules.add(Constants.DICE_RULE_8_AGAIN);
-        rules.add(Constants.DICE_RULE_9_AGAIN);
-        rules.add(Constants.DICE_RULE_10_AGAIN);
+        rules.add(new Rule(Constants.DICE_RULE_8_AGAIN, false));
+        rules.add(new Rule(Constants.DICE_RULE_9_AGAIN, false));
+        rules.add(new Rule(Constants.DICE_RULE_10_AGAIN, false));
 
         return rules;
     }
 
     @Override
     public void onChoicePicked(Object pick) {
-        addPick(pick);
+        if (pick != null) {
+            Rule rule = (Rule) pick;
+
+            switch (rule.getName()) {
+                case Constants.DICE_RULE_8_AGAIN: {
+                    rule.setValue(Constants.DICE_VALUE_8_AGAIN);
+                    break;
+                }
+                case Constants.DICE_RULE_9_AGAIN: {
+                    rule.setValue(Constants.DICE_VALUE_9_AGAIN);
+                    break;
+                }
+                case Constants.DICE_RULE_10_AGAIN: {
+                    rule.setValue(Constants.DICE_VALUE_10_AGAIN);
+                    break;
+                }
+            }
+            this.rule = rule;
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+        } else {
+            rule = null;
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        }
     }
 
     private void addPick(Object pick) {
-        Pair<String, Boolean> rule = (Pair<String, Boolean>) pick;
+        Rule rule = (Rule) pick;
 
-        for (Pair<String, Boolean> p : rules) {
-            if (p.first.equals(rule.first)) {
+        for(Rule p : rules) {
+            if (p.getName().equals(rule.getName())) {
                 rules.remove(p);
                 break;
             }
         }
+
         rules.add(rule);
     }
 }

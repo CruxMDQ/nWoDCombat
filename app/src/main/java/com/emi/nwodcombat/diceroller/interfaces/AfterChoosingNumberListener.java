@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.diceroller;
+package com.emi.nwodcombat.diceroller.interfaces;
 
 /**
  * Created by Emi on 2/18/16.

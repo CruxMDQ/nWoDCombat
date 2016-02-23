@@ -10,5 +10,9 @@ public class Constants {
     public static final String DICE_RULE_8_AGAIN = "8-again";
     public static final String DICE_RULE_9_AGAIN = "9-again";
     public static final String DICE_RULE_10_AGAIN = "10-again";
+    public static final Integer DICE_VALUE_8_AGAIN = 8;
+    public static final Integer DICE_VALUE_9_AGAIN = 9;
+    public static final Integer DICE_VALUE_10_AGAIN = 10;
+    public static final String DICE_REROLL_THRESHOLD = "DICE_REROLL_THRESHOLD";
 
 }

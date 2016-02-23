@@ -1,10 +1,9 @@
-package com.emi.nwodcombat.diceroller;
+package com.emi.nwodcombat.diceroller.mvp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,9 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.diceroller.pojos.Rule;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,8 +30,9 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
     @Bind(R.id.lblSpecialRules) TextView lblSpecialRules;
     @Bind(R.id.txtSpecialRules) TextView txtSpecialRules;
 
+    private int diceNumber;
     private String actorTag;
-    private ArrayList<android.support.v4.util.Pair<String, Boolean>> rules = new ArrayList<>();
+    private Rule rule;
 
     private CompositeDiceRollerContract.InputListener mActionListener;
 
@@ -72,9 +72,9 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
 
     private void setDefaultRules() {
         // TODO This is a crude mechanic, needs replacement
-        rules.add(new Pair<>(Constants.DICE_RULE_10_AGAIN, true));
+        rule = new Rule(Constants.DICE_RULE_10_AGAIN, 10);
 
-        txtSpecialRules.setText(Constants.DICE_RULE_10_AGAIN);
+        txtSpecialRules.setText(rule.getName());
     }
 
     private void setUpUI() {
@@ -98,6 +98,8 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
 
     @Override
     public void afterChoosingDice(String tag, int number) {
+        this.diceNumber = number;
+
         panelDice.removeAllViews();
         for (int i = 0; i < number; i++) {
             RadioButton rdb = new RadioButton(getContext());
@@ -111,54 +113,40 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
     }
 
     @Override
-    public void afterSettingRules(String tag, ArrayList<android.support.v4.util.Pair<String, Boolean>> rules) {
-        this.rules = rules;
-
-        String ruleset = "";
-
-        for (android.support.v4.util.Pair<String, Boolean> rule : this.rules) {
-            if (rule.second) {
-                ruleset = ruleset + rule.first;
-            }
-        }
-
-        txtSpecialRules.setText(ruleset);
-
-        ArrayList<Pair<String, Boolean>> trueRules = new ArrayList<>();
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Pair<String, Boolean> rule : this.rules) {
-            if (rule.second) {
-                trueRules.add(rule);
-            }
-        }
-
-        if (trueRules.size() > 0) {
-            if (trueRules.size() == 1) {
-                stringBuilder.append(trueRules.get(0).first);
-            } else if (trueRules.size() == 2) {
-                stringBuilder.append(getString(R.string.rules_template_two, trueRules.get(0).first, trueRules.get(1).first));
-            } else if (trueRules.size() >= 3) {
-                Iterator iterator = trueRules.iterator();
-
-                while (iterator.hasNext()) {
-                    Pair<String, Boolean> rule = (Pair<String, Boolean>) iterator.next();
-
-                    stringBuilder.append(rule.first);
-
-                    if (iterator.hasNext()) {
-                        stringBuilder.append(", ");
-                    }
-                }
-            }
-            txtSpecialRules.setText(stringBuilder.toString());
-        }
+    public void afterSettingRules(String tag, Rule rule) {
+        if (rule != null) {
+            txtSpecialRules.setText(rule.getName());
+        } else txtSpecialRules.setText(R.string.RULE_REROLL_NONE);
+//        if (rule.getName().equals(Constants.DICE_REROLL_THRESHOLD)) {
+//            switch (rule.getValue()) {
+//                case 8: {
+//                    txtSpecialRules.setText(Constants.DICE_RULE_8_AGAIN);
+//                    break;
+//                }
+//                case 9: {
+//                    txtSpecialRules.setText(Constants.DICE_RULE_9_AGAIN);
+//                    break;
+//                }
+//                case 10: {
+//                    txtSpecialRules.setText(Constants.DICE_RULE_10_AGAIN);
+//                    break;
+//                }
+//            }
+//        }
     }
 
     @Override
     public void setInputListener(CompositeDiceRollerContract.InputListener listener) {
         mActionListener = listener;
+    }
+
+    public ArrayList<Integer> rollDice() {
+//        for(Pair<String, Integer> p : rules) {
+//            if (p.first.equals(Constants.DICE_REROLL_THRESHOLD)) {
+//                return mActionListener.rollDice(diceNumber, p.second);
+//            }
+//        }
+        return mActionListener.rollDice(diceNumber, rule.getValue());
     }
 
     public String getActorTag() {
@@ -167,5 +155,13 @@ public class CompositeDiceRollerFragment extends Fragment implements CompositeDi
 
     public void setActorTag(String actorTag) {
         this.actorTag = actorTag;
+    }
+
+    public int getDiceNumber() {
+        return diceNumber;
+    }
+
+    public void setDiceNumber(int diceNumber) {
+        this.diceNumber = diceNumber;
     }
 }

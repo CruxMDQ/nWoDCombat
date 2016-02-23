@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.diceroller.interfaces.OnValueChangedListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +28,8 @@ public class NumberPickerWidget extends LinearLayout {
     private int number;
     private int minimum;
     private int maximum;
+
+    private OnValueChangedListener listener;
 
     public NumberPickerWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -47,6 +50,9 @@ public class NumberPickerWidget extends LinearLayout {
             public void onClick(View v) {
                 if (number > minimum) {
                     number--;
+                    if (listener != null) {
+                        listener.onValueChanged(-1);
+                    }
                 }
                 txtNumber.setText(String.valueOf(number));
             }
@@ -57,6 +63,9 @@ public class NumberPickerWidget extends LinearLayout {
             public void onClick(View v) {
                 if (number < maximum) {
                     number++;
+                    if (listener != null) {
+                        listener.onValueChanged(1);
+                    }
                 }
                 txtNumber.setText(String.valueOf(number));
             }
@@ -137,5 +146,13 @@ public class NumberPickerWidget extends LinearLayout {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public OnValueChangedListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnValueChangedListener listener) {
+        this.listener = listener;
     }
 }

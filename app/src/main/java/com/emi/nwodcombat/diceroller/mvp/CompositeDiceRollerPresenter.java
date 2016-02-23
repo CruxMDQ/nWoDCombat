@@ -1,7 +1,14 @@
-package com.emi.nwodcombat.diceroller;
+package com.emi.nwodcombat.diceroller.mvp;
 
 import android.app.FragmentManager;
 import android.support.annotation.NonNull;
+
+import com.emi.nwodcombat.diceroller.dialogs.DiceCalcDialog;
+import com.emi.nwodcombat.diceroller.dialogs.SpecialRollRulesDialog;
+import com.emi.nwodcombat.diceroller.interfaces.AfterChoosingNumberListener;
+import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
+import com.emi.nwodcombat.diceroller.pojos.Rule;
+import com.emi.nwodcombat.tools.Roller;
 
 import java.util.ArrayList;
 
@@ -12,6 +19,8 @@ public class CompositeDiceRollerPresenter implements CompositeDiceRollerContract
 
     private CompositeDiceRollerContract.View view;
     private FragmentManager fragmentManager;
+
+    private static int MAXIMUM_DIE_VALUE = 10;
 
     public CompositeDiceRollerPresenter(@NonNull CompositeDiceRollerContract.View view, @NonNull FragmentManager fragmentManager) {
         this.view = view;
@@ -32,13 +41,18 @@ public class CompositeDiceRollerPresenter implements CompositeDiceRollerContract
     }
 
     @Override
+    public ArrayList<Integer> rollDice(int number, int threshold) {
+        return Roller.rollNWoDDice(number, MAXIMUM_DIE_VALUE, threshold);
+    }
+
+    @Override
     public void setSpecialRules(String tag) {
         SpecialRollRulesDialog dialog = SpecialRollRulesDialog.newInstance("Select rules", tag, this);
         dialog.show(fragmentManager, "MainFragment");
     }
 
     @Override
-    public void afterSettingRules(String tag, ArrayList<android.support.v4.util.Pair<String, Boolean>> rules) {
-        view.afterSettingRules(tag, rules);
+    public void afterSettingRules(String tag, Rule rule) {
+        view.afterSettingRules(tag, rule);
     }
 }

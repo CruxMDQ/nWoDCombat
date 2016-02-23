@@ -30,4 +30,12 @@
         app:maximumValue="10"
         app:minimumValue="0"/>
 
+    <com.emi.nwodcombat.widgets.NumberPickerWidget
+        android:id="@+id/nbpkEquipment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:widgetTitle="Equipment"
+        app:maximumValue="10"
+        app:minimumValue="0"/>
+
 </LinearLayout>
