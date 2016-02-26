@@ -6,8 +6,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.diceroller.interfaces.OnValueChangedListener;
 
@@ -38,7 +40,7 @@ public class NumberPickerWidget extends LinearLayout {
             .obtainStyledAttributes(attrs, R.styleable.NumberPickerWidget, 0, 0);
 
         setTitle(aAttrs.getString(R.styleable.NumberPickerWidget_widgetTitle));
-        setMaximum(aAttrs.getInt(R.styleable.NumberPickerWidget_minimumValue, 1));
+        setMinimum(aAttrs.getInt(R.styleable.NumberPickerWidget_minimumValue, 1));
         setMaximum(aAttrs.getInt(R.styleable.NumberPickerWidget_maximumValue, 20));
 
         aAttrs.recycle();
@@ -57,6 +59,7 @@ public class NumberPickerWidget extends LinearLayout {
                 txtNumber.setText(String.valueOf(number));
             }
         });
+        btnDecrease.setContentDescription(Constants.CONTENT_DESC_NBPK_BTN_MINUS + title);
 
         btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +73,12 @@ public class NumberPickerWidget extends LinearLayout {
                 txtNumber.setText(String.valueOf(number));
             }
         });
+        btnIncrease.setContentDescription(Constants.CONTENT_DESC_NBPK_BTN_PLUS + title);
 
         txtTitle.setText(title);
-        txtNumber.setText(String.valueOf(minimum));
+
+        number = minimum;
+        txtNumber.setText(String.valueOf(number));
     }
 
     private void inflateLayout() {

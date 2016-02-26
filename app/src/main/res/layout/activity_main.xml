@@ -41,7 +41,7 @@
                       android:tag="@string/fragment_attacker"
                       app:layout_behavior="@string/appbar_scrolling_view_behavior"
                       tools:layout="@layout/fragment_dice_roller_composite"
-                      app:actorTag="Attacker"/>
+                      app:actorTag="@string/fragment_attacker"/>
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                       xmlns:tools="http://schemas.android.com/tools"
@@ -53,7 +53,7 @@
                       android:tag="@string/fragment_defender"
                       app:layout_behavior="@string/appbar_scrolling_view_behavior"
                       tools:layout="@layout/fragment_dice_roller_composite"
-                      app:actorTag="Defender"/>
+                      app:actorTag="@string/fragment_defender"/>
 
         </LinearLayout>
     </ScrollView>

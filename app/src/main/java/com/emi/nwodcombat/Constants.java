@@ -15,4 +15,7 @@ public class Constants {
     public static final Integer DICE_VALUE_10_AGAIN = 10;
     public static final String DICE_REROLL_THRESHOLD = "DICE_REROLL_THRESHOLD";
 
+    public static final String CONTENT_DESC_SPECIAL_RULES = "Special rules for: ";
+    public static final String CONTENT_DESC_NBPK_BTN_MINUS = "Dice decrease for: ";
+    public static final String CONTENT_DESC_NBPK_BTN_PLUS = "Dice increase for: ";
 }

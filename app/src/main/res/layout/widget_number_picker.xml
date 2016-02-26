@@ -25,7 +25,7 @@
             android:id="@+id/btnDecrease"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:text="-"
+            android:text="@string/button_minus"
             android:background="@drawable/fab_reject"/>
 
         <TextView
@@ -40,7 +40,7 @@
             android:id="@+id/btnIncrease"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:text="+"
+            android:text="@string/button_plus"
             android:background="@drawable/fab_accept"/>
     </LinearLayout>
 </LinearLayout>

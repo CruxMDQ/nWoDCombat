@@ -7,5 +7,7 @@
     </declare-styleable>
     <declare-styleable name="CompositeDiceRollerFragment">
         <attr name="actorTag" format="string" />
+        <attr name="numberOfDice" format="integer" />
+        <attr name="backgroundColor" format="reference" />
     </declare-styleable>
 </resources>

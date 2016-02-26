@@ -10,7 +10,7 @@
         android:id="@+id/nbpkAttribute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:widgetTitle="Attribute"
+        app:widgetTitle="@string/nbpk_title_attribute"
         app:maximumValue="10"
         app:minimumValue="1"/>
 
@@ -18,15 +18,15 @@
         android:id="@+id/nbpkSkill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:widgetTitle="Skill"
+        app:widgetTitle="@string/nbpk_title_skill"
         app:maximumValue="10"
-        app:minimumValue="1"/>
+        app:minimumValue="0"/>
 
     <com.emi.nwodcombat.widgets.NumberPickerWidget
         android:id="@+id/nbpkPotency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:widgetTitle="Potency"
+        app:widgetTitle="@string/nbpk_title_potency"
         app:maximumValue="10"
         app:minimumValue="0"/>
 
@@ -34,7 +34,7 @@
         android:id="@+id/nbpkEquipment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:widgetTitle="Equipment"
+        app:widgetTitle="@string/nbpk_title_equipment"
         app:maximumValue="10"
         app:minimumValue="0"/>
 
