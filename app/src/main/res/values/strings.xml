@@ -17,4 +17,7 @@
 
     <string name="nbpk_widget_tag_increase">Increase</string>
     <string name="nbpk_widget_tag_decrease">Decrease</string>
+
+    <!-- Error messages -->
+    <string name="error_message_context_null" translatable="false">Context is null!</string>
 </resources>

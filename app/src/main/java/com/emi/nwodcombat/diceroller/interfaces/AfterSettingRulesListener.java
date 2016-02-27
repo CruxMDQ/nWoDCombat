@@ -2,7 +2,7 @@ package com.emi.nwodcombat.diceroller.interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.emi.nwodcombat.diceroller.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.Rule;
 
 /**
  * Created by Emi on 2/19/16.

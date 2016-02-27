@@ -5,6 +5,8 @@ package com.emi.nwodcombat;
  */
 public class Constants {
 
+    public static final String DB_NAME = "nWoDDB";
+
     public static final String DICE_ATTACKER = "DICE_ATTACKER";
     public static final String DICE_DEFENDER = "DICE_DEFENDER";
     public static final String DICE_RULE_8_AGAIN = "8-again";

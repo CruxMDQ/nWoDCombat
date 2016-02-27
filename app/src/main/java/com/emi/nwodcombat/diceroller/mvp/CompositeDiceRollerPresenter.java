@@ -7,7 +7,7 @@ import com.emi.nwodcombat.diceroller.dialogs.DiceCalcDialog;
 import com.emi.nwodcombat.diceroller.dialogs.SpecialRollRulesDialog;
 import com.emi.nwodcombat.diceroller.interfaces.AfterChoosingNumberListener;
 import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
-import com.emi.nwodcombat.diceroller.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.Rule;
 import com.emi.nwodcombat.tools.Roller;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.diceroller.pojos;
+package com.emi.nwodcombat.model.pojos;
 
 /**
  * Created by Emi on 2/22/16.

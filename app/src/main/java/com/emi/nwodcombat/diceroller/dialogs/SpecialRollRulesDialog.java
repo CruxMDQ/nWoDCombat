@@ -16,7 +16,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.diceroller.RadioAdapter;
 import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.diceroller.interfaces.OnChoicePickedListener;
-import com.emi.nwodcombat.diceroller.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.Rule;
 
 import java.util.ArrayList;
 

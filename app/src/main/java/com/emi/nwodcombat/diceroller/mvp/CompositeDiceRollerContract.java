@@ -2,7 +2,7 @@ package com.emi.nwodcombat.diceroller.mvp;
 
 import android.support.annotation.Nullable;
 
-import com.emi.nwodcombat.diceroller.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.Rule;
 
 import java.util.ArrayList;
 
