@@ -49,16 +49,22 @@ public class CharacterDao extends AbstractDao<Character, Long> {
         public final static Property Drive = new Property(23, Integer.class, "Drive", false, "DRIVE");
         public final static Property Firearms = new Property(24, Integer.class, "Firearms", false, "FIREARMS");
         public final static Property Larceny = new Property(25, Integer.class, "Larceny", false, "LARCENY");
-        public final static Property Survival = new Property(26, Integer.class, "Survival", false, "SURVIVAL");
-        public final static Property Weaponry = new Property(27, Integer.class, "Weaponry", false, "WEAPONRY");
-        public final static Property AnimalKen = new Property(28, Integer.class, "AnimalKen", false, "ANIMAL_KEN");
-        public final static Property Empathy = new Property(29, Integer.class, "Empathy", false, "EMPATHY");
-        public final static Property Expression = new Property(30, Integer.class, "Expression", false, "EXPRESSION");
-        public final static Property Intimidation = new Property(31, Integer.class, "Intimidation", false, "INTIMIDATION");
-        public final static Property Persuasion = new Property(32, Integer.class, "Persuasion", false, "PERSUASION");
-        public final static Property Socialize = new Property(33, Integer.class, "Socialize", false, "SOCIALIZE");
-        public final static Property Streetwise = new Property(34, Integer.class, "Streetwise", false, "STREETWISE");
-        public final static Property Subterfuge = new Property(35, Integer.class, "Subterfuge", false, "SUBTERFUGE");
+        public final static Property Stealth = new Property(26, Integer.class, "Stealth", false, "STEALTH");
+        public final static Property Survival = new Property(27, Integer.class, "Survival", false, "SURVIVAL");
+        public final static Property Weaponry = new Property(28, Integer.class, "Weaponry", false, "WEAPONRY");
+        public final static Property AnimalKen = new Property(29, Integer.class, "AnimalKen", false, "ANIMAL_KEN");
+        public final static Property Empathy = new Property(30, Integer.class, "Empathy", false, "EMPATHY");
+        public final static Property Expression = new Property(31, Integer.class, "Expression", false, "EXPRESSION");
+        public final static Property Intimidation = new Property(32, Integer.class, "Intimidation", false, "INTIMIDATION");
+        public final static Property Persuasion = new Property(33, Integer.class, "Persuasion", false, "PERSUASION");
+        public final static Property Socialize = new Property(34, Integer.class, "Socialize", false, "SOCIALIZE");
+        public final static Property Streetwise = new Property(35, Integer.class, "Streetwise", false, "STREETWISE");
+        public final static Property Subterfuge = new Property(36, Integer.class, "Subterfuge", false, "SUBTERFUGE");
+        public final static Property Health = new Property(37, Integer.class, "Health", false, "HEALTH");
+        public final static Property Morality = new Property(38, Integer.class, "Morality", false, "MORALITY");
+        public final static Property Potency = new Property(39, Integer.class, "Potency", false, "POTENCY");
+        public final static Property Willpower = new Property(40, Integer.class, "Willpower", false, "WILLPOWER");
+        public final static Property WillpowerReserve = new Property(41, Integer.class, "WillpowerReserve", false, "WILLPOWER_RESERVE");
     };
 
 
@@ -100,16 +106,22 @@ public class CharacterDao extends AbstractDao<Character, Long> {
                 "\"DRIVE\" INTEGER," + // 23: Drive
                 "\"FIREARMS\" INTEGER," + // 24: Firearms
                 "\"LARCENY\" INTEGER," + // 25: Larceny
-                "\"SURVIVAL\" INTEGER," + // 26: Survival
-                "\"WEAPONRY\" INTEGER," + // 27: Weaponry
-                "\"ANIMAL_KEN\" INTEGER," + // 28: AnimalKen
-                "\"EMPATHY\" INTEGER," + // 29: Empathy
-                "\"EXPRESSION\" INTEGER," + // 30: Expression
-                "\"INTIMIDATION\" INTEGER," + // 31: Intimidation
-                "\"PERSUASION\" INTEGER," + // 32: Persuasion
-                "\"SOCIALIZE\" INTEGER," + // 33: Socialize
-                "\"STREETWISE\" INTEGER," + // 34: Streetwise
-                "\"SUBTERFUGE\" INTEGER);"); // 35: Subterfuge
+                "\"STEALTH\" INTEGER," + // 26: Stealth
+                "\"SURVIVAL\" INTEGER," + // 27: Survival
+                "\"WEAPONRY\" INTEGER," + // 28: Weaponry
+                "\"ANIMAL_KEN\" INTEGER," + // 29: AnimalKen
+                "\"EMPATHY\" INTEGER," + // 30: Empathy
+                "\"EXPRESSION\" INTEGER," + // 31: Expression
+                "\"INTIMIDATION\" INTEGER," + // 32: Intimidation
+                "\"PERSUASION\" INTEGER," + // 33: Persuasion
+                "\"SOCIALIZE\" INTEGER," + // 34: Socialize
+                "\"STREETWISE\" INTEGER," + // 35: Streetwise
+                "\"SUBTERFUGE\" INTEGER," + // 36: Subterfuge
+                "\"HEALTH\" INTEGER," + // 37: Health
+                "\"MORALITY\" INTEGER," + // 38: Morality
+                "\"POTENCY\" INTEGER," + // 39: Potency
+                "\"WILLPOWER\" INTEGER," + // 40: Willpower
+                "\"WILLPOWER_RESERVE\" INTEGER);"); // 41: WillpowerReserve
     }
 
     /** Drops the underlying database table. */
@@ -205,54 +217,84 @@ public class CharacterDao extends AbstractDao<Character, Long> {
             stmt.bindLong(26, Larceny);
         }
  
+        Integer Stealth = entity.getStealth();
+        if (Stealth != null) {
+            stmt.bindLong(27, Stealth);
+        }
+ 
         Integer Survival = entity.getSurvival();
         if (Survival != null) {
-            stmt.bindLong(27, Survival);
+            stmt.bindLong(28, Survival);
         }
  
         Integer Weaponry = entity.getWeaponry();
         if (Weaponry != null) {
-            stmt.bindLong(28, Weaponry);
+            stmt.bindLong(29, Weaponry);
         }
  
         Integer AnimalKen = entity.getAnimalKen();
         if (AnimalKen != null) {
-            stmt.bindLong(29, AnimalKen);
+            stmt.bindLong(30, AnimalKen);
         }
  
         Integer Empathy = entity.getEmpathy();
         if (Empathy != null) {
-            stmt.bindLong(30, Empathy);
+            stmt.bindLong(31, Empathy);
         }
  
         Integer Expression = entity.getExpression();
         if (Expression != null) {
-            stmt.bindLong(31, Expression);
+            stmt.bindLong(32, Expression);
         }
  
         Integer Intimidation = entity.getIntimidation();
         if (Intimidation != null) {
-            stmt.bindLong(32, Intimidation);
+            stmt.bindLong(33, Intimidation);
         }
  
         Integer Persuasion = entity.getPersuasion();
         if (Persuasion != null) {
-            stmt.bindLong(33, Persuasion);
+            stmt.bindLong(34, Persuasion);
         }
  
         Integer Socialize = entity.getSocialize();
         if (Socialize != null) {
-            stmt.bindLong(34, Socialize);
+            stmt.bindLong(35, Socialize);
         }
  
         Integer Streetwise = entity.getStreetwise();
         if (Streetwise != null) {
-            stmt.bindLong(35, Streetwise);
+            stmt.bindLong(36, Streetwise);
         }
  
         Integer Subterfuge = entity.getSubterfuge();
         if (Subterfuge != null) {
-            stmt.bindLong(36, Subterfuge);
+            stmt.bindLong(37, Subterfuge);
+        }
+ 
+        Integer Health = entity.getHealth();
+        if (Health != null) {
+            stmt.bindLong(38, Health);
+        }
+ 
+        Integer Morality = entity.getMorality();
+        if (Morality != null) {
+            stmt.bindLong(39, Morality);
+        }
+ 
+        Integer Potency = entity.getPotency();
+        if (Potency != null) {
+            stmt.bindLong(40, Potency);
+        }
+ 
+        Integer Willpower = entity.getWillpower();
+        if (Willpower != null) {
+            stmt.bindLong(41, Willpower);
+        }
+ 
+        Integer WillpowerReserve = entity.getWillpowerReserve();
+        if (WillpowerReserve != null) {
+            stmt.bindLong(42, WillpowerReserve);
         }
     }
 
@@ -292,16 +334,22 @@ public class CharacterDao extends AbstractDao<Character, Long> {
             cursor.isNull(offset + 23) ? null : cursor.getInt(offset + 23), // Drive
             cursor.isNull(offset + 24) ? null : cursor.getInt(offset + 24), // Firearms
             cursor.isNull(offset + 25) ? null : cursor.getInt(offset + 25), // Larceny
-            cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26), // Survival
-            cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27), // Weaponry
-            cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28), // AnimalKen
-            cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29), // Empathy
-            cursor.isNull(offset + 30) ? null : cursor.getInt(offset + 30), // Expression
-            cursor.isNull(offset + 31) ? null : cursor.getInt(offset + 31), // Intimidation
-            cursor.isNull(offset + 32) ? null : cursor.getInt(offset + 32), // Persuasion
-            cursor.isNull(offset + 33) ? null : cursor.getInt(offset + 33), // Socialize
-            cursor.isNull(offset + 34) ? null : cursor.getInt(offset + 34), // Streetwise
-            cursor.isNull(offset + 35) ? null : cursor.getInt(offset + 35) // Subterfuge
+            cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26), // Stealth
+            cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27), // Survival
+            cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28), // Weaponry
+            cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29), // AnimalKen
+            cursor.isNull(offset + 30) ? null : cursor.getInt(offset + 30), // Empathy
+            cursor.isNull(offset + 31) ? null : cursor.getInt(offset + 31), // Expression
+            cursor.isNull(offset + 32) ? null : cursor.getInt(offset + 32), // Intimidation
+            cursor.isNull(offset + 33) ? null : cursor.getInt(offset + 33), // Persuasion
+            cursor.isNull(offset + 34) ? null : cursor.getInt(offset + 34), // Socialize
+            cursor.isNull(offset + 35) ? null : cursor.getInt(offset + 35), // Streetwise
+            cursor.isNull(offset + 36) ? null : cursor.getInt(offset + 36), // Subterfuge
+            cursor.isNull(offset + 37) ? null : cursor.getInt(offset + 37), // Health
+            cursor.isNull(offset + 38) ? null : cursor.getInt(offset + 38), // Morality
+            cursor.isNull(offset + 39) ? null : cursor.getInt(offset + 39), // Potency
+            cursor.isNull(offset + 40) ? null : cursor.getInt(offset + 40), // Willpower
+            cursor.isNull(offset + 41) ? null : cursor.getInt(offset + 41) // WillpowerReserve
         );
         return entity;
     }
@@ -335,16 +383,22 @@ public class CharacterDao extends AbstractDao<Character, Long> {
         entity.setDrive(cursor.isNull(offset + 23) ? null : cursor.getInt(offset + 23));
         entity.setFirearms(cursor.isNull(offset + 24) ? null : cursor.getInt(offset + 24));
         entity.setLarceny(cursor.isNull(offset + 25) ? null : cursor.getInt(offset + 25));
-        entity.setSurvival(cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26));
-        entity.setWeaponry(cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27));
-        entity.setAnimalKen(cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28));
-        entity.setEmpathy(cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29));
-        entity.setExpression(cursor.isNull(offset + 30) ? null : cursor.getInt(offset + 30));
-        entity.setIntimidation(cursor.isNull(offset + 31) ? null : cursor.getInt(offset + 31));
-        entity.setPersuasion(cursor.isNull(offset + 32) ? null : cursor.getInt(offset + 32));
-        entity.setSocialize(cursor.isNull(offset + 33) ? null : cursor.getInt(offset + 33));
-        entity.setStreetwise(cursor.isNull(offset + 34) ? null : cursor.getInt(offset + 34));
-        entity.setSubterfuge(cursor.isNull(offset + 35) ? null : cursor.getInt(offset + 35));
+        entity.setStealth(cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26));
+        entity.setSurvival(cursor.isNull(offset + 27) ? null : cursor.getInt(offset + 27));
+        entity.setWeaponry(cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28));
+        entity.setAnimalKen(cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29));
+        entity.setEmpathy(cursor.isNull(offset + 30) ? null : cursor.getInt(offset + 30));
+        entity.setExpression(cursor.isNull(offset + 31) ? null : cursor.getInt(offset + 31));
+        entity.setIntimidation(cursor.isNull(offset + 32) ? null : cursor.getInt(offset + 32));
+        entity.setPersuasion(cursor.isNull(offset + 33) ? null : cursor.getInt(offset + 33));
+        entity.setSocialize(cursor.isNull(offset + 34) ? null : cursor.getInt(offset + 34));
+        entity.setStreetwise(cursor.isNull(offset + 35) ? null : cursor.getInt(offset + 35));
+        entity.setSubterfuge(cursor.isNull(offset + 36) ? null : cursor.getInt(offset + 36));
+        entity.setHealth(cursor.isNull(offset + 37) ? null : cursor.getInt(offset + 37));
+        entity.setMorality(cursor.isNull(offset + 38) ? null : cursor.getInt(offset + 38));
+        entity.setPotency(cursor.isNull(offset + 39) ? null : cursor.getInt(offset + 39));
+        entity.setWillpower(cursor.isNull(offset + 40) ? null : cursor.getInt(offset + 40));
+        entity.setWillpowerReserve(cursor.isNull(offset + 41) ? null : cursor.getInt(offset + 41));
      }
     
     /** @inheritdoc */

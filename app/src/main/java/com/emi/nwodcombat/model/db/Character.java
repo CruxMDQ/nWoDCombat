@@ -38,6 +38,7 @@ public class Character {
     private Integer Drive;
     private Integer Firearms;
     private Integer Larceny;
+    private Integer Stealth;
     private Integer Survival;
     private Integer Weaponry;
     private Integer AnimalKen;
@@ -48,6 +49,11 @@ public class Character {
     private Integer Socialize;
     private Integer Streetwise;
     private Integer Subterfuge;
+    private Integer Health;
+    private Integer Morality;
+    private Integer Potency;
+    private Integer Willpower;
+    private Integer WillpowerReserve;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -59,7 +65,7 @@ public class Character {
         this.id = id;
     }
 
-    public Character(Long id, String Name, String Player, String Concept, int Intelligence, int Wits, int Resolve, int Strength, int Dexterity, int Stamina, int Presence, int Manipulation, int Composure, Integer Academics, Integer Computer, Integer Crafts, Integer Investigation, Integer Medicine, Integer Occult, Integer Politics, Integer Science, Integer Athletics, Integer Brawl, Integer Drive, Integer Firearms, Integer Larceny, Integer Survival, Integer Weaponry, Integer AnimalKen, Integer Empathy, Integer Expression, Integer Intimidation, Integer Persuasion, Integer Socialize, Integer Streetwise, Integer Subterfuge) {
+    public Character(Long id, String Name, String Player, String Concept, int Intelligence, int Wits, int Resolve, int Strength, int Dexterity, int Stamina, int Presence, int Manipulation, int Composure, Integer Academics, Integer Computer, Integer Crafts, Integer Investigation, Integer Medicine, Integer Occult, Integer Politics, Integer Science, Integer Athletics, Integer Brawl, Integer Drive, Integer Firearms, Integer Larceny, Integer Stealth, Integer Survival, Integer Weaponry, Integer AnimalKen, Integer Empathy, Integer Expression, Integer Intimidation, Integer Persuasion, Integer Socialize, Integer Streetwise, Integer Subterfuge, Integer Health, Integer Morality, Integer Potency, Integer Willpower, Integer WillpowerReserve) {
         this.id = id;
         this.Name = Name;
         this.Player = Player;
@@ -86,6 +92,7 @@ public class Character {
         this.Drive = Drive;
         this.Firearms = Firearms;
         this.Larceny = Larceny;
+        this.Stealth = Stealth;
         this.Survival = Survival;
         this.Weaponry = Weaponry;
         this.AnimalKen = AnimalKen;
@@ -96,6 +103,11 @@ public class Character {
         this.Socialize = Socialize;
         this.Streetwise = Streetwise;
         this.Subterfuge = Subterfuge;
+        this.Health = Health;
+        this.Morality = Morality;
+        this.Potency = Potency;
+        this.Willpower = Willpower;
+        this.WillpowerReserve = WillpowerReserve;
     }
 
     public Long getId() {
@@ -312,6 +324,14 @@ public class Character {
         this.Larceny = Larceny;
     }
 
+    public Integer getStealth() {
+        return Stealth;
+    }
+
+    public void setStealth(Integer Stealth) {
+        this.Stealth = Stealth;
+    }
+
     public Integer getSurvival() {
         return Survival;
     }
@@ -390,6 +410,46 @@ public class Character {
 
     public void setSubterfuge(Integer Subterfuge) {
         this.Subterfuge = Subterfuge;
+    }
+
+    public Integer getHealth() {
+        return Health;
+    }
+
+    public void setHealth(Integer Health) {
+        this.Health = Health;
+    }
+
+    public Integer getMorality() {
+        return Morality;
+    }
+
+    public void setMorality(Integer Morality) {
+        this.Morality = Morality;
+    }
+
+    public Integer getPotency() {
+        return Potency;
+    }
+
+    public void setPotency(Integer Potency) {
+        this.Potency = Potency;
+    }
+
+    public Integer getWillpower() {
+        return Willpower;
+    }
+
+    public void setWillpower(Integer Willpower) {
+        this.Willpower = Willpower;
+    }
+
+    public Integer getWillpowerReserve() {
+        return WillpowerReserve;
+    }
+
+    public void setWillpowerReserve(Integer WillpowerReserve) {
+        this.WillpowerReserve = WillpowerReserve;
     }
 
     // KEEP METHODS - put your custom methods here
