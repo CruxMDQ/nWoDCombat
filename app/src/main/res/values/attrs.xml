@@ -10,4 +10,7 @@
         <attr name="numberOfDice" format="integer" />
         <attr name="backgroundColor" format="reference" />
     </declare-styleable>
+    <declare-styleable name="CombatantInfoFragment">
+        <attr name="combatantTag" format="string" />
+    </declare-styleable>
 </resources>

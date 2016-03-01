@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.diceroller.dialogs;
+package com.emi.nwodcombat.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.diceroller.RadioAdapter;
-import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
+import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.diceroller.interfaces.OnChoicePickedListener;
 import com.emi.nwodcombat.model.pojos.Rule;
 

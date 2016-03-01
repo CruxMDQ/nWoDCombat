@@ -5,6 +5,9 @@
     <string name="fragment_defender">defender</string>
     <string name="fragment_attacker">attacker</string>
 
+    <string name="rule_reroll_eight">8-again</string>
+    <string name="rule_reroll_nine">9-again</string>
+    <string name="rule_reroll_ten">10-again</string>
     <string name="rule_reroll_none">No rerolls allowed</string>
     <string name="button_ok">OK</string>
     <string name="button_minus">-</string>

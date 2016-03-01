@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.combat;
+package com.emi.nwodcombat.combat.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -4,9 +4,9 @@ import android.app.FragmentManager;
 import android.support.annotation.NonNull;
 
 import com.emi.nwodcombat.diceroller.dialogs.DiceCalcDialog;
-import com.emi.nwodcombat.diceroller.dialogs.SpecialRollRulesDialog;
+import com.emi.nwodcombat.dialogs.SpecialRollRulesDialog;
 import com.emi.nwodcombat.diceroller.interfaces.AfterChoosingNumberListener;
-import com.emi.nwodcombat.diceroller.interfaces.AfterSettingRulesListener;
+import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.model.pojos.Rule;
 import com.emi.nwodcombat.tools.Roller;
 

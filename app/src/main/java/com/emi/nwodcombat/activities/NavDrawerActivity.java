@@ -1,13 +1,9 @@
 package com.emi.nwodcombat.activities;
 
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.combat.CombatDialog;
+import com.emi.nwodcombat.combat.DynamicCombatFragment;
+import com.emi.nwodcombat.combat.dialogs.CombatDialog;
 import com.emi.nwodcombat.combat.CombatFragment;
 import com.emi.nwodcombat.model.pojos.Value;
 
@@ -66,6 +64,7 @@ public class NavDrawerActivity extends AppCompatActivity
     private void loadCombatFragment() {
         fab.setImageDrawable(getDrawable(R.drawable.die));
         final CombatFragment combatFragment = CombatFragment.newInstance(generateSampleAttackValues(), generateSampleDefenseValues());
+        final DynamicCombatFragment dynamicCombatFragment = DynamicCombatFragment.newInstance();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +76,8 @@ public class NavDrawerActivity extends AppCompatActivity
         });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, combatFragment).commit();
+//        fragmentManager.beginTransaction().replace(R.id.flContent, combatFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, dynamicCombatFragment).commit();
     }
 
     private ArrayList<Value> generateSampleAttackValues() {

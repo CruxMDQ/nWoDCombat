@@ -10,8 +10,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.combat.dialogs.SingleDiceCalcDialog;
 import com.emi.nwodcombat.interfaces.AfterChoosingValueAndIndexListener;
-import com.emi.nwodcombat.model.pojos.Value;
 
 import java.util.ArrayList;
 

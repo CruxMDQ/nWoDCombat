@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.diceroller.interfaces;
+package com.emi.nwodcombat.interfaces;
 
 import android.support.annotation.Nullable;
 

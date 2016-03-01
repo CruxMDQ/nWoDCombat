@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.pojos.Value;
@@ -25,6 +26,8 @@ public class CombatFragment extends Fragment {
 
     @Bind(R.id.rvAttackerValues) RecyclerView rvAttackerValues;
     @Bind(R.id.rvDefenderValues) RecyclerView rvDefenderValues;
+    @Bind(R.id.btnSetAttackerThreshold) Button btnSetAttackerThreshold;
+    @Bind(R.id.btnSetDefenderThreshold) Button btnSetDefenderThreshold;
     
     private ArrayList<Value> attackerValues;
     private ArrayList<Value> defenderValues;
@@ -45,6 +48,12 @@ public class CombatFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        setUpUI();
+
+        return view;
+    }
+
+    private void setUpUI() {
         final ValuesAdapter attackerValuesAdapter = new ValuesAdapter<>(this.attackerValues, getActivity());
         final ValuesAdapter defenderValuesAdapter = new ValuesAdapter<>(this.defenderValues, getActivity());
 
@@ -54,7 +63,19 @@ public class CombatFragment extends Fragment {
         rvDefenderValues.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvDefenderValues.setAdapter(defenderValuesAdapter);
 
-        return view;
+        btnSetAttackerThreshold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnSetDefenderThreshold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public int getAttackerTotal() {
