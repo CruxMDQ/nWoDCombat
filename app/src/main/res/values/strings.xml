@@ -22,9 +22,10 @@
     <string name="nbpk_widget_tag_decrease">Decrease</string>
 
     <string name="dialog_attacker_pool">Attacker\'s dice pool is %s.</string>
-    <string name="dialog_defender_pool">Defender\'s defense is %s.</string>
+    <string name="dialog_attacker_pool_rerolls" formatted="false">Attacker\'s dice pool is %s, rerolling all %ss or better.</string>
+    <string name="dialog_attacker_pool_no_rerolls">Attacker\'s dice pool is %s, and gets NO rerolls.</string>
+    <string name="dialog_defender_pool">Defender subtracts %s dice from the attacker\'s pool.</string>
     <string name="dialog_attacker_roll">Attacker rolls:</string>
-    <string name="dialog_attacker_result_success">Attacker scores %s successes!</string>
     <string name="dialog_attacker_result_failure">Attacker misses!</string>
 
     <!-- Error messages -->

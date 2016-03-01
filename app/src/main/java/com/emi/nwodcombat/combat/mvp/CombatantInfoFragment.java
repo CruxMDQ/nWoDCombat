@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.ValuesAdapter;
 import com.emi.nwodcombat.model.pojos.Rule;
 import com.emi.nwodcombat.model.pojos.Value;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ import butterknife.ButterKnife;
 public class CombatantInfoFragment extends Fragment implements CombatantInfoContract.View {
     @Bind(R.id.rvCombatantValues) RecyclerView rvCombatantValues;
     @Bind(R.id.btnSetCombatantThreshold) Button btnSetCombatantThreshold;
+    @Bind(R.id.lblCombatant) TextView lblCombatant;
 
     private String combatantTag;
     private Rule rule;
@@ -76,7 +80,6 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     }
 
     private void setDefaultRules() {
-        // TODO This is a crude mechanic, needs replacement
         rule = new Rule(Constants.DICE_RULE_10_AGAIN, 10);
 
         btnSetCombatantThreshold.setText(rule.getName());
@@ -94,6 +97,8 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
                 actionListener.setSpecialRules(combatantTag);
             }
         });
+
+        lblCombatant.setText(WordUtils.capitalize(combatantTag));
     }
 
     @Override
@@ -111,11 +116,18 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
         return ((ValuesAdapter) rvCombatantValues.getAdapter()).getSum();
     }
 
+    public int getCombatantThreshold() {
+        return rule.getValue();
+    }
+
     public String getCombatantTag() {
         return combatantTag;
     }
 
     public void setCombatantTag(String combatantTag) {
         this.combatantTag = combatantTag;
+        if (lblCombatant != null) {
+            lblCombatant.setText(combatantTag);
+        }
     }
 }

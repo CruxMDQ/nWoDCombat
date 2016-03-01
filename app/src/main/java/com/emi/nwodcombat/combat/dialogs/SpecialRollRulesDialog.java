@@ -93,6 +93,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         rules.add(new Rule(Constants.DICE_RULE_8_AGAIN, false, Constants.DICE_VALUE_8_AGAIN));
         rules.add(new Rule(Constants.DICE_RULE_9_AGAIN, false, Constants.DICE_VALUE_9_AGAIN));
         rules.add(new Rule(Constants.DICE_RULE_10_AGAIN, false, Constants.DICE_VALUE_10_AGAIN));
+        rules.add(new Rule(Constants.DICE_RULE_NO_AGAIN, false, Constants.DICE_VALUE_NO_AGAIN));
 
         return rules;
     }

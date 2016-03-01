@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="dialog_attacker_result">
+        <item quantity="one">Attacker scores 1 success!</item>
+        <item quantity="other">Attacker scores %s successes!</item>
+    </plurals>
+</resources>

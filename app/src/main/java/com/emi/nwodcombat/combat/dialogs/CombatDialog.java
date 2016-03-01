@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.tools.Roller;
 
@@ -22,9 +23,9 @@ import butterknife.ButterKnife;
  * Created by Emi on 2/29/16.
  */
 public class CombatDialog extends DialogFragment {
-    int attackerPool;
-    int attackerThreshold;
-    int defense;
+    private int attackerPool;
+    private int attackerRerollThreshold;
+    private int defense;
 
     @Bind(R.id.txtAttackerPool) TextView txtAttackerPool;
     @Bind(R.id.txtDefense) TextView txtDefense;
@@ -33,10 +34,10 @@ public class CombatDialog extends DialogFragment {
 
     AlertDialog dialog;
 
-    public static CombatDialog newInstance(int attackerPool, int attackerThreshold, int defense) {
+    public static CombatDialog newInstance(int attackerPool, int attackerRerollThreshold, int defense) {
         CombatDialog fragment = new CombatDialog();
         fragment.attackerPool = attackerPool;
-        fragment.attackerThreshold = attackerThreshold;
+        fragment.attackerRerollThreshold = attackerRerollThreshold;
         fragment.defense = defense;
         return fragment;
     }
@@ -59,7 +60,24 @@ public class CombatDialog extends DialogFragment {
 
         dialog = builder.create();
 
-        txtAttackerPool.setText(getString(R.string.dialog_attacker_pool, attackerPool));
+        switch (attackerRerollThreshold) {
+            case 8: {
+                txtAttackerPool.setText(getString(R.string.dialog_attacker_pool_rerolls, attackerPool, attackerRerollThreshold));
+                break;
+            }
+            case 9: {
+                txtAttackerPool.setText(getString(R.string.dialog_attacker_pool_rerolls, attackerPool, attackerRerollThreshold));
+                break;
+            }
+            case 10: {
+                txtAttackerPool.setText(getString(R.string.dialog_attacker_pool, attackerPool));
+                break;
+            }
+            case 11: {
+                txtAttackerPool.setText(getString(R.string.dialog_attacker_pool_no_rerolls, attackerPool));
+            }
+        }
+
         txtDefense.setText(getString(R.string.dialog_defender_pool, defense));
 
         int toRoll = attackerPool - defense;
@@ -70,7 +88,7 @@ public class CombatDialog extends DialogFragment {
         } else {
             StringBuilder attackerReport = new StringBuilder();
 
-            ArrayList<Integer> rolls = Roller.rollNWoDDice(toRoll, 10, attackerThreshold);
+            ArrayList<Integer> rolls = Roller.rollNWoDDice(toRoll, 10, attackerRerollThreshold);
 
             Iterator a = rolls.iterator();
 
@@ -87,11 +105,12 @@ public class CombatDialog extends DialogFragment {
 
             txtAttackerRolls.setText(attackerReport.toString());
 
-            if (successes > 0) {
-                txtResult.setText(getString(R.string.dialog_attacker_result_success, successes));
+            if (successes != 0) {
+                txtResult.setText(getResources().getQuantityString(R.plurals.dialog_attacker_result, successes, successes));
             } else {
                 txtResult.setText(getString(R.string.dialog_attacker_result_failure));
             }
+
         }
 
         return dialog;

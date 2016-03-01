@@ -54,9 +54,10 @@ public class DynamicCombatFragment extends Fragment {
             public void onClick(View v) {
 
                 int attackerPool = ((CombatantInfoFragment) fragmentManager.findFragmentByTag(getString(R.string.fragment_attacker))).getCombatantTotal();
+                int attackerThreshold = ((CombatantInfoFragment) fragmentManager.findFragmentByTag(getString(R.string.fragment_attacker))).getCombatantThreshold();
                 int defense = ((CombatantInfoFragment) fragmentManager.findFragmentByTag(getString(R.string.fragment_defender))).getCombatantTotal();
 
-                CombatDialog dialog = CombatDialog.newInstance(attackerPool, 10, defense);
+                CombatDialog dialog = CombatDialog.newInstance(attackerPool, attackerThreshold, defense);
 
                 dialog.show(getActivity().getFragmentManager(), "tag");
             }

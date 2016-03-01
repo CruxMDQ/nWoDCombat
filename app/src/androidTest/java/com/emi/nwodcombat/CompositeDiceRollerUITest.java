@@ -34,87 +34,87 @@ public class CompositeDiceRollerUITest {
         onView(withId(R.id.fab)).perform(click());
     }
 
-    @Test
-    public void clickOnAttackerDice() throws Exception {
-        onView(
-            allOf(
-                withId(R.id.lblPickDice),
-                withText(rule.getActivity().getString(R.string.card_pick_dice_notice,
-                    rule.getActivity().getString(R.string.fragment_attacker)))
-            )
-        ).perform(click());
-    }
+//    @Test
+//    public void clickOnAttackerDice() throws Exception {
+//        onView(
+//            allOf(
+//                withId(R.id.lblPickDice),
+//                withText(rule.getActivity().getString(R.string.card_pick_dice_notice,
+//                    rule.getActivity().getString(R.string.fragment_attacker)))
+//            )
+//        ).perform(click());
+//    }
 
-    @Test
-    public void clickOnDefenderDice() throws Exception {
-        onView(
-            allOf(
-                withId(R.id.lblPickDice),
-                withText(rule.getActivity().getString(R.string.card_pick_dice_notice,
-                    rule.getActivity().getString(R.string.fragment_defender)))
-            )
-        ).perform(click());
-    }
+//    @Test
+//    public void clickOnDefenderDice() throws Exception {
+//        onView(
+//            allOf(
+//                withId(R.id.lblPickDice),
+//                withText(rule.getActivity().getString(R.string.card_pick_dice_notice,
+//                    rule.getActivity().getString(R.string.fragment_defender)))
+//            )
+//        ).perform(click());
+//    }
 
-    @Test
-    public void increaseAttackerAttributeDice() throws Exception {
-        clickOnAttackerDice();
+//    @Test
+//    public void increaseAttackerAttributeDice() throws Exception {
+//        clickOnAttackerDice();
+//
+//        onView(
+//            withId(R.id.nbpkAttribute)
+//        ).perform(click());
+//
+//        onView(
+//            withContentDescription("Dice increase for: Attribute")
+//        )
+//        .perform(click())
+//        .perform(click())
+//        .perform(click());
+//
+//        onView(
+//            withText("OK")
+//        ).perform(click());
+//    }
 
-        onView(
-            withId(R.id.nbpkAttribute)
-        ).perform(click());
+//    @Test
+//    public void increaseDefenderAttributeDice() throws Exception {
+//        clickOnDefenderDice();
+//
+//        onView(
+//            withId(R.id.nbpkAttribute)
+//        ).perform(click());
+//
+//        onView(
+//            withContentDescription("Dice increase for: Attribute")
+//        )
+//            .perform(click())
+//            .perform(click());
+//
+//        onView(
+//            withText("OK")
+//        ).perform(click());
+//    }
 
-        onView(
-            withContentDescription("Dice increase for: Attribute")
-        )
-        .perform(click())
-        .perform(click())
-        .perform(click());
-
-        onView(
-            withText("OK")
-        ).perform(click());
-    }
-
-    @Test
-    public void increaseDefenderAttributeDice() throws Exception {
-        clickOnDefenderDice();
-
-        onView(
-            withId(R.id.nbpkAttribute)
-        ).perform(click());
-
-        onView(
-            withContentDescription("Dice increase for: Attribute")
-        )
-            .perform(click())
-            .perform(click());
-
-        onView(
-            withText("OK")
-        ).perform(click());
-    }
-
-    @Test
-    public void select8AgainRuleForAttacker() throws Exception {
-        increaseAttackerAttributeDice();
-        increaseDefenderAttributeDice();
-
-        onView(
-            allOf(
-                withId(R.id.lblSpecialRules),
-                withContentDescription("Special rules for: attacker")
-            )
-        ).perform(click());
-
-        onView(
-            withId(R.id.rvOptions)
-        ).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(
-            withText("OK")
-        ).perform(click());
-
-        clickOnFAB();
-    }
+//    @Test
+//    public void select8AgainRuleForAttacker() throws Exception {
+//        increaseAttackerAttributeDice();
+//        increaseDefenderAttributeDice();
+//
+//        onView(
+//            allOf(
+//                withId(R.id.lblSpecialRules),
+//                withContentDescription("Special rules for: attacker")
+//            )
+//        ).perform(click());
+//
+//        onView(
+//            withId(R.id.rvOptions)
+//        ).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+//
+//        onView(
+//            withText("OK")
+//        ).perform(click());
+//
+//        clickOnFAB();
+//    }
 }
