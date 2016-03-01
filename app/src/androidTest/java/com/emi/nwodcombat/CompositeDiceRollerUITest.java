@@ -4,7 +4,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.emi.nwodcombat.activities.MainActivity;
+import com.emi.nwodcombat.activities.NavDrawerActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import static org.hamcrest.core.AllOf.allOf;
 public class CompositeDiceRollerUITest {
 
     @Rule
-    public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<NavDrawerActivity> rule = new ActivityTestRule<>(NavDrawerActivity.class);
 
     @Test
     public void clickOnFAB() throws Exception {

@@ -14,7 +14,7 @@ import android.widget.Button;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.combat.ValuesAdapter;
+import com.emi.nwodcombat.combat.adapters.ValuesAdapter;
 import com.emi.nwodcombat.model.pojos.Rule;
 import com.emi.nwodcombat.model.pojos.Value;
 

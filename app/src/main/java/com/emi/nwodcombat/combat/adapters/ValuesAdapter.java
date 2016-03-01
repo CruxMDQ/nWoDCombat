@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.combat;
+package com.emi.nwodcombat.combat.adapters;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;

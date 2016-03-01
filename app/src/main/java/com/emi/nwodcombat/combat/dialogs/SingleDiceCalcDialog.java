@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.diceroller.interfaces.OnValueChangedListener;
+import com.emi.nwodcombat.interfaces.OnValueChangedListener;
 import com.emi.nwodcombat.interfaces.AfterChoosingValueAndIndexListener;
 import com.emi.nwodcombat.widgets.NumberPickerWidget;
 

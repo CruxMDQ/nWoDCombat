@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.diceroller;
+package com.emi.nwodcombat.combat.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.diceroller.interfaces.OnChoicePickedListener;
+import com.emi.nwodcombat.interfaces.OnChoicePickedListener;
 
 import java.util.ArrayList;
 

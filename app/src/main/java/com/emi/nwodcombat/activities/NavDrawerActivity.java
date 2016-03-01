@@ -11,15 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
-import com.emi.nwodcombat.combat.dialogs.CombatDialog;
-import com.emi.nwodcombat.combat.CombatFragment;
-import com.emi.nwodcombat.model.pojos.Value;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,41 +56,11 @@ public class NavDrawerActivity extends AppCompatActivity
 //    }
 
     private void loadCombatFragment() {
-        fab.setImageDrawable(getDrawable(R.drawable.die));
-        final CombatFragment combatFragment = CombatFragment.newInstance(generateSampleAttackValues(), generateSampleDefenseValues());
         final DynamicCombatFragment dynamicCombatFragment = DynamicCombatFragment.newInstance();
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CombatDialog dialog = CombatDialog.newInstance(combatFragment.getAttackerTotal(), 10, combatFragment.getDefenderTotal());
-
-                dialog.show(getFragmentManager(), "tag");
-            }
-        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 //        fragmentManager.beginTransaction().replace(R.id.flContent, combatFragment).commit();
         fragmentManager.beginTransaction().replace(R.id.flContent, dynamicCombatFragment).commit();
-    }
-
-    private ArrayList<Value> generateSampleAttackValues() {
-        ArrayList<Value> result = new ArrayList<>();
-
-        result.add(new Value("Attribute", 3));
-        result.add(new Value("Skill", 2));
-        result.add(new Value("Equipment", 2));
-
-        return result;
-    }
-
-    private ArrayList<Value> generateSampleDefenseValues() {
-        ArrayList<Value> result = new ArrayList<>();
-
-        result.add(new Value("Attribute", 2));
-        result.add(new Value("Armor", 2));
-
-        return result;
     }
 
     @Override

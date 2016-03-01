@@ -5,11 +5,6 @@
         <attr name="minimumValue" format="integer" />
         <attr name="maximumValue" format="integer" />
     </declare-styleable>
-    <declare-styleable name="CompositeDiceRollerFragment">
-        <attr name="actorTag" format="string" />
-        <attr name="numberOfDice" format="integer" />
-        <attr name="backgroundColor" format="reference" />
-    </declare-styleable>
     <declare-styleable name="CombatantInfoFragment">
         <attr name="combatantTag" format="string" />
     </declare-styleable>

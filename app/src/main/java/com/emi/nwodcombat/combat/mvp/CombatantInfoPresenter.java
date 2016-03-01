@@ -3,7 +3,7 @@ package com.emi.nwodcombat.combat.mvp;
 import android.app.FragmentManager;
 import android.support.annotation.Nullable;
 
-import com.emi.nwodcombat.dialogs.SpecialRollRulesDialog;
+import com.emi.nwodcombat.combat.dialogs.SpecialRollRulesDialog;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.model.pojos.Rule;
 
