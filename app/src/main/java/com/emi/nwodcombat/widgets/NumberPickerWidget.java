@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
@@ -128,6 +127,9 @@ public class NumberPickerWidget extends LinearLayout {
 
     public void setTitle(String title) {
         this.title = title;
+        if (txtTitle != null) {
+            txtTitle.setText(title);
+        }
     }
 
     public int getMinimum() {
@@ -152,6 +154,9 @@ public class NumberPickerWidget extends LinearLayout {
 
     public void setNumber(int number) {
         this.number = number;
+        if (txtNumber != null) {
+            txtNumber.setText(String.valueOf(number));
+        }
     }
 
     public OnValueChangedListener getListener() {

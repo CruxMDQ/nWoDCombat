@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center">
+
+    <TextView
+        android:id="@+id/txtAttackerPool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_attacker_pool"
+        android:layout_margin="15dp"/>
+
+    <TextView
+        android:id="@+id/txtDefense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_defender_pool"
+        android:layout_margin="15dp"/>
+
+    <TextView
+        android:id="@+id/lblAttackerRolls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_attacker_roll"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        />
+
+    <TextView
+        android:id="@+id/txtAttackerRolls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1, 5, 9, 9, 10, 7"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_margin="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_attacker_result_success"/>
+</LinearLayout>

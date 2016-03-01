@@ -18,6 +18,16 @@
     <string name="nbpk_widget_tag_increase">Increase</string>
     <string name="nbpk_widget_tag_decrease">Decrease</string>
 
+    <string name="dialog_attacker_pool">Attacker\'s dice pool is %s.</string>
+    <string name="dialog_defender_pool">Defender\'s defense is %s.</string>
+    <string name="dialog_attacker_roll">Attacker rolls:</string>
+    <string name="dialog_attacker_result_success">Attacker scores %s successes!</string>
+    <string name="dialog_attacker_result_failure">Attacker misses!</string>
+
     <!-- Error messages -->
     <string name="error_message_context_null" translatable="false">Context is null!</string>
+    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
