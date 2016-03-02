@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:widgetTitle="@string/nbpk_title_attribute"
-        app:maximumValue="10"
-        app:minimumValue="1"/>
+        app:maximum="10"
+        app:minimum="1"/>
 
 </LinearLayout>

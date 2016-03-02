@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
@@ -27,13 +28,16 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/1/16.
  */
 public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesListener {
-    @ContextVariable private int mentalPoints;
-    @ContextVariable private int physicalPoints;
-    @ContextVariable private int socialPoints;
+    private int mentalPoints;
+    private int physicalPoints;
+    private int socialPoints;
 
-    @Bind(R.id.btnAttrMental) Button btnAttrMental;
-    @Bind(R.id.btnAttrPhysical) Button btnAttrPhysical;
-    @Bind(R.id.btnAttrSocial) Button btnAttrSocial;
+    @Bind(R.id.btnSetMentalCategory) Button btnSetMentalCategory;
+    @Bind(R.id.btnSetPhysicalCategory) Button btnSetPhysicalCategory;
+    @Bind(R.id.btnSetSocialCategory) Button btnSetSocialCategory;
+    @Bind(R.id.txtMental) TextView txtMental;
+    @Bind(R.id.txtPhysical) TextView txtPhysical;
+    @Bind(R.id.txtSocial) TextView txtSocial;
 
     private ArrayList<Rule> categories;
 
@@ -67,29 +71,29 @@ public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesL
     }
 
     private void setUpUI() {
-        btnAttrMental.setContentDescription(Constants.CONTENT_DESC_MENTAL);
-        btnAttrMental.setOnClickListener(new View.OnClickListener() {
+        btnSetMentalCategory.setContentDescription(Constants.CONTENT_DESC_MENTAL);
+        btnSetMentalCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnAttrMental.getContentDescription().toString(), categories, AttrCategoriesStep.this);
+                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetMentalCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
         
-        btnAttrPhysical.setContentDescription(Constants.CONTENT_DESC_PHYSICAL);
-        btnAttrPhysical.setOnClickListener(new View.OnClickListener() {
+        btnSetPhysicalCategory.setContentDescription(Constants.CONTENT_DESC_PHYSICAL);
+        btnSetPhysicalCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnAttrPhysical.getContentDescription().toString(), categories, AttrCategoriesStep.this);
+                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetPhysicalCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
         
-        btnAttrSocial.setContentDescription(Constants.CONTENT_DESC_SOCIAL);
-        btnAttrSocial.setOnClickListener(new View.OnClickListener() {
+        btnSetSocialCategory.setContentDescription(Constants.CONTENT_DESC_SOCIAL);
+        btnSetSocialCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnAttrSocial.getContentDescription().toString(), categories, AttrCategoriesStep.this);
+                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetSocialCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
@@ -104,23 +108,24 @@ public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesL
         StringBuilder builder = new StringBuilder();
 
         if (category != null) {
-            builder.append(category.getContentDescription());
-            builder.append(": ");
             builder.append(category.getName());
 
             switch (category.getContentDescription()) {
                 case Constants.CONTENT_DESC_MENTAL: {
-                    btnAttrMental.setText(builder.toString());
+                    txtMental.setText(builder.toString());
+                    txtMental.setVisibility(View.VISIBLE);
                     mentalPoints = category.getValue();
                     break;
                 }
                 case Constants.CONTENT_DESC_PHYSICAL: {
-                    btnAttrPhysical.setText(builder.toString());
+                    txtPhysical.setText(builder.toString());
+                    txtPhysical.setVisibility(View.VISIBLE);
                     physicalPoints = category.getValue();
                     break;
                 }
                 case Constants.CONTENT_DESC_SOCIAL: {
-                    btnAttrSocial.setText(builder.toString());
+                    txtSocial.setText(builder.toString());
+                    txtSocial.setVisibility(View.VISIBLE);
                     socialPoints = category.getValue();
                     break;
                 }

@@ -2,15 +2,16 @@
 <resources>
     <declare-styleable name="NumberPickerWidget">
         <attr name="widgetTitle" format="string" />
-        <attr name="minimumValue" format="integer" />
-        <attr name="maximumValue" format="integer" />
+        <attr name="minimum" format="integer" />
+        <attr name="maximum" format="integer" />
     </declare-styleable>
     <declare-styleable name="CombatantInfoFragment">
         <attr name="combatantTag" format="string" />
     </declare-styleable>
     <declare-styleable name="ValueSetterWidget">
         <attr name="valueName" format="string"/>
-        <attr name="defaultValue" format="integer" />
+        <attr name="valueDefault" format="integer" />
+        <attr name="valueMaximum" format="integer" />
         <attr name="traitCategory" format="string" />
     </declare-styleable>
 </resources>

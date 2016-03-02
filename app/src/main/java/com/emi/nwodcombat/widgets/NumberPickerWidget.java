@@ -39,8 +39,8 @@ public class NumberPickerWidget extends LinearLayout {
             .obtainStyledAttributes(attrs, R.styleable.NumberPickerWidget, 0, 0);
 
         setTitle(aAttrs.getString(R.styleable.NumberPickerWidget_widgetTitle));
-        setMinimum(aAttrs.getInt(R.styleable.NumberPickerWidget_minimumValue, 1));
-        setMaximum(aAttrs.getInt(R.styleable.NumberPickerWidget_maximumValue, 20));
+        setMinimum(aAttrs.getInt(R.styleable.NumberPickerWidget_minimum, 1));
+        setMaximum(aAttrs.getInt(R.styleable.NumberPickerWidget_maximum, 20));
 
         aAttrs.recycle();
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -20,10 +21,13 @@ import butterknife.ButterKnife;
 public class ValueSetterWidget extends LinearLayout {
     @Bind(R.id.lblValue) TextView lblValue;
     @Bind(R.id.panelValue) LinearLayout panelValue;
+    @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
+    @Bind(R.id.btnValueIncrease) Button btnValueIncrease;
 
     private String valueName;
     private String traitCategory;
     private int defaultValue;
+    private int maximumValue;
     private int currentValue;
 
     private OnTraitChangedListener listener;
@@ -35,25 +39,30 @@ public class ValueSetterWidget extends LinearLayout {
             TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetterWidget, 0, 0);
 
             setValueName(aAttrs.getString(R.styleable.ValueSetterWidget_valueName));
+            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 1));
+            setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 5));
             setTraitCategory(aAttrs.getString(R.styleable.ValueSetterWidget_traitCategory));
 
-            defaultValue = aAttrs.getInt(R.styleable.ValueSetterWidget_defaultValue, 1);
             currentValue = defaultValue;
 
             aAttrs.recycle();
 
             inflateLayout();
 
-            lblValue.setOnClickListener(new OnClickListener() {
+            btnValueDecrease.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onTraitChanged(ValueSetterWidget.this, -1);
+                    if (currentValue > defaultValue) {
+                        listener.onTraitChanged(ValueSetterWidget.this, -1);
+                    }
                 }
             });
-            panelValue.setOnClickListener(new OnClickListener() {
+            btnValueIncrease.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onTraitChanged(ValueSetterWidget.this, 1);
+                    if (currentValue < maximumValue) {
+                        listener.onTraitChanged(ValueSetterWidget.this, 1);
+                    }
                 }
             });
 
@@ -99,12 +108,9 @@ public class ValueSetterWidget extends LinearLayout {
     }
 
     public int decreaseCurrentValue() {
-        if (currentValue > defaultValue) {
-            currentValue--;
-            refreshPointsPanel();
-            return -1;
-        }
-        return 0;
+        currentValue--;
+        refreshPointsPanel();
+        return -1;
     }
 
     private void refreshPointsPanel() {
@@ -128,5 +134,21 @@ public class ValueSetterWidget extends LinearLayout {
 
     public void setTraitCategory(String traitCategory) {
         this.traitCategory = traitCategory;
+    }
+
+    public void setBtnValueDecreaseEnabled(boolean isEnabled) {
+        btnValueDecrease.setEnabled(isEnabled);
+    }
+
+    public void setBtnValueIncreaseEnabled(boolean isEnabled) {
+        btnValueIncrease.setEnabled(isEnabled);
+    }
+
+    public void setMaximumValue(int maximumValue) {
+        this.maximumValue = maximumValue;
+    }
+
+    public void setDefaultValue(int defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

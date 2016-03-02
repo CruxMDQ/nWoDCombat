@@ -19,9 +19,9 @@ public class NewCharacterWizard extends BasicWizardLayout {
     @ContextVariable private String player;
     @ContextVariable private String concept;
 
-    @ContextVariable private int mentalPoints;
-    @ContextVariable private int physicalPoints;
-    @ContextVariable private int socialPoints;
+//    @ContextVariable private int mentalPoints;
+//    @ContextVariable private int physicalPoints;
+//    @ContextVariable private int socialPoints;
 
     @ContextVariable private int intelligence;
     @ContextVariable private int wits;

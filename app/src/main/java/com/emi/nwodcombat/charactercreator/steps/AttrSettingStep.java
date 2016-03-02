@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
  */
 public class AttrSettingStep extends WizardStep implements OnTraitChangedListener {
 
-    @ContextVariable private int mentalPoints;
-    @ContextVariable private int physicalPoints;
-    @ContextVariable private int socialPoints;
+    private int mentalPoints;
+    private int physicalPoints;
+    private int socialPoints;
 
     @ContextVariable private int intelligence;
     @ContextVariable private int wits;
