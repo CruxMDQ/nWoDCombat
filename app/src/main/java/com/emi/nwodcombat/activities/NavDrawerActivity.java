@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.charactercreator.NewCharacterWizard;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 
 import butterknife.Bind;
@@ -55,14 +56,6 @@ public class NavDrawerActivity extends AppCompatActivity
 //        });
 //    }
 
-    private void loadCombatFragment() {
-        final DynamicCombatFragment dynamicCombatFragment = DynamicCombatFragment.newInstance();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.flContent, combatFragment).commit();
-        fragmentManager.beginTransaction().replace(R.id.flContent, dynamicCombatFragment).commit();
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,6 +95,7 @@ public class NavDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            loadNewCharacterWizard();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -118,5 +112,20 @@ public class NavDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadCombatFragment() {
+        final DynamicCombatFragment dynamicCombatFragment = DynamicCombatFragment.newInstance();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, dynamicCombatFragment).commit();
+    }
+
+    private void loadNewCharacterWizard() {
+        final NewCharacterWizard newCharacterWizard = new NewCharacterWizard();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, newCharacterWizard).commit();
+        //.addToBackStack(null)
     }
 }

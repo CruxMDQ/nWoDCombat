@@ -64,7 +64,7 @@ public class RadioAdapter<Rule> extends RecyclerView.Adapter<RadioAdapter.ViewHo
                 public void onClick(View v) {
                     mSelectedItem = getAdapterPosition();
                     notifyItemRangeChanged(0, mItems.size());
-                    mListener.onChoicePicked();
+                    mListener.onChoicePicked(mItems.get(mSelectedItem));
                 }
             };
             itemView.setOnClickListener(clickListener);

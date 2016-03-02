@@ -34,4 +34,22 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="categorize_mental_attributes">Categorize mental attributes</string>
+    <string name="categorize_physical_attributes">Categorize physical attributes</string>
+    <string name="categorize_social_attributes">Categorize social attributes</string>
+
+    <string name="cat_mental">Mental</string>
+    <string name="attr_int">Intelligence</string>
+    <string name="attr_wits">Wits</string>
+    <string name="attr_res">Resolve</string>
+
+    <string name="cat_physical">Physical</string>
+    <string name="attr_str">Strength</string>
+    <string name="attr_dex">Dexterity</string>
+    <string name="attr_sta">Stamina</string>
+
+    <string name="cat_social">Social</string>
+    <string name="attr_pre">Presence</string>
+    <string name="attr_man">Manipulation</string>
+    <string name="attr_com">Composure</string>
 </resources>

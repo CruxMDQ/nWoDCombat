@@ -79,6 +79,11 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
         return view;
     }
 
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     private void setDefaultRules() {
         rule = new Rule(Constants.DICE_RULE_10_AGAIN, 10);
 

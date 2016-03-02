@@ -27,7 +27,7 @@ public class CombatantInfoPresenter implements CombatantInfoContract.InputListen
     }
 
     @Override
-    public void afterSettingRules(String tag, @Nullable Rule rule) {
+    public void afterSettingRules(@Nullable Rule rule) {
         view.afterSettingRules(rule);
     }
 }

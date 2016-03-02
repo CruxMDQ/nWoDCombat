@@ -8,4 +8,9 @@
     <declare-styleable name="CombatantInfoFragment">
         <attr name="combatantTag" format="string" />
     </declare-styleable>
+    <declare-styleable name="ValueSetterWidget">
+        <attr name="valueName" format="string"/>
+        <attr name="defaultValue" format="integer" />
+        <attr name="traitCategory" format="string" />
+    </declare-styleable>
 </resources>

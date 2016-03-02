@@ -7,11 +7,7 @@ public class Rule {
     private String name;
     private boolean isSelected;
     private int value;
-
-    public Rule(String name, boolean isSelected) {
-        this.name = name;
-        this.isSelected = isSelected;
-    }
+    private String contentDescription;
 
     public Rule(String name, boolean isSelected, int value) {
         this.name = name;
@@ -50,5 +46,13 @@ public class Rule {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public String getContentDescription() {
+        return contentDescription;
+    }
+
+    public void setContentDescription(String contentDescription) {
+        this.contentDescription = contentDescription;
     }
 }

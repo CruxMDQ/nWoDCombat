@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterInt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_int"
+        app:traitCategory="@string/cat_mental"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterWits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_wits"
+        app:traitCategory="@string/cat_mental"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterRes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_res"
+        app:traitCategory="@string/cat_mental"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterStr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_str"
+        app:traitCategory="@string/cat_physical"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterDex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_dex"
+        app:traitCategory="@string/cat_physical"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterSta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_sta"
+        app:traitCategory="@string/cat_physical"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterPre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_pre"
+        app:traitCategory="@string/cat_social"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterMan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_man"
+        app:traitCategory="@string/cat_social"
+        />
+
+    <view
+        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+        android:id="@+id/valueSetterCom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:valueName="@string/attr_com"
+        app:traitCategory="@string/cat_social"
+        />
+
+</LinearLayout>

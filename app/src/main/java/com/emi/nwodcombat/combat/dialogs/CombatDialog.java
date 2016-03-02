@@ -114,6 +114,11 @@ public class CombatDialog extends DialogFragment {
         }
 
         return dialog;
-
     }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
 }
