@@ -1,7 +1,5 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CategorySettingDialog;
+import com.emi.nwodcombat.charactercreator.CharacterCreatorHelper;
 import com.emi.nwodcombat.charactercreator.PagerMaster;
 import com.emi.nwodcombat.charactercreator.PagerStep;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class AttrCategoriesStep extends Fragment implements AfterSettingRulesListener, PagerStep {
+public class AttrCategoriesStep extends Fragment implements AfterSettingRulesListener, PagerStep, PagerStep.ParentStep {
     private int mentalPoints;
     private int physicalPoints;
     private int socialPoints;
@@ -42,11 +41,12 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
 
     private ArrayList<Rule> categories;
 
-    private SharedPreferences sharedPreferences;
-
     private PagerMaster pagerMaster;
 
+    private CharacterCreatorHelper characterCreatorHelper;
+
     public AttrCategoriesStep() {
+        characterCreatorHelper = CharacterCreatorHelper.getInstance();
     }
 
     public AttrCategoriesStep newInstance (PagerMaster listener) {
@@ -110,18 +110,29 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
 
     @Override
     public void afterSettingRules(@Nullable Rule rule) {
-        sharedPreferences = getActivity().getSharedPreferences(Constants.SHAREDPREFS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constants.CONTENT_DESC_MENTAL)
+        clearChoices();
+        setButtonText(rule);
+    }
+
+    public void clearChoices() {
+        characterCreatorHelper
+            .remove(Constants.CONTENT_DESC_MENTAL)
             .remove(Constants.MENTAL_POOL)
             .remove(Constants.CONTENT_DESC_PHYSICAL)
             .remove(Constants.PHYSICAL_POOL)
             .remove(Constants.CONTENT_DESC_SOCIAL)
-            .remove(Constants.SOCIAL_POOL);
-        editor.apply();
-        setButtonText(rule);
+            .remove(Constants.SOCIAL_POOL)
+            .remove(Constants.ATTR_INT)
+            .remove(Constants.ATTR_WIT)
+            .remove(Constants.ATTR_RES)
+            .remove(Constants.ATTR_STR)
+            .remove(Constants.ATTR_DEX)
+            .remove(Constants.ATTR_STA)
+            .remove(Constants.ATTR_PRE)
+            .remove(Constants.ATTR_MAN)
+            .remove(Constants.ATTR_COM);
     }
-    
+
     private void setButtonText(@Nullable Rule category) {
         StringBuilder builder = new StringBuilder();
 
@@ -150,10 +161,12 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
             }
         }
         boolean hasDuplicateValues = hasDuplicateValues();
-        pagerMaster.onStepCompleted(hasDuplicateValues, this);
-        if (!hasDuplicateValues) {
-            saveChoices();
-        }
+
+        pagerMaster.onStepCompleted(!hasDuplicateValues, this);
+
+//        if (!hasDuplicateValues) {
+//            saveChoices();
+//        }
     }
 
     private ArrayList<Rule> generateCategories() {
@@ -184,25 +197,12 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
         return false;
     }
 
-    public void saveChoices() {
-        sharedPreferences = getActivity().getSharedPreferences(Constants.SHAREDPREFS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(Constants.CONTENT_DESC_MENTAL, mentalPoints);
-        editor.putInt(Constants.CONTENT_DESC_PHYSICAL, physicalPoints);
-        editor.putInt(Constants.CONTENT_DESC_SOCIAL, socialPoints);
-        editor.apply();
-    }
-
-    public PagerMaster getPagerMaster() {
-        return pagerMaster;
-    }
-
     public void setPagerMaster(PagerMaster pagerMaster) {
         this.pagerMaster = pagerMaster;
     }
 
     @Override
-    public HashMap<String, Object> returnOutput() {
+    public HashMap<String, Object> saveChoices() {
         HashMap<String, Object> output = new HashMap<>();
 
         output.put(Constants.CONTENT_DESC_MENTAL, mentalPoints);

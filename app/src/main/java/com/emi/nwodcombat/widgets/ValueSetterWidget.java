@@ -113,7 +113,7 @@ public class ValueSetterWidget extends LinearLayout {
         return -1;
     }
 
-    private void refreshPointsPanel() {
+    public void refreshPointsPanel() {
         panelValue.removeAllViews();
 
         for (int i = 0; i < currentValue; i++) {
@@ -150,5 +150,14 @@ public class ValueSetterWidget extends LinearLayout {
 
     public void setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
+    }
+
+    public void setCurrentValue(int currentValue) {
+        this.currentValue = currentValue;
+        refreshPointsPanel();
+    }
+
+    public int getCurrentValue() {
+        return currentValue;
     }
 }

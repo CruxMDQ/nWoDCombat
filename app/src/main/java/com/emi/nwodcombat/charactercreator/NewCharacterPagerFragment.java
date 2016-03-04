@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -22,8 +21,7 @@ import butterknife.ButterKnife;
 public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
     CharacterCreatorStatePagerAdapter adapter;
     List<Fragment> fragmentList;
-
-//    HashMap<String, Object> values = new HashMap<>();
+    CharacterCreatorHelper characterCreatorHelper;
 
     @Bind(R.id.viewPager) ViewPager pager;
 
@@ -32,6 +30,7 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
     public static NewCharacterPagerFragment newInstance(List<Fragment> fragments) {
         NewCharacterPagerFragment fragment = new NewCharacterPagerFragment();
         fragment.fragmentList = fragments;
+        fragment.characterCreatorHelper = CharacterCreatorHelper.getInstance();
         return fragment;
     }
 
@@ -51,7 +50,7 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
         pager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return isStepComplete;
+                return !isStepComplete;
             }
         });
 
@@ -71,9 +70,9 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
 
     @Override
     public void onStepCompleted(final boolean isComplete, PagerStep caller) {
-        isStepComplete = isComplete;
-//        if (isComplete) {
-//            values.putAll(caller.returnOutput());
-//        }
+        if (isComplete) {
+            isStepComplete = isComplete;
+            characterCreatorHelper.putAll(caller.saveChoices());
+        }
     }
 }

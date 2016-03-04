@@ -11,12 +11,11 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.PagerMaster;
+import com.emi.nwodcombat.charactercreator.CharacterCreatorHelper;
 import com.emi.nwodcombat.charactercreator.OnTraitChangedListener;
+import com.emi.nwodcombat.charactercreator.PagerMaster;
 import com.emi.nwodcombat.charactercreator.PagerStep;
 import com.emi.nwodcombat.widgets.ValueSetterWidget;
-
-import org.codepond.wizardroid.persistence.ContextVariable;
 
 import java.util.HashMap;
 
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class AttrSettingStep extends Fragment implements OnTraitChangedListener, PagerStep {
+public class AttrSettingStep extends Fragment implements OnTraitChangedListener, PagerStep, PagerStep.ChildStep {
 
     private int mentalPoints;
     private int currentMentalPool;
@@ -34,18 +33,6 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
     private int currentPhysicalPool;
     private int socialPoints;
     private int currentSocialPool;
-
-    @ContextVariable private int intelligence;
-    @ContextVariable private int wits;
-    @ContextVariable private int resolve;
-
-    @ContextVariable private int strength;
-    @ContextVariable private int dexterity;
-    @ContextVariable private int stamina;
-
-    @ContextVariable private int presence;
-    @ContextVariable private int manipulation;
-    @ContextVariable private int composure;
 
     @Bind(R.id.valueSetterInt) ValueSetterWidget valueSetterIntelligence;
     @Bind(R.id.valueSetterWits) ValueSetterWidget valueSetterWits;
@@ -61,11 +48,12 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
     @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
     @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
 
-    private SharedPreferences sharedPreferences;
-
     private PagerMaster pagerMaster;
 
+    private CharacterCreatorHelper characterCreatorHelper;
+
     public AttrSettingStep() {
+        characterCreatorHelper = CharacterCreatorHelper.getInstance();
     }
 
     @Override
@@ -99,7 +87,7 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
         setUpUI();
     }
 
-    private void retrieveChoices() {
+    public void retrieveChoices(SharedPreferences sharedPreferences) {
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHAREDPREFS, Context.MODE_PRIVATE);
 
         mentalPoints = sharedPreferences.getInt(Constants.CONTENT_DESC_MENTAL, 3);
@@ -116,44 +104,54 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
 
     private void setUpUI() {
         valueSetterIntelligence.setListener(this);
+        valueSetterIntelligence.setContentDescription(Constants.ATTR_INT);
         valueSetterWits.setListener(this);
+        valueSetterWits.setContentDescription(Constants.ATTR_WIT);
         valueSetterResolve.setListener(this);
+        valueSetterResolve.setContentDescription(Constants.ATTR_RES);
         valueSetterStrength.setListener(this);
+        valueSetterStrength.setContentDescription(Constants.ATTR_STR);
         valueSetterDexterity.setListener(this);
+        valueSetterDexterity.setContentDescription(Constants.ATTR_DEX);
         valueSetterStamina.setListener(this);
+        valueSetterStamina.setContentDescription(Constants.ATTR_STA);
         valueSetterPresence.setListener(this);
+        valueSetterPresence.setContentDescription(Constants.ATTR_PRE);
         valueSetterManipulation.setListener(this);
+        valueSetterManipulation.setContentDescription(Constants.ATTR_MAN);
         valueSetterComposure.setListener(this);
+        valueSetterComposure.setContentDescription(Constants.ATTR_MAN);
     }
 
     @Override
     public void onTraitChanged(Object caller, int value) {
         ValueSetterWidget widget = (ValueSetterWidget) caller;
 
-        sharedPreferences = getActivity().getSharedPreferences(Constants.SHAREDPREFS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
         switch(widget.getTraitCategory()) {
             case Constants.CONTENT_DESC_MENTAL: {
                 currentMentalPool = changeWidgetValue(value, currentMentalPool, widget);
                 setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
-                editor.putInt(Constants.MENTAL_POOL, currentMentalPool);
+                characterCreatorHelper.putInt(Constants.MENTAL_POOL, currentMentalPool);
                 break;
             }
             case Constants.CONTENT_DESC_PHYSICAL: {
                 currentPhysicalPool = changeWidgetValue(value, currentPhysicalPool, widget);
                 setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
-                editor.putInt(Constants.PHYSICAL_POOL, currentPhysicalPool);
+                characterCreatorHelper.putInt(Constants.PHYSICAL_POOL, currentPhysicalPool);
                 break;
             }
             case Constants.CONTENT_DESC_SOCIAL: {
                 currentSocialPool = changeWidgetValue(value, currentSocialPool, widget);
                 setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
-                editor.putInt(Constants.SOCIAL_POOL, currentSocialPool);
+                characterCreatorHelper.putInt(Constants.SOCIAL_POOL, currentSocialPool);
                 break;
             }
         }
-        editor.apply();
+        characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
+
+        if (!hasLeftoverPoints()) {
+            pagerMaster.onStepCompleted(true, this);
+        }
     }
 
     private void setPoolTitle(String titleString, int pool, TextView textView) {
@@ -185,7 +183,47 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
     }
 
     @Override
-    public HashMap<String, Object> returnOutput() {
-        return null;
+    public HashMap<String, Object> saveChoices() {
+        HashMap<String, Object> output = new HashMap<>();
+
+        output.put(Constants.ATTR_INT, valueSetterIntelligence.getCurrentValue());
+        output.put(Constants.ATTR_WIT, valueSetterWits.getCurrentValue());
+        output.put(Constants.ATTR_RES, valueSetterResolve.getCurrentValue());
+        output.put(Constants.ATTR_STR, valueSetterStrength.getCurrentValue());
+        output.put(Constants.ATTR_DEX, valueSetterDexterity.getCurrentValue());
+        output.put(Constants.ATTR_STA, valueSetterStamina.getCurrentValue());
+        output.put(Constants.ATTR_PRE, valueSetterPresence.getCurrentValue());
+        output.put(Constants.ATTR_MAN, valueSetterManipulation.getCurrentValue());
+        output.put(Constants.ATTR_COM, valueSetterComposure.getCurrentValue());
+
+        return output;
+    }
+
+    @Override
+    public void retrieveChoices() {
+        mentalPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_MENTAL, 3);
+        physicalPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_PHYSICAL, 3);
+        socialPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_SOCIAL, 3);
+        currentMentalPool = characterCreatorHelper.getInt(Constants.MENTAL_POOL, mentalPoints);
+        currentPhysicalPool = characterCreatorHelper.getInt(Constants.PHYSICAL_POOL, physicalPoints);
+        currentSocialPool = characterCreatorHelper.getInt(Constants.SOCIAL_POOL, socialPoints);
+
+        setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
+        setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
+        setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
+
+        valueSetterIntelligence.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_INT, 1));
+        valueSetterWits.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_WIT, 1));
+        valueSetterResolve.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_RES, 1));
+        valueSetterStrength.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_STR, 1));
+        valueSetterDexterity.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_DEX, 1));
+        valueSetterStamina.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_STA, 1));
+        valueSetterPresence.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_PRE, 1));
+        valueSetterManipulation.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_MAN, 1));
+        valueSetterComposure.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_COM, 1));
+    }
+
+    public void setPagerMaster(PagerMaster pagerMaster) {
+        this.pagerMaster = pagerMaster;
     }
 }

@@ -37,4 +37,15 @@ public class Constants {
     public static final int ATTR_PTS_SECONDARY = 4;
     public static final int ATTR_PTS_TERTIARY = 3;
 
+    public static final String ATTR_INT = "Intelligence";
+    public static final String ATTR_WIT = "Wits";
+    public static final String ATTR_RES = "Resolve";
+    public static final String ATTR_STR = "Strength";
+    public static final String ATTR_DEX = "Dexterity";
+    public static final String ATTR_STA = "Stamina";
+    public static final String ATTR_PRE = "Presence";
+    public static final String ATTR_MAN = "Manipulation";
+    public static final String ATTR_COM = "Composure";
+
+
 }
