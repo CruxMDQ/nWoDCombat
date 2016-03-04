@@ -3,6 +3,7 @@ package com.emi.nwodcombat.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,8 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.NewCharacterWizard;
+import com.emi.nwodcombat.charactercreator.NewCharacterPagerFragment;
+import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
+import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -122,10 +128,23 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     private void loadNewCharacterWizard() {
-        final NewCharacterWizard newCharacterWizard = new NewCharacterWizard();
+        List<Fragment> fragmentList = new ArrayList<>();
+
+        AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();
+        AttrSettingStep attrSettingStep = new AttrSettingStep();
+
+        final NewCharacterPagerFragment newCharacterPagerFragment = NewCharacterPagerFragment.newInstance(fragmentList);
+
+        attrCategoriesStep.setPagerMaster(newCharacterPagerFragment);
+        attrSettingStep.setPagerMaster(newCharacterPagerFragment);
+
+        fragmentList.add(attrCategoriesStep);
+        fragmentList.add(attrSettingStep);
+
+//        final NewCharacterWizard newCharacterWizard = new NewCharacterWizard();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, newCharacterWizard).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, newCharacterPagerFragment).commit();
         //.addToBackStack(null)
     }
 }

@@ -79,7 +79,8 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
         return view;
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }

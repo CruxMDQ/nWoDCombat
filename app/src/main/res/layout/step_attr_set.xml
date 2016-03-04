@@ -17,7 +17,6 @@
             android:layout_margin="@dimen/spacing_normal"
             android:layout_gravity="center"
             android:text="@string/cat_mental"
-            android:textAllCaps="true"
             android:textStyle="bold"/>
 
         <RelativeLayout
@@ -65,7 +64,6 @@
             android:layout_margin="@dimen/spacing_normal"
             android:layout_gravity="center"
             android:text="@string/cat_physical"
-            android:textAllCaps="true"
             android:textStyle="bold"/>
 
         <RelativeLayout
@@ -114,7 +112,6 @@
             android:layout_margin="@dimen/spacing_normal"
             android:layout_gravity="center"
             android:text="@string/cat_social"
-            android:textAllCaps="true"
             android:textStyle="bold"/>
 
         <RelativeLayout

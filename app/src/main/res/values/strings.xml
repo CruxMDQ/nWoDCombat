@@ -53,4 +53,6 @@
     <string name="attr_man">Manipulation</string>
     <string name="attr_com">Composure</string>
     <string name="set">Set</string>
+    <string name="warning_duplicate_categories">You have duplicate categories!</string>
+    <string name="warning_leftover_points">You have leftover points!</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,13 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CategorySettingDialog;
+import com.emi.nwodcombat.charactercreator.PagerMaster;
+import com.emi.nwodcombat.charactercreator.PagerStep;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.model.pojos.Rule;
 
-import org.codepond.wizardroid.WizardStep;
-import org.codepond.wizardroid.persistence.ContextVariable;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesListener {
+public class AttrCategoriesStep extends Fragment implements AfterSettingRulesListener, PagerStep {
     private int mentalPoints;
     private int physicalPoints;
     private int socialPoints;
@@ -42,8 +43,16 @@ public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesL
     private ArrayList<Rule> categories;
 
     private SharedPreferences sharedPreferences;
-    
+
+    private PagerMaster pagerMaster;
+
     public AttrCategoriesStep() {
+    }
+
+    public AttrCategoriesStep newInstance (PagerMaster listener) {
+        AttrCategoriesStep fragment = new AttrCategoriesStep();
+        fragment.pagerMaster = listener;
+        return fragment;
     }
 
     @Override
@@ -101,6 +110,15 @@ public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesL
 
     @Override
     public void afterSettingRules(@Nullable Rule rule) {
+        sharedPreferences = getActivity().getSharedPreferences(Constants.SHAREDPREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Constants.CONTENT_DESC_MENTAL)
+            .remove(Constants.MENTAL_POOL)
+            .remove(Constants.CONTENT_DESC_PHYSICAL)
+            .remove(Constants.PHYSICAL_POOL)
+            .remove(Constants.CONTENT_DESC_SOCIAL)
+            .remove(Constants.SOCIAL_POOL);
+        editor.apply();
         setButtonText(rule);
     }
     
@@ -130,6 +148,11 @@ public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesL
                     break;
                 }
             }
+        }
+        boolean hasDuplicateValues = hasDuplicateValues();
+        pagerMaster.onStepCompleted(hasDuplicateValues, this);
+        if (!hasDuplicateValues) {
+            saveChoices();
         }
     }
 
@@ -168,5 +191,24 @@ public class AttrCategoriesStep extends WizardStep implements AfterSettingRulesL
         editor.putInt(Constants.CONTENT_DESC_PHYSICAL, physicalPoints);
         editor.putInt(Constants.CONTENT_DESC_SOCIAL, socialPoints);
         editor.apply();
+    }
+
+    public PagerMaster getPagerMaster() {
+        return pagerMaster;
+    }
+
+    public void setPagerMaster(PagerMaster pagerMaster) {
+        this.pagerMaster = pagerMaster;
+    }
+
+    @Override
+    public HashMap<String, Object> returnOutput() {
+        HashMap<String, Object> output = new HashMap<>();
+
+        output.put(Constants.CONTENT_DESC_MENTAL, mentalPoints);
+        output.put(Constants.CONTENT_DESC_PHYSICAL, physicalPoints);
+        output.put(Constants.CONTENT_DESC_SOCIAL, socialPoints);
+
+        return output;
     }
 }

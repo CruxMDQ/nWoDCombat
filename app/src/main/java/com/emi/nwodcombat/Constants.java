@@ -25,6 +25,9 @@ public class Constants {
     public static final String CONTENT_DESC_MENTAL = "Mental";
     public static final String CONTENT_DESC_PHYSICAL = "Physical";
     public static final String CONTENT_DESC_SOCIAL = "Social";
+    public static final String MENTAL_POOL = "poolMental";
+    public static final String PHYSICAL_POOL = "poolPhysical";
+    public static final String SOCIAL_POOL = "poolSocial";
 
     public static final String CATEGORY_PRIMARY = "Primary";
     public static final String CATEGORY_SECONDARY = "Secondary";
