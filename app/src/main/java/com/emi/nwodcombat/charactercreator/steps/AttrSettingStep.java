@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class AttrSettingStep extends Fragment implements OnTraitChangedListener, PagerStep, PagerStep.ChildStep {
+public class AttrSettingStep extends WizardStep implements OnTraitChangedListener, PagerStep.ChildStep {
 
     private int mentalPoints;
     private int currentMentalPool;
@@ -88,7 +87,7 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
         setUpUI();
     }
 
-    private void setUpUI() {
+    protected void setUpUI() {
         valueSetterIntelligence.setListener(this);
         valueSetterIntelligence.setContentDescription(Constants.ATTR_INT);
         valueSetterWits.setListener(this);
@@ -221,7 +220,7 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
         this.pagerMaster = pagerMaster;
     }
 
-    private void setToolbarTitle(ViewGroup container, String title) {
+    protected void setToolbarTitle(ViewGroup container, String title) {
         TextView txtToolbarTitle = (TextView) container.getRootView().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
@@ -240,5 +239,4 @@ public class AttrSettingStep extends Fragment implements OnTraitChangedListener,
     public void checkCompletionConditions() {
         pagerMaster.checkStepIsComplete(!hasLeftoverPoints(), this);
     }
-
 }

@@ -2,7 +2,6 @@ package com.emi.nwodcombat.charactercreator.steps;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CategorySettingDialog;
-import com.emi.nwodcombat.charactercreator.CharacterCreatorHelper;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class AttrCategoriesStep extends Fragment implements AfterSettingRulesListener, PagerStep, PagerStep.ParentStep {
+public class AttrCategoriesStep extends WizardStep implements PagerStep.ParentStep, AfterSettingRulesListener{
     private int mentalPoints;
     private int physicalPoints;
     private int socialPoints;
@@ -41,16 +39,12 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
 
     private ArrayList<Rule> categories;
 
-    private PagerMaster pagerMaster;
-
-    private CharacterCreatorHelper characterCreatorHelper;
-
     public AttrCategoriesStep() {
-        characterCreatorHelper = CharacterCreatorHelper.getInstance();
+        super();
     }
 
-    public AttrCategoriesStep newInstance (PagerMaster listener) {
-        AttrCategoriesStep fragment = new AttrCategoriesStep();
+    public WizardStep newInstance (PagerMaster listener) {
+        WizardStep fragment = new AttrCategoriesStep();
         fragment.pagerMaster = listener;
         return fragment;
     }
@@ -81,41 +75,13 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
         categories = generateCategories();
     }
 
-    private void setUpUI() {
-        btnSetMentalAttrCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
-        btnSetMentalAttrCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetMentalAttrCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
-                dialog.show(getActivity().getFragmentManager(), "Some tag");
-            }
-        });
-        
-        btnSetPhysicalAttrCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
-        btnSetPhysicalAttrCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetPhysicalAttrCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
-                dialog.show(getActivity().getFragmentManager(), "Some tag");
-            }
-        });
-        
-        btnSetSocialAttrCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_SOCIAL);
-        btnSetSocialAttrCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetSocialAttrCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
-                dialog.show(getActivity().getFragmentManager(), "Some tag");
-            }
-        });
-    }
-
     @Override
     public void afterSettingRules(@Nullable Rule rule) {
         clearChoices();
         setButtonText(rule);
     }
 
+    @Override
     public void clearChoices() {
         characterCreatorHelper
             .remove(Constants.CONTENT_DESC_ATTR_MENTAL)
@@ -133,6 +99,61 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
             .remove(Constants.ATTR_PRE)
             .remove(Constants.ATTR_MAN)
             .remove(Constants.ATTR_COM);
+    }
+
+    @Override
+    public void checkCompletionConditions() {
+        pagerMaster.checkStepIsComplete(!(hasDuplicateValues() || hasEmptyValues()), this);
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return getString(R.string.title_cat_attrs_set);
+    }
+
+    public int getLayout() {
+        return R.layout.step_attr_categories;
+    }
+
+    @Override
+    public HashMap<String, Object> saveChoices() {
+        HashMap<String, Object> output = new HashMap<>();
+
+        output.put(Constants.CONTENT_DESC_ATTR_MENTAL, mentalPoints);
+        output.put(Constants.CONTENT_DESC_ATTR_PHYSICAL, physicalPoints);
+        output.put(Constants.CONTENT_DESC_ATTR_SOCIAL, socialPoints);
+
+        return output;
+    }
+
+    @Override
+    protected void setUpUI() {
+        btnSetMentalAttrCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
+        btnSetMentalAttrCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetMentalAttrCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
+                dialog.show(getActivity().getFragmentManager(), "Some tag");
+            }
+        });
+
+        btnSetPhysicalAttrCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
+        btnSetPhysicalAttrCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetPhysicalAttrCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
+                dialog.show(getActivity().getFragmentManager(), "Some tag");
+            }
+        });
+
+        btnSetSocialAttrCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_SOCIAL);
+        btnSetSocialAttrCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CategorySettingDialog dialog = CategorySettingDialog.newInstance(btnSetSocialAttrCategory.getContentDescription().toString(), categories, AttrCategoriesStep.this);
+                dialog.show(getActivity().getFragmentManager(), "Some tag");
+            }
+        });
     }
 
     private void setButtonText(@Nullable Rule category) {
@@ -165,10 +186,6 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
         checkCompletionConditions();
     }
 
-    public void checkCompletionConditions() {
-        pagerMaster.checkStepIsComplete(!(hasDuplicateValues() || hasEmptyValues()), this);
-    }
-
     private ArrayList<Rule> generateCategories() {
         ArrayList<Rule> rules = new ArrayList<>();
 
@@ -197,39 +214,9 @@ public class AttrCategoriesStep extends Fragment implements AfterSettingRulesLis
         return false;
     }
 
-    public void setPagerMaster(PagerMaster pagerMaster) {
-        this.pagerMaster = pagerMaster;
-    }
-
-    @Override
-    public HashMap<String, Object> saveChoices() {
-        HashMap<String, Object> output = new HashMap<>();
-
-        output.put(Constants.CONTENT_DESC_ATTR_MENTAL, mentalPoints);
-        output.put(Constants.CONTENT_DESC_ATTR_PHYSICAL, physicalPoints);
-        output.put(Constants.CONTENT_DESC_ATTR_SOCIAL, socialPoints);
-
-        return output;
-    }
-
     public boolean hasEmptyValues() {
         return txtAttrMental.getText().equals("")
             || txtAttrPhysical.getText().equals("")
             || txtAttrSocial.getText().equals("");
     }
-
-    public String getToolbarTitle() {
-        return getString(R.string.title_cat_attrs_set);
-    }
-
-    private void setToolbarTitle(ViewGroup container, String title) {
-        TextView txtToolbarTitle = (TextView) container.getRootView().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
-
-        txtToolbarTitle.setText(title);
-    }
-
-    public int getLayout() {
-        return R.layout.step_attr_categories;
-    }
-
 }

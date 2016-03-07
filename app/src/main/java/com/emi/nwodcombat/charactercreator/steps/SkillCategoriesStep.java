@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/4/16.
  */
-public class SkillCategoriesStep extends Fragment implements AfterSettingRulesListener, PagerStep, PagerStep.ParentStep {
+public class SkillCategoriesStep extends WizardStep implements AfterSettingRulesListener, PagerStep.ParentStep {
     private int mentalPoints;
     private int physicalPoints;
     private int socialPoints;
@@ -86,7 +86,7 @@ public class SkillCategoriesStep extends Fragment implements AfterSettingRulesLi
         return rules;
     }
 
-    private void setUpUI() {
+    protected void setUpUI() {
         btnSetMentalSkillCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
         btnSetMentalSkillCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,7 +208,7 @@ public class SkillCategoriesStep extends Fragment implements AfterSettingRulesLi
         this.pagerMaster = pagerMaster;
     }
 
-    private void setToolbarTitle(ViewGroup container, String title) {
+    protected void setToolbarTitle(ViewGroup container, String title) {
         TextView txtToolbarTitle = (TextView) container.getRootView().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
