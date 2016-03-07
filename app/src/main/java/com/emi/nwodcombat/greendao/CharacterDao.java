@@ -65,7 +65,7 @@ public class CharacterDao extends AbstractDao<Character, Long> {
         public final static Property Potency = new Property(39, Integer.class, "Potency", false, "POTENCY");
         public final static Property Willpower = new Property(40, Integer.class, "Willpower", false, "WILLPOWER");
         public final static Property WillpowerReserve = new Property(41, Integer.class, "WillpowerReserve", false, "WILLPOWER_RESERVE");
-    };
+    }
 
 
     public CharacterDao(DaoConfig config) {

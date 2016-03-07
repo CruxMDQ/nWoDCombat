@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.charactercreator;
+package com.emi.nwodcombat.charactercreator.interfaces;
 
 /**
  * Created by Emi on 3/1/16.

@@ -7,8 +7,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
+import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 
 import java.util.List;
 
@@ -24,8 +27,10 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
     CharacterCreatorHelper characterCreatorHelper;
 
     @Bind(R.id.viewPager) ViewPager pager;
+    @Bind(R.id.btnPrevious) Button btnPrevious;
+    @Bind(R.id.btnNext) Button btnNext;
 
-    private boolean isStepComplete;
+//    private boolean isStepComplete;
 
     public static NewCharacterPagerFragment newInstance(List<Fragment> fragments) {
         NewCharacterPagerFragment fragment = new NewCharacterPagerFragment();
@@ -50,7 +55,23 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
         pager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return !isStepComplete;
+                // Disables step switching on swipe
+                return true;
+//                return !isStepComplete;
+            }
+        });
+
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToPreviousStep();
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToNextStep();
             }
         });
 
@@ -69,10 +90,23 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
     }
 
     @Override
-    public void onStepCompleted(final boolean isComplete, PagerStep caller) {
+    public void checkStepIsComplete(final boolean isComplete, PagerStep caller) {
         if (isComplete) {
-            isStepComplete = isComplete;
+//            isStepComplete = isComplete;
+            btnNext.setEnabled(true);
+            btnPrevious.setEnabled(true);
             characterCreatorHelper.putAll(caller.saveChoices());
+        } else {
+            btnNext.setEnabled(false);
         }
+    }
+
+    public void moveToNextStep() {
+        // TODO Setup logic for final step
+        pager.setCurrentItem(pager.getCurrentItem() + 1);
+    }
+
+    public void moveToPreviousStep() {
+        pager.setCurrentItem(pager.getCurrentItem() - 1);
     }
 }

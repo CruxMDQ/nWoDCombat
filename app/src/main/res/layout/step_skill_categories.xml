@@ -21,7 +21,7 @@
             android:text="@string/cat_mental"/>
         
         <TextView
-            android:id="@+id/txtAttrMental"
+            android:id="@+id/txtSkillMental"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -30,7 +30,7 @@
             android:textStyle="bold"/>
         
         <Button
-            android:id="@+id/btnSetMentalAttrCategory"
+            android:id="@+id/btnSetMentalSkillCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/set"
@@ -54,7 +54,7 @@
             android:text="@string/cat_physical"/>
 
         <TextView
-            android:id="@+id/txtAttrPhysical"
+            android:id="@+id/txtSkillPhysical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -63,7 +63,7 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/btnSetPhysicalAttrCategory"
+            android:id="@+id/btnSetPhysicalSkillCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/set"
@@ -86,7 +86,7 @@
             android:text="@string/cat_social"/>
 
         <TextView
-            android:id="@+id/txtAttrSocial"
+            android:id="@+id/txtSkillSocial"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -95,7 +95,7 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/btnSetSocialAttrCategory"
+            android:id="@+id/btnSetSocialSkillCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/set"

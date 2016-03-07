@@ -17,6 +17,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.NewCharacterPagerFragment;
 import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
+import com.emi.nwodcombat.charactercreator.steps.SkillCategoriesStep;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         loadCombatFragment();
 
@@ -132,19 +134,19 @@ public class NavDrawerActivity extends AppCompatActivity
 
         AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();
         AttrSettingStep attrSettingStep = new AttrSettingStep();
+        SkillCategoriesStep skillCategoriesStep = new SkillCategoriesStep();
 
         final NewCharacterPagerFragment newCharacterPagerFragment = NewCharacterPagerFragment.newInstance(fragmentList);
 
         attrCategoriesStep.setPagerMaster(newCharacterPagerFragment);
         attrSettingStep.setPagerMaster(newCharacterPagerFragment);
+        skillCategoriesStep.setPagerMaster(newCharacterPagerFragment);
 
         fragmentList.add(attrCategoriesStep);
         fragmentList.add(attrSettingStep);
-
-//        final NewCharacterWizard newCharacterWizard = new NewCharacterWizard();
+        fragmentList.add(skillCategoriesStep);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, newCharacterPagerFragment).commit();
-        //.addToBackStack(null)
     }
 }

@@ -10,7 +10,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.OnTraitChangedListener;
+import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
