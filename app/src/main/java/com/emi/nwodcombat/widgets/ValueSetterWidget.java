@@ -160,4 +160,15 @@ public class ValueSetterWidget extends LinearLayout {
     public int getCurrentValue() {
         return currentValue;
     }
+
+    public int changeValue(int value, int pool) {
+        if (value > 0) {
+            if (pool > 0) {
+                pool -= increaseCurrentValue();
+            }
+        } else {
+            pool -= decreaseCurrentValue();
+        }
+        return pool;
+    }
 }

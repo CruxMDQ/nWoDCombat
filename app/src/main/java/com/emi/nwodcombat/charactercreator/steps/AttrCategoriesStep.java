@@ -85,11 +85,11 @@ public class AttrCategoriesStep extends WizardStep implements PagerStep.ParentSt
     public void clearChoices() {
         characterCreatorHelper
             .remove(Constants.CONTENT_DESC_ATTR_MENTAL)
-            .remove(Constants.MENTAL_POOL)
+            .remove(Constants.POOL_ATTR_MENTAL)
             .remove(Constants.CONTENT_DESC_ATTR_PHYSICAL)
-            .remove(Constants.PHYSICAL_POOL)
+            .remove(Constants.POOL_ATTR_PHYSICAL)
             .remove(Constants.CONTENT_DESC_ATTR_SOCIAL)
-            .remove(Constants.SOCIAL_POOL)
+            .remove(Constants.POOL_ATTR_SOCIAL)
             .remove(Constants.ATTR_INT)
             .remove(Constants.ATTR_WIT)
             .remove(Constants.ATTR_RES)

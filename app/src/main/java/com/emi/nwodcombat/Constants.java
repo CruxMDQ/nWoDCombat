@@ -28,9 +28,11 @@ public class Constants {
     public static final String CONTENT_DESC_SKILL_MENTAL = "Mental";
     public static final String CONTENT_DESC_SKILL_PHYSICAL = "Physical";
     public static final String CONTENT_DESC_SKILL_SOCIAL = "Social";
-    public static final String MENTAL_POOL = "poolMental";
-    public static final String PHYSICAL_POOL = "poolPhysical";
-    public static final String SOCIAL_POOL = "poolSocial";
+
+    public static final String POOL_ATTR_MENTAL = "poolMentalAttrs";
+    public static final String POOL_ATTR_PHYSICAL = "poolPhysicalAttrs";
+    public static final String POOL_ATTR_SOCIAL = "poolSocialAttrs";
+    public static final String POOL_SKILL_MENTAL = "poolMentalSkills";
 
     public static final String CATEGORY_PRIMARY = "Primary";
     public static final String CATEGORY_SECONDARY = "Secondary";
@@ -39,6 +41,10 @@ public class Constants {
     public static final int ATTR_PTS_PRIMARY = 5;
     public static final int ATTR_PTS_SECONDARY = 4;
     public static final int ATTR_PTS_TERTIARY = 3;
+
+    public static final int SKILL_PTS_PRIMARY = 11;
+    public static final int SKILL_PTS_SECONDARY = 7;
+    public static final int SKILL_PTS_TERTIARY = 4;
 
     public static final String ATTR_INT = "Intelligence";
     public static final String ATTR_WIT = "Wits";
@@ -50,5 +56,12 @@ public class Constants {
     public static final String ATTR_MAN = "Manipulation";
     public static final String ATTR_COM = "Composure";
 
-
+    public static final String SKILL_ACADEMICS = "Academics";
+    public static final String SKILL_COMPUTER = "Computer";
+    public static final String SKILL_CRAFTS = "Crafts";
+    public static final String SKILL_INVESTIGATION = "Investigation";
+    public static final String SKILL_MEDICINE = "Medicine";
+    public static final String SKILL_OCCULT = "Occult";
+    public static final String SKILL_POLITICS = "Politics";
+    public static final String SKILL_SCIENCE = "Science";
 }

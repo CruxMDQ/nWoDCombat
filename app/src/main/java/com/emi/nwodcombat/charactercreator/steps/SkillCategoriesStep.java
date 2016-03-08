@@ -2,7 +2,6 @@ package com.emi.nwodcombat.charactercreator.steps;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +40,6 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
 
     private ArrayList<Rule> categories;
 
-    private PagerMaster pagerMaster;
-
-    private CharacterCreatorHelper characterCreatorHelper;
-
     public SkillCategoriesStep() {
         characterCreatorHelper = CharacterCreatorHelper.getInstance();
     }
@@ -79,15 +74,15 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
     private ArrayList<Rule> generateCategories() {
         ArrayList<Rule> rules = new ArrayList<>();
 
-        rules.add(new Rule(Constants.CATEGORY_PRIMARY, false, Constants.ATTR_PTS_PRIMARY));
-        rules.add(new Rule(Constants.CATEGORY_SECONDARY, false, Constants.ATTR_PTS_SECONDARY));
-        rules.add(new Rule(Constants.CATEGORY_TERTIARY, false, Constants.ATTR_PTS_TERTIARY));
+        rules.add(new Rule(Constants.CATEGORY_PRIMARY, false, Constants.SKILL_PTS_PRIMARY));
+        rules.add(new Rule(Constants.CATEGORY_SECONDARY, false, Constants.SKILL_PTS_SECONDARY));
+        rules.add(new Rule(Constants.CATEGORY_TERTIARY, false, Constants.SKILL_PTS_TERTIARY));
 
         return rules;
     }
 
     protected void setUpUI() {
-        btnSetMentalSkillCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
+        btnSetMentalSkillCategory.setContentDescription(Constants.CONTENT_DESC_SKILL_MENTAL);
         btnSetMentalSkillCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +91,7 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
             }
         });
 
-        btnSetPhysicalSkillCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
+        btnSetPhysicalSkillCategory.setContentDescription(Constants.CONTENT_DESC_SKILL_PHYSICAL);
         btnSetPhysicalSkillCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +100,7 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
             }
         });
 
-        btnSetSocialSkillCategory.setContentDescription(Constants.CONTENT_DESC_ATTR_SOCIAL);
+        btnSetSocialSkillCategory.setContentDescription(Constants.CONTENT_DESC_SKILL_SOCIAL);
         btnSetSocialSkillCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,19 +132,19 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
             builder.append(category.getName());
 
             switch (category.getContentDescription()) {
-                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                case Constants.CONTENT_DESC_SKILL_MENTAL: {
                     txtSkillMental.setText(builder.toString());
                     txtSkillMental.setVisibility(View.VISIBLE);
                     mentalPoints = category.getValue();
                     break;
                 }
-                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                case Constants.CONTENT_DESC_SKILL_PHYSICAL: {
                     txtSkillPhysical.setText(builder.toString());
                     txtSkillPhysical.setVisibility(View.VISIBLE);
                     physicalPoints = category.getValue();
                     break;
                 }
-                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                case Constants.CONTENT_DESC_SKILL_SOCIAL: {
                     txtSkillSocial.setText(builder.toString());
                     txtSkillSocial.setVisibility(View.VISIBLE);
                     socialPoints = category.getValue();

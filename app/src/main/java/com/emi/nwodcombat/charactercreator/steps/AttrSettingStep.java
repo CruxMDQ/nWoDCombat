@@ -44,11 +44,7 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     @Bind(R.id.txtPoolMental) TextView txtPoolMental;
     @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
     @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
-
-    private PagerMaster pagerMaster;
-
-    private CharacterCreatorHelper characterCreatorHelper;
-
+    
     public AttrSettingStep() {
         characterCreatorHelper = CharacterCreatorHelper.getInstance();
     }
@@ -114,21 +110,21 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 
         switch(widget.getTraitCategory()) {
             case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                currentMentalPool = changeWidgetValue(value, currentMentalPool, widget);
+                currentMentalPool = widget.changeValue(value, currentMentalPool);
                 setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
-                characterCreatorHelper.putInt(Constants.MENTAL_POOL, currentMentalPool);
+                characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                currentPhysicalPool = changeWidgetValue(value, currentPhysicalPool, widget);
+                currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
                 setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
-                characterCreatorHelper.putInt(Constants.PHYSICAL_POOL, currentPhysicalPool);
+                characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                currentSocialPool = changeWidgetValue(value, currentSocialPool, widget);
+                currentSocialPool = widget.changeValue(value, currentSocialPool);
                 setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
-                characterCreatorHelper.putInt(Constants.SOCIAL_POOL, currentSocialPool);
+                characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
                 break;
             }
         }
@@ -148,17 +144,6 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
             text = titleString + " (no points remaining)";
         }
         textView.setText(text);
-    }
-
-    private int changeWidgetValue(int value, int pool, ValueSetterWidget widget) {
-        if (value > 0) {
-            if (pool > 0) {
-                pool -= widget.increaseCurrentValue();
-            }
-        } else {
-            pool -= widget.decreaseCurrentValue();
-        }
-        return pool;
     }
 
     public boolean hasLeftoverPoints() {
@@ -197,9 +182,9 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
         mentalPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_ATTR_MENTAL, 3);
         physicalPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_ATTR_PHYSICAL, 3);
         socialPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_ATTR_SOCIAL, 3);
-        currentMentalPool = characterCreatorHelper.getInt(Constants.MENTAL_POOL, mentalPoints);
-        currentPhysicalPool = characterCreatorHelper.getInt(Constants.PHYSICAL_POOL, physicalPoints);
-        currentSocialPool = characterCreatorHelper.getInt(Constants.SOCIAL_POOL, socialPoints);
+        currentMentalPool = characterCreatorHelper.getInt(Constants.POOL_ATTR_MENTAL, mentalPoints);
+        currentPhysicalPool = characterCreatorHelper.getInt(Constants.POOL_ATTR_PHYSICAL, physicalPoints);
+        currentSocialPool = characterCreatorHelper.getInt(Constants.POOL_ATTR_SOCIAL, socialPoints);
 
         setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
         setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
