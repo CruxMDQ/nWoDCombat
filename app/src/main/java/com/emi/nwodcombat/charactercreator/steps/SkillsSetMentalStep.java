@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/8/16.
  */
-public class SetMentalSkillsStep extends WizardStep implements PagerStep.ChildStep, OnTraitChangedListener {
+public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildStep, OnTraitChangedListener {
     private int mentalPoints;
     private int currentMentalPool;
 
@@ -36,7 +36,7 @@ public class SetMentalSkillsStep extends WizardStep implements PagerStep.ChildSt
 
     @Bind(R.id.txtMentalSkillsTitle) TextView txtMentalSkillsTitle;
 
-    public SetMentalSkillsStep() { characterCreatorHelper = CharacterCreatorHelper.getInstance();
+    public SkillsSetMentalStep() { super();
     }
 
     @Override
@@ -44,8 +44,6 @@ public class SetMentalSkillsStep extends WizardStep implements PagerStep.ChildSt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(
             getLayout(), container, false);
-
-//        setToolbarTitle(getToolbarTitle());
 
         ButterKnife.bind(this, view);
 
@@ -121,7 +119,7 @@ public class SetMentalSkillsStep extends WizardStep implements PagerStep.ChildSt
 
     @Override
     public String getToolbarTitle() {
-        return getString(R.string.title_cat_skills_set);
+        return getString(R.string.title_points_set);
     }
 
     @Override
@@ -155,19 +153,6 @@ public class SetMentalSkillsStep extends WizardStep implements PagerStep.ChildSt
         characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentMentalPool);
 
         checkCompletionConditions();
-    }
-
-    private void setPoolTitle(String titleString, int pool, TextView textView) {
-        String text;
-        if (pool > 0) {
-            text = titleString +
-                " (" +
-                pool +
-                " points remaining)";
-        } else {
-            text = titleString + " (no points remaining)";
-        }
-        textView.setText(text);
     }
 
     public boolean hasLeftoverPoints() {

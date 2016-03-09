@@ -7,10 +7,8 @@ public class Constants {
 
     public static final String DB_NAME = "nWoDDB";
 
-    public static final String SHAREDPREFS = "sharedPrefs";
+    public static final String TAG_FRAG_CHARACTER_CREATOR_PAGER = "characterCreatorPager";
 
-    public static final String DICE_ATTACKER = "DICE_ATTACKER";
-    public static final String DICE_DEFENDER = "DICE_DEFENDER";
     public static final String DICE_RULE_8_AGAIN = "8-again";
     public static final String DICE_RULE_9_AGAIN = "9-again";
     public static final String DICE_RULE_10_AGAIN = "10-again";
@@ -33,6 +31,7 @@ public class Constants {
     public static final String POOL_ATTR_PHYSICAL = "poolPhysicalAttrs";
     public static final String POOL_ATTR_SOCIAL = "poolSocialAttrs";
     public static final String POOL_SKILL_MENTAL = "poolMentalSkills";
+    public static final String POOL_SKILL_PHYSICAL = "poolPhysicalSkills";
 
     public static final String CATEGORY_PRIMARY = "Primary";
     public static final String CATEGORY_SECONDARY = "Secondary";
@@ -64,4 +63,13 @@ public class Constants {
     public static final String SKILL_OCCULT = "Occult";
     public static final String SKILL_POLITICS = "Politics";
     public static final String SKILL_SCIENCE = "Science";
+
+    public static final String SKILL_ATHLETICS = "Athletics";
+    public static final String SKILL_BRAWL = "Brawl";
+    public static final String SKILL_DRIVE = "Drive";
+    public static final String SKILL_FIREARMS = "Firearms";
+    public static final String SKILL_LARCENY = "Larceny";
+    public static final String SKILL_STEALTH = "Stealth";
+    public static final String SKILL_SURVIVAL = "Survival";
+    public static final String SKILL_WEAPONRY = "Weaponry";
 }

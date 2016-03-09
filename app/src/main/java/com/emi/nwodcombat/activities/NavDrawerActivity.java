@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.NewCharacterPagerFragment;
+import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerFragment;
 import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
-import com.emi.nwodcombat.charactercreator.steps.SetMentalSkillsStep;
+import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillCategoriesStep;
+import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ import butterknife.ButterKnife;
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
@@ -43,8 +43,6 @@ public class NavDrawerActivity extends AppCompatActivity
 
         loadCombatFragment();
 
-//        setUpFAB();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -54,16 +52,6 @@ public class NavDrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
-//    private void setUpFAB() {
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//            }
-//        });
-//    }
 
     @Override
     public void onBackPressed() {
@@ -105,7 +93,6 @@ public class NavDrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             loadNewCharacterWizard();
-            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -136,21 +123,24 @@ public class NavDrawerActivity extends AppCompatActivity
         AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();
         AttrSettingStep attrSettingStep = new AttrSettingStep();
         SkillCategoriesStep skillCategoriesStep = new SkillCategoriesStep();
-        SetMentalSkillsStep mentalSkillsStep = new SetMentalSkillsStep();
+        SkillsSetMentalStep mentalSkillsStep = new SkillsSetMentalStep();
+        SkillsSetPhysicalStep physicalSkillsStep = new SkillsSetPhysicalStep();
 
-        final NewCharacterPagerFragment newCharacterPagerFragment = NewCharacterPagerFragment.newInstance(fragmentList);
+        final CharacterCreatorPagerFragment characterCreatorPagerFragment = CharacterCreatorPagerFragment.newInstance(fragmentList);
 
-        attrCategoriesStep.setPagerMaster(newCharacterPagerFragment);
-        attrSettingStep.setPagerMaster(newCharacterPagerFragment);
-        skillCategoriesStep.setPagerMaster(newCharacterPagerFragment);
-        mentalSkillsStep.setPagerMaster(newCharacterPagerFragment);
+        attrCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
+        attrSettingStep.setPagerMaster(characterCreatorPagerFragment);
+        skillCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
+        mentalSkillsStep.setPagerMaster(characterCreatorPagerFragment);
+        physicalSkillsStep.setPagerMaster(characterCreatorPagerFragment);
 
         fragmentList.add(attrCategoriesStep);
         fragmentList.add(attrSettingStep);
         fragmentList.add(skillCategoriesStep);
         fragmentList.add(mentalSkillsStep);
+        fragmentList.add(physicalSkillsStep);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, newCharacterPagerFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
     }
 }

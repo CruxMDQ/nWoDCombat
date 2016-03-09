@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
 import android.support.v4.app.Fragment;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
@@ -35,6 +34,19 @@ public abstract class WizardStep extends Fragment implements PagerStep {
         TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
+    }
+
+    protected void setPoolTitle(String titleString, int pool, TextView textView) {
+        String text;
+        if (pool > 0) {
+            text = titleString +
+                " (" +
+                pool +
+                " points remaining)";
+        } else {
+            text = titleString + " (no points remaining)";
+        }
+        textView.setText(text);
     }
 
     protected abstract void setUpUI();

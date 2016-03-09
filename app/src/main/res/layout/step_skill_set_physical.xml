@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
             android:layout_gravity="center"
-            android:text="@string/cat_mental"
+            android:text="@string/cat_physical"
             android:textStyle="bold"/>
 
         <RelativeLayout

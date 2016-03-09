@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/3/16.
  */
-public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
+public class CharacterCreatorPagerFragment extends Fragment implements PagerMaster {
     CharacterCreatorStatePagerAdapter adapter;
     List<Fragment> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
@@ -32,8 +32,8 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
 
 //    private boolean isStepComplete;
 
-    public static NewCharacterPagerFragment newInstance(List<Fragment> fragments) {
-        NewCharacterPagerFragment fragment = new NewCharacterPagerFragment();
+    public static CharacterCreatorPagerFragment newInstance(List<Fragment> fragments) {
+        CharacterCreatorPagerFragment fragment = new CharacterCreatorPagerFragment();
         fragment.fragmentList = fragments;
         fragment.characterCreatorHelper = CharacterCreatorHelper.getInstance();
         return fragment;
@@ -107,6 +107,10 @@ public class NewCharacterPagerFragment extends Fragment implements PagerMaster {
     }
 
     public void moveToPreviousStep() {
-        pager.setCurrentItem(pager.getCurrentItem() - 1);
+        if (pager.getCurrentItem() != 0) {
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 }

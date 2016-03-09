@@ -20,5 +20,7 @@ public interface PagerStep {
 
     interface ChildStep {
         void retrieveChoices();
+
+        boolean hasLeftoverPoints();
     }
 }

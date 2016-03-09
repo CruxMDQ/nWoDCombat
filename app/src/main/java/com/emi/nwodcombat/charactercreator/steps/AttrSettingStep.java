@@ -46,7 +46,7 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
     
     public AttrSettingStep() {
-        characterCreatorHelper = CharacterCreatorHelper.getInstance();
+        super();
     }
 
     @Override
@@ -131,19 +131,6 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
         checkCompletionConditions();
     }
 
-    private void setPoolTitle(String titleString, int pool, TextView textView) {
-        String text;
-        if (pool > 0) {
-            text = titleString +
-                " (" +
-                pool +
-                " points remaining)";
-        } else {
-            text = titleString + " (no points remaining)";
-        }
-        textView.setText(text);
-    }
-
     public boolean hasLeftoverPoints() {
         return (currentMentalPool > 0 || currentPhysicalPool > 0 || currentSocialPool > 0);
     }
@@ -210,7 +197,7 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 
     @Override
     public String getToolbarTitle() {
-        return getString(R.string.title_cat_attrs_set);
+        return getString(R.string.title_points_set);
     }
 
     public void checkCompletionConditions() {

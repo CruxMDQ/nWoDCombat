@@ -41,7 +41,7 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
     private ArrayList<Rule> categories;
 
     public SkillCategoriesStep() {
-        characterCreatorHelper = CharacterCreatorHelper.getInstance();
+        super();
     }
 
     @Override

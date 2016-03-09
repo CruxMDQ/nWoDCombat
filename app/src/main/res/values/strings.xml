@@ -29,6 +29,7 @@
 
     <string name="title_cat_attrs_set">Set attribute categories</string>
     <string name="title_cat_skills_set">Set skill categories</string>
+    <string name="title_points_set">Distribute points</string>
     <string name="cat_mental">Mental</string>
     <string name="attr_int">Intelligence</string>
     <string name="attr_wits">Wits</string>
