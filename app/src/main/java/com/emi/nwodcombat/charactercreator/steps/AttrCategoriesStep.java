@@ -54,8 +54,6 @@ public class AttrCategoriesStep extends WizardStep implements PagerStep.ParentSt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
-        setToolbarTitle(container, getToolbarTitle());
-
         ButterKnife.bind(this, view);
 
         return view;

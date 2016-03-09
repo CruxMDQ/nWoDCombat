@@ -45,7 +45,7 @@ public class SetMentalSkillsStep extends WizardStep implements PagerStep.ChildSt
         View view = inflater.inflate(
             getLayout(), container, false);
 
-        setToolbarTitle(container, getToolbarTitle());
+//        setToolbarTitle(getToolbarTitle());
 
         ButterKnife.bind(this, view);
 

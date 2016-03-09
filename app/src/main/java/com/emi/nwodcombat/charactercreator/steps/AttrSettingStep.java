@@ -54,8 +54,6 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
-        setToolbarTitle(container, getToolbarTitle());
-
         ButterKnife.bind(this, view);
 
         return view;
@@ -203,12 +201,6 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 
     public void setPagerMaster(PagerMaster pagerMaster) {
         this.pagerMaster = pagerMaster;
-    }
-
-    protected void setToolbarTitle(ViewGroup container, String title) {
-        TextView txtToolbarTitle = (TextView) container.getRootView().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
-
-        txtToolbarTitle.setText(title);
     }
 
     @Override

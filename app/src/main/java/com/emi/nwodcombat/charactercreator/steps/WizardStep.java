@@ -22,8 +22,17 @@ public abstract class WizardStep extends Fragment implements PagerStep {
         characterCreatorHelper = CharacterCreatorHelper.getInstance();
     }
 
-    protected void setToolbarTitle(ViewGroup container, String title) {
-        TextView txtToolbarTitle = (TextView) container.getRootView().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
+    @Override
+    public void setUserVisibleHint(boolean isVisible) {
+        super.setUserVisibleHint(isVisible);
+
+        if (isVisible) {
+            setToolbarTitle(getToolbarTitle());
+        }
+    }
+
+    protected void setToolbarTitle(String title) {
+        TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
     }
