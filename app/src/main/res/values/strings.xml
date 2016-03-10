@@ -8,7 +8,9 @@
     <string name="button_ok">OK</string>
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
-    <string name="nbpk_title_attribute">Attribute</string>
+    <string name="title_attribute">Attribute</string>
+    <string name="title_attributes">Attributes</string>
+    <string name="title_skills">Skills</string>
 
     <string name="dialog_attacker_pool">Attacker\'s dice pool is %s.</string>
     <string name="dialog_attacker_pool_rerolls" formatted="false">Attacker\'s dice pool is %s, rerolling all %ss or better.</string>
@@ -30,6 +32,7 @@
     <string name="title_cat_attrs_set">Set attribute categories</string>
     <string name="title_cat_skills_set">Set skill categories</string>
     <string name="title_points_set">Distribute points</string>
+    <string name="title_summary">Summary</string>
     <string name="cat_mental">Mental</string>
     <string name="attr_int">Intelligence</string>
     <string name="attr_wits">Wits</string>
@@ -74,4 +77,9 @@
     <string name="skill_socialize">Socialize</string>
     <string name="skill_streetwise">Streetwise</string>
     <string name="skill_subterfuge">Subterfuge</string>
+
+    <string name="summary_attr_mental" formatted="false">Intelligence %s, Wits %s, Resolve %s</string>
+    <string name="summary_attr_physical" formatted="false">Strength %s, Dexterity %s, Stamina %s</string>
+    <string name="summary_attr_social" formatted="false">Presence %s, Manipulation %s, Composure %s</string>
+
 </resources>

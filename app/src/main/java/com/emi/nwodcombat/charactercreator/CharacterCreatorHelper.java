@@ -48,4 +48,8 @@ public class CharacterCreatorHelper {
             return result;
         } else return defaultValue;
     }
+
+    public HashMap<String, Object> getAll() {
+        return values;
+    }
 }

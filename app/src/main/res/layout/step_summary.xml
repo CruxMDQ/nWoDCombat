@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtAttributes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:layout_gravity="center"
+            android:text="@string/title_attributes"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_half"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/bkgd_cat_panel">
+
+            <LinearLayout
+                android:id="@+id/panelSummaryAttrMental"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_mental"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummaryAttrMental"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/panelSummaryAttrPhysical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/panelSummaryAttrMental"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_physical"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummaryAttrPhysical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/panelSummaryAttrSocial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/panelSummaryAttrPhysical"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_social"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummaryAttrSocial"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtSkills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:layout_gravity="center"
+            android:text="@string/title_skills"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_half"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/bkgd_cat_panel">
+
+            <LinearLayout
+                android:id="@+id/panelSummarySkillsMental"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_mental"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummarySkillsMental"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/panelSummarySkillsPhysical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/panelSummarySkillsMental"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_physical"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummarySkillsPhysical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/panelSummarySkillsSocial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/panelSummarySkillsPhysical"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_social"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummarySkillsSocial"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

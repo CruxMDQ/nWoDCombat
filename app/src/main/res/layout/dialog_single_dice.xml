@@ -10,7 +10,7 @@
         android:id="@+id/nbpk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:widgetTitle="@string/nbpk_title_attribute"
+        app:widgetTitle="@string/title_attribute"
         app:maximum="10"
         app:minimum="1"/>
 
