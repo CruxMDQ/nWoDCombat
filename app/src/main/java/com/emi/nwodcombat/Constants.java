@@ -32,6 +32,7 @@ public class Constants {
     public static final String POOL_ATTR_SOCIAL = "poolSocialAttrs";
     public static final String POOL_SKILL_MENTAL = "poolMentalSkills";
     public static final String POOL_SKILL_PHYSICAL = "poolPhysicalSkills";
+    public static final String POOL_SKILL_SOCIAL = "poolSocialSkills";
 
     public static final String CATEGORY_PRIMARY = "Primary";
     public static final String CATEGORY_SECONDARY = "Secondary";
@@ -72,4 +73,13 @@ public class Constants {
     public static final String SKILL_STEALTH = "Stealth";
     public static final String SKILL_SURVIVAL = "Survival";
     public static final String SKILL_WEAPONRY = "Weaponry";
+
+    public static final String SKILL_ANIMAL_KEN = "Animal Ken";
+    public static final String SKILL_EMPATHY = "Empathy";
+    public static final String SKILL_EXPRESSION = "Expression";
+    public static final String SKILL_INTIMIDATION = "Intimidation";
+    public static final String SKILL_PERSUASION = "Persuasion";
+    public static final String SKILL_SOCIALIZE = "Socialize";
+    public static final String SKILL_STREETWISE = "Streetwise";
+    public static final String SKILL_SUBTERFUGE = "Subterfuge";
 }

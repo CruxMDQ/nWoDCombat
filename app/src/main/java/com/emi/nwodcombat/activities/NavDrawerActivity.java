@@ -20,6 +20,7 @@ import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
+import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 
 import java.util.ArrayList;
@@ -125,6 +126,7 @@ public class NavDrawerActivity extends AppCompatActivity
         SkillCategoriesStep skillCategoriesStep = new SkillCategoriesStep();
         SkillsSetMentalStep mentalSkillsStep = new SkillsSetMentalStep();
         SkillsSetPhysicalStep physicalSkillsStep = new SkillsSetPhysicalStep();
+        SkillsSetSocialStep socialSkillsStep = new SkillsSetSocialStep();
 
         final CharacterCreatorPagerFragment characterCreatorPagerFragment = CharacterCreatorPagerFragment.newInstance(fragmentList);
 
@@ -133,12 +135,14 @@ public class NavDrawerActivity extends AppCompatActivity
         skillCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
         mentalSkillsStep.setPagerMaster(characterCreatorPagerFragment);
         physicalSkillsStep.setPagerMaster(characterCreatorPagerFragment);
+        socialSkillsStep.setPagerMaster(characterCreatorPagerFragment);
 
         fragmentList.add(attrCategoriesStep);
         fragmentList.add(attrSettingStep);
         fragmentList.add(skillCategoriesStep);
         fragmentList.add(mentalSkillsStep);
         fragmentList.add(physicalSkillsStep);
+        fragmentList.add(socialSkillsStep);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
