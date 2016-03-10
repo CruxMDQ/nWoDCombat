@@ -194,7 +194,37 @@ public class SkillCategoriesStep extends WizardStep implements AfterSettingRules
 
     @Override
     public void clearChoices() {
-
+        characterCreatorHelper
+            .remove(Constants.CONTENT_DESC_SKILL_MENTAL)
+            .remove(Constants.POOL_SKILL_MENTAL)
+            .remove(Constants.CONTENT_DESC_SKILL_PHYSICAL)
+            .remove(Constants.POOL_SKILL_PHYSICAL)
+            .remove(Constants.CONTENT_DESC_SKILL_SOCIAL)
+            .remove(Constants.POOL_SKILL_SOCIAL)
+            .remove(Constants.SKILL_ACADEMICS)
+            .remove(Constants.SKILL_ANIMAL_KEN)
+            .remove(Constants.SKILL_ATHLETICS)
+            .remove(Constants.SKILL_BRAWL)
+            .remove(Constants.SKILL_COMPUTER)
+            .remove(Constants.SKILL_CRAFTS)
+            .remove(Constants.SKILL_DRIVE)
+            .remove(Constants.SKILL_EMPATHY)
+            .remove(Constants.SKILL_EXPRESSION)
+            .remove(Constants.SKILL_FIREARMS)
+            .remove(Constants.SKILL_INTIMIDATION)
+            .remove(Constants.SKILL_INVESTIGATION)
+            .remove(Constants.SKILL_LARCENY)
+            .remove(Constants.SKILL_MEDICINE)
+            .remove(Constants.SKILL_OCCULT)
+            .remove(Constants.SKILL_PERSUASION)
+            .remove(Constants.SKILL_POLITICS)
+            .remove(Constants.SKILL_SCIENCE)
+            .remove(Constants.SKILL_SOCIALIZE)
+            .remove(Constants.SKILL_STEALTH)
+            .remove(Constants.SKILL_STREETWISE)
+            .remove(Constants.SKILL_SUBTERFUGE)
+            .remove(Constants.SKILL_SURVIVAL)
+            .remove(Constants.SKILL_WEAPONRY);
     }
 
     public void setPagerMaster(PagerMaster pagerMaster) {
