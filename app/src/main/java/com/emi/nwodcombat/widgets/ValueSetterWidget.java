@@ -47,7 +47,7 @@ public class ValueSetterWidget extends LinearLayout {
             TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetterWidget, 0, 0);
 
             setValueName(aAttrs.getString(R.styleable.ValueSetterWidget_valueName));
-            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 1));
+            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 0));
 
             if (preferences.getBoolean(Constants.SETTING_IGNORE_STAT_CAPS, false)) {
                 setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 20));
