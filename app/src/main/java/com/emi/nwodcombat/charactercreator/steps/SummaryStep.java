@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.db.Character;
 
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/10/16.
  */
-public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
+public class SummaryStep extends WizardStep implements PagerStep.ChildStep, PagerFinisher {
     @Bind(R.id.txtSummaryAttrMental) TextView txtSummaryAttrMental;
     @Bind(R.id.txtSummaryAttrPhysical) TextView txtSummaryAttrPhysical;
     @Bind(R.id.txtSummaryAttrSocial) TextView txtSummaryAttrSocial;
@@ -67,9 +68,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
     }
 
     @Override
-    protected void setUpUI() {
-
-    }
+    protected void setUpUI() { }
 
     @Override
     public void checkCompletionConditions() {
@@ -272,6 +271,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
         Character character = new Character();
 
         character.setName("Test");
+        character.setPlayer("Test");
+        character.setConcept("Test");
 
         character.setIntelligence(intelligence);
         character.setWits(wits);
@@ -313,5 +314,10 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
         character.setSubterfuge(subterfuge);
 
         pagerMaster.commitChoices(character);
+    }
+
+    @Override
+    public void onPagerFinished() {
+        saveCharacter();
     }
 }

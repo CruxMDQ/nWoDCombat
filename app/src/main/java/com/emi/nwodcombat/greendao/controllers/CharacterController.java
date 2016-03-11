@@ -12,7 +12,9 @@ import com.emi.nwodcombat.model.db.Character;
 public class CharacterController extends BaseController<Character> {
     protected static CharacterController instance;
 
-    public static CharacterController getInstance() { return instance; }
+    public static CharacterController getInstance() {
+        return instance;
+    }
 
     public static CharacterController getInstance(Context context) {
         if (instance == null) {

@@ -22,9 +22,7 @@ abstract public class BaseController<T> {
     }
 
     public long save(T item) {
-        long result = dao.insert(item);
-        Log.d(this.getClass().toString(), "Estate ID: " + result);
-        return result;
+        return dao.insert(item);
     }
 
     public List<T> getList() {

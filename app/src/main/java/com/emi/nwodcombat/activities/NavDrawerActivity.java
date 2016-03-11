@@ -131,7 +131,7 @@ public class NavDrawerActivity extends AppCompatActivity
         SkillsSetSocialStep socialSkillsStep = new SkillsSetSocialStep();
         SummaryStep summaryStep = new SummaryStep();
 
-        final CharacterCreatorPagerFragment characterCreatorPagerFragment = CharacterCreatorPagerFragment.newInstance(fragmentList);
+        final CharacterCreatorPagerFragment characterCreatorPagerFragment = CharacterCreatorPagerFragment.newInstance(fragmentList, summaryStep);
 
         attrCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
         attrSettingStep.setPagerMaster(characterCreatorPagerFragment);

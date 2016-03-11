@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.activities.NavDrawerActivity;
+import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
@@ -31,15 +32,17 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     List<Fragment> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
     CharacterController controller;
+    PagerFinisher pagerFinisher;
 
     @Bind(R.id.viewPager) ViewPager pager;
     @Bind(R.id.btnPrevious) Button btnPrevious;
     @Bind(R.id.btnNext) Button btnNext;
 
-    public static CharacterCreatorPagerFragment newInstance(List<Fragment> fragments) {
+    public static CharacterCreatorPagerFragment newInstance(List<Fragment> fragments, PagerFinisher pagerFinisher) {
         CharacterCreatorPagerFragment fragment = new CharacterCreatorPagerFragment();
-        fragment.fragmentList = fragments;
         fragment.characterCreatorHelper = CharacterCreatorHelper.getInstance();
+        fragment.fragmentList = fragments;
+        fragment.pagerFinisher = pagerFinisher;
         return fragment;
     }
 
@@ -110,7 +113,7 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
 
     @Override
     public void commitChoices(Character character) {
-        controller = CharacterController.getInstance();
+        controller = CharacterController.getInstance(getContext());
 
         long result = controller.save(character);
 
@@ -139,6 +142,6 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     }
 
     private void finishWizard() {
-        Toast.makeText(getContext(), "Implement creator committing", Toast.LENGTH_SHORT).show();
+        pagerFinisher.onPagerFinished();
     }
 }
