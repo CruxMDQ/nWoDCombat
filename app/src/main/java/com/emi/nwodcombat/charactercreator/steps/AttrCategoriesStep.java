@@ -74,6 +74,15 @@ public class AttrCategoriesStep extends WizardStep implements PagerStep.ParentSt
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisible) {
+        super.setUserVisibleHint(isVisible);
+
+        if (isVisible) {
+            pagerMaster.checkStepIsComplete(false, this);
+        }
+    }
+
+    @Override
     public void afterSettingRules(@Nullable Rule rule) {
         clearChoices();
         setButtonText(rule);
