@@ -51,6 +51,10 @@ public class Constants {
     public static final int SKILL_PTS_SECONDARY = 7;
     public static final int SKILL_PTS_TERTIARY = 4;
 
+    public static final String CHARACTER_NAME = "Name";
+    public static final String CHARACTER_CONCEPT = "Concept";
+    public static final String CHARACTER_PLAYER = "Player";
+
     public static final String ATTR_INT = "Intelligence";
     public static final String ATTR_WIT = "Wits";
     public static final String ATTR_RES = "Resolve";

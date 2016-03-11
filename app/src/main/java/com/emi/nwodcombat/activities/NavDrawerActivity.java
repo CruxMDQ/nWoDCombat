@@ -18,6 +18,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerFragment;
 import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
+import com.emi.nwodcombat.charactercreator.steps.PersonalInfoStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
@@ -124,6 +125,7 @@ public class NavDrawerActivity extends AppCompatActivity
     private void loadNewCharacterWizard() {
         List<Fragment> fragmentList = new ArrayList<>();
 
+        PersonalInfoStep personalInfoStep = new PersonalInfoStep();
         AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();
         AttrSettingStep attrSettingStep = new AttrSettingStep();
         SkillCategoriesStep skillCategoriesStep = new SkillCategoriesStep();
@@ -134,6 +136,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         final CharacterCreatorPagerFragment characterCreatorPagerFragment = CharacterCreatorPagerFragment.newInstance(fragmentList, summaryStep);
 
+        personalInfoStep.setPagerMaster(characterCreatorPagerFragment);
         attrCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
         attrSettingStep.setPagerMaster(characterCreatorPagerFragment);
         skillCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
@@ -142,6 +145,7 @@ public class NavDrawerActivity extends AppCompatActivity
         socialSkillsStep.setPagerMaster(characterCreatorPagerFragment);
         summaryStep.setPagerMaster(characterCreatorPagerFragment);
 
+        fragmentList.add(personalInfoStep);
         fragmentList.add(attrCategoriesStep);
         fragmentList.add(attrSettingStep);
         fragmentList.add(skillCategoriesStep);

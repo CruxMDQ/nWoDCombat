@@ -25,12 +25,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="button_add">Add</string>
     <string name="button_finish">Finish</string>
     <string name="button_next">Next</string>
     <string name="button_previous">Previous</string>
     <string name="button_set">Set</string>
 
     <!-- Fragment titles -->
+    <string name="title_personal_info">Personal info</string>
     <string name="title_cat_attrs_set">Set attribute categories</string>
     <string name="title_cat_skills_set">Set skill categories</string>
     <string name="title_points_set">Distribute points</string>
@@ -88,5 +90,11 @@
     <string name="setting_cheat">Add points freely</string>
     <string name="setting_char_creator">Character creator</string>
     <string name="setting_ignore_caps">Ignore stat caps</string>
+    <string name="hint_step_personal_info_name">Name</string>
+    <string name="hint_step_personal_info_player">Player</string>
+    <string name="default_step_personal_info_player">Storyteller</string>
+    <string name="hint_step_personal_info_concept">Concept</string>
+    <string name="label_step_personal_info_virtue">Virtue:</string>
+    <string name="label_step_personal_info_vice">Vice:</string>
 
 </resources>
