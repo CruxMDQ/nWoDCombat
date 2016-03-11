@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.widgets;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 
@@ -19,6 +21,8 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/1/16.
  */
 public class ValueSetterWidget extends LinearLayout {
+    private static SharedPreferences preferences;
+
     @Bind(R.id.lblValue) TextView lblValue;
     @Bind(R.id.panelValue) LinearLayout panelValue;
     @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
@@ -35,12 +39,22 @@ public class ValueSetterWidget extends LinearLayout {
     public ValueSetterWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        if (ValueSetterWidget.preferences == null) {
+            preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+
         if (!isInEditMode()) {
             TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetterWidget, 0, 0);
 
             setValueName(aAttrs.getString(R.styleable.ValueSetterWidget_valueName));
             setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 1));
-            setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 5));
+
+            if (preferences.getBoolean(Constants.SETTING_IGNORE_STAT_CAPS, false)) {
+                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 20));
+            } else {
+                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 5));
+            }
+
             setTraitCategory(aAttrs.getString(R.styleable.ValueSetterWidget_traitCategory));
 
             currentValue = defaultValue;

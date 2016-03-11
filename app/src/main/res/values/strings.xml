@@ -81,5 +81,8 @@
     <string name="summary_attr_mental" formatted="false">Intelligence %s, Wits %s, Resolve %s</string>
     <string name="summary_attr_physical" formatted="false">Strength %s, Dexterity %s, Stamina %s</string>
     <string name="summary_attr_social" formatted="false">Presence %s, Manipulation %s, Composure %s</string>
+    <string name="setting_cheat">Add points freely</string>
+    <string name="setting_char_creator">Character creator</string>
+    <string name="setting_ignore_caps">Ignore stat caps</string>
 
 </resources>

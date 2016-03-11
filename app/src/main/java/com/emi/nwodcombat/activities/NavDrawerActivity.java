@@ -23,6 +23,7 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
+import com.emi.nwodcombat.fragments.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            loadSettingsFragment();
         }
 
         return super.onOptionsItemSelected(item);
@@ -151,4 +152,11 @@ public class NavDrawerActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
     }
+
+    private void loadSettingsFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new SettingsFragment())
+                .addToBackStack(Constants.TAG_FRAG_SETTINGS).commit();
+    }
+
 }
