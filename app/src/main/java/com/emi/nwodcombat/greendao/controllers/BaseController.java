@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.greendao.controllers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.greendao.DaoMaster;

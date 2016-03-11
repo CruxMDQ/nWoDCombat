@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
@@ -170,5 +171,15 @@ public class NavDrawerActivity extends AppCompatActivity
             FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
             manager.popBackStackImmediate(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
+    }
+
+    protected void setToolbarTitle(String title) {
+        TextView txtToolbarTitle = (TextView) findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
+
+        txtToolbarTitle.setText(title);
+    }
+
+    public String getToolbarTitle() {
+        return getString(R.string.app_name);
     }
 }
