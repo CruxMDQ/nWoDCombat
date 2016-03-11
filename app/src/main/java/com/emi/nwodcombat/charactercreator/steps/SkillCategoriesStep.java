@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CategorySettingDialog;
-import com.emi.nwodcombat.charactercreator.CharacterCreatorHelper;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;

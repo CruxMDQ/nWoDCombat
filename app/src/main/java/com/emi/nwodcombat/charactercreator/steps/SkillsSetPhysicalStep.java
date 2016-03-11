@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/9/16.
  */
 public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.ChildStep, OnTraitChangedListener {
+    private SharedPreferences preferences;
+
     private int physicalPoints;
     private int currentPhysicalPool;
 
@@ -72,7 +76,11 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
 
         currentPhysicalPool = characterCreatorHelper.getInt(Constants.POOL_SKILL_PHYSICAL, physicalPoints);
 
-        setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPhysicalSkillsTitle);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPhysicalSkillsTitle);
+        } else {
+            txtPhysicalSkillsTitle.setText(getString(R.string.cat_physical));
+        }
 
         valueSetterAthletics.setCurrentValue(characterCreatorHelper.getInt(Constants.SKILL_ATHLETICS, 0));
         valueSetterBrawl.setCurrentValue(characterCreatorHelper.getInt(Constants.SKILL_BRAWL, 0));
@@ -88,9 +96,13 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     public void onTraitChanged(Object caller, int value) {
         ValueSetterWidget widget = (ValueSetterWidget) caller;
 
-        currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
-        setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPhysicalSkillsTitle);
-        characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentPhysicalPool);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
+            setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPhysicalSkillsTitle);
+            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentPhysicalPool);
+        } else {
+            widget.changeValue(value, currentPhysicalPool);
+        }
 
         checkCompletionConditions();
 
@@ -157,7 +169,13 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     }
 
     public boolean hasLeftoverPoints() {
-        return currentPhysicalPool > 0;
+        return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && currentPhysicalPool > 0;
     }
 
+    public SharedPreferences getPreferences() {
+        if (preferences == null) {
+            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+        return preferences;
+    }
 }

@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/9/16.
  */
 public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildStep, OnTraitChangedListener{
+    private SharedPreferences preferences;
+
     private int socialPoints;
     private int currentSocialPool;
 
@@ -71,7 +75,11 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
 
         currentSocialPool = characterCreatorHelper.getInt(Constants.POOL_SKILL_SOCIAL, socialPoints);
 
-        setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtSocialSkillsTitle);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtSocialSkillsTitle);
+        } else {
+            txtSocialSkillsTitle.setText(getString(R.string.cat_social));
+        }
 
         valueSetterAnimalKen.setCurrentValue(characterCreatorHelper.getInt(Constants.SKILL_ANIMAL_KEN, 0));
         valueSetterEmpathy.setCurrentValue(characterCreatorHelper.getInt(Constants.SKILL_EMPATHY, 0));
@@ -86,16 +94,20 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
 
     @Override
     public boolean hasLeftoverPoints() {
-        return currentSocialPool > 0;
+        return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && currentSocialPool > 0;
     }
 
     @Override
     public void onTraitChanged(Object caller, int value) {
         ValueSetterWidget widget = (ValueSetterWidget) caller;
 
-        currentSocialPool = widget.changeValue(value, currentSocialPool);
-        setPoolTitle(getString(R.string.cat_physical), currentSocialPool, txtSocialSkillsTitle);
-        characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentSocialPool);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            currentSocialPool = widget.changeValue(value, currentSocialPool);
+            setPoolTitle(getString(R.string.cat_physical), currentSocialPool, txtSocialSkillsTitle);
+            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentSocialPool);
+        } else {
+            widget.changeValue(value, currentSocialPool);
+        }
 
         checkCompletionConditions();
     }
@@ -158,5 +170,12 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
     @Override
     public int getLayout() {
         return R.layout.step_skill_set_social;
+    }
+
+    public SharedPreferences getPreferences() {
+        if (preferences == null) {
+            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+        return preferences;
     }
 }

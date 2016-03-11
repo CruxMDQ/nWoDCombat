@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,6 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.CharacterCreatorHelper;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.widgets.ValueSetterWidget;
@@ -22,6 +23,8 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/8/16.
  */
 public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildStep, OnTraitChangedListener {
+    private SharedPreferences preferences;
+
     private int mentalPoints;
     private int currentMentalPool;
 
@@ -132,7 +135,11 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
         mentalPoints = characterCreatorHelper.getInt(Constants.CONTENT_DESC_SKILL_MENTAL, 0);
         currentMentalPool = characterCreatorHelper.getInt(Constants.POOL_SKILL_MENTAL, mentalPoints);
 
-        setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtMentalSkillsTitle);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtMentalSkillsTitle);
+        } else {
+            txtMentalSkillsTitle.setText(getString(R.string.cat_mental));
+        }
 
         valueSetterAcademics.setCurrentValue(characterCreatorHelper.getInt(Constants.SKILL_ACADEMICS, 0));
         valueSetterComputer.setCurrentValue(characterCreatorHelper.getInt(Constants.SKILL_COMPUTER, 0));
@@ -148,14 +155,25 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
     public void onTraitChanged(Object caller, int value) {
         ValueSetterWidget widget = (ValueSetterWidget) caller;
 
-        currentMentalPool = widget.changeValue(value, currentMentalPool);
-        setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtMentalSkillsTitle);
-        characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentMentalPool);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            currentMentalPool = widget.changeValue(value, currentMentalPool);
+            setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtMentalSkillsTitle);
+            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentMentalPool);
+        } else {
+            widget.changeValue(value, currentMentalPool);
+        }
 
         checkCompletionConditions();
     }
 
     public boolean hasLeftoverPoints() {
-        return currentMentalPool > 0;
+        return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && currentMentalPool > 0;
+    }
+
+    public SharedPreferences getPreferences() {
+        if (preferences == null) {
+            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+        return preferences;
     }
 }

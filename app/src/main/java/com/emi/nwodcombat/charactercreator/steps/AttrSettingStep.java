@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,8 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/1/16.
  */
 public class AttrSettingStep extends WizardStep implements OnTraitChangedListener, PagerStep.ChildStep {
+
+    private SharedPreferences preferences;
 
     private int mentalPoints;
     private int currentMentalPool;
@@ -105,33 +109,51 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     public void onTraitChanged(Object caller, int value) {
         ValueSetterWidget widget = (ValueSetterWidget) caller;
 
-        switch(widget.getTraitCategory()) {
-            case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                currentMentalPool = widget.changeValue(value, currentMentalPool);
-                setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
-                characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
-                break;
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            switch (widget.getTraitCategory()) {
+                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                    currentMentalPool = widget.changeValue(value, currentMentalPool);
+                    setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
+                    characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                    currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
+                    setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
+                    characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                    currentSocialPool = widget.changeValue(value, currentSocialPool);
+                    setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
+                    characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
+                    break;
+                }
             }
-            case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
-                setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
-                characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
-                break;
-            }
-            case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                currentSocialPool = widget.changeValue(value, currentSocialPool);
-                setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
-                characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
-                break;
+        } else {
+            switch (widget.getTraitCategory()) {
+                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                    widget.changeValue(value, currentMentalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                    widget.changeValue(value, currentPhysicalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                    widget.changeValue(value, currentSocialPool);
+                    break;
+                }
             }
         }
+
         characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
 
         checkCompletionConditions();
     }
 
     public boolean hasLeftoverPoints() {
-        return (currentMentalPool > 0 || currentPhysicalPool > 0 || currentSocialPool > 0);
+        return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && (currentMentalPool > 0 || currentPhysicalPool > 0 || currentSocialPool > 0);
     }
 
     @Override
@@ -170,9 +192,15 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
         currentPhysicalPool = characterCreatorHelper.getInt(Constants.POOL_ATTR_PHYSICAL, physicalPoints);
         currentSocialPool = characterCreatorHelper.getInt(Constants.POOL_ATTR_SOCIAL, socialPoints);
 
-        setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
-        setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
-        setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
+            setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
+            setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
+        } else {
+            txtPoolMental.setText(getString(R.string.cat_mental));
+            txtPoolPhysical.setText(getString(R.string.cat_physical));
+            txtPoolSocial.setText(getString(R.string.cat_social));
+        }
 
         valueSetterIntelligence.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_INT, 1));
         valueSetterWits.setCurrentValue(characterCreatorHelper.getInt(Constants.ATTR_WIT, 1));
@@ -201,5 +229,12 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 
     public void checkCompletionConditions() {
         pagerMaster.checkStepIsComplete(!hasLeftoverPoints(), this);
+    }
+
+    public SharedPreferences getPreferences() {
+        if (preferences == null) {
+            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+        return preferences;
     }
 }
