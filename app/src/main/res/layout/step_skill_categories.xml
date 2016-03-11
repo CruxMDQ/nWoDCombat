@@ -33,7 +33,7 @@
             android:id="@+id/btnSetMentalSkillCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/set"
+            android:text="@string/button_set"
             android:layout_weight="1"/>
         
     </LinearLayout>
@@ -66,7 +66,7 @@
             android:id="@+id/btnSetPhysicalSkillCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/set"
+            android:text="@string/button_set"
             android:layout_weight="1"/>
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:id="@+id/btnSetSocialSkillCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/set"
+            android:text="@string/button_set"
             android:layout_weight="1"/>
     </LinearLayout>
 

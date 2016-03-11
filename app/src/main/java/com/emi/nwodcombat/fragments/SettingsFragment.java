@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
@@ -37,11 +38,6 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisible) {
-        super.setUserVisibleHint(isVisible);
-    }
-
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -53,11 +49,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setUpUI() {
+        setToolbarTitle(getToolbarTitle());
+
         chkCheat.setChecked(preferences.getBoolean(Constants.SETTING_CHEAT, false));
         chkCheat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(Constants.SETTING_CHEAT, isChecked);
                 editor.apply();
@@ -68,7 +65,6 @@ public class SettingsFragment extends Fragment {
         chkIgnoreStatCaps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(Constants.SETTING_IGNORE_STAT_CAPS, isChecked);
                 editor.apply();
@@ -78,5 +74,15 @@ public class SettingsFragment extends Fragment {
 
     public int getLayout() {
         return R.layout.fragment_settings;
+    }
+
+    protected void setToolbarTitle(String title) {
+        TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
+
+        txtToolbarTitle.setText(title);
+    }
+
+    public String getToolbarTitle() {
+        return getString(R.string.title_settings);
     }
 }
