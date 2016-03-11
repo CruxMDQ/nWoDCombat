@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
+import com.emi.nwodcombat.model.db.Character;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,10 +33,10 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
     private Integer intelligence, wits, resolve;
     private Integer strength, dexterity, stamina;
     private Integer presence, manipulation, composure;
-    
-//    private Integer academics, computer, crafts, investigation, medicine, occult, politics, science;
-//    private Integer athletics, brawl, drive, firearms, larceny, stealth, survival, weaponry;
-//    private Integer animalKen, empathy, expression, intimidation, persuasion, socialize, streetwise, subterfuge;
+
+    private Integer academics, computer, crafts, investigation, medicine, occult, politics, science;
+    private Integer athletics, brawl, drive, firearms, larceny, stealth, survival, weaponry;
+    private Integer animalKen, empathy, expression, intimidation, persuasion, socialize, streetwise, subterfuge;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +55,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
 
         if (isVisible) {
             retrieveChoices();
-            pagerMaster.checkStepIsComplete(false, this);
+            pagerMaster.checkStepIsComplete(true, this);
         }
     }
 
@@ -72,7 +73,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
 
     @Override
     public void checkCompletionConditions() {
-
+        pagerMaster.checkStepIsComplete(!hasLeftoverPoints(), this);
     }
 
     @Override
@@ -104,32 +105,32 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
         manipulation = (Integer) values.get(Constants.ATTR_MAN);
         composure = (Integer) values.get(Constants.ATTR_COM);
         
-//        academics = (Integer) values.get(Constants.SKILL_ACADEMICS);
-//        computer = (Integer) values.get(Constants.SKILL_COMPUTER);
-//        crafts = (Integer) values.get(Constants.SKILL_CRAFTS);
-//        investigation = (Integer) values.get(Constants.SKILL_INVESTIGATION);
-//        medicine = (Integer) values.get(Constants.SKILL_MEDICINE);
-//        occult = (Integer) values.get(Constants.SKILL_OCCULT);
-//        politics = (Integer) values.get(Constants.SKILL_POLITICS);
-//        science = (Integer) values.get(Constants.SKILL_SCIENCE);
-//
-//        athletics = (Integer) values.get(Constants.SKILL_ATHLETICS);
-//        brawl = (Integer) values.get(Constants.SKILL_BRAWL);
-//        drive = (Integer) values.get(Constants.SKILL_DRIVE);
-//        firearms = (Integer) values.get(Constants.SKILL_FIREARMS);
-//        larceny = (Integer) values.get(Constants.SKILL_LARCENY);
-//        stealth = (Integer) values.get(Constants.SKILL_STEALTH);
-//        survival = (Integer) values.get(Constants.SKILL_SURVIVAL);
-//        weaponry = (Integer) values.get(Constants.SKILL_WEAPONRY);
-//
-//        animalKen = (Integer) values.get(Constants.SKILL_ANIMAL_KEN);
-//        empathy = (Integer) values.get(Constants.SKILL_EMPATHY);
-//        expression = (Integer) values.get(Constants.SKILL_EXPRESSION);
-//        intimidation = (Integer) values.get(Constants.SKILL_INTIMIDATION);
-//        persuasion = (Integer) values.get(Constants.SKILL_PERSUASION);
-//        socialize = (Integer) values.get(Constants.SKILL_SOCIALIZE);
-//        streetwise = (Integer) values.get(Constants.SKILL_STREETWISE);
-//        subterfuge = (Integer) values.get(Constants.SKILL_SUBTERFUGE);
+        academics = (Integer) values.get(Constants.SKILL_ACADEMICS);
+        computer = (Integer) values.get(Constants.SKILL_COMPUTER);
+        crafts = (Integer) values.get(Constants.SKILL_CRAFTS);
+        investigation = (Integer) values.get(Constants.SKILL_INVESTIGATION);
+        medicine = (Integer) values.get(Constants.SKILL_MEDICINE);
+        occult = (Integer) values.get(Constants.SKILL_OCCULT);
+        politics = (Integer) values.get(Constants.SKILL_POLITICS);
+        science = (Integer) values.get(Constants.SKILL_SCIENCE);
+
+        athletics = (Integer) values.get(Constants.SKILL_ATHLETICS);
+        brawl = (Integer) values.get(Constants.SKILL_BRAWL);
+        drive = (Integer) values.get(Constants.SKILL_DRIVE);
+        firearms = (Integer) values.get(Constants.SKILL_FIREARMS);
+        larceny = (Integer) values.get(Constants.SKILL_LARCENY);
+        stealth = (Integer) values.get(Constants.SKILL_STEALTH);
+        survival = (Integer) values.get(Constants.SKILL_SURVIVAL);
+        weaponry = (Integer) values.get(Constants.SKILL_WEAPONRY);
+
+        animalKen = (Integer) values.get(Constants.SKILL_ANIMAL_KEN);
+        empathy = (Integer) values.get(Constants.SKILL_EMPATHY);
+        expression = (Integer) values.get(Constants.SKILL_EXPRESSION);
+        intimidation = (Integer) values.get(Constants.SKILL_INTIMIDATION);
+        persuasion = (Integer) values.get(Constants.SKILL_PERSUASION);
+        socialize = (Integer) values.get(Constants.SKILL_SOCIALIZE);
+        streetwise = (Integer) values.get(Constants.SKILL_STREETWISE);
+        subterfuge = (Integer) values.get(Constants.SKILL_SUBTERFUGE);
 
         txtSummaryAttrMental.setText(getString(R.string.summary_attr_mental, intelligence, wits, resolve));
         txtSummaryAttrPhysical.setText(getString(R.string.summary_attr_physical, strength, dexterity, stamina));
@@ -246,10 +247,10 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
     private void populateSkillField(TextView textView, ArrayList<Map.Entry<String, Object>> skills) {
         StringBuilder builder = new StringBuilder();
 
-        Iterator iterator = skills.iterator();
+        Iterator<Map.Entry<String, Object>> iterator = skills.iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+            Map.Entry<String, Object> entry = iterator.next();
 
             builder.append(entry.getKey());
             builder.append(" ");
@@ -265,5 +266,52 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep {
     @Override
     public boolean hasLeftoverPoints() {
         return false;
+    }
+
+    public void saveCharacter() {
+        Character character = new Character();
+
+        character.setName("Test");
+
+        character.setIntelligence(intelligence);
+        character.setWits(wits);
+        character.setResolve(resolve);
+
+        character.setStrength(strength);
+        character.setDexterity(dexterity);
+        character.setStamina(stamina);
+
+        character.setPresence(presence);
+        character.setManipulation(manipulation);
+        character.setComposure(composure);
+
+        character.setAcademics(academics);
+        character.setComputer(computer);
+        character.setCrafts(crafts);
+        character.setInvestigation(investigation);
+        character.setMedicine(medicine);
+        character.setOccult(occult);
+        character.setPolitics(politics);
+        character.setScience(science);
+
+        character.setAthletics(athletics);
+        character.setBrawl(brawl);
+        character.setDrive(drive);
+        character.setFirearms(firearms);
+        character.setLarceny(larceny);
+        character.setStealth(stealth);
+        character.setSurvival(survival);
+        character.setWeaponry(weaponry);
+
+        character.setAnimalKen(animalKen);
+        character.setEmpathy(empathy);
+        character.setExpression(expression);
+        character.setIntimidation(intimidation);
+        character.setPersuasion(persuasion);
+        character.setSocialize(socialize);
+        character.setStrength(streetwise);
+        character.setSubterfuge(subterfuge);
+
+        pagerMaster.commitChoices(character);
     }
 }

@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.charactercreator;
 
+import android.support.annotation.Nullable;
+
 import java.util.HashMap;
 
 /**
@@ -22,8 +24,10 @@ public class CharacterCreatorHelper {
     }
 
 
-    public void putAll(HashMap<String, Object> newValues) {
-        values.putAll(newValues);
+    public void putAll(@Nullable HashMap<String, Object> newValues) {
+        if (newValues != null) {
+            values.putAll(newValues);
+        }
     }
 
     public CharacterCreatorHelper putInt(String key, Integer value) {

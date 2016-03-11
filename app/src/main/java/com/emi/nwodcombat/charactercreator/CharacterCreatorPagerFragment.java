@@ -3,15 +3,20 @@ package com.emi.nwodcombat.charactercreator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
+import com.emi.nwodcombat.greendao.controllers.CharacterController;
+import com.emi.nwodcombat.model.db.Character;
 
 import java.util.List;
 
@@ -25,12 +30,11 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     CharacterCreatorStatePagerAdapter adapter;
     List<Fragment> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
+    CharacterController controller;
 
     @Bind(R.id.viewPager) ViewPager pager;
     @Bind(R.id.btnPrevious) Button btnPrevious;
     @Bind(R.id.btnNext) Button btnNext;
-
-//    private boolean isStepComplete;
 
     public static CharacterCreatorPagerFragment newInstance(List<Fragment> fragments) {
         CharacterCreatorPagerFragment fragment = new CharacterCreatorPagerFragment();
@@ -57,7 +61,6 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
             public boolean onTouch(View v, MotionEvent event) {
                 // Disables step switching on swipe
                 return true;
-//                return !isStepComplete;
             }
         });
 
@@ -71,7 +74,12 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveToNextStep();
+                int lastPage = pager.getAdapter().getCount() - 1;
+                if (pager.getCurrentItem() < lastPage) {
+                    moveToNextStep();
+                } else {
+                    finishWizard();
+                }
             }
         });
 
@@ -92,7 +100,6 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     @Override
     public void checkStepIsComplete(final boolean isComplete, PagerStep caller) {
         if (isComplete) {
-//            isStepComplete = isComplete;
             btnNext.setEnabled(true);
             btnPrevious.setEnabled(true);
             characterCreatorHelper.putAll(caller.saveChoices());
@@ -101,9 +108,26 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
         }
     }
 
+    @Override
+    public void commitChoices(Character character) {
+        controller = CharacterController.getInstance();
+
+        long result = controller.save(character);
+
+        Log.d("Character creator", String.valueOf(result));
+
+        ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
+    }
+
     public void moveToNextStep() {
-        // TODO Setup logic for final step
         pager.setCurrentItem(pager.getCurrentItem() + 1);
+        int lastPage = pager.getAdapter().getCount() - 1;
+
+        if (pager.getCurrentItem() == lastPage) {
+            btnNext.setText(getString(R.string.button_finish));
+        } else {
+            btnNext.setText(getString(R.string.button_next));
+        }
     }
 
     public void moveToPreviousStep() {
@@ -112,5 +136,9 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
         } else {
             getFragmentManager().popBackStack();
         }
+    }
+
+    private void finishWizard() {
+        Toast.makeText(getContext(), "Implement creator committing", Toast.LENGTH_SHORT).show();
     }
 }

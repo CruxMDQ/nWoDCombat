@@ -159,4 +159,16 @@ public class NavDrawerActivity extends AppCompatActivity
                 .addToBackStack(Constants.TAG_FRAG_SETTINGS).commit();
     }
 
+    public void onCharacterCreatorFinish() {
+        clearBackStack();
+        loadCombatFragment();
+    }
+
+    private void clearBackStack() {
+        FragmentManager manager = getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+            manager.popBackStackImmediate(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+    }
 }

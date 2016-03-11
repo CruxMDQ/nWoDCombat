@@ -68,5 +68,6 @@ public class Constants {
     public static final String FIELD_TRAIT_WILLPOWER_TEMPORARY = "WillpowerReserve";
     public static final String FIELD_TRAIT_POTENCY = "Potency";
     public static final String FIELD_TRAIT_MORALITY = "Morality";
+    public static final String FIELD_TRAIT_TEMPLATE = "Template";
 
 }
