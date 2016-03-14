@@ -96,5 +96,6 @@
     <string name="hint_step_personal_info_concept">Concept</string>
     <string name="label_step_personal_info_virtue">Virtue:</string>
     <string name="label_step_personal_info_vice">Vice:</string>
+    <string name="spinner_nothing_selected_option_pick">Select an option</string>
 
 </resources>

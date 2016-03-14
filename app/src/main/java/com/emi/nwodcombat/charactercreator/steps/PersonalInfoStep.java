@@ -6,7 +6,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
@@ -23,6 +25,12 @@ public class PersonalInfoStep extends WizardStep {
     @Bind(R.id.editConcept) EditText editConcept;
     @Bind(R.id.editName) EditText editName;
     @Bind(R.id.editPlayer) EditText editPlayer;
+
+    @Bind(R.id.spinnerVice) Spinner spinnerVice;
+    @Bind(R.id.spinnerVirtue) Spinner spinnerVirtue;
+
+    @Bind(R.id.btnAddVice) Button btnAddVice;
+    @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
