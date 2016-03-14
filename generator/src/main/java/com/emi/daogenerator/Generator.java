@@ -2,7 +2,9 @@ package com.emi.daogenerator;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
+import de.greenrobot.daogenerator.ToManyWithJoinEntity;
 
 public class Generator {
     private final static int VERSION_NUMBER = 1;
@@ -20,7 +22,7 @@ public class Generator {
     private static void addCharacterEntity(Schema schema) {
         Entity character = schema.addEntity(Constants.ENTITY_CHARACTER);
 
-        character.addIdProperty().primaryKey().autoincrement().getProperty();
+        Property idCharacter = character.addLongProperty(Constants.FIELD_ID_CHARACTER).primaryKey().autoincrement().getProperty();
         character.addStringProperty(Constants.FIELD_NAME).notNull();
         character.addStringProperty(Constants.FIELD_PLAYER).notNull();
 //        character.addStringProperty(Constants.FIELD_CHRONICLE).notNull();
@@ -75,5 +77,33 @@ public class Generator {
         character.addIntProperty(Constants.FIELD_TRAIT_POTENCY);
         character.addIntProperty(Constants.FIELD_TRAIT_WILLPOWER_PERMANENT);
         character.addIntProperty(Constants.FIELD_TRAIT_WILLPOWER_TEMPORARY);
+
+        // Vice entity - necessary here because of M:N relations
+        Entity vice = schema.addEntity(Constants.ENTITY_VICE);
+
+        Property idVice = vice.addLongProperty(Constants.FIELD_ID_VICE).primaryKey().autoincrement().getProperty();
+        vice.addStringProperty(Constants.FIELD_NAME).notNull();
+
+        // Virtue entity - necessary here because of M:N relations
+        Entity virtue = schema.addEntity(Constants.ENTITY_VIRTUE);
+
+        Property idVirtue = virtue.addLongProperty(Constants.FIELD_ID_VIRTUE).primaryKey().autoincrement().getProperty();
+        virtue.addStringProperty(Constants.FIELD_NAME).notNull();
+
+        // M:N relationship entity
+        Entity characterVices = schema.addEntity(Constants.ENTITY_CHARACTER_VICES);
+        characterVices.addIdProperty().primaryKey().notNull().autoincrement();
+        characterVices.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
+        characterVices.addLongProperty(Constants.FIELD_ID_VICE).notNull();
+
+        // M:N relationship entity
+        Entity characterVirtues = schema.addEntity(Constants.ENTITY_CHARACTER_VIRTUES);
+        characterVirtues.addIdProperty().primaryKey().notNull().autoincrement();
+        characterVirtues.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
+        characterVirtues.addLongProperty(Constants.FIELD_ID_VIRTUE).notNull();
+
+        ToManyWithJoinEntity toManyCharVices = character.addToMany(vice, characterVices, idCharacter, idVice);
+        
+        ToManyWithJoinEntity toManyCharVirtues = character.addToMany(virtue, characterVirtues, idCharacter, idVirtue);
     }
 }

@@ -6,12 +6,20 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.charactercreator.NothingSelectedSpinnerAdapter;
+import com.emi.nwodcombat.greendao.controllers.BaseController;
+import com.emi.nwodcombat.greendao.controllers.ViceController;
+import com.emi.nwodcombat.greendao.controllers.VirtueController;
+import com.emi.nwodcombat.model.db.Vice;
+import com.emi.nwodcombat.model.db.Virtue;
 
 import java.util.HashMap;
 
@@ -32,10 +40,21 @@ public class PersonalInfoStep extends WizardStep {
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
+    private long idVice;
+    private String viceName;
+    private ViceController viceController;
+
+    private Long idVirtue;
+    private String virtueName;
+    private VirtueController virtueController;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
+
+        viceController = ViceController.getInstance(getContext());
+        virtueController = VirtueController.getInstance(getContext());
 
         ButterKnife.bind(this, view);
 
@@ -81,6 +100,9 @@ public class PersonalInfoStep extends WizardStep {
         editConcept.addTextChangedListener(textWatcher);
         editName.addTextChangedListener(textWatcher);
         editPlayer.addTextChangedListener(textWatcher);
+        
+        setUpViceSpinner();
+        setUpVirtueSpinner();
     }
 
     @Override
@@ -113,5 +135,67 @@ public class PersonalInfoStep extends WizardStep {
         return editConcept.getText().toString().equals("")
                 || editName.getText().toString().equals("")
                 || editPlayer.getText().toString().equals("");
+    }
+
+    private void setUpViceSpinner() {
+        NothingSelectedSpinnerAdapter adapter = setUpViceAdapter();
+
+        spinnerVice.setAdapter(adapter);
+
+        spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (id != -1) {
+                    Vice vice = ((Vice) spinnerVice.getItemAtPosition(position));
+                    idVice = vice.getIdVice();
+                    viceName = vice.getName();
+                }
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> parent) { }
+        });
+    }
+
+    private NothingSelectedSpinnerAdapter setUpViceAdapter() {
+        ArrayAdapter<Vice> viceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, viceController.getList());
+
+        viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return new NothingSelectedSpinnerAdapter(
+            viceArrayAdapter,
+            R.layout.spinner_nothing_selected,
+            getContext()
+        );
+    }
+
+    private void setUpVirtueSpinner() {
+        NothingSelectedSpinnerAdapter adapter = setUpVirtueAdapter();
+
+        spinnerVirtue.setAdapter(adapter);
+
+        spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (id != -1) {
+                    Virtue virtue = ((Virtue) spinnerVirtue.getItemAtPosition(position));
+                    idVirtue = virtue.getIdVirtue();
+                    virtueName = virtue.getName();
+                }
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> parent) { }
+        });
+    }
+
+    private NothingSelectedSpinnerAdapter setUpVirtueAdapter() {
+        ArrayAdapter<Virtue> viceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, virtueController.getList());
+
+        viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return new NothingSelectedSpinnerAdapter(
+            viceArrayAdapter,
+            R.layout.spinner_nothing_selected,
+            getContext()
+        );
     }
 }

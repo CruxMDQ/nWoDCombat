@@ -97,5 +97,19 @@
     <string name="label_step_personal_info_virtue">Virtue:</string>
     <string name="label_step_personal_info_vice">Vice:</string>
     <string name="spinner_nothing_selected_option_pick">Select an option</string>
+    <string name="vice_lust">Lust</string>
+    <string name="vice_pride">Pride</string>
+    <string name="greed">Greed</string>
+    <string name="vice_gluttony">Gluttony</string>
+    <string name="vice_envy">Envy</string>
+    <string name="vice_sloth">Sloth</string>
+    <string name="vice_wrath">Wrath</string>
+    <string name="virtue_charity">Charity</string>
+    <string name="virtue_faith">Faith</string>
+    <string name="virtue_fortitude">Fortitude</string>
+    <string name="virtue_hope">Hope</string>
+    <string name="virtue_justice">Justice</string>
+    <string name="virtue_prudence">Prudence</string>
+    <string name="virtue_temperance">Temperance</string>
 
 </resources>

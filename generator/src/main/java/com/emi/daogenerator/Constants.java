@@ -12,8 +12,16 @@ public class Constants {
 
     // Entities
     public static final String ENTITY_CHARACTER = "Character";
+    public static final String ENTITY_VICE = "Vice";
+    public static final String ENTITY_VIRTUE = "Virtue";
+    public static final String ENTITY_CHARACTER_VICES = "CharacterVices";
+    public static final String ENTITY_CHARACTER_VIRTUES = "CharacterVirtues";
 
     // ------ Fields ------
+    public static final String FIELD_ID_CHARACTER = "idCharacter";
+    public static final String FIELD_ID_VICE = "idVice";
+    public static final String FIELD_ID_VIRTUE = "idVirtue";
+
     public static final String FIELD_NAME = "Name";
     public static final String FIELD_PLAYER = "Player";
     public static final String FIELD_CHRONICLE = "Chronicle";
@@ -69,5 +77,4 @@ public class Constants {
     public static final String FIELD_TRAIT_POTENCY = "Potency";
     public static final String FIELD_TRAIT_MORALITY = "Morality";
     public static final String FIELD_TRAIT_TEMPLATE = "Template";
-
 }
