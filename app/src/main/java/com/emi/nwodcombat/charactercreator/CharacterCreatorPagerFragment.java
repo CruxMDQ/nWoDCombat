@@ -30,7 +30,7 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     CharacterCreatorStatePagerAdapter adapter;
     List<Fragment> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
-    CharacterController controller;
+//    CharacterController controller;
     PagerFinisher pagerFinisher;
 
     @Bind(R.id.viewPager) ViewPager pager;
@@ -110,16 +110,18 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
         }
     }
 
-    @Override
-    public void commitChoices(Character character) {
-        controller = CharacterController.getInstance(getContext());
-
-        long result = controller.save(character);
-
-        Log.d("Character creator", String.valueOf(result));
-
-        ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
-    }
+//    @Override
+//    public long commitChoices(Character character) {
+//        controller = CharacterController.getInstance(getContext());
+//
+//        long result = controller.save(character);
+//
+//        Log.d("Character creator", String.valueOf(result));
+//
+//        ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
+//
+//        return result;
+//    }
 
     public void moveToNextStep() {
         pager.setCurrentItem(pager.getCurrentItem() + 1);

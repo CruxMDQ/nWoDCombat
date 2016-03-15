@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.NothingSelectedSpinnerAdapter;
-import com.emi.nwodcombat.greendao.controllers.BaseController;
 import com.emi.nwodcombat.greendao.controllers.ViceController;
 import com.emi.nwodcombat.greendao.controllers.VirtueController;
 import com.emi.nwodcombat.model.db.Vice;
@@ -100,7 +99,12 @@ public class PersonalInfoStep extends WizardStep {
         editConcept.addTextChangedListener(textWatcher);
         editName.addTextChangedListener(textWatcher);
         editPlayer.addTextChangedListener(textWatcher);
-        
+
+        if (Constants.MODE_TEST) {
+            editName.setText(R.string.test_info_name);
+            editConcept.setText(R.string.test_info_concept);
+        }
+
         setUpViceSpinner();
         setUpVirtueSpinner();
     }
@@ -117,6 +121,8 @@ public class PersonalInfoStep extends WizardStep {
         output.put(Constants.CHARACTER_CONCEPT, editConcept.getText().toString());
         output.put(Constants.CHARACTER_NAME, editName.getText().toString());
         output.put(Constants.CHARACTER_PLAYER, editPlayer.getText().toString());
+        output.put(Constants.CHARACTER_VICE, idVice);
+        output.put(Constants.CHARACTER_VIRTUE, idVirtue);
 
         return output;
     }

@@ -5,6 +5,8 @@ package com.emi.nwodcombat;
  */
 public class Constants {
 
+    public static final boolean MODE_TEST = true;
+
     public static final String DB_NAME = "nWoDDB";
 
     public static final String TAG_FRAG_CHARACTER_CREATOR_PAGER = "characterCreatorPager";
@@ -54,6 +56,8 @@ public class Constants {
     public static final String CHARACTER_NAME = "Name";
     public static final String CHARACTER_CONCEPT = "Concept";
     public static final String CHARACTER_PLAYER = "Player";
+    public static final String CHARACTER_VICE = "Vice";
+    public static final String CHARACTER_VIRTUE = "Virtue";
 
     public static final String ATTR_INT = "Intelligence";
     public static final String ATTR_WIT = "Wits";

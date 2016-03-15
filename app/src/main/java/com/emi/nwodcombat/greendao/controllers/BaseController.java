@@ -12,12 +12,16 @@ import de.greenrobot.dao.AbstractDao;
 
 @SuppressWarnings("unchecked")
 abstract public class BaseController<T> {
+    private static DaoSession session;
     AbstractDao dao;
 
     DaoSession getSession(Context context) {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, Constants.DB_NAME, null);
-        DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
-        return daoMaster.newSession();
+        if (session == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, Constants.DB_NAME, null);
+            DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
+            session = daoMaster.newSession();
+        }
+        return session;
     }
 
     public long save(T item) {

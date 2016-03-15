@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,16 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
+import com.emi.nwodcombat.greendao.controllers.BaseController;
+import com.emi.nwodcombat.greendao.controllers.CharacterController;
+import com.emi.nwodcombat.greendao.controllers.CharacterVicesController;
+import com.emi.nwodcombat.greendao.controllers.CharacterVirtuesController;
 import com.emi.nwodcombat.model.db.Character;
+import com.emi.nwodcombat.model.db.CharacterVices;
+import com.emi.nwodcombat.model.db.CharacterVirtues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +46,15 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     private Integer academics, computer, crafts, investigation, medicine, occult, politics, science;
     private Integer athletics, brawl, drive, firearms, larceny, stealth, survival, weaponry;
     private Integer animalKen, empathy, expression, intimidation, persuasion, socialize, streetwise, subterfuge;
-    
+
+    private String characterName, characterConcept, characterPlayer;
+
+    private Long characterVirtue, characterVice;
+
+    private CharacterController characterController;
+    private CharacterVicesController characterVicesController;
+    private CharacterVirtuesController characterVirtuesController;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,7 +109,13 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     @Override
     public void retrieveChoices() {
         HashMap<String, Object> values = characterCreatorHelper.getAll();
-        
+
+        characterName = (String) values.get(Constants.CHARACTER_NAME);
+        characterConcept = (String) values.get(Constants.CHARACTER_CONCEPT);
+        characterPlayer = (String) values.get(Constants.CHARACTER_PLAYER);
+        characterVice = (Long) values.get(Constants.CHARACTER_VICE);
+        characterVirtue = (Long) values.get(Constants.CHARACTER_VIRTUE);
+
         intelligence = (Integer) values.get(Constants.ATTR_INT);
         wits = (Integer) values.get(Constants.ATTR_WIT);
         resolve = (Integer) values.get(Constants.ATTR_RES);
@@ -140,99 +162,104 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         ArrayList<Map.Entry<String, Object>> socialSkills = new ArrayList<>();
         
         for (Map.Entry<String, Object> entry : values.entrySet()) {
-            if (((Integer) entry.getValue()) > 0) {
-                switch (entry.getKey()) {
-                    case Constants.SKILL_ACADEMICS: {
-                        mentalSkills.add(entry);            // 1
-                        break;
-                    }
-                    case Constants.SKILL_ANIMAL_KEN: {
-                        socialSkills.add(entry);            // 1
-                        break;
-                    }
-                    case Constants.SKILL_ATHLETICS: {
-                        physicalSkills.add(entry);          // 1
-                        break;
-                    }
-                    case Constants.SKILL_BRAWL: {
-                        physicalSkills.add(entry);          // 2
-                        break;
-                    }
-                    case Constants.SKILL_COMPUTER: {
-                        mentalSkills.add(entry);            // 2
-                        break;
-                    }
-                    case Constants.SKILL_CRAFTS: {
-                        mentalSkills.add(entry);            // 3
-                        break;
-                    }
-                    case Constants.SKILL_DRIVE: {
-                        physicalSkills.add(entry);          // 3
-                        break;
-                    }
-                    case Constants.SKILL_EMPATHY: {
-                        socialSkills.add(entry);            // 2
-                        break;
-                    }
-                    case Constants.SKILL_EXPRESSION: {
-                        socialSkills.add(entry);            // 3
-                        break;
-                    }
-                    case Constants.SKILL_FIREARMS: {
-                        physicalSkills.add(entry);          // 4
-                        break;
-                    }
-                    case Constants.SKILL_INTIMIDATION: {
-                        socialSkills.add(entry);            // 4
-                        break;
-                    }
-                    case Constants.SKILL_INVESTIGATION: {
-                        mentalSkills.add(entry);            // 4
-                        break;
-                    }
-                    case Constants.SKILL_MEDICINE: {
-                        mentalSkills.add(entry);            // 5
-                        break;
-                    }
-                    case Constants.SKILL_OCCULT: {
-                        mentalSkills.add(entry);            // 6
-                        break;
-                    }
-                    case Constants.SKILL_PERSUASION: {
-                        socialSkills.add(entry);            // 5
-                        break;
-                    }
-                    case Constants.SKILL_POLITICS: {
-                        mentalSkills.add(entry);            // 7
-                        break;
-                    }
-                    case Constants.SKILL_SCIENCE: {
-                        mentalSkills.add(entry);            // 8
-                        break;
-                    }
-                    case Constants.SKILL_SOCIALIZE: {
-                        socialSkills.add(entry);            // 6
-                        break;
-                    }
-                    case Constants.SKILL_STEALTH: {
-                        physicalSkills.add(entry);          // 5
-                        break;
-                    }
-                    case Constants.SKILL_STREETWISE: {
-                        socialSkills.add(entry);            // 7
-                        break;
-                    }
-                    case Constants.SKILL_SUBTERFUGE: {
-                        socialSkills.add(entry);            // 8
-                        break;
-                    }
-                    case Constants.SKILL_SURVIVAL: {
-                        physicalSkills.add(entry);          // 7
-                        break;
-                    }
-                    case Constants.SKILL_WEAPONRY: {
-                        physicalSkills.add(entry);          // 8
-                        break;
+
+            if (entry.getValue() != null && entry.getValue() instanceof Integer) {
+                int key = (Integer) entry.getValue();
+
+                if (key > 0) {
+                    switch (entry.getKey()) {
+                        case Constants.SKILL_ACADEMICS: {
+                            mentalSkills.add(entry);            // 1
+                            break;
+                        }
+                        case Constants.SKILL_ANIMAL_KEN: {
+                            socialSkills.add(entry);            // 1
+                            break;
+                        }
+                        case Constants.SKILL_ATHLETICS: {
+                            physicalSkills.add(entry);          // 1
+                            break;
+                        }
+                        case Constants.SKILL_BRAWL: {
+                            physicalSkills.add(entry);          // 2
+                            break;
+                        }
+                        case Constants.SKILL_COMPUTER: {
+                            mentalSkills.add(entry);            // 2
+                            break;
+                        }
+                        case Constants.SKILL_CRAFTS: {
+                            mentalSkills.add(entry);            // 3
+                            break;
+                        }
+                        case Constants.SKILL_DRIVE: {
+                            physicalSkills.add(entry);          // 3
+                            break;
+                        }
+                        case Constants.SKILL_EMPATHY: {
+                            socialSkills.add(entry);            // 2
+                            break;
+                        }
+                        case Constants.SKILL_EXPRESSION: {
+                            socialSkills.add(entry);            // 3
+                            break;
+                        }
+                        case Constants.SKILL_FIREARMS: {
+                            physicalSkills.add(entry);          // 4
+                            break;
+                        }
+                        case Constants.SKILL_INTIMIDATION: {
+                            socialSkills.add(entry);            // 4
+                            break;
+                        }
+                        case Constants.SKILL_INVESTIGATION: {
+                            mentalSkills.add(entry);            // 4
+                            break;
+                        }
+                        case Constants.SKILL_MEDICINE: {
+                            mentalSkills.add(entry);            // 5
+                            break;
+                        }
+                        case Constants.SKILL_OCCULT: {
+                            mentalSkills.add(entry);            // 6
+                            break;
+                        }
+                        case Constants.SKILL_PERSUASION: {
+                            socialSkills.add(entry);            // 5
+                            break;
+                        }
+                        case Constants.SKILL_POLITICS: {
+                            mentalSkills.add(entry);            // 7
+                            break;
+                        }
+                        case Constants.SKILL_SCIENCE: {
+                            mentalSkills.add(entry);            // 8
+                            break;
+                        }
+                        case Constants.SKILL_SOCIALIZE: {
+                            socialSkills.add(entry);            // 6
+                            break;
+                        }
+                        case Constants.SKILL_STEALTH: {
+                            physicalSkills.add(entry);          // 5
+                            break;
+                        }
+                        case Constants.SKILL_STREETWISE: {
+                            socialSkills.add(entry);            // 7
+                            break;
+                        }
+                        case Constants.SKILL_SUBTERFUGE: {
+                            socialSkills.add(entry);            // 8
+                            break;
+                        }
+                        case Constants.SKILL_SURVIVAL: {
+                            physicalSkills.add(entry);          // 7
+                            break;
+                        }
+                        case Constants.SKILL_WEAPONRY: {
+                            physicalSkills.add(entry);          // 8
+                            break;
+                        }
                     }
                 }
             }
@@ -270,9 +297,9 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     public void saveCharacter() {
         Character character = new Character();
 
-        character.setName("Test");
-        character.setPlayer("Test");
-        character.setConcept("Test");
+        character.setName(characterName);
+        character.setPlayer(characterPlayer);
+        character.setConcept(characterConcept);
 
         character.setIntelligence(intelligence);
         character.setWits(wits);
@@ -313,11 +340,57 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         character.setStrength(streetwise);
         character.setSubterfuge(subterfuge);
 
-        pagerMaster.commitChoices(character);
+        long charId = commitChoices(character);
+
+        CharacterVices vices = new CharacterVices();
+
+        vices.setIdCharacter(charId);
+        vices.setIdVice(characterVice);
+
+        commitChoices(vices);
+
+        CharacterVirtues virtues = new CharacterVirtues();
+        
+        virtues.setIdCharacter(charId);
+        virtues.setIdVirtue(characterVirtue);
+
+        commitChoices(virtues);
+
+        ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
     }
 
     @Override
     public void onPagerFinished() {
         saveCharacter();
+    }
+
+    public long commitChoices(Character character) {
+        characterController = CharacterController.getInstance(getContext());
+
+        long result = characterController.save(character);
+
+        Log.d("Character creator", String.valueOf(result));
+
+        return result;
+    }
+
+    public long commitChoices(CharacterVices characterVices) {
+        characterVicesController = CharacterVicesController.getInstance(getContext());
+
+        long result = characterVicesController.save(characterVices);
+
+        Log.d("Character creator", String.valueOf(result));
+
+        return result;
+    }
+
+    public long commitChoices(CharacterVirtues characterVirtues) {
+        characterVirtuesController = CharacterVirtuesController.getInstance(getContext());
+
+        long result = characterVirtuesController.save(characterVirtues);
+
+        Log.d("Character creator", String.valueOf(result));
+
+        return result;
     }
 }

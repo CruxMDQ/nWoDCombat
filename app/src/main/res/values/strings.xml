@@ -112,4 +112,7 @@
     <string name="virtue_prudence">Prudence</string>
     <string name="virtue_temperance">Temperance</string>
 
+    <string name="test_info_name">Homura Akemi</string>
+    <string name="test_info_concept">The Determinator meets The Gunslinger meets Magical Girl</string>
+
 </resources>
