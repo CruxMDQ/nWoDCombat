@@ -15,8 +15,15 @@ import android.widget.Spinner;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.NothingSelectedSpinnerAdapter;
+import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
+import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
+import com.emi.nwodcombat.greendao.controllers.DemeanorController;
+import com.emi.nwodcombat.greendao.controllers.NatureController;
 import com.emi.nwodcombat.greendao.controllers.ViceController;
 import com.emi.nwodcombat.greendao.controllers.VirtueController;
+import com.emi.nwodcombat.model.Record;
+import com.emi.nwodcombat.model.db.Demeanor;
+import com.emi.nwodcombat.model.db.Nature;
 import com.emi.nwodcombat.model.db.Vice;
 import com.emi.nwodcombat.model.db.Virtue;
 
@@ -28,16 +35,28 @@ import butterknife.ButterKnife;
 /**
  * Created by Crux on 3/11/2016.
  */
-public class PersonalInfoStep extends WizardStep {
+public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordListener {
     @Bind(R.id.editConcept) EditText editConcept;
     @Bind(R.id.editName) EditText editName;
     @Bind(R.id.editPlayer) EditText editPlayer;
 
+    @Bind(R.id.spinnerDemeanor) Spinner spinnerDemeanor;
+    @Bind(R.id.spinnerNature) Spinner spinnerNature;
     @Bind(R.id.spinnerVice) Spinner spinnerVice;
     @Bind(R.id.spinnerVirtue) Spinner spinnerVirtue;
 
+    @Bind(R.id.btnAddDemeanor) Button btnAddDemeanor;
+    @Bind(R.id.btnAddNature) Button btnAddNature;
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
+
+    private Long idDemeanor;
+    private String demeanorName;
+    private DemeanorController demeanorController;
+
+    private Long idNature;
+    private String natureName;
+    private NatureController natureController;
 
     private long idVice;
     private String viceName;
@@ -52,6 +71,8 @@ public class PersonalInfoStep extends WizardStep {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
+        demeanorController = DemeanorController.getInstance(getContext());
+        natureController = NatureController.getInstance(getContext());
         viceController = ViceController.getInstance(getContext());
         virtueController = VirtueController.getInstance(getContext());
 
@@ -60,7 +81,8 @@ public class PersonalInfoStep extends WizardStep {
         return view;
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
@@ -105,8 +127,37 @@ public class PersonalInfoStep extends WizardStep {
             editConcept.setText(R.string.test_info_concept);
         }
 
+        setUpDemeanorSpinner();
+        setUpNatureSpinner();
         setUpViceSpinner();
         setUpVirtueSpinner();
+
+        btnAddDemeanor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddRecordDialog dialog = AddRecordDialog.newInstance(
+                        Demeanor.class,
+                        getString(R.string.dialog_demeanor_new_title),
+                        getString(R.string.dialog_demeanor_new_hint),
+                        PersonalInfoStep.this
+                );
+                dialog.show(getActivity().getFragmentManager(), "Some tag");
+            }
+        });
+
+        btnAddNature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddRecordDialog dialog = AddRecordDialog.newInstance(
+                        Nature.class,
+                        getString(R.string.dialog_nature_new_title),
+                        getString(R.string.dialog_nature_new_hint),
+                        PersonalInfoStep.this
+                );
+                dialog.show(getActivity().getFragmentManager(), "Some tag");
+            }
+        });
+
     }
 
     @Override
@@ -138,9 +189,77 @@ public class PersonalInfoStep extends WizardStep {
     }
 
     public boolean hasEmptyValues() {
+        int selectedDemeanor = spinnerDemeanor.getSelectedItemPosition();
         return editConcept.getText().toString().equals("")
                 || editName.getText().toString().equals("")
-                || editPlayer.getText().toString().equals("");
+                || editPlayer.getText().toString().equals("")
+                || selectedDemeanor == 0;
+    }
+
+    private void setUpDemeanorSpinner() {
+        NothingSelectedSpinnerAdapter adapter = setUpDemeanorAdapter();
+
+        spinnerDemeanor.setAdapter(adapter);
+
+        spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (id != -1) {
+                    Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
+                    idDemeanor = demeanor.getIdDemeanor();
+                    demeanorName = demeanor.getName();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private NothingSelectedSpinnerAdapter setUpDemeanorAdapter() {
+        ArrayAdapter<Demeanor> demeanorArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, demeanorController.getList());
+
+        demeanorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return new NothingSelectedSpinnerAdapter<>(
+                demeanorArrayAdapter,
+                R.layout.spinner_nothing_selected,
+                getContext()
+        );
+    }
+
+    private void setUpNatureSpinner() {
+        NothingSelectedSpinnerAdapter adapter = setUpNatureAdapter();
+
+        spinnerNature.setAdapter(adapter);
+
+        spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (id != -1) {
+                    Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
+                    idNature = nature.getIdNature();
+                    natureName = nature.getName();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private NothingSelectedSpinnerAdapter setUpNatureAdapter() {
+        ArrayAdapter<Nature> natureArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, natureController.getList());
+
+        natureArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        return new NothingSelectedSpinnerAdapter<>(
+                natureArrayAdapter,
+                R.layout.spinner_nothing_selected,
+                getContext()
+        );
     }
 
     private void setUpViceSpinner() {
@@ -158,7 +277,9 @@ public class PersonalInfoStep extends WizardStep {
                 }
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) { }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -167,10 +288,10 @@ public class PersonalInfoStep extends WizardStep {
 
         viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        return new NothingSelectedSpinnerAdapter(
-            viceArrayAdapter,
-            R.layout.spinner_nothing_selected,
-            getContext()
+        return new NothingSelectedSpinnerAdapter<>(
+                viceArrayAdapter,
+                R.layout.spinner_nothing_selected,
+                getContext()
         );
     }
 
@@ -189,7 +310,9 @@ public class PersonalInfoStep extends WizardStep {
                 }
             }
 
-            @Override public void onNothingSelected(AdapterView<?> parent) { }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -198,10 +321,21 @@ public class PersonalInfoStep extends WizardStep {
 
         viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        return new NothingSelectedSpinnerAdapter(
-            viceArrayAdapter,
-            R.layout.spinner_nothing_selected,
-            getContext()
+        return new NothingSelectedSpinnerAdapter<>(
+                viceArrayAdapter,
+                R.layout.spinner_nothing_selected,
+                getContext()
         );
+    }
+
+    @Override
+    public void afterCreatingRecord(Record record) {
+        if (record instanceof Demeanor) {
+            demeanorController.save((Demeanor) record);
+            setUpDemeanorSpinner();
+        } else if (record instanceof Nature) {
+            natureController.save((Nature) record);
+            setUpNatureSpinner();
+        }
     }
 }

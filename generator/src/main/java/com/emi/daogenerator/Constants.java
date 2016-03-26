@@ -7,18 +7,25 @@ public class Constants {
     public static final String PACKAGE_MODELS = "com.emi.nwodcombat.model.db";
     public static final String PACKAGE_DAO = "com.emi.nwodcombat.greendao";
 
+    public static final String CLASS_RECORD = "Record";
+
     // Root directory is assumed to be the main folder containing the whole project.
     public static final String OUTPUT_DIRECTORY = "app/src/main/java";
 
     // Entities
     public static final String ENTITY_CHARACTER = "Character";
+    public static final String ENTITY_DEMEANOR = "Demeanor";
+    public static final String ENTITY_NATURE = "Nature";
     public static final String ENTITY_VICE = "Vice";
     public static final String ENTITY_VIRTUE = "Virtue";
-    public static final String ENTITY_CHARACTER_VICES = "CharacterVices";
-    public static final String ENTITY_CHARACTER_VIRTUES = "CharacterVirtues";
+    public static final String ENTITY_CHARACTER_PERSONAL_TRAITS = "CharacterPersonalityTraits";
+//    public static final String ENTITY_CHARACTER_VICES = "CharacterVices";
+//    public static final String ENTITY_CHARACTER_VIRTUES = "CharacterVirtues";
 
     // ------ Fields ------
     public static final String FIELD_ID_CHARACTER = "idCharacter";
+    public static final String FIELD_ID_DEMEANOR = "idDemeanor";
+    public static final String FIELD_ID_NATURE = "idNature";
     public static final String FIELD_ID_VICE = "idVice";
     public static final String FIELD_ID_VIRTUE = "idVirtue";
 

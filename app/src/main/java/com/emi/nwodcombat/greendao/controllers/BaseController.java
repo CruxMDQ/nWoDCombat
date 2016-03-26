@@ -25,7 +25,8 @@ abstract public class BaseController<T> {
     }
 
     public long save(T item) {
-        return dao.insert(item);
+//        return dao.insert(item);
+        return dao.insertOrReplace(item);
     }
 
     public List<T> getList() {

@@ -12,13 +12,10 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.greendao.controllers.BaseController;
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
-import com.emi.nwodcombat.greendao.controllers.CharacterVicesController;
-import com.emi.nwodcombat.greendao.controllers.CharacterVirtuesController;
+import com.emi.nwodcombat.greendao.controllers.CharacterPersonalityTraitsController;
 import com.emi.nwodcombat.model.db.Character;
-import com.emi.nwodcombat.model.db.CharacterVices;
-import com.emi.nwodcombat.model.db.CharacterVirtues;
+import com.emi.nwodcombat.model.db.CharacterPersonalityTraits;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +49,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     private Long characterVirtue, characterVice;
 
     private CharacterController characterController;
-    private CharacterVicesController characterVicesController;
-    private CharacterVirtuesController characterVirtuesController;
+    private CharacterPersonalityTraitsController traitsController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -342,19 +338,26 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         long charId = commitChoices(character);
 
-        CharacterVices vices = new CharacterVices();
+//        CharacterVices vices = new CharacterVices();
+//
+//        vices.setIdCharacter(charId);
+//        vices.setIdVice(characterVice);
+//
+//        commitChoices(vices);
+//
+//        CharacterVirtues virtues = new CharacterVirtues();
+//
+//        virtues.setIdCharacter(charId);
+//        virtues.setIdVirtue(characterVirtue);
+//
+//        commitChoices(virtues);
 
-        vices.setIdCharacter(charId);
-        vices.setIdVice(characterVice);
+        CharacterPersonalityTraits traits = new CharacterPersonalityTraits();
+        traits.setIdCharacter(charId);
+        traits.setIdVice(characterVice);
+        traits.setIdVirtue(characterVirtue);
 
-        commitChoices(vices);
-
-        CharacterVirtues virtues = new CharacterVirtues();
-        
-        virtues.setIdCharacter(charId);
-        virtues.setIdVirtue(characterVirtue);
-
-        commitChoices(virtues);
+        commitChoices(traits);
 
         ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
     }
@@ -374,23 +377,28 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         return result;
     }
 
-    public long commitChoices(CharacterVices characterVices) {
-        characterVicesController = CharacterVicesController.getInstance(getContext());
+    public long commitChoices(CharacterPersonalityTraits traits) {
+        traitsController = CharacterPersonalityTraitsController.getInstance(getContext());
 
-        long result = characterVicesController.save(characterVices);
-
-        Log.d("Character creator", String.valueOf(result));
-
-        return result;
-    }
-
-    public long commitChoices(CharacterVirtues characterVirtues) {
-        characterVirtuesController = CharacterVirtuesController.getInstance(getContext());
-
-        long result = characterVirtuesController.save(characterVirtues);
+        long result = traitsController.save(traits);
 
         Log.d("Character creator", String.valueOf(result));
 
         return result;
     }
+
+//    public long commitChoices(CharacterVices characterVices) {
+//        characterVicesController = CharacterVicesController.getInstance(getContext());
+//
+//        long result = characterVicesController.save(characterVices);
+//
+//        Log.d("Character creator", String.valueOf(result));
+//
+//        return result;
+//    }
+//
+//    public long commitChoices(CharacterVirtues characterVirtues) {
+//        characterVirtuesController = CharacterVirtuesController.getInstance(getContext());
+//
+//        long result = characterVirtuesController.save(characterVirtues);
 }

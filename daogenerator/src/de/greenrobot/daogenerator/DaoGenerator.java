@@ -59,7 +59,7 @@ public class DaoGenerator {
 
         Configuration config = new Configuration(Configuration.VERSION_2_3_23);
 //        config.setClassForTemplateLoading(this.getClass(), "/");
-        config.setDirectoryForTemplateLoading(new File("/Users/Emi/Documents/SourceTree Repositories/GreenDao/DaoGenerator/src-template"));
+        config.setDirectoryForTemplateLoading(new File(Constants.PATH_WINDOWS));
 
         templateDao = config.getTemplate("dao.ftl");
         templateDaoMaster = config.getTemplate("dao-master.ftl");

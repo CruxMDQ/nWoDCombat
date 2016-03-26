@@ -3,7 +3,6 @@ package com.emi.nwodcombat.charactercreator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,12 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.greendao.controllers.CharacterController;
-import com.emi.nwodcombat.model.db.Character;
 
 import java.util.List;
 

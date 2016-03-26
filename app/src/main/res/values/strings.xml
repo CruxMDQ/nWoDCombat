@@ -96,6 +96,8 @@
     <string name="hint_step_personal_info_concept">Concept</string>
     <string name="label_step_personal_info_virtue">Virtue:</string>
     <string name="label_step_personal_info_vice">Vice:</string>
+    <string name="label_step_personal_info_nature">Nature:</string>
+    <string name="label_step_personal_info_demeanor">Demeanor:</string>
     <string name="spinner_nothing_selected_option_pick">Select an option</string>
     <string name="vice_lust">Lust</string>
     <string name="vice_pride">Pride</string>
@@ -114,5 +116,9 @@
 
     <string name="test_info_name">Homura Akemi</string>
     <string name="test_info_concept">The Determinator meets The Gunslinger meets Magical Girl</string>
+    <string name="dialog_demeanor_new_title">Create new demeanor archetype</string>
+    <string name="dialog_nature_new_title">Create new nature archetype</string>
+    <string name="dialog_demeanor_new_hint">Type archetype name here</string>
+    <string name="dialog_nature_new_hint">Type archetype name here</string>
 
 </resources>

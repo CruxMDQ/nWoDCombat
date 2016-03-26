@@ -5,36 +5,37 @@ package com.emi.nwodcombat.model.db;
 // KEEP INCLUDES - put your custom includes here
 import com.emi.nwodcombat.model.Record;
 // KEEP INCLUDES END
-/**
- * Entity mapped to table "VIRTUE".
- */
-public class Virtue extends Record  {
 
-    private Long idVirtue;
+/**
+ * Entity mapped to table "DEMEANOR".
+ */
+public class Demeanor extends Record {
+
+    private Long idDemeanor;
     /** Not-null value. */
     private String Name;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public Virtue() {
+    public Demeanor() {
     }
 
-    public Virtue(Long idVirtue) {
-        this.idVirtue = idVirtue;
+    public Demeanor(Long idDemeanor) {
+        this.idDemeanor = idDemeanor;
     }
 
-    public Virtue(Long idVirtue, String Name) {
-        this.idVirtue = idVirtue;
+    public Demeanor(Long idDemeanor, String Name) {
+        this.idDemeanor = idDemeanor;
         this.Name = Name;
     }
 
-    public Long getIdVirtue() {
-        return idVirtue;
+    public Long getIdDemeanor() {
+        return idDemeanor;
     }
 
-    public void setIdVirtue(Long idVirtue) {
-        this.idVirtue = idVirtue;
+    public void setIdDemeanor(Long idDemeanor) {
+        this.idDemeanor = idDemeanor;
     }
 
     /** Not-null value. */

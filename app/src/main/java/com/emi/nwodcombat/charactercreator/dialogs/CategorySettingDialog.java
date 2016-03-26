@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.charactercreator;
+package com.emi.nwodcombat.charactercreator.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -44,7 +44,7 @@ public class CategorySettingDialog extends DialogFragment implements OnChoicePic
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        LinearLayout root = (LinearLayout) inflater.inflate(R.layout.dialog_categories, null);
+        LinearLayout root = (LinearLayout) inflater.inflate(getLayout(), null);
         ButterKnife.bind(this, root);
 
         final RadioAdapter adapter = new RadioAdapter<>(getActivity(), categories, this);
@@ -90,5 +90,9 @@ public class CategorySettingDialog extends DialogFragment implements OnChoicePic
     @Override
     public void onChoicePicked(Object object) {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+    }
+
+    public int getLayout() {
+        return R.layout.dialog_categories;
     }
 }

@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 
@@ -14,10 +15,10 @@ import android.widget.SpinnerAdapter;
  * Source: stackoverflow.com/questions/867518
  * Imported on 11/16/2015.
  */
-public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter {
+public class NothingSelectedSpinnerAdapter<T> implements SpinnerAdapter, ListAdapter {
 
     protected static final int EXTRA = 1;
-    protected SpinnerAdapter adapter;
+    protected ArrayAdapter<T> adapter;
     protected Context context;
     protected int nothingSelectedLayout;
     protected int nothingSelectedDropdownLayout;
@@ -32,7 +33,7 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
      * @param context
      */
     public NothingSelectedSpinnerAdapter(
-        SpinnerAdapter spinnerAdapter,
+        ArrayAdapter<T> spinnerAdapter,
         int nothingSelectedLayout, Context context) {
 
         this(spinnerAdapter, nothingSelectedLayout, -1, context);
@@ -50,7 +51,7 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
      * the dropdown.
      * @param context
      */
-    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
+    public NothingSelectedSpinnerAdapter(ArrayAdapter<T> spinnerAdapter,
                                          int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
         this.adapter = spinnerAdapter;
         this.context = context;

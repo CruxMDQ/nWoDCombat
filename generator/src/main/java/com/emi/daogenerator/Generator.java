@@ -78,32 +78,53 @@ public class Generator {
         character.addIntProperty(Constants.FIELD_TRAIT_WILLPOWER_PERMANENT);
         character.addIntProperty(Constants.FIELD_TRAIT_WILLPOWER_TEMPORARY);
 
-        // Vice entity - necessary here because of M:N relations
+        Entity demeanor = schema.addEntity(Constants.ENTITY_DEMEANOR);
+        Entity nature = schema.addEntity(Constants.ENTITY_NATURE);
         Entity vice = schema.addEntity(Constants.ENTITY_VICE);
+        Entity virtue = schema.addEntity(Constants.ENTITY_VIRTUE);
 
         Property idVice = vice.addLongProperty(Constants.FIELD_ID_VICE).primaryKey().autoincrement().getProperty();
         vice.addStringProperty(Constants.FIELD_NAME).notNull();
-
-        // Virtue entity - necessary here because of M:N relations
-        Entity virtue = schema.addEntity(Constants.ENTITY_VIRTUE);
+        vice.setSuperclass(Constants.CLASS_RECORD);
 
         Property idVirtue = virtue.addLongProperty(Constants.FIELD_ID_VIRTUE).primaryKey().autoincrement().getProperty();
         virtue.addStringProperty(Constants.FIELD_NAME).notNull();
+        virtue.setSuperclass(Constants.CLASS_RECORD);
 
-        // M:N relationship entity
-        Entity characterVices = schema.addEntity(Constants.ENTITY_CHARACTER_VICES);
-        characterVices.addIdProperty().primaryKey().notNull().autoincrement();
-        characterVices.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
-        characterVices.addLongProperty(Constants.FIELD_ID_VICE).notNull();
+        Property idDemeanor = demeanor.addLongProperty(Constants.FIELD_ID_DEMEANOR).primaryKey().autoincrement().getProperty();
+        demeanor.addStringProperty(Constants.FIELD_NAME).notNull();
+        demeanor.setSuperclass(Constants.CLASS_RECORD);
 
-        // M:N relationship entity
-        Entity characterVirtues = schema.addEntity(Constants.ENTITY_CHARACTER_VIRTUES);
-        characterVirtues.addIdProperty().primaryKey().notNull().autoincrement();
-        characterVirtues.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
-        characterVirtues.addLongProperty(Constants.FIELD_ID_VIRTUE).notNull();
+        Property idNature = nature.addLongProperty(Constants.FIELD_ID_NATURE).primaryKey().autoincrement().getProperty();
+        nature.addStringProperty(Constants.FIELD_NAME).notNull();
+        nature.setSuperclass(Constants.CLASS_RECORD);
 
-        ToManyWithJoinEntity toManyCharVices = character.addToMany(vice, characterVices, idCharacter, idVice);
-        
-        ToManyWithJoinEntity toManyCharVirtues = character.addToMany(virtue, characterVirtues, idCharacter, idVirtue);
+        Entity characterPersonalityTraits = schema.addEntity(Constants.ENTITY_CHARACTER_PERSONAL_TRAITS);
+        characterPersonalityTraits.addIdProperty().primaryKey().notNull().autoincrement();
+        characterPersonalityTraits.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
+        characterPersonalityTraits.addLongProperty(Constants.FIELD_ID_DEMEANOR).notNull();
+        characterPersonalityTraits.addLongProperty(Constants.FIELD_ID_NATURE).notNull();
+        characterPersonalityTraits.addLongProperty(Constants.FIELD_ID_VICE).notNull();
+        characterPersonalityTraits.addLongProperty(Constants.FIELD_ID_VIRTUE).notNull();
+
+        ToManyWithJoinEntity toManyCharPersDemeanor = character.addToMany(demeanor, characterPersonalityTraits, idCharacter, idDemeanor);
+        ToManyWithJoinEntity toManyCharPersNature = character.addToMany(nature, characterPersonalityTraits, idCharacter, idNature);
+        ToManyWithJoinEntity toManyCharPersVice = character.addToMany(vice, characterPersonalityTraits, idCharacter, idVice);
+        ToManyWithJoinEntity toManyCharPersVirtue = character.addToMany(virtue, characterPersonalityTraits, idCharacter, idVirtue);
+
+        // Preserving old structure: may be necessary in case present one cannot handle multiple virtues or vices
+//        Entity characterVices = schema.addEntity(Constants.ENTITY_CHARACTER_VICES);
+//        characterVices.addIdProperty().primaryKey().notNull().autoincrement();
+//        characterVices.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
+//        characterVices.addLongProperty(Constants.FIELD_ID_VICE).notNull();
+//
+//        Entity characterVirtues = schema.addEntity(Constants.ENTITY_CHARACTER_VIRTUES);
+//        characterVirtues.addIdProperty().primaryKey().notNull().autoincrement();
+//        characterVirtues.addLongProperty(Constants.FIELD_ID_CHARACTER).notNull();
+//        characterVirtues.addLongProperty(Constants.FIELD_ID_VIRTUE).notNull();
+//
+//        ToManyWithJoinEntity toManyCharVices = character.addToMany(vice, characterVices, idCharacter, idVice);
+//
+//        ToManyWithJoinEntity toManyCharVirtues = character.addToMany(virtue, characterVirtues, idCharacter, idVirtue);
     }
 }

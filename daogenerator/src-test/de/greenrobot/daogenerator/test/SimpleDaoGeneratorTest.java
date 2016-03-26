@@ -17,16 +17,19 @@
  */
 package de.greenrobot.daogenerator.test;
 
+import org.junit.Test;
+
+import java.io.File;
+
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.DaoUtil;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
-import org.junit.Test;
 
-import java.io.File;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SimpleDaoGeneratorTest {
 
