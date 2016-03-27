@@ -13,26 +13,34 @@ public class Constants {
     public static final String OUTPUT_DIRECTORY = "app/src/main/java";
 
     // Entities
+    public static final String ENTITY_PERSONALITY_ARCHETYPE = "Archetype";
     public static final String ENTITY_CHARACTER = "Character";
     public static final String ENTITY_DEMEANOR = "Demeanor";
     public static final String ENTITY_NATURE = "Nature";
     public static final String ENTITY_VICE = "Vice";
     public static final String ENTITY_VIRTUE = "Virtue";
     public static final String ENTITY_CHARACTER_PERSONAL_TRAITS = "CharacterPersonalityTraits";
-//    public static final String ENTITY_CHARACTER_VICES = "CharacterVices";
-//    public static final String ENTITY_CHARACTER_VIRTUES = "CharacterVirtues";
+    public static final String ENTITY_CHARACTER_DEMEANOR = "CharacterDemeanor";
+    public static final String ENTITY_CHARACTER_NATURE = "CharacterNature";
+    public static final String ENTITY_CHARACTER_VICES = "CharacterVices";
+    public static final String ENTITY_CHARACTER_VIRTUES = "CharacterVirtues";
 
     // ------ Fields ------
+    public static final String FIELD_ID_ARCHETYPE = "idArchetype";
     public static final String FIELD_ID_CHARACTER = "idCharacter";
     public static final String FIELD_ID_DEMEANOR = "idDemeanor";
     public static final String FIELD_ID_NATURE = "idNature";
     public static final String FIELD_ID_VICE = "idVice";
     public static final String FIELD_ID_VIRTUE = "idVirtue";
 
+    public static final String FIELD_DESCRIPTION = "Description";
     public static final String FIELD_NAME = "Name";
     public static final String FIELD_PLAYER = "Player";
     public static final String FIELD_CHRONICLE = "Chronicle";
     public static final String FIELD_CONCEPT = "Concept";
+
+    public static final String FIELD_CONDITION_REGAIN_ALL = "RegainAll";
+    public static final String FIELD_CONDITION_REGAIN_ONE = "RegainOne";
 
     // --- Attributes ---
     // Mental

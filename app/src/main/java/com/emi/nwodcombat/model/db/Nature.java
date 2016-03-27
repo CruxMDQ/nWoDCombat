@@ -5,15 +5,17 @@ package com.emi.nwodcombat.model.db;
 // KEEP INCLUDES - put your custom includes here
 import com.emi.nwodcombat.model.Record;
 // KEEP INCLUDES END
-
 /**
  * Entity mapped to table "NATURE".
  */
-public class Nature extends Record {
+public class Nature extends Record  {
 
     private Long idNature;
     /** Not-null value. */
     private String Name;
+    private String RegainOne;
+    private String RegainAll;
+    private String Description;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -25,9 +27,12 @@ public class Nature extends Record {
         this.idNature = idNature;
     }
 
-    public Nature(Long idNature, String Name) {
+    public Nature(Long idNature, String Name, String RegainOne, String RegainAll, String Description) {
         this.idNature = idNature;
         this.Name = Name;
+        this.RegainOne = RegainOne;
+        this.RegainAll = RegainAll;
+        this.Description = Description;
     }
 
     public Long getIdNature() {
@@ -46,6 +51,30 @@ public class Nature extends Record {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setName(String Name) {
         this.Name = Name;
+    }
+
+    public String getRegainOne() {
+        return RegainOne;
+    }
+
+    public void setRegainOne(String RegainOne) {
+        this.RegainOne = RegainOne;
+    }
+
+    public String getRegainAll() {
+        return RegainAll;
+    }
+
+    public void setRegainAll(String RegainAll) {
+        this.RegainAll = RegainAll;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
     }
 
     // KEEP METHODS - put your custom methods here

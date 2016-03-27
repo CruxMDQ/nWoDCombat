@@ -13,6 +13,9 @@ public class Virtue extends Record  {
     private Long idVirtue;
     /** Not-null value. */
     private String Name;
+    /** Not-null value. */
+    private String RegainAll;
+    private String Description;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -24,9 +27,11 @@ public class Virtue extends Record  {
         this.idVirtue = idVirtue;
     }
 
-    public Virtue(Long idVirtue, String Name) {
+    public Virtue(Long idVirtue, String Name, String RegainAll, String Description) {
         this.idVirtue = idVirtue;
         this.Name = Name;
+        this.RegainAll = RegainAll;
+        this.Description = Description;
     }
 
     public Long getIdVirtue() {
@@ -45,6 +50,24 @@ public class Virtue extends Record  {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setName(String Name) {
         this.Name = Name;
+    }
+
+    /** Not-null value. */
+    public String getRegainAll() {
+        return RegainAll;
+    }
+
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setRegainAll(String RegainAll) {
+        this.RegainAll = RegainAll;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
     }
 
     // KEEP METHODS - put your custom methods here

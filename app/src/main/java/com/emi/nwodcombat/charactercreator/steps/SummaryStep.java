@@ -46,7 +46,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
     private String characterName, characterConcept, characterPlayer;
 
-    private Long characterVirtue, characterVice;
+    private Long characterVirtue, characterVice, characterDemeanor, characterNature;
 
     private CharacterController characterController;
     private CharacterPersonalityTraitsController traitsController;
@@ -111,6 +111,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         characterPlayer = (String) values.get(Constants.CHARACTER_PLAYER);
         characterVice = (Long) values.get(Constants.CHARACTER_VICE);
         characterVirtue = (Long) values.get(Constants.CHARACTER_VIRTUE);
+        characterDemeanor = (Long) values.get(Constants.CHARACTER_DEMEANOR);
+        characterNature = (Long) values.get(Constants.CHARACTER_NATURE);
 
         intelligence = (Integer) values.get(Constants.ATTR_INT);
         wits = (Integer) values.get(Constants.ATTR_WIT);
@@ -356,6 +358,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         traits.setIdCharacter(charId);
         traits.setIdVice(characterVice);
         traits.setIdVirtue(characterVirtue);
+        traits.setIdDemeanor(characterDemeanor);
+        traits.setIdNature(characterNature);
 
         commitChoices(traits);
 

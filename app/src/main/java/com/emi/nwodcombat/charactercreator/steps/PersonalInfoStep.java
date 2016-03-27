@@ -174,6 +174,8 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         output.put(Constants.CHARACTER_PLAYER, editPlayer.getText().toString());
         output.put(Constants.CHARACTER_VICE, idVice);
         output.put(Constants.CHARACTER_VIRTUE, idVirtue);
+        output.put(Constants.CHARACTER_DEMEANOR, idDemeanor);
+        output.put(Constants.CHARACTER_NATURE, idNature);
 
         return output;
     }

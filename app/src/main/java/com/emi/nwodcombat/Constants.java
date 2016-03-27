@@ -58,6 +58,8 @@ public class Constants {
     public static final String CHARACTER_PLAYER = "Player";
     public static final String CHARACTER_VICE = "Vice";
     public static final String CHARACTER_VIRTUE = "Virtue";
+    public static final String CHARACTER_DEMEANOR = "Demeanor";
+    public static final String CHARACTER_NATURE = "Nature";
 
     public static final String ATTR_INT = "Intelligence";
     public static final String ATTR_WIT = "Wits";

@@ -21,7 +21,7 @@ public class DemeanorController extends BaseController<Demeanor> {
         return instance;
     }
 
-    private static void init(Context context) {
+    public static void init(Context context) {
         try {
             instance = new DemeanorController(context);
         } catch (NullPointerException e) {
