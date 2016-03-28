@@ -29,6 +29,7 @@ dependencies {
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
     compile "org.apache.commons:commons-lang3:$rootProject.ext.commonsLangVersion"
     compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
+    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

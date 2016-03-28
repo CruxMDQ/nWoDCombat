@@ -517,7 +517,7 @@ public class ExtendedApplication extends Application {
             Virtue temperance = new Virtue();
             temperance.setName(getString(R.string.virtue_name_temperance));
             temperance.setDescription(getString(R.string.virtue_description_temperance));
-            temperance.setDescription(getString(R.string.virtue_regain_all_temperance));
+            temperance.setRegainAll(getString(R.string.virtue_regain_all_temperance));
             virtueController.save(temperance);
         }
     }

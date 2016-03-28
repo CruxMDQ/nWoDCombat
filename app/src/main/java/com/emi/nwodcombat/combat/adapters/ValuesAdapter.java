@@ -24,16 +24,18 @@ import butterknife.ButterKnife;
 public class ValuesAdapter<Value> extends RecyclerView.Adapter<ValuesAdapter.ViewHolder> {
     public ArrayList<Value> mItems;
     private Activity activity;
+    private int idLayout;
 
-    public ValuesAdapter(ArrayList<Value> mItems, Activity activity) {
-        this.mItems = mItems;
+    public ValuesAdapter(Activity activity, int idLayout, ArrayList<Value> mItems) {
         this.activity = activity;
+        this.idLayout = idLayout;
+        this.mItems = mItems;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(activity);
-        final View view = inflater.inflate(R.layout.row_value, parent, false);
+        final View view = inflater.inflate(idLayout, parent, false);
         return new ViewHolder(view);
     }
 

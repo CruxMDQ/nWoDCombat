@@ -92,7 +92,7 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     }
 
     private void setUpUI() {
-        final ValuesAdapter valuesAdapter = new ValuesAdapter<>(this.combatantValues, getActivity());
+        final ValuesAdapter valuesAdapter = new ValuesAdapter<>(getActivity(), R.layout.row_value, this.combatantValues);
 
         rvCombatantValues.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCombatantValues.setAdapter(valuesAdapter);

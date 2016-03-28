@@ -24,8 +24,10 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
+import com.emi.nwodcombat.characterlist.CharacterListFragment;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 import com.emi.nwodcombat.fragments.SettingsFragment;
+import com.emi.nwodcombat.greendao.controllers.CharacterController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,8 @@ public class NavDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        loadCombatFragment();
+        loadCharacterList();
+        //loadCombatFragment();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -113,6 +116,16 @@ public class NavDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadCharacterList() {
+        ArrayList<com.emi.nwodcombat.model.db.Character> characters = new ArrayList<>();
+        characters.addAll(CharacterController.getInstance(this).getList());
+
+        final CharacterListFragment characterListFragment = CharacterListFragment.newInstance(characters);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, characterListFragment).commit();
     }
 
     private void loadCombatFragment() {
