@@ -6,3 +6,7 @@
 .DS_Store
 /build
 /captures
+app/build/generated/
+app/build/intermediates/
+.idea/
+app/build/outputs/apk/app-debug.apk
