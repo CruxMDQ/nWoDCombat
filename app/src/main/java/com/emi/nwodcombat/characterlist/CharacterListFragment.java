@@ -27,6 +27,7 @@ public class CharacterListFragment extends Fragment {
     @Bind(R.id.rvCharacters) RecyclerView rvCharacters;
 
     private ArrayList<Character> characters;
+    private CharacterListPresenter presenter;
 
     public CharacterListFragment() { }
 
@@ -49,8 +50,7 @@ public class CharacterListFragment extends Fragment {
         setUpUI();
 
         // According to Santiago Vidal, this goes here
-//        PlayerPresenter playerPresenter = new PlayerPresenter(new PlayerModel(), new PlayerView(this));
-        CharacterListPresenter presenter = new CharacterListPresenter(new CharacterListModel(), new CharacterListView(this));
+        presenter = new CharacterListPresenter(new CharacterListModel(), new CharacterListView(this));
 
         return view;
     }

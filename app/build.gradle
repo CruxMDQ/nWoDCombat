@@ -30,6 +30,7 @@ dependencies {
     compile "org.apache.commons:commons-lang3:$rootProject.ext.commonsLangVersion"
     compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
     compile "com.squareup:otto:$rootProject.ext.ottoVersion"
+    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
