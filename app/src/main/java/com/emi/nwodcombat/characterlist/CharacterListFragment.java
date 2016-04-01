@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterlist.mvp.CharacterListModel;
+import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
 import com.emi.nwodcombat.characterlist.mvp.CharacterListPresenter;
-import com.emi.nwodcombat.characterlist.mvp.CharacterListView;
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
 import com.emi.nwodcombat.model.db.Character;
 
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by emiliano.desantis on 28/03/2016.
  */
-public class CharacterListFragment extends Fragment {
+public class CharacterListFragment extends Fragment implements MainMVP.RequiredViewOps {
     @Bind(R.id.rvCharacters) RecyclerView rvCharacters;
 
     private ArrayList<Character> characters;
@@ -50,7 +49,7 @@ public class CharacterListFragment extends Fragment {
         setUpUI();
 
         // According to Santiago Vidal, this goes here
-        presenter = new CharacterListPresenter(new CharacterListModel(), new CharacterListView(this));
+//        presenter = new CharacterListPresenter(new CharacterListView(this));
 
         return view;
     }
@@ -73,5 +72,15 @@ public class CharacterListFragment extends Fragment {
         rvCharacters.setAdapter(characterAdapter);
 
         // TODO Define button behavior (this can be done via MVP probably as it's user input)
+    }
+
+    @Override
+    public void showSnackBar(String msg) {
+
+    }
+
+    @Override
+    public void showAlert(String msg) {
+
     }
 }

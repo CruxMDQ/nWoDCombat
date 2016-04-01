@@ -25,6 +25,7 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
 import com.emi.nwodcombat.characterlist.CharacterListFragment;
+import com.emi.nwodcombat.characterlist.mvp.CharacterListPresenter;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 import com.emi.nwodcombat.fragments.SettingsFragment;
 
@@ -36,6 +37,8 @@ import butterknife.ButterKnife;
 
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+
+    private CharacterListPresenter presenter;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -118,10 +121,9 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     private void loadCharacterList() {
-//        ArrayList<com.emi.nwodcombat.model.db.Character> characters = new ArrayList<>();
-//        characters.addAll(CharacterController.getInstance(this).getList());
-
         final CharacterListFragment characterListFragment = CharacterListFragment.newInstance();
+
+        presenter = new CharacterListPresenter(characterListFragment);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, characterListFragment).commit();

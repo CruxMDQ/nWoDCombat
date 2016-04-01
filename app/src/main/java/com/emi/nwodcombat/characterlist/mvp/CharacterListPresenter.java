@@ -21,9 +21,9 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
     // Layer Model reference
     private MainMVP.ModelOps mModel;
 
-    public CharacterListPresenter(WeakReference<MainMVP.RequiredViewOps> mView) {
+    public CharacterListPresenter(MainMVP.RequiredViewOps view) {
         this.mModel = new CharacterListModel(this);
-        this.mView = mView;
+        this.mView = new WeakReference<>(view);
     }
 
     @Override
