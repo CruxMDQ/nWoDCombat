@@ -18,19 +18,23 @@ public class CharacterListModel implements MainMVP.ModelOps {
     // Presenter reference
     private MainMVP.RequiredPresenterOps mPresenter;
     private Context context;
+    private CharacterController controller;
 
     public CharacterListModel(Context context, MainMVP.RequiredPresenterOps mPresenter) {
         this.context = context;
         this.mPresenter = mPresenter;
+        controller = CharacterController.getInstance(context);
     }
 
     @Override
     public void insertCharacter(com.emi.nwodcombat.model.db.Character character) {
+        controller.save(character);
         mPresenter.onCharacterAdded();
     }
 
     @Override
     public void removeCharacter(long character) {
+        controller.deleteById(character);
         mPresenter.onCharacterRemoved();
     }
 
@@ -44,7 +48,6 @@ public class CharacterListModel implements MainMVP.ModelOps {
         return new AsyncTaskLoader<List<Character>>(context) {
             @Override
             public List<Character> loadInBackground() {
-                CharacterController controller = CharacterController.getInstance(context);
                 return controller.getList();
             }
 

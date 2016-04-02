@@ -37,6 +37,10 @@ abstract public class BaseController<T> {
         dao.delete(item);
     }
 
+    public void deleteById(long id) {
+        dao.deleteByKey(id);
+    }
+
     public T get(long id) {
         return (T) dao.loadByRowId(id);
     }
