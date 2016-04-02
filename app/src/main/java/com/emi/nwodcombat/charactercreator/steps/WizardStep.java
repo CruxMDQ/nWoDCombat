@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
@@ -22,12 +23,9 @@ public abstract class WizardStep extends Fragment implements PagerStep {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisible) {
-        super.setUserVisibleHint(isVisible);
-
-        if (isVisible) {
-            setToolbarTitle(getToolbarTitle());
-        }
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setToolbarTitle(getToolbarTitle());
     }
 
     protected void setToolbarTitle(String title) {
@@ -40,9 +38,9 @@ public abstract class WizardStep extends Fragment implements PagerStep {
         String text;
         if (pool > 0) {
             text = titleString +
-                " (" +
-                pool +
-                " points remaining)";
+                    " (" +
+                    pool +
+                    " points remaining)";
         } else {
             text = titleString + " (no points remaining)";
         }

@@ -258,5 +258,7 @@
     <string name="personality_description_visionary">A visionary has a clear picture in his head. This picture is of something bigger, something greater. It\'s his life\'s work to show that vision to the world.</string>
     <string name="personality_regain_one_visionary">Help someone by sharing your vision with them.</string>
     <string name="personality_regain_all_visionary">Put yourself at risk to show a group the power of your vision.</string>
+    <string name="alert_title">Alert</string>
+    <string name="no_characters">No Characters</string>
 
 </resources>

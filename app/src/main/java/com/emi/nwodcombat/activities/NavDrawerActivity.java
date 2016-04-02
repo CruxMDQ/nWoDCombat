@@ -1,9 +1,9 @@
 package com.emi.nwodcombat.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,8 +24,8 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
+import com.emi.nwodcombat.charactercreator.steps.WizardStep;
 import com.emi.nwodcombat.characterlist.CharacterListFragment;
-import com.emi.nwodcombat.characterlist.mvp.CharacterListPresenter;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 import com.emi.nwodcombat.fragments.SettingsFragment;
 
@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-    private CharacterListPresenter presenter;
+//    private CharacterListPresenter presenter;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -48,10 +48,9 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+//        getSupportActionBar().setTitle(null);
 
         loadCharacterList();
-        //loadCombatFragment();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -104,9 +103,9 @@ public class NavDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             loadNewCharacterWizard();
         } else if (id == R.id.nav_gallery) {
-
+            loadCharacterList();
         } else if (id == R.id.nav_slideshow) {
-
+            loadCombatFragment();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -121,22 +120,27 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     private void loadCharacterList() {
-        final CharacterListFragment characterListFragment = CharacterListFragment.newInstance();
-
-        presenter = new CharacterListPresenter(characterListFragment);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, characterListFragment).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterListFragment) {
+            return;
+        }
+        fragmentManager.beginTransaction().replace(R.id.flContent,  CharacterListFragment.newInstance()).commit();
     }
 
     private void loadCombatFragment() {
-        final DynamicCombatFragment dynamicCombatFragment = DynamicCombatFragment.newInstance();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, dynamicCombatFragment).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.findFragmentById(R.id.flContent) instanceof DynamicCombatFragment) {
+            return;
+        }
+        fragmentManager.beginTransaction().replace(R.id.flContent, DynamicCombatFragment.newInstance()).commit();
     }
 
     private void loadNewCharacterWizard() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterCreatorPagerFragment) {
+            return;
+        }
+
         List<Fragment> fragmentList = new ArrayList<>();
 
         PersonalInfoStep personalInfoStep = new PersonalInfoStep();
@@ -168,12 +172,11 @@ public class NavDrawerActivity extends AppCompatActivity
         fragmentList.add(socialSkillsStep);
         fragmentList.add(summaryStep);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
     }
 
     private void loadSettingsFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new SettingsFragment())
                 .addToBackStack(Constants.TAG_FRAG_SETTINGS).commit();
     }
@@ -184,7 +187,7 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     private void clearBackStack() {
-        FragmentManager manager = getSupportFragmentManager();
+        FragmentManager manager = getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
             manager.popBackStackImmediate(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);

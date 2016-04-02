@@ -10,3 +10,4 @@ app/build/generated/
 app/build/intermediates/
 .idea/
 app/build/outputs/apk/app-debug.apk
+app/build/*

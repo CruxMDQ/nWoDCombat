@@ -1,6 +1,10 @@
 package com.emi.nwodcombat.characterlist.interfaces;
 
+import android.content.Loader;
+
 import com.emi.nwodcombat.model.db.Character;
+
+import java.util.List;
 
 /**
  * Created by emiliano.desantis on 31/03/2016.
@@ -17,6 +21,9 @@ public interface MainMVP {
     interface PresenterOps {
         void newCharacter(String characterJson);
         void removeCharacter(long idCharacter);
+
+
+        void onFabPressed();
 
         // Any other ops to be called from View
     }
@@ -35,6 +42,8 @@ public interface MainMVP {
         void insertCharacter(Character character);
         void removeCharacter(long character);
         void onDestroy();
+
+        Loader<List<Character>> getCharatersLoader();
 
 
         // Any other data operations

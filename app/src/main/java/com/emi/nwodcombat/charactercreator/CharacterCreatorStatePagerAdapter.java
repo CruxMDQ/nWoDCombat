@@ -1,15 +1,16 @@
 package com.emi.nwodcombat.charactercreator;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
 /**
  * Created by Emi on 3/3/16.
  */
-public class CharacterCreatorStatePagerAdapter extends FragmentStatePagerAdapter{
+public class CharacterCreatorStatePagerAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> fragments;
 
     public CharacterCreatorStatePagerAdapter(FragmentManager fm, List<Fragment> fragments) {

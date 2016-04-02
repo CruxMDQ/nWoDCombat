@@ -1,8 +1,9 @@
 package com.emi.nwodcombat.combat;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class DynamicCombatFragment extends Fragment {
     @Bind(R.id.panelCombatants) LinearLayout panelCombatants;
     @Bind(R.id.fabDoCombat) FloatingActionButton fabDoCombat;
 
-    private android.support.v4.app.FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     public DynamicCombatFragment() {
     }
@@ -65,7 +66,7 @@ public class DynamicCombatFragment extends Fragment {
     }
 
     private void generateSampleFragments() {
-        fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager = getActivity().getFragmentManager();
         
         CombatantInfoFragment attacker = CombatantInfoFragment.newInstance(generateSampleAttackValues());
         attacker.setCombatantTag(getString(R.string.fragment_attacker));

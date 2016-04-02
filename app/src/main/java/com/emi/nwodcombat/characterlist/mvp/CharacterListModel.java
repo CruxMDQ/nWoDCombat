@@ -1,6 +1,14 @@
 package com.emi.nwodcombat.characterlist.mvp;
 
+import android.content.AsyncTaskLoader;
+import android.content.Context;
+import android.content.Loader;
+
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
+import com.emi.nwodcombat.greendao.controllers.CharacterController;
+import com.emi.nwodcombat.model.db.Character;
+
+import java.util.List;
 
 /**
  * Created by emiliano.desantis on 29/03/2016.
@@ -9,8 +17,10 @@ public class CharacterListModel implements MainMVP.ModelOps {
 
     // Presenter reference
     private MainMVP.RequiredPresenterOps mPresenter;
+    private Context context;
 
-    public CharacterListModel(MainMVP.RequiredPresenterOps mPresenter) {
+    public CharacterListModel(Context context, MainMVP.RequiredPresenterOps mPresenter) {
+        this.context = context;
         this.mPresenter = mPresenter;
     }
 
@@ -26,6 +36,23 @@ public class CharacterListModel implements MainMVP.ModelOps {
 
     @Override
     public void onDestroy() {
-        // Should stop/kill operations that could be running and aren't needed anymoar
+        // Should stop/kill operations that could be running and aren't needed anymore
+    }
+
+    @Override
+    public Loader<List<Character>> getCharatersLoader() {
+        return new AsyncTaskLoader<List<Character>>(context) {
+            @Override
+            public List<Character> loadInBackground() {
+                CharacterController controller = CharacterController.getInstance(context);
+                return controller.getList();
+            }
+
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+                forceLoad();
+            }
+        };
     }
 }
