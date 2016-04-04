@@ -68,7 +68,7 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
 
     @Override
     public Loader<List<Character>> onCreateLoader(int id, Bundle args) {
-        return mModel.getCharatersLoader();
+        return mModel.getCharactersLoader();
     }
 
     @Override

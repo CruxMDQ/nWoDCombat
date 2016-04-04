@@ -44,7 +44,7 @@ public class CharacterListModel implements MainMVP.ModelOps {
     }
 
     @Override
-    public Loader<List<Character>> getCharatersLoader() {
+    public Loader<List<Character>> getCharactersLoader() {
         return new AsyncTaskLoader<List<Character>>(context) {
             @Override
             public List<Character> loadInBackground() {

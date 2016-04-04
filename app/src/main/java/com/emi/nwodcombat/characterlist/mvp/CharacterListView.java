@@ -25,18 +25,8 @@ import butterknife.OnClick;
 /**
  * Created by emiliano.desantis on 29/03/2016.
  */
-public class CharacterListView extends FragmentView {
+public class CharacterListView extends FragmentView implements MainMVP.RequiredViewOps {
     private final CharacterAdapter characterAdapter;
-    // Sample code provided by Santiago Vidal to consider for future use
-//    TextView tvName;
-//    PlayerView(Fragment fragment){
-//        super(fragment);
-//        tvName =(TextView) ffragment.findViewById(R.id.player_name);
-//    }
-//    //aca pones todos tus metodos de la vista
-//    public void setPlayerName(String name){
-//        tvName.setText(name);
-//    }
 
     private List<Character> characters = new ArrayList<>();
 
@@ -57,8 +47,8 @@ public class CharacterListView extends FragmentView {
     }
 
     public void showCharacters(List<Character> characters) {
-        characters.clear();
-        characters.addAll(characters);
+        this.characters.clear();
+        this.characters.addAll(characters);
         characterAdapter.notifyDataSetChanged();
     }
 

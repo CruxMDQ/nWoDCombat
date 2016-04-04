@@ -40,7 +40,7 @@ public class CharacterListFragment extends Fragment {
     }
 
     private void createPresenter() {
-        //VSM: With Even bus you don't need delegators or callbacks
+        //VSM: With Event bus you don't need delegators or callbacks
         presenter = new CharacterListPresenter(new CharacterListModel(getActivity(), modelDelegator),
                 new CharacterListView(this, viewDelegator));
 
