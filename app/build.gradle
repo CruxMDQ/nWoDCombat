@@ -30,8 +30,11 @@ dependencies {
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
     compile "org.apache.commons:commons-lang3:$rootProject.ext.commonsLangVersion"
     compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
-    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
+//    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    compile ("io.realm:realm-android:$rootProject.ext.realmVersion") {
+        exclude module: 'support-annotations'
+    }
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
