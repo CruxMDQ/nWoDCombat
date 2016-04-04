@@ -23,11 +23,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:support-v13:$rootProject.supportLibraryVersion"
     compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
     compile "org.apache.commons:commons-lang3:$rootProject.ext.commonsLangVersion"
+    compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
+    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
+    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

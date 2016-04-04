@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_xl"
+        android:layout_marginEnd="@dimen/spacing_xl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cat_mental"/>
+        
+        <TextView
+            android:id="@+id/txtSkillMental"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:visibility="invisible"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+        
+        <Button
+            android:id="@+id/btnSetMentalSkillCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_set"
+            android:layout_weight="1"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_xl"
+        android:layout_marginEnd="@dimen/spacing_xl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cat_physical"/>
+
+        <TextView
+            android:id="@+id/txtSkillPhysical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:visibility="invisible"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnSetPhysicalSkillCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_set"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_xl"
+        android:layout_marginEnd="@dimen/spacing_xl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cat_social"/>
+
+        <TextView
+            android:id="@+id/txtSkillSocial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:visibility="invisible"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnSetSocialSkillCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_set"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtSocialSkillsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:layout_gravity="center"
+            android:text="@string/cat_social"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_half"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/bkgd_cat_panel">
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterAnimalKen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_animal_ken"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterEmpathy"
+                android:layout_below="@id/valueSetterAnimalKen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_empathy"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterExpression"
+                android:layout_below="@id/valueSetterEmpathy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_expression"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterIntimidation"
+                android:layout_below="@id/valueSetterExpression"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_intimidation"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterPersuasion"
+                android:layout_below="@id/valueSetterIntimidation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_persuasion"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterSocialize"
+                android:layout_below="@id/valueSetterPersuasion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_socialize"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterStreetwise"
+                android:layout_below="@id/valueSetterSocialize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_streetwise"
+                app:traitCategory="@string/cat_social"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterSubterfuge"
+                android:layout_below="@id/valueSetterStreetwise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_subterfuge"
+                app:traitCategory="@string/cat_social"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

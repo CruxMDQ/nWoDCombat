@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtPhysicalSkillsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:layout_gravity="center"
+            android:text="@string/cat_physical"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_half"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/bkgd_cat_panel">
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterAthletics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_athletics"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterBrawl"
+                android:layout_below="@id/valueSetterAthletics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_brawl"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterDrive"
+                android:layout_below="@id/valueSetterBrawl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_drive"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterFirearms"
+                android:layout_below="@id/valueSetterDrive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_firearms"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterLarceny"
+                android:layout_below="@id/valueSetterFirearms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_larceny"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterStealth"
+                android:layout_below="@id/valueSetterLarceny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_stealth"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterSurvival"
+                android:layout_below="@id/valueSetterStealth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_survival"
+                app:traitCategory="@string/cat_physical"
+                />
+
+            <view
+                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                android:id="@+id/valueSetterWeaponry"
+                android:layout_below="@id/valueSetterSurvival"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:valueName="@string/skill_weaponry"
+                app:traitCategory="@string/cat_physical"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

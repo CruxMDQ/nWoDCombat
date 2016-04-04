@@ -6,12 +6,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.diceroller.interfaces.OnValueChangedListener;
+import com.emi.nwodcombat.interfaces.OnValueChangedListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,8 +39,8 @@ public class NumberPickerWidget extends LinearLayout {
             .obtainStyledAttributes(attrs, R.styleable.NumberPickerWidget, 0, 0);
 
         setTitle(aAttrs.getString(R.styleable.NumberPickerWidget_widgetTitle));
-        setMinimum(aAttrs.getInt(R.styleable.NumberPickerWidget_minimumValue, 1));
-        setMaximum(aAttrs.getInt(R.styleable.NumberPickerWidget_maximumValue, 20));
+        setMinimum(aAttrs.getInt(R.styleable.NumberPickerWidget_minimum, 1));
+        setMaximum(aAttrs.getInt(R.styleable.NumberPickerWidget_maximum, 20));
 
         aAttrs.recycle();
 
@@ -128,6 +127,9 @@ public class NumberPickerWidget extends LinearLayout {
 
     public void setTitle(String title) {
         this.title = title;
+        if (txtTitle != null) {
+            txtTitle.setText(title);
+        }
     }
 
     public int getMinimum() {
@@ -152,6 +154,9 @@ public class NumberPickerWidget extends LinearLayout {
 
     public void setNumber(int number) {
         this.number = number;
+        if (txtNumber != null) {
+            txtNumber.setText(String.valueOf(number));
+        }
     }
 
     public OnValueChangedListener getListener() {
