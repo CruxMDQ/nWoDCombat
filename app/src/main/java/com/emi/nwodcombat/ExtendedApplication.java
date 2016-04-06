@@ -14,6 +14,7 @@ import com.emi.nwodcombat.model.db.Virtue;
 
 /**
  * Created by Emi on 3/14/16.
+ * Refer to this site for training on Realm: https://realm.io/docs/java/latest/
  */
 public class ExtendedApplication extends Application {
     @Override
