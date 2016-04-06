@@ -34,13 +34,6 @@ dependencies {
     compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
 //    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
-    compile ("io.realm:realm-gradle-plugin:$rootProject.ext.realmVersion") {
-        transitive = true
-        exclude module: 'support-annotations'
-        exclude module: 'asm'
-//        exclude module: 'asm-tree'
-//        exclude module: 'asm-analyzer'
-    }
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
@@ -63,6 +56,6 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.force "com.android.support:support-annotations:$rootProject.ext.supportLibraryVersion"
-    resolutionStrategy.force 'org.javassist:javassist:3.20.0-GA'
-    resolutionStrategy.force 'com.squareup:javawriter:2.5.0'
+//    resolutionStrategy.force 'org.javassist:javassist:3.20.0-GA'
+//    resolutionStrategy.force 'com.squareup:javawriter:2.5.0'
 }
