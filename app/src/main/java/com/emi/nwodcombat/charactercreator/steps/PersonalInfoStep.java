@@ -15,22 +15,26 @@ import android.widget.Spinner;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.NothingSelectedSpinnerAdapter;
+import com.emi.nwodcombat.charactercreator.PersonalityRealmAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
 import com.emi.nwodcombat.greendao.controllers.DemeanorController;
 import com.emi.nwodcombat.greendao.controllers.NatureController;
 import com.emi.nwodcombat.greendao.controllers.ViceController;
 import com.emi.nwodcombat.greendao.controllers.VirtueController;
-import com.emi.nwodcombat.model.Record;
 import com.emi.nwodcombat.model.db.Demeanor;
 import com.emi.nwodcombat.model.db.Nature;
 import com.emi.nwodcombat.model.db.Vice;
 import com.emi.nwodcombat.model.db.Virtue;
+import com.emi.nwodcombat.model.pojos.Record;
+import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.persistence.RealmHelper;
 
 import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.RealmBaseAdapter;
 
 /**
  * Created by Crux on 3/11/2016.
@@ -50,7 +54,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
-    private Long idDemeanor;
+    private int idDemeanor;
     private String demeanorName;
     private DemeanorController demeanorController;
 
@@ -71,10 +75,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
-        demeanorController = DemeanorController.getInstance(getContext());
-        natureController = NatureController.getInstance(getContext());
-        viceController = ViceController.getInstance(getContext());
-        virtueController = VirtueController.getInstance(getContext());
+        demeanorController = DemeanorController.getInstance(getActivity());
+        natureController = NatureController.getInstance(getActivity());
+        viceController = ViceController.getInstance(getActivity());
+        virtueController = VirtueController.getInstance(getActivity());
 
         ButterKnife.bind(this, view);
 
@@ -149,10 +153,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onClick(View v) {
                 AddRecordDialog dialog = AddRecordDialog.newInstance(
-                        Nature.class,
-                        getString(R.string.dialog_nature_new_title),
-                        getString(R.string.dialog_nature_new_hint),
-                        PersonalInfoStep.this
+                    Nature.class,
+                    getString(R.string.dialog_nature_new_title),
+                    getString(R.string.dialog_nature_new_hint),
+                    PersonalInfoStep.this
                 );
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
@@ -199,7 +203,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     private void setUpDemeanorSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpDemeanorAdapter();
+//        NothingSelectedSpinnerAdapter adapter = setUpDemeanorAdapter();
+
+        RealmBaseAdapter adapter = new PersonalityRealmAdapter(getActivity(),
+            RealmHelper.getInstance(getActivity()).getRealm().allObjects(PersonalityArchetype.class),
+            true);
 
         spinnerDemeanor.setAdapter(adapter);
 
@@ -207,9 +215,9 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
-                    Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
-                    idDemeanor = demeanor.getIdDemeanor();
-                    demeanorName = demeanor.getName();
+                    PersonalityArchetype archetype = ((PersonalityArchetype) spinnerDemeanor.getItemAtPosition(position));
+                    idDemeanor = archetype.getId();
+                    demeanorName = archetype.getName();
                 }
             }
 
@@ -227,7 +235,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         return new NothingSelectedSpinnerAdapter<>(
                 demeanorArrayAdapter,
                 R.layout.spinner_nothing_selected,
-                getContext()
+            getActivity()
         );
     }
 
@@ -260,7 +268,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         return new NothingSelectedSpinnerAdapter<>(
                 natureArrayAdapter,
                 R.layout.spinner_nothing_selected,
-                getContext()
+            getActivity()
         );
     }
 
@@ -293,7 +301,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         return new NothingSelectedSpinnerAdapter<>(
                 viceArrayAdapter,
                 R.layout.spinner_nothing_selected,
-                getContext()
+            getActivity()
         );
     }
 
@@ -326,7 +334,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         return new NothingSelectedSpinnerAdapter<>(
                 viceArrayAdapter,
                 R.layout.spinner_nothing_selected,
-                getContext()
+            getActivity()
         );
     }
 

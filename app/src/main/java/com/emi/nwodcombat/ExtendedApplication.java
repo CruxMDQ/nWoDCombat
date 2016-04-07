@@ -11,6 +11,10 @@ import com.emi.nwodcombat.model.db.Demeanor;
 import com.emi.nwodcombat.model.db.Nature;
 import com.emi.nwodcombat.model.db.Vice;
 import com.emi.nwodcombat.model.db.Virtue;
+import com.emi.nwodcombat.model.pojos.PersonalityArchetype;
+import com.emi.nwodcombat.persistence.Persistor;
+import com.emi.nwodcombat.persistence.RealmHelper;
+import com.google.gson.Gson;
 
 /**
  * Created by Emi on 3/14/16.
@@ -22,6 +26,34 @@ public class ExtendedApplication extends Application {
         super.onCreate();
 
         initSingletons();
+
+        createRealmObjects();
+    }
+
+    private void createRealmObjects() {
+        Persistor helper = RealmHelper.getInstance(this);
+
+        com.emi.nwodcombat.model.pojos.PersonalityArchetype authoritarian = new PersonalityArchetype();
+        authoritarian.setId(helper.getCount(com.emi.nwodcombat.model.realm.PersonalityArchetype.class));
+        authoritarian.setName(getString(R.string.personality_name_authoritarian));
+        authoritarian.setDescription(getString(R.string.personality_description_authoritarian));
+        authoritarian.setRegainOne(getString(R.string.personality_regain_one_authoritarian));
+        authoritarian.setRegainAll(getString(R.string.personality_regain_all_authoritarian));
+
+        Gson gson = new Gson();
+        String json = gson.toJson(authoritarian);
+
+        helper.save(com.emi.nwodcombat.model.realm.PersonalityArchetype.class, json);
+
+//        helper.save(PersonalityArchetype.class,
+//            helper.getCount(PersonalityArchetype.class),
+//            getString(R.string.personality_name_authoritarian),
+//            getString(R.string.personality_description_authoritarian),
+//            getString(R.string.personality_regain_one_authoritarian),
+//            getString(R.string.personality_regain_all_authoritarian));
+
+//
+//        helper.save(authoritarian);
     }
 
     private void initSingletons() {

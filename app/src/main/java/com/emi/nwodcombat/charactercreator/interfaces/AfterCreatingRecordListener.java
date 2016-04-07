@@ -1,6 +1,6 @@
 package com.emi.nwodcombat.charactercreator.interfaces;
 
-import com.emi.nwodcombat.model.Record;
+import com.emi.nwodcombat.model.pojos.Record;
 
 /**
  * Created by Crux on 3/26/2016.

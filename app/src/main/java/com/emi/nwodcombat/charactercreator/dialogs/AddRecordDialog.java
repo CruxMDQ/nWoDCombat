@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
-import com.emi.nwodcombat.model.Record;
+import com.emi.nwodcombat.model.pojos.Record;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
