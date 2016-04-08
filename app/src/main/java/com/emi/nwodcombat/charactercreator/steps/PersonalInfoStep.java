@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.NothingSelectedSpinnerAdapter;
+import com.emi.nwodcombat.charactercreator.NothingSelectedArrayAdapter;
 import com.emi.nwodcombat.charactercreator.PersonalityRealmAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
@@ -227,12 +227,12 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpDemeanorAdapter() {
+    private NothingSelectedArrayAdapter setUpDemeanorAdapter() {
         ArrayAdapter<Demeanor> demeanorArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, demeanorController.getList());
 
         demeanorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        return new NothingSelectedSpinnerAdapter<>(
+        return new NothingSelectedArrayAdapter<>(
                 demeanorArrayAdapter,
                 R.layout.spinner_nothing_selected,
             getActivity()
@@ -240,7 +240,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     private void setUpNatureSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpNatureAdapter();
+        NothingSelectedArrayAdapter adapter = setUpNatureAdapter();
 
         spinnerNature.setAdapter(adapter);
 
@@ -260,12 +260,12 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpNatureAdapter() {
+    private NothingSelectedArrayAdapter setUpNatureAdapter() {
         ArrayAdapter<Nature> natureArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, natureController.getList());
 
         natureArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        return new NothingSelectedSpinnerAdapter<>(
+        return new NothingSelectedArrayAdapter<>(
                 natureArrayAdapter,
                 R.layout.spinner_nothing_selected,
             getActivity()
@@ -273,7 +273,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     private void setUpViceSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpViceAdapter();
+        NothingSelectedArrayAdapter adapter = setUpViceAdapter();
 
         spinnerVice.setAdapter(adapter);
 
@@ -293,12 +293,12 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpViceAdapter() {
+    private NothingSelectedArrayAdapter setUpViceAdapter() {
         ArrayAdapter<Vice> viceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, viceController.getList());
 
         viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        return new NothingSelectedSpinnerAdapter<>(
+        return new NothingSelectedArrayAdapter<>(
                 viceArrayAdapter,
                 R.layout.spinner_nothing_selected,
             getActivity()
@@ -306,7 +306,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     private void setUpVirtueSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpVirtueAdapter();
+        NothingSelectedArrayAdapter adapter = setUpVirtueAdapter();
 
         spinnerVirtue.setAdapter(adapter);
 
@@ -326,12 +326,12 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpVirtueAdapter() {
+    private NothingSelectedArrayAdapter setUpVirtueAdapter() {
         ArrayAdapter<Virtue> viceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, virtueController.getList());
 
         viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        return new NothingSelectedSpinnerAdapter<>(
+        return new NothingSelectedArrayAdapter<>(
                 viceArrayAdapter,
                 R.layout.spinner_nothing_selected,
             getActivity()
