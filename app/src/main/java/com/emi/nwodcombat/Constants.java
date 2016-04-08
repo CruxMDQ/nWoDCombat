@@ -100,4 +100,9 @@ public class Constants {
     public static final String SKILL_SOCIALIZE = "Socialize";
     public static final String SKILL_STREETWISE = "Streetwise";
     public static final String SKILL_SUBTERFUGE = "Subterfuge";
+
+    public static final String ARG_CLASS = "Class";
+    public static final String ARG_TITLE = "Title";
+    public static final String ARG_HINT = "Hint";
+    public static final String ARG_CLASS_ARGS = "ClassArguments";
 }

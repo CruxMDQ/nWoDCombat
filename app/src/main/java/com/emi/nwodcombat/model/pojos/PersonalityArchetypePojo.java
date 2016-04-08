@@ -1,19 +1,28 @@
-package com.emi.nwodcombat.model.realm;
-
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+package com.emi.nwodcombat.model.pojos;
 
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class PersonalityArchetype extends RealmObject {
-    @PrimaryKey
+public class PersonalityArchetypePojo {
     private Long id;
 
-    private String description;
     private String name;
+    private String description;
     private String regainOne;
     private String regainAll;
+
+    public PersonalityArchetypePojo() {}
+
+    public PersonalityArchetypePojo(String name) {
+        this.name = name;
+    }
+
+    public PersonalityArchetypePojo(String name, String description, String regainAll, String regainOne) {
+        this.name = name;
+        this.description = description;
+        this.regainAll = regainAll;
+        this.regainOne = regainOne;
+    }
 
     public String getDescription() {
         return description;

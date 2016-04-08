@@ -14,21 +14,21 @@ import android.widget.Spinner;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.NothingSelectedArrayAdapter;
+import com.emi.nwodcombat.adapters.NothingSelectedArrayAdapter;
 import com.emi.nwodcombat.charactercreator.PersonalityRealmAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
-import com.emi.nwodcombat.greendao.controllers.DemeanorController;
 import com.emi.nwodcombat.greendao.controllers.NatureController;
 import com.emi.nwodcombat.greendao.controllers.ViceController;
 import com.emi.nwodcombat.greendao.controllers.VirtueController;
-import com.emi.nwodcombat.model.db.Demeanor;
 import com.emi.nwodcombat.model.db.Nature;
 import com.emi.nwodcombat.model.db.Vice;
 import com.emi.nwodcombat.model.db.Virtue;
-import com.emi.nwodcombat.model.pojos.Record;
+import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.persistence.Persistor;
 import com.emi.nwodcombat.persistence.RealmHelper;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 
@@ -54,9 +54,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
-    private int idDemeanor;
+    private Persistor<PersonalityArchetype> archetypePersistor;
+
+    private Long idDemeanor;
     private String demeanorName;
-    private DemeanorController demeanorController;
 
     private Long idNature;
     private String natureName;
@@ -75,8 +76,8 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
-        demeanorController = DemeanorController.getInstance(getActivity());
-        natureController = NatureController.getInstance(getActivity());
+        archetypePersistor = RealmHelper.getInstance(getActivity());
+
         viceController = ViceController.getInstance(getActivity());
         virtueController = VirtueController.getInstance(getActivity());
 
@@ -140,11 +141,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onClick(View v) {
                 AddRecordDialog dialog = AddRecordDialog.newInstance(
-                        Demeanor.class,
+                        PersonalityArchetypePojo.class,
                         getString(R.string.dialog_demeanor_new_title),
-                        getString(R.string.dialog_demeanor_new_hint),
-                        PersonalInfoStep.this
+                        getString(R.string.dialog_demeanor_new_hint)
                 );
+                dialog.setListener(PersonalInfoStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
@@ -153,11 +154,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onClick(View v) {
                 AddRecordDialog dialog = AddRecordDialog.newInstance(
-                    Nature.class,
+                    PersonalityArchetypePojo.class,
                     getString(R.string.dialog_nature_new_title),
-                    getString(R.string.dialog_nature_new_hint),
-                    PersonalInfoStep.this
+                    getString(R.string.dialog_nature_new_hint)
                 );
+                dialog.setListener(PersonalInfoStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
@@ -203,8 +204,6 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     private void setUpDemeanorSpinner() {
-//        NothingSelectedSpinnerAdapter adapter = setUpDemeanorAdapter();
-
         RealmBaseAdapter adapter = new PersonalityRealmAdapter(getActivity(),
             RealmHelper.getInstance(getActivity()).getRealm().allObjects(PersonalityArchetype.class),
             true);
@@ -215,7 +214,8 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
-                    PersonalityArchetype archetype = ((PersonalityArchetype) spinnerDemeanor.getItemAtPosition(position));
+                    PersonalityArchetype archetype = ((PersonalityArchetype) spinnerDemeanor
+                        .getItemAtPosition(position));
                     idDemeanor = archetype.getId();
                     demeanorName = archetype.getName();
                 }
@@ -227,20 +227,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedArrayAdapter setUpDemeanorAdapter() {
-        ArrayAdapter<Demeanor> demeanorArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, demeanorController.getList());
-
-        demeanorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        return new NothingSelectedArrayAdapter<>(
-                demeanorArrayAdapter,
-                R.layout.spinner_nothing_selected,
-            getActivity()
-        );
-    }
-
     private void setUpNatureSpinner() {
-        NothingSelectedArrayAdapter adapter = setUpNatureAdapter();
+        RealmBaseAdapter adapter = new PersonalityRealmAdapter(getActivity(),
+            RealmHelper.getInstance(getActivity()).getRealm().allObjects(PersonalityArchetype.class),
+            true);
 
         spinnerNature.setAdapter(adapter);
 
@@ -248,9 +238,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
-                    Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
-                    idNature = nature.getIdNature();
-                    natureName = nature.getName();
+                    PersonalityArchetype archetype = ((PersonalityArchetype) spinnerDemeanor
+                        .getItemAtPosition(position));
+                    idNature = archetype.getId();
+                    natureName = archetype.getName();
                 }
             }
 
@@ -339,12 +330,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     @Override
-    public void afterCreatingRecord(Record record) {
-        if (record instanceof Demeanor) {
-            demeanorController.save((Demeanor) record);
+    public void afterCreatingRecord(Object record) {
+        if (record instanceof PersonalityArchetypePojo) {
+            archetypePersistor.save(PersonalityArchetype.class, new Gson().toJson(record));
             setUpDemeanorSpinner();
-        } else if (record instanceof Nature) {
-            natureController.save((Nature) record);
             setUpNatureSpinner();
         }
     }

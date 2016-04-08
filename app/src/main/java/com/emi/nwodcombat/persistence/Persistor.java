@@ -1,5 +1,6 @@
 package com.emi.nwodcombat.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,9 @@ import java.util.List;
 public interface Persistor<T> {
     long save(T item);
 
-    long save(Class className, String json);
+    long save(Class klass, String json);
+
+    long save(Class klass, ArrayList<String> jsonObjects);
 
     List<T> getList();
 
@@ -19,4 +22,6 @@ public interface Persistor<T> {
     void update(T item);
 
     int getCount(Class className);
+
+    long getLastId(Class className);
 }

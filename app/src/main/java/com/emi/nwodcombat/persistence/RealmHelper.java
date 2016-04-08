@@ -5,17 +5,19 @@ import android.util.Log;
 
 import com.emi.nwodcombat.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
+import io.realm.RealmQuery;
 import io.realm.exceptions.RealmMigrationNeededException;
 
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class RealmHelper implements Persistor<RealmObject> {
+public class RealmHelper<T extends RealmObject> implements Persistor<T> {
     public static RealmHelper instance;
 
     private Realm realm;
@@ -102,6 +104,7 @@ public class RealmHelper implements Persistor<RealmObject> {
             realm.copyToRealmOrUpdate(object);
 
             realm.commitTransaction();
+
             return 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +113,26 @@ public class RealmHelper implements Persistor<RealmObject> {
     }
 
     @Override
-    public List<RealmObject> getList() {
+    public long save(Class klass, ArrayList<String> jsonObjects) {
+        try {
+            realm.beginTransaction();
+
+            for (String json : jsonObjects) {
+                RealmObject object = realm.createObjectFromJson(klass, json);
+
+                realm.copyToRealm(object);
+            }
+
+            realm.commitTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+    }
+
+    @Override
+    public List<T> getList() {
         return null;
     }
 
@@ -120,7 +142,7 @@ public class RealmHelper implements Persistor<RealmObject> {
     }
 
     @Override
-    public RealmObject get(long id) {
+    public T get(long id) {
         return null;
     }
 
@@ -132,6 +154,19 @@ public class RealmHelper implements Persistor<RealmObject> {
     @Override
     public int getCount(Class className) {
         return realm.allObjects(className).size();
+    }
+
+    @Override
+    public long getLastId(Class className) {
+        long key;
+        try {
+            RealmQuery query = realm.where(className);
+            Number max = query.max("id");
+            key = max != null ? max.longValue() + 1 : 0;
+        } catch(ArrayIndexOutOfBoundsException ex) {
+            key = 0;
+        }
+        return key;
     }
 
     public Realm getRealm() {
