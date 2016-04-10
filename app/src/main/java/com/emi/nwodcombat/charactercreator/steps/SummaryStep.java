@@ -343,14 +343,14 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 //        CharacterVices vices = new CharacterVices();
 //
 //        vices.setIdCharacter(charId);
-//        vices.setIdVice(characterVice);
+//        vices.setId(characterVice);
 //
 //        commitChoices(vices);
 //
 //        CharacterVirtues virtues = new CharacterVirtues();
 //
 //        virtues.setIdCharacter(charId);
-//        virtues.setIdVirtue(characterVirtue);
+//        virtues.setId(characterVirtue);
 //
 //        commitChoices(virtues);
 

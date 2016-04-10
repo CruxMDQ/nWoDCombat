@@ -3,13 +3,13 @@ package com.emi.nwodcombat;
 import android.app.Application;
 
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
-import com.emi.nwodcombat.greendao.controllers.ViceController;
-import com.emi.nwodcombat.greendao.controllers.VirtueController;
-import com.emi.nwodcombat.model.db.Vice;
-import com.emi.nwodcombat.model.db.Virtue;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
+import com.emi.nwodcombat.model.pojos.VicePojo;
+import com.emi.nwodcombat.model.pojos.VirtuePojo;
 import com.emi.nwodcombat.model.realm.PersonalityArchetype;
-import com.emi.nwodcombat.persistence.Persistor;
+import com.emi.nwodcombat.model.realm.Vice;
+import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.google.gson.Gson;
 
@@ -26,11 +26,135 @@ public class ExtendedApplication extends Application {
 
         initSingletons();
 
-        createRealmObjects();
+        generatePersonalityArchetypes();
+        generateRealmVices();
+        generateRealmVirtues();
     }
 
-    private void createRealmObjects() {
-        Persistor<PersonalityArchetype> helper = RealmHelper.getInstance(this);
+    private void generateRealmVirtues() {
+        PersistenceLayer<Virtue> helper = new RealmHelper<>(this);
+        Gson gson = new Gson();
+
+        if (helper.getCount(Virtue.class) == 0) {
+            ArrayList<String> jsonObjects = new ArrayList<>();
+
+            VirtuePojo charity = new VirtuePojo();
+            charity.setId((long) jsonObjects.size());
+            charity.setName(getString(R.string.virtue_name_charity));
+            charity.setDescription(getString(R.string.virtue_description_charity));
+            charity.setRegainAll(getString(R.string.virtue_regain_all_charity));
+            jsonObjects.add(gson.toJson(charity));
+
+            VirtuePojo faith = new VirtuePojo();
+            faith.setId((long) jsonObjects.size());
+            faith.setName(getString(R.string.virtue_name_faith));
+            faith.setDescription(getString(R.string.virtue_description_faith));
+            faith.setRegainAll(getString(R.string.virtue_regain_all_faith));
+            jsonObjects.add(gson.toJson(faith));
+
+            VirtuePojo fortitude = new VirtuePojo();
+            fortitude.setId((long) jsonObjects.size());
+            fortitude.setName(getString(R.string.virtue_name_fortitude));
+            fortitude.setDescription(getString(R.string.virtue_description_fortitude));
+            fortitude.setRegainAll(getString(R.string.virtue_regain_all_fortitude));
+            jsonObjects.add(gson.toJson(fortitude));
+
+            VirtuePojo hope = new VirtuePojo();
+            hope.setId((long) jsonObjects.size());
+            hope.setName(getString(R.string.virtue_name_hope));
+            hope.setDescription(getString(R.string.virtue_description_hope));
+            hope.setRegainAll(getString(R.string.virtue_regain_all_hope));
+            jsonObjects.add(gson.toJson(hope));
+
+            VirtuePojo justice = new VirtuePojo();
+            justice.setId((long) jsonObjects.size());
+            justice.setName(getString(R.string.virtue_name_justice));
+            justice.setDescription(getString(R.string.virtue_description_justice));
+            justice.setRegainAll(getString(R.string.virtue_regain_all_justice));
+            jsonObjects.add(gson.toJson(justice));
+
+            VirtuePojo prudence = new VirtuePojo();
+            prudence.setId((long) jsonObjects.size());
+            prudence.setName(getString(R.string.virtue_name_prudence));
+            prudence.setDescription(getString(R.string.virtue_description_prudence));
+            prudence.setRegainAll(getString(R.string.virtue_regain_all_prudence));
+            jsonObjects.add(gson.toJson(prudence));
+
+            VirtuePojo temperance = new VirtuePojo();
+            temperance.setId((long) jsonObjects.size());
+            temperance.setName(getString(R.string.virtue_name_temperance));
+            temperance.setDescription(getString(R.string.virtue_description_temperance));
+            temperance.setRegainAll(getString(R.string.virtue_regain_all_temperance));
+            jsonObjects.add(gson.toJson(temperance));
+
+            helper.save(Virtue.class, jsonObjects);
+        }
+    }
+
+    private void generateRealmVices() {
+        PersistenceLayer<Vice> helper = new RealmHelper<>(this);
+        Gson gson = new Gson();
+
+        if (helper.getCount(Vice.class) == 0) {
+            ArrayList<String> jsonObjects = new ArrayList<>();
+
+//            envy.setId(Long.valueOf(helper.getCount(Vice.class)));
+            VicePojo envy = new VicePojo();
+            envy.setId((long) jsonObjects.size());
+            envy.setName(getString(R.string.vice_name_envy));
+            envy.setDescription(getString(R.string.vice_description_envy));
+            envy.setRegainOne(getString(R.string.vice_regain_one_envy));
+            jsonObjects.add(gson.toJson(envy));
+
+            VicePojo gluttony = new VicePojo();
+            gluttony.setId((long) jsonObjects.size());
+            gluttony.setName(getString(R.string.vice_name_gluttony));
+            gluttony.setDescription(getString(R.string.vice_description_gluttony));
+            gluttony.setRegainOne(getString(R.string.vice_regain_one_gluttony));
+            jsonObjects.add(gson.toJson(gluttony));
+
+            VicePojo greed = new VicePojo();
+            greed.setId((long) jsonObjects.size());
+            greed.setName(getString(R.string.vice_name_greed));
+            greed.setDescription(getString(R.string.vice_description_greed));
+            greed.setRegainOne(getString(R.string.vice_regain_one_greed));
+            jsonObjects.add(gson.toJson(greed));
+
+            VicePojo lust = new VicePojo();
+            lust.setId((long) jsonObjects.size());
+            lust.setName(getString(R.string.vice_name_lust));
+            lust.setDescription(getString(R.string.vice_description_lust));
+            lust.setRegainOne(getString(R.string.vice_regain_one_lust));
+            jsonObjects.add(gson.toJson(lust));
+
+            VicePojo pride = new VicePojo();
+            pride.setId((long) jsonObjects.size());
+            pride.setName(getString(R.string.vice_name_pride));
+            pride.setDescription(getString(R.string.vice_description_pride));
+            pride.setRegainOne(getString(R.string.vice_regain_one_pride));
+            jsonObjects.add(gson.toJson(pride));
+
+            VicePojo sloth = new VicePojo();
+            sloth.setId((long) jsonObjects.size());
+            sloth.setName(getString(R.string.vice_name_sloth));
+            sloth.setDescription(getString(R.string.vice_description_sloth));
+            sloth.setRegainOne(getString(R.string.vice_regain_one_sloth));
+            jsonObjects.add(gson.toJson(sloth));
+
+            VicePojo wrath = new VicePojo();
+            wrath.setId((long) jsonObjects.size());
+            wrath.setName(getString(R.string.vice_name_wrath));
+            wrath.setDescription(getString(R.string.vice_description_wrath));
+            wrath.setRegainOne(getString(R.string.vice_regain_one_wrath));
+            jsonObjects.add(gson.toJson(wrath));
+
+            helper.save(Vice.class, jsonObjects);
+        }
+    }
+
+    private void generatePersonalityArchetypes() {
+        PersistenceLayer<PersonalityArchetype> helper = new RealmHelper<>(this);
+
         Gson gson = new Gson();
 
         if (helper.getCount(PersonalityArchetype.class) == 0) {
@@ -224,11 +348,11 @@ public class ExtendedApplication extends Application {
             socialChameleon.setId((long) jsonObjects.size());
             socialChameleon.setName(getString(R.string.personality_name_social_chameleon));
             socialChameleon.setDescription(
-                getString(R.string.personality_description_social_chameleon));
+                    getString(R.string.personality_description_social_chameleon));
             socialChameleon.setRegainOne(
-                getString(R.string.personality_regain_one_social_chameleon));
+                    getString(R.string.personality_regain_one_social_chameleon));
             socialChameleon.setRegainAll(
-                getString(R.string.personality_regain_all_social_chameleon));
+                    getString(R.string.personality_regain_all_social_chameleon));
             jsonObjects.add(gson.toJson(socialChameleon));
 
             PersonalityArchetypePojo spy = new PersonalityArchetypePojo();
@@ -261,106 +385,6 @@ public class ExtendedApplication extends Application {
 
     private void initSingletons() {
         CharacterController.init(getApplicationContext());
-        ViceController.init(getApplicationContext());
-        VirtueController.init(getApplicationContext());
-
-        generateVices();
-        generateVirtues();
     }
 
-    private void generateVices() {
-        ViceController viceController = ViceController.getInstance();
-
-        if (viceController.getList().size() == 0) {
-            Vice envy = new Vice();
-            envy.setName(getString(R.string.vice_name_envy));
-            envy.setDescription(getString(R.string.vice_description_envy));
-            envy.setRegainOne(getString(R.string.vice_regain_one_envy));
-            viceController.save(envy);
-
-            Vice gluttony = new Vice();
-            gluttony.setName(getString(R.string.vice_name_gluttony));
-            gluttony.setDescription(getString(R.string.vice_description_gluttony));
-            gluttony.setRegainOne(getString(R.string.vice_regain_one_gluttony));
-            viceController.save(gluttony);
-
-            Vice greed = new Vice();
-            greed.setName(getString(R.string.vice_name_greed));
-            greed.setDescription(getString(R.string.vice_description_greed));
-            greed.setRegainOne(getString(R.string.vice_regain_one_greed));
-            viceController.save(greed);
-
-            Vice lust = new Vice();
-            lust.setName(getString(R.string.vice_name_lust));
-            lust.setDescription(getString(R.string.vice_description_lust));
-            lust.setRegainOne(getString(R.string.vice_regain_one_lust));
-            viceController.save(lust);
-
-            Vice pride = new Vice();
-            pride.setName(getString(R.string.vice_name_pride));
-            pride.setDescription(getString(R.string.vice_description_pride));
-            pride.setRegainOne(getString(R.string.vice_regain_one_pride));
-            viceController.save(pride);
-
-            Vice sloth = new Vice();
-            sloth.setName(getString(R.string.vice_name_sloth));
-            sloth.setDescription(getString(R.string.vice_description_sloth));
-            sloth.setRegainOne(getString(R.string.vice_regain_one_sloth));
-            viceController.save(sloth);
-
-            Vice wrath = new Vice();
-            wrath.setName(getString(R.string.vice_name_wrath));
-            wrath.setDescription(getString(R.string.vice_description_wrath));
-            wrath.setRegainOne(getString(R.string.vice_regain_one_wrath));
-            viceController.save(wrath);
-        }
-    }
-    
-    private void generateVirtues() {
-        VirtueController virtueController = VirtueController.getInstance();
-
-        if (virtueController.getList().size() == 0) {
-            Virtue charity = new Virtue();
-            charity.setName(getString(R.string.virtue_name_charity));
-            charity.setDescription(getString(R.string.virtue_description_charity));
-            charity.setRegainAll(getString(R.string.virtue_regain_all_charity));
-            virtueController.save(charity);
-            
-            Virtue faith = new Virtue();
-            faith.setName(getString(R.string.virtue_name_faith));
-            faith.setDescription(getString(R.string.virtue_description_faith));
-            faith.setRegainAll(getString(R.string.virtue_regain_all_faith));
-            virtueController.save(faith);
-
-            Virtue fortitude = new Virtue();
-            fortitude.setName(getString(R.string.virtue_name_fortitude));
-            fortitude.setDescription(getString(R.string.virtue_description_fortitude));
-            fortitude.setRegainAll(getString(R.string.virtue_regain_all_fortitude));
-            virtueController.save(fortitude);
-
-            Virtue hope = new Virtue();
-            hope.setName(getString(R.string.virtue_name_hope));
-            hope.setDescription(getString(R.string.virtue_description_hope));
-            hope.setRegainAll(getString(R.string.virtue_regain_all_hope));
-            virtueController.save(hope);
-
-            Virtue justice = new Virtue();
-            justice.setName(getString(R.string.virtue_name_justice));
-            justice.setDescription(getString(R.string.virtue_description_justice));
-            justice.setRegainAll(getString(R.string.virtue_regain_all_justice));
-            virtueController.save(justice);
-
-            Virtue prudence = new Virtue();
-            prudence.setName(getString(R.string.virtue_name_prudence));
-            prudence.setDescription(getString(R.string.virtue_description_prudence));
-            prudence.setRegainAll(getString(R.string.virtue_regain_all_prudence));
-            virtueController.save(prudence);
-
-            Virtue temperance = new Virtue();
-            temperance.setName(getString(R.string.virtue_name_temperance));
-            temperance.setDescription(getString(R.string.virtue_description_temperance));
-            temperance.setRegainAll(getString(R.string.virtue_regain_all_temperance));
-            virtueController.save(temperance);
-        }
-    }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.emi.nwodcombat.R;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,28 +13,21 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class RealmHelper<T extends RealmObject> implements Persistor<T> {
+public class RealmHelper<T extends RealmObject> implements PersistenceLayer<T> {
     public static RealmHelper instance;
 
     private Realm realm;
     private RealmConfiguration realmConfig;
 
-    public static RealmHelper getInstance(Context context) {
-        if (instance == null) {
-            instance = new RealmHelper(context);
-        }
-        return instance;
-    }
+    public RealmHelper() {}
 
-    private RealmHelper() {}
-
-    private RealmHelper(Context context) {
-        instance = new RealmHelper();
+    public RealmHelper(Context context) {
         realmConfig = new RealmConfiguration.Builder(context).build();
 
         try {
@@ -131,9 +125,8 @@ public class RealmHelper<T extends RealmObject> implements Persistor<T> {
         return 0;
     }
 
-    @Override
-    public List<T> getList() {
-        return null;
+    public RealmResults getList(Class klass) {
+        return realm.allObjects(klass);
     }
 
     @Override
@@ -171,5 +164,10 @@ public class RealmHelper<T extends RealmObject> implements Persistor<T> {
 
     public Realm getRealm() {
         return realm;
+    }
+
+    @Override
+    public List<T> getList() {
+        return null;
     }
 }

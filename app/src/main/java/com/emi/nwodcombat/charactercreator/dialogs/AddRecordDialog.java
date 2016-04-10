@@ -16,6 +16,8 @@ import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
+import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -155,10 +157,11 @@ public class AddRecordDialog<T> extends DialogFragment {
 
     private void exportRecord(Object record) {
         if (record instanceof PersonalityArchetypePojo) {
+            PersistenceLayer<PersonalityArchetype> helper = new RealmHelper<PersonalityArchetype>(getActivity());
+
             ((PersonalityArchetypePojo) record)
                 .setName(editRecordName.getText().toString());
-            ((PersonalityArchetypePojo) record).setId(RealmHelper.getInstance(getActivity()).getLastId(
-                com.emi.nwodcombat.model.realm.PersonalityArchetype.class));
+            ((PersonalityArchetypePojo) record).setId(helper.getLastId(PersonalityArchetype.class));
         }
         listener.afterCreatingRecord(record);
     }

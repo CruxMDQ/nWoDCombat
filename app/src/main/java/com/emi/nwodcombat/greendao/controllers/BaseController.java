@@ -5,6 +5,7 @@ import android.content.Context;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.greendao.DaoMaster;
 import com.emi.nwodcombat.greendao.DaoSession;
+import com.emi.nwodcombat.persistence.PersistenceLayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 import de.greenrobot.dao.AbstractDao;
 
 @SuppressWarnings("unchecked")
-abstract public class BaseController<T> implements com.emi.nwodcombat.persistence.Persistor<T> {
+abstract public class BaseController<T> implements PersistenceLayer<T> {
     private static DaoSession session;
     AbstractDao dao;
 
@@ -34,6 +35,11 @@ abstract public class BaseController<T> implements com.emi.nwodcombat.persistenc
     @Override
     public List<T> getList() {
         return dao.loadAll();
+    }
+
+    @Override
+    public List getList(Class klass) {
+        return null;
     }
 
     @Override

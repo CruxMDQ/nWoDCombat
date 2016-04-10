@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public interface Persistor<T> {
+public interface PersistenceLayer<T> {
     long save(T item);
 
     long save(Class klass, String json);
@@ -14,6 +14,8 @@ public interface Persistor<T> {
     long save(Class klass, ArrayList<String> jsonObjects);
 
     List<T> getList();
+
+    List getList(Class klass);
 
     void delete(T item);
 

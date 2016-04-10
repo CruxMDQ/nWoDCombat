@@ -1,20 +1,20 @@
-package com.emi.nwodcombat.charactercreator;
+package com.emi.nwodcombat.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Virtue;
 
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
 /**
- * Created by emiliano.desantis on 07/04/2016.
+ * Created by Crux on 4/10/2016.
  */
-public class PersonalityRealmAdapter extends RealmBaseAdapter<PersonalityArchetype> {
-    public PersonalityRealmAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
+public class VirtueRealmAdapter extends RealmBaseAdapter<Virtue> {
+    public VirtueRealmAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
         super(context, realmResults, automaticUpdate);
     }
 
@@ -30,7 +30,7 @@ public class PersonalityRealmAdapter extends RealmBaseAdapter<PersonalityArchety
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        PersonalityArchetype item = realmResults.get(position);
+        Virtue item = realmResults.get(position);
         viewHolder.text.setText(item.getName());
 
         return convertView;
@@ -39,5 +39,4 @@ public class PersonalityRealmAdapter extends RealmBaseAdapter<PersonalityArchety
     private static class ViewHolder {
         TextView text;
     }
-
 }
