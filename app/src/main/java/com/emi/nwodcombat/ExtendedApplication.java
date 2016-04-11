@@ -20,9 +20,14 @@ import java.util.ArrayList;
  * Refer to this site for training on Realm: https://realm.io/docs/java/latest/
  */
 public class ExtendedApplication extends Application {
+
+    PersistenceLayer helper;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        helper = RealmHelper.getInstance(this);
 
         initSingletons();
 
@@ -32,7 +37,6 @@ public class ExtendedApplication extends Application {
     }
 
     private void generateRealmVirtues() {
-        PersistenceLayer<Virtue> helper = new RealmHelper<>(this);
         Gson gson = new Gson();
 
         if (helper.getCount(Virtue.class) == 0) {
@@ -92,7 +96,6 @@ public class ExtendedApplication extends Application {
     }
 
     private void generateRealmVices() {
-        PersistenceLayer<Vice> helper = new RealmHelper<>(this);
         Gson gson = new Gson();
 
         if (helper.getCount(Vice.class) == 0) {
@@ -153,7 +156,6 @@ public class ExtendedApplication extends Application {
     }
 
     private void generatePersonalityArchetypes() {
-        PersistenceLayer<PersonalityArchetype> helper = new RealmHelper<>(this);
 
         Gson gson = new Gson();
 

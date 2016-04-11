@@ -43,7 +43,7 @@ public interface MainMVP {
         void removeCharacter(long character);
         void onDestroy();
 
-        Loader<List<Character>> getCharactersLoader();
+        Loader<List<Object>> getCharactersLoader();
 
         // Any other data operations
     }

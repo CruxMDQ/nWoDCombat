@@ -20,11 +20,11 @@ import butterknife.OnClick;
  * Created by emiliano.desantis on 28/03/2016.
  */
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
-    public List<Character> mItems;
+    public List<Object> mItems;
     private Activity activity;
     private int idLayout;
 
-    public CharacterAdapter(Activity activity, int idLayout, List<Character> mItems) {
+    public CharacterAdapter(Activity activity, int idLayout, List<Object> mItems) {
         this.activity = activity;
         this.idLayout = idLayout;
         this.mItems = mItems;
@@ -39,7 +39,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
 
     @Override
     public void onBindViewHolder(CharacterAdapter.ViewHolder holder, int position) {
-        Character character = mItems.get(position);
+        Character character = (Character) mItems.get(position);
 
         String name = character.getName();
 

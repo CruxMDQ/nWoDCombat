@@ -157,7 +157,7 @@ public class AddRecordDialog<T> extends DialogFragment {
 
     private void exportRecord(Object record) {
         if (record instanceof PersonalityArchetypePojo) {
-            PersistenceLayer<PersonalityArchetype> helper = new RealmHelper<PersonalityArchetype>(getActivity());
+            PersistenceLayer helper = RealmHelper.getInstance(getActivity());
 
             ((PersonalityArchetypePojo) record)
                 .setName(editRecordName.getText().toString());

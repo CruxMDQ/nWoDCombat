@@ -13,7 +13,7 @@ import java.util.List;
 import de.greenrobot.dao.AbstractDao;
 
 @SuppressWarnings("unchecked")
-abstract public class BaseController<T> implements PersistenceLayer<T> {
+abstract public class BaseController<T extends Object> implements PersistenceLayer {
     private static DaoSession session;
     AbstractDao dao;
 
@@ -27,23 +27,18 @@ abstract public class BaseController<T> implements PersistenceLayer<T> {
     }
 
     @Override
-    public long save(T item) {
+    public long save(Object item) {
 //        return dao.insert(item);
         return dao.insertOrReplace(item);
     }
 
     @Override
-    public List<T> getList() {
+    public List<Object> getList() {
         return dao.loadAll();
     }
 
     @Override
-    public List getList(Class klass) {
-        return null;
-    }
-
-    @Override
-    public void delete(T item) {
+    public void delete(Object item) {
         dao.delete(item);
     }
 
@@ -57,7 +52,7 @@ abstract public class BaseController<T> implements PersistenceLayer<T> {
     }
 
     @Override
-    public void update(T item) {
+    public void update(Object item) {
         dao.update(item);
     }
 
@@ -80,5 +75,15 @@ abstract public class BaseController<T> implements PersistenceLayer<T> {
     @Override
     public long getLastId(Class className) {
         return 0;
+    }
+
+    @Override
+    public List getList(Class klass) {
+        return null;
+    }
+
+    @Override
+    public Object get(Class klass, long id) {
+        return null;
     }
 }

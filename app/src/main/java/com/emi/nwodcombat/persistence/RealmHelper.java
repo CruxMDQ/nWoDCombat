@@ -3,9 +3,9 @@ package com.emi.nwodcombat.persistence;
 import android.content.Context;
 import android.util.Log;
 
+import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +19,24 @@ import io.realm.exceptions.RealmMigrationNeededException;
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class RealmHelper<T extends RealmObject> implements PersistenceLayer<T> {
-    public static RealmHelper instance;
+public class RealmHelper implements PersistenceLayer {
+    private static RealmHelper instance;
 
     private Realm realm;
     private RealmConfiguration realmConfig;
 
-    public RealmHelper() {}
+    public static RealmHelper getInstance (Context context) {
+        if (instance == null) {
+            instance = new RealmHelper(context);
+        }
+        return instance;
+    }
 
-    public RealmHelper(Context context) {
-        realmConfig = new RealmConfiguration.Builder(context).build();
+    private RealmHelper() {}
+
+    private RealmHelper(Context context) {
+        RealmConfiguration.Builder builder = new RealmConfiguration.Builder(context);
+        realmConfig = builder.build();
 
         try {
             realm = Realm.getInstance(realmConfig);
@@ -43,19 +51,6 @@ public class RealmHelper<T extends RealmObject> implements PersistenceLayer<T> {
                 throw ex;
                 //No Realm file to remove.
             }
-        }
-    }
-
-    @Override
-    public long save(RealmObject item) {
-        try {
-            realm.beginTransaction();
-            realm.copyToRealm(item);
-            realm.commitTransaction();
-            return 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
         }
     }
 
@@ -88,6 +83,11 @@ public class RealmHelper<T extends RealmObject> implements PersistenceLayer<T> {
 //        }
 //        return 0;
 //    }
+
+    @Override
+    public long save(Object item) {
+        return 0;
+    }
 
     public long save(Class klass, String json) {
         try {
@@ -125,22 +125,24 @@ public class RealmHelper<T extends RealmObject> implements PersistenceLayer<T> {
         return 0;
     }
 
+    @Override
+    public List<Object> getList() {
+        return null;
+    }
+
     public RealmResults getList(Class klass) {
         return realm.allObjects(klass);
     }
 
     @Override
-    public void delete(RealmObject item) {
-
+    public Object get(Class klass, long id) {
+        RealmQuery query = realm.where(klass);
+        RealmResults result = query.equalTo(Constants.FIELD_ID, id).findAll();
+        return result.get(0);
     }
 
     @Override
-    public T get(long id) {
-        return null;
-    }
-
-    @Override
-    public void update(RealmObject item) {
+    public void update(Object item) {
 
     }
 
@@ -167,7 +169,12 @@ public class RealmHelper<T extends RealmObject> implements PersistenceLayer<T> {
     }
 
     @Override
-    public List<T> getList() {
+    public void delete(Object item) {
+
+    }
+
+    @Override
+    public Object get(long id) {
         return null;
     }
 }

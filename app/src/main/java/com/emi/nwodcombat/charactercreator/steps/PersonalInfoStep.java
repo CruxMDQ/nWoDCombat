@@ -18,7 +18,6 @@ import com.emi.nwodcombat.adapters.ViceRealmAdapter;
 import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
-import com.emi.nwodcombat.greendao.controllers.VirtueController;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.realm.PersonalityArchetype;
 import com.emi.nwodcombat.model.realm.Vice;
@@ -52,9 +51,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
-    private PersistenceLayer<PersonalityArchetype> archetypePersistor;
-    private PersistenceLayer<Vice> vicePersistor;
-    private PersistenceLayer<Virtue> virtuePersistor;
+    private PersistenceLayer helper;
 
     private Long idDemeanor;
     private String demeanorName;
@@ -73,11 +70,9 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
-        archetypePersistor = new RealmHelper<PersonalityArchetype>(getActivity());
-        vicePersistor = new RealmHelper<Vice>(getActivity());
-        virtuePersistor = new RealmHelper<Virtue>(getActivity());
-
         ButterKnife.bind(this, view);
+
+        helper = RealmHelper.getInstance(getActivity());
 
         return view;
     }
@@ -201,7 +196,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
 
     private void setUpDemeanorSpinner() {
         PersonalityRealmAdapter adapter;
-        List<PersonalityArchetype> vices = archetypePersistor.getList(PersonalityArchetype.class);
+        List<PersonalityArchetype> vices = helper.getList(PersonalityArchetype.class);
 
         adapter = new PersonalityRealmAdapter(getActivity(), (RealmResults<PersonalityArchetype>) vices, true);
 
@@ -226,7 +221,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
 
     private void setUpNatureSpinner() {
         PersonalityRealmAdapter adapter;
-        List<PersonalityArchetype> vices = archetypePersistor.getList(PersonalityArchetype.class);
+        List<PersonalityArchetype> vices = helper.getList(PersonalityArchetype.class);
 
         adapter = new PersonalityRealmAdapter(getActivity(), (RealmResults<PersonalityArchetype>) vices, true);
 
@@ -251,7 +246,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
 
     private void setUpViceSpinner() {
         ViceRealmAdapter adapter;
-        List<Vice> vices = vicePersistor.getList(Vice.class);
+        List<Vice> vices = helper.getList(Vice.class);
 
         adapter = new ViceRealmAdapter(getActivity(), (RealmResults<Vice>) vices, true);
 
@@ -275,7 +270,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
 
     private void setUpVirtueSpinner() {
         VirtueRealmAdapter adapter;
-        List<Virtue> virtues = virtuePersistor.getList(Virtue.class);
+        List<Virtue> virtues = helper.getList(Virtue.class);
 
         adapter = new VirtueRealmAdapter(getActivity(), (RealmResults<Virtue>) virtues, true);
 
@@ -300,7 +295,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     @Override
     public void afterCreatingRecord(Object record) {
         if (record instanceof PersonalityArchetypePojo) {
-            archetypePersistor.save(PersonalityArchetype.class, new Gson().toJson(record));
+            helper.save(PersonalityArchetype.class, new Gson().toJson(record));
             setUpDemeanorSpinner();
             setUpNatureSpinner();
         }

@@ -1,5 +1,10 @@
 package com.emi.nwodcombat.model.realm;
 
+import com.emi.nwodcombat.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -9,7 +14,8 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Character extends RealmObject {
     @PrimaryKey
-    private int id;
+    private Long id;
+
     private String name;
     private String player;
     private String concept;
@@ -56,6 +62,8 @@ public class Character extends RealmObject {
     private int willpowerReserve;
 
     private RealmList<PersonalityArchetype> personalityTraits;
+    private RealmList<Vice> vices;
+    private RealmList<Virtue> virtues;
 
     public RealmList<PersonalityArchetype> getPersonalityTraits() {
         return personalityTraits;
@@ -393,11 +401,86 @@ public class Character extends RealmObject {
         this.wits = wits;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public RealmList<Vice> getVices() {
+        return vices;
+    }
+
+    public void setVices(RealmList<Vice> vices) {
+        this.vices = vices;
+    }
+
+    public RealmList<Virtue> getVirtues() {
+        return virtues;
+    }
+
+    public void setVirtues(RealmList<Virtue> virtues) {
+        this.virtues = virtues;
+    }
+
+    // TODO Finish this
+    public JSONObject toJson() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        // Attributes
+        jsonObject.put(Constants.ATTR_INT, getIntelligence());
+        jsonObject.put(Constants.ATTR_WIT, getWits());
+        jsonObject.put(Constants.ATTR_RES, getResolve());
+        jsonObject.put(Constants.ATTR_STR, getStrength());
+        jsonObject.put(Constants.ATTR_DEX, getDexterity());
+        jsonObject.put(Constants.ATTR_STA, getStamina());
+        jsonObject.put(Constants.ATTR_PRE, getPresence());
+        jsonObject.put(Constants.ATTR_MAN, getManipulation());
+        jsonObject.put(Constants.ATTR_COM, getComposure());
+
+        // Skills
+        jsonObject.put(Constants.SKILL_ACADEMICS, getAcademics());
+        jsonObject.put(Constants.SKILL_ANIMAL_KEN, getAnimalKen());
+        jsonObject.put(Constants.SKILL_ATHLETICS, getAthletics());
+        jsonObject.put(Constants.SKILL_BRAWL, getBrawl());
+        jsonObject.put(Constants.SKILL_COMPUTER, getComputer());
+        jsonObject.put(Constants.SKILL_CRAFTS, getCrafts());
+        jsonObject.put(Constants.SKILL_DRIVE, getDrive());
+        jsonObject.put(Constants.SKILL_EMPATHY, getEmpathy());
+        jsonObject.put(Constants.SKILL_EXPRESSION, getExpression());
+        jsonObject.put(Constants.SKILL_FIREARMS, getFirearms());
+        jsonObject.put(Constants.SKILL_INTIMIDATION, getIntimidation());
+        jsonObject.put(Constants.SKILL_INVESTIGATION, getInvestigation());
+        jsonObject.put(Constants.SKILL_LARCENY, getLarceny());
+        jsonObject.put(Constants.SKILL_MEDICINE, getMedicine());
+        jsonObject.put(Constants.SKILL_OCCULT, getOccult());
+        jsonObject.put(Constants.SKILL_PERSUASION, getPersuasion());
+        jsonObject.put(Constants.SKILL_POLITICS, getPolitics());
+        jsonObject.put(Constants.SKILL_SCIENCE, getScience());
+        jsonObject.put(Constants.SKILL_SOCIALIZE, getSocialize());
+        jsonObject.put(Constants.SKILL_STEALTH, getStealth());
+        jsonObject.put(Constants.SKILL_STREETWISE, getStreetwise());
+        jsonObject.put(Constants.SKILL_SUBTERFUGE, getSubterfuge());
+        jsonObject.put(Constants.SKILL_SURVIVAL, getSurvival());
+        jsonObject.put(Constants.SKILL_WEAPONRY, getWeaponry());
+
+        // Personal info
+        jsonObject.put(Constants.CHARACTER_PLAYER, getPlayer());
+        jsonObject.put(Constants.CHARACTER_NAME, getName());
+        jsonObject.put(Constants.CHARACTER_CONCEPT, getConcept());
+
+        // Combat traits
+        jsonObject.put("Health", getHealth());
+        jsonObject.put("Morality", getMorality());
+        jsonObject.put("Potency", getPotency());
+        jsonObject.put("Willpower", getWillpower());
+        jsonObject.put("WillpowerReserve", getWillpowerReserve());
+
+        for (PersonalityArchetype archetype : personalityTraits) {
+
+        }
+
+        return jsonObject;
     }
 }

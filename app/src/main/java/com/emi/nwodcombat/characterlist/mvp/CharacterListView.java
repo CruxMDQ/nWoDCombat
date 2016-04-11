@@ -28,7 +28,7 @@ import butterknife.OnClick;
 public class CharacterListView extends FragmentView implements MainMVP.RequiredViewOps {
     private final CharacterAdapter characterAdapter;
 
-    private List<Character> characters = new ArrayList<>();
+    private ArrayList<Object> characters = new ArrayList<>();
 
     @Bind(R.id.rvCharacters) RecyclerView rvCharacters;
     @Bind(R.id.fabNewCharacter) FloatingActionButton fab;
@@ -46,7 +46,7 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
         rvCharacters.setAdapter(characterAdapter);
     }
 
-    public void showCharacters(List<Character> characters) {
+    public void showCharacters(List<Object> characters) {
         this.characters.clear();
         this.characters.addAll(characters);
         characterAdapter.notifyDataSetChanged();

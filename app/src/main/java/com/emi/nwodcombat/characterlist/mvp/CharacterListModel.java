@@ -6,7 +6,6 @@ import android.content.Loader;
 
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
-import com.emi.nwodcombat.model.db.Character;
 
 import java.util.List;
 
@@ -44,10 +43,10 @@ public class CharacterListModel implements MainMVP.ModelOps {
     }
 
     @Override
-    public Loader<List<Character>> getCharactersLoader() {
-        return new AsyncTaskLoader<List<Character>>(context) {
+    public Loader<List<Object>> getCharactersLoader() {
+        return new AsyncTaskLoader<List<Object>>(context) {
             @Override
-            public List<Character> loadInBackground() {
+            public List<Object> loadInBackground() {
                 return controller.getList();
             }
 

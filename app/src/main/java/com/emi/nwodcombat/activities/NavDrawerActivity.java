@@ -1,6 +1,5 @@
 package com.emi.nwodcombat.activities;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerFragment;
+import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
 import com.emi.nwodcombat.charactercreator.steps.PersonalInfoStep;
@@ -143,7 +143,7 @@ public class NavDrawerActivity extends AppCompatActivity
             return;
         }
 
-        List<Fragment> fragmentList = new ArrayList<>();
+        List<PagerStep> fragmentList = new ArrayList<>();
 
         PersonalInfoStep personalInfoStep = new PersonalInfoStep();
         AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();

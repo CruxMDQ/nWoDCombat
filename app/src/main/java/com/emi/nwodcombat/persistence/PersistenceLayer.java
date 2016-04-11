@@ -6,22 +6,24 @@ import java.util.List;
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public interface PersistenceLayer<T> {
-    long save(T item);
+public interface PersistenceLayer {
+    long save(Object item);
 
     long save(Class klass, String json);
 
     long save(Class klass, ArrayList<String> jsonObjects);
 
-    List<T> getList();
+    List<Object> getList();
 
     List getList(Class klass);
 
-    void delete(T item);
+    void delete(Object item);
 
-    T get(long id);
+    Object get(long id);
 
-    void update(T item);
+    Object get(Class klass, long id);
+
+    void update(Object item);
 
     int getCount(Class className);
 

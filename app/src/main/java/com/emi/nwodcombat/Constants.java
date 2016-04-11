@@ -105,4 +105,6 @@ public class Constants {
     public static final String ARG_TITLE = "Title";
     public static final String ARG_HINT = "Hint";
     public static final String ARG_CLASS_ARGS = "ClassArguments";
+
+    public static final String FIELD_ID = "id";
 }

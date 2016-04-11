@@ -17,7 +17,7 @@ import java.util.List;
  * Refer to this link for further info on MVP:
  * http://www.tinmegali.com/en/model-view-presenter-mvp-in-android-part-2/
  */
-public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, MainMVP.PresenterOps, LoaderManager.LoaderCallbacks<List<Character>>{
+public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, MainMVP.PresenterOps, LoaderManager.LoaderCallbacks<List<Object>>{
 
     // Layer View reference  [VSM] this is not a layer
     private CharacterListView mView;
@@ -67,12 +67,12 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
     }
 
     @Override
-    public Loader<List<Character>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Object>> onCreateLoader(int id, Bundle args) {
         return mModel.getCharactersLoader();
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Character>> loader, List<Character> characters) {
+    public void onLoadFinished(Loader<List<Object>> loader, List<Object> characters) {
         if (characters.size() == 0) {
             mView.showNoCharacters();
             return;
@@ -82,7 +82,7 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Character>> loader) {
+    public void onLoaderReset(Loader<List<Object>> loader) {
 
     }
 }

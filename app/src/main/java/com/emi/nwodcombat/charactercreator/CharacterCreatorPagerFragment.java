@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  */
 public class CharacterCreatorPagerFragment extends Fragment implements PagerMaster {
     CharacterCreatorStatePagerAdapter adapter;
-    List<Fragment> fragmentList;
+    List<PagerStep> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
 //    CharacterController controller;
     PagerFinisher pagerFinisher;
@@ -33,7 +33,7 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     @Bind(R.id.btnPrevious) Button btnPrevious;
     @Bind(R.id.btnNext) Button btnNext;
 
-    public static CharacterCreatorPagerFragment newInstance(List<Fragment> fragments, PagerFinisher pagerFinisher) {
+    public static CharacterCreatorPagerFragment newInstance(List<PagerStep> fragments, PagerFinisher pagerFinisher) {
         CharacterCreatorPagerFragment fragment = new CharacterCreatorPagerFragment();
         fragment.characterCreatorHelper = CharacterCreatorHelper.getInstance();
         fragment.fragmentList = fragments;
@@ -100,7 +100,7 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
         if (isComplete) {
             btnNext.setEnabled(true);
             btnPrevious.setEnabled(true);
-            characterCreatorHelper.putAll(caller.saveChoices());
+//            characterCreatorHelper.putAll(caller.saveChoices());
         } else {
             btnNext.setEnabled(false);
         }
@@ -120,8 +120,14 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
 //    }
 
     public void moveToNextStep() {
+        characterCreatorHelper.putAll(fragmentList.get(pager.getCurrentItem()).saveChoices());
+
         pager.setCurrentItem(pager.getCurrentItem() + 1);
         int lastPage = pager.getAdapter().getCount() - 1;
+
+        if (fragmentList.get(pager.getCurrentItem()) instanceof PagerStep.ChildStep) {
+            ((PagerStep.ChildStep) fragmentList.get(pager.getCurrentItem())).retrieveChoices();
+        }
 
         if (pager.getCurrentItem() == lastPage) {
             btnNext.setText(getString(R.string.button_finish));
