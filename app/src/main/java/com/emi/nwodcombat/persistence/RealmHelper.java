@@ -86,7 +86,16 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public long save(Object item) {
-        return 0;
+        if (item instanceof RealmObject) {
+            realm.beginTransaction();
+
+            realm.copyToRealmOrUpdate((RealmObject) item);
+
+            realm.commitTransaction();
+
+            return 0;
+        }
+        return -1;
     }
 
     public long save(Class klass, String json) {
@@ -130,6 +139,7 @@ public class RealmHelper implements PersistenceLayer {
         return null;
     }
 
+    @Override
     public RealmResults getList(Class klass) {
         return realm.allObjects(klass);
     }
@@ -172,9 +182,5 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public Object get(long id) {
         return null;
-    }
-
-    public Realm getRealm() {
-        return realm;
     }
 }

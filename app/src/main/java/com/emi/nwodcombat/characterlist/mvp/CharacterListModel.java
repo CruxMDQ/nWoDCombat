@@ -6,7 +6,6 @@ import android.content.Loader;
 
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
-import com.emi.nwodcombat.persistence.RealmHelper;
 
 import java.util.List;
 

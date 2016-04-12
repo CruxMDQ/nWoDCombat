@@ -17,7 +17,6 @@ import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +25,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 
 /**
  * Created by Emi on 3/10/16.
@@ -51,8 +49,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
     private Long characterVirtue, characterVice, characterDemeanor, characterNature;
 
-    // TODO Find a way to substitute this for the Persistence layer
-    private RealmHelper helper;
+    private PersistenceLayer helper;
 
     private Character character;
 
@@ -137,7 +134,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         if (isVisible) {
             retrieveChoices();
 
-//            setUpCharacter();
+            setUpCharacter();
 
             pagerMaster.checkStepIsComplete(true, this);
         }
@@ -364,67 +361,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     }
 
     public void saveCharacterToRealm() {
-        Realm realm = helper.getRealm();
-
-        realm.beginTransaction();
-        Character character = realm.createObject(Character.class);
-
-        character.setName(characterName);
-        character.setPlayer(characterPlayer);
-        character.setConcept(characterConcept);
-
-        character.setIntelligence(intelligence);
-        character.setWits(wits);
-        character.setResolve(resolve);
-
-        character.setStrength(strength);
-        character.setDexterity(dexterity);
-        character.setStamina(stamina);
-
-        character.setPresence(presence);
-        character.setManipulation(manipulation);
-        character.setComposure(composure);
-
-        character.setAcademics(academics);
-        character.setComputer(computer);
-        character.setCrafts(crafts);
-        character.setInvestigation(investigation);
-        character.setMedicine(medicine);
-        character.setOccult(occult);
-        character.setPolitics(politics);
-        character.setScience(science);
-
-        character.setAthletics(athletics);
-        character.setBrawl(brawl);
-        character.setDrive(drive);
-        character.setFirearms(firearms);
-        character.setLarceny(larceny);
-        character.setStealth(stealth);
-        character.setSurvival(survival);
-        character.setWeaponry(weaponry);
-
-        character.setAnimalKen(animalKen);
-        character.setEmpathy(empathy);
-        character.setExpression(expression);
-        character.setIntimidation(intimidation);
-        character.setPersuasion(persuasion);
-        character.setSocialize(socialize);
-        character.setStrength(streetwise);
-        character.setSubterfuge(subterfuge);
-
-        character.setId(helper.getLastId(Character.class));
-
-        PersonalityArchetype demeanor = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterDemeanor);
-        PersonalityArchetype nature = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterNature);
-        Vice vice = (Vice) helper.get(Vice.class, characterVice);
-        Virtue virtue = (Virtue) helper.get(Virtue.class, characterVirtue);
-
-        character.getPersonalityTraits().add(demeanor);
-        character.getPersonalityTraits().add(nature);
-        character.getVices().add(vice);
-        character.getVirtues().add(virtue);
-
-        realm.commitTransaction();
+        helper.save(character);
 
         ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
     }

@@ -56,9 +56,9 @@ public class Character extends RealmObject {
     private int willpower;
     private int willpowerReserve;
 
-    private RealmList<PersonalityArchetype> personalityTraits;
-    private RealmList<Vice> vices;
-    private RealmList<Virtue> virtues;
+    private RealmList<PersonalityArchetype> personalityTraits = new RealmList<>();
+    private RealmList<Vice> vices = new RealmList<>();
+    private RealmList<Virtue> virtues = new RealmList<>();
 
     public RealmList<PersonalityArchetype> getPersonalityTraits() {
         return personalityTraits;

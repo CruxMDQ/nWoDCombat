@@ -13,7 +13,6 @@ import com.emi.nwodcombat.FragmentView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterlist.CharacterAdapter;
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
-import com.emi.nwodcombat.model.db.Character;
 
 import java.util.ArrayList;
 import java.util.List;
