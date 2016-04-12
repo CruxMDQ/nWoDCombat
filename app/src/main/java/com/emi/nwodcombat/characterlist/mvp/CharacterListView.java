@@ -22,10 +22,7 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 29/03/2016.
  */
 public class CharacterListView extends FragmentView implements MainMVP.RequiredViewOps {
-//    private CharacterAdapter characterAdapter;
     private RealmCharacterAdapter realmCharacterAdapter;
-
-//    private ArrayList<com.emi.nwodcombat.model.realm.Character> characters = new ArrayList<>();
 
     @Bind(R.id.rvCharacters) co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView rvCharacters;
     @Bind(R.id.fabNewCharacter) FloatingActionButton fab;
@@ -37,22 +34,6 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
         super(fragment);
         ButterKnife.bind(this, fragment.getView());
     }
-
-//    public CharacterListView(Fragment fragment, MainMVP.PresenterOps mPresenter) {
-//        super(fragment);
-//        ButterKnife.bind(this, fragment.getView());
-//
-//        this.mPresenter = mPresenter;
-//        characterAdapter = new CharacterAdapter(getActivity(), R.layout.row_character_name, mPresenter.queryCharacters());
-//        rvCharacters.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        rvCharacters.setAdapter(characterAdapter);
-//    }
-
-//    public void showCharacters(RealmResults<Character> characters) {
-//        this.characters.clear();
-//        this.characters.addAll(characters);
-//        characterAdapter.notifyDataSetChanged();
-//    }
 
     public void showSnackBar(String s) {
         Snackbar.make(rvCharacters, s, Snackbar.LENGTH_SHORT).show();

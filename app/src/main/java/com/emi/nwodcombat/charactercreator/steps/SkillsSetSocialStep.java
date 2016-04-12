@@ -174,7 +174,7 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
 
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
         return preferences;
     }

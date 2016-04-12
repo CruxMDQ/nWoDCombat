@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.characterlist.interfaces;
 
+import com.emi.nwodcombat.model.realm.Character;
+
 import io.realm.RealmResults;
 
 /**
@@ -15,8 +17,8 @@ public interface MainMVP {
 
     // View -> Presenter
     interface PresenterOps {
-        RealmResults<com.emi.nwodcombat.model.realm.Character> queryCharacters();
-        void newCharacter(com.emi.nwodcombat.model.realm.Character character);
+        RealmResults<Character> queryCharacters();
+        void newCharacter(Character character);
         void removeCharacter(long idCharacter);
         void onFabPressed();
 
@@ -34,12 +36,12 @@ public interface MainMVP {
 
     // Presenter -> Model
     interface ModelOps {
-        void insertCharacter(com.emi.nwodcombat.model.realm.Character character);
+        void insertCharacter(Character character);
         void removeCharacter(long id);
         void onDestroy();
 
 //        Loader<List<com.emi.nwodcombat.model.realm.Character>> getCharactersLoader();
-        RealmResults<com.emi.nwodcombat.model.realm.Character> getList();
+        RealmResults<Character> getList();
 
         // Any other data operations
     }
