@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.charactercreator.steps;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,12 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.greendao.controllers.CharacterController;
-import com.emi.nwodcombat.greendao.controllers.CharacterPersonalityTraitsController;
-import com.emi.nwodcombat.model.db.Character;
-import com.emi.nwodcombat.model.db.CharacterPersonalityTraits;
+import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Vice;
+import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.persistence.PersistenceLayer;
+import com.emi.nwodcombat.persistence.RealmHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,8 +49,11 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
     private Long characterVirtue, characterVice, characterDemeanor, characterNature;
 
-    private CharacterController characterController;
-    private CharacterPersonalityTraitsController traitsController;
+    private PersistenceLayer helper;
+
+    private Character character;
+
+    public SummaryStep() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +63,68 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         ButterKnife.bind(this, view);
 
+        helper = RealmHelper.getInstance(getActivity());
+
+        character = new Character();
+
         return view;
+    }
+
+    private void setUpCharacter() {
+        character.setName(characterName);
+        character.setPlayer(characterPlayer);
+        character.setConcept(characterConcept);
+
+        character.setIntelligence(intelligence);
+        character.setWits(wits);
+        character.setResolve(resolve);
+
+        character.setStrength(strength);
+        character.setDexterity(dexterity);
+        character.setStamina(stamina);
+
+        character.setPresence(presence);
+        character.setManipulation(manipulation);
+        character.setComposure(composure);
+
+        character.setAcademics(academics);
+        character.setComputer(computer);
+        character.setCrafts(crafts);
+        character.setInvestigation(investigation);
+        character.setMedicine(medicine);
+        character.setOccult(occult);
+        character.setPolitics(politics);
+        character.setScience(science);
+
+        character.setAthletics(athletics);
+        character.setBrawl(brawl);
+        character.setDrive(drive);
+        character.setFirearms(firearms);
+        character.setLarceny(larceny);
+        character.setStealth(stealth);
+        character.setSurvival(survival);
+        character.setWeaponry(weaponry);
+
+        character.setAnimalKen(animalKen);
+        character.setEmpathy(empathy);
+        character.setExpression(expression);
+        character.setIntimidation(intimidation);
+        character.setPersuasion(persuasion);
+        character.setSocialize(socialize);
+        character.setStrength(streetwise);
+        character.setSubterfuge(subterfuge);
+
+        character.setId(helper.getLastId(Character.class));
+
+        PersonalityArchetype demeanor = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterDemeanor);
+        PersonalityArchetype nature = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterNature);
+        Vice vice = (Vice) helper.get(Vice.class, characterVice);
+        Virtue virtue = (Virtue) helper.get(Virtue.class, characterVirtue);
+
+        character.getPersonalityTraits().add(demeanor);
+        character.getPersonalityTraits().add(nature);
+        character.getVices().add(vice);
+        character.getVirtues().add(virtue);
     }
 
     @Override
@@ -68,6 +133,9 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         if (isVisible) {
             retrieveChoices();
+
+            setUpCharacter();
+
             pagerMaster.checkStepIsComplete(true, this);
         }
     }
@@ -292,117 +360,14 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         return false;
     }
 
-    public void saveCharacter() {
-        Character character = new Character();
-
-        character.setName(characterName);
-        character.setPlayer(characterPlayer);
-        character.setConcept(characterConcept);
-
-        character.setIntelligence(intelligence);
-        character.setWits(wits);
-        character.setResolve(resolve);
-
-        character.setStrength(strength);
-        character.setDexterity(dexterity);
-        character.setStamina(stamina);
-
-        character.setPresence(presence);
-        character.setManipulation(manipulation);
-        character.setComposure(composure);
-
-        character.setAcademics(academics);
-        character.setComputer(computer);
-        character.setCrafts(crafts);
-        character.setInvestigation(investigation);
-        character.setMedicine(medicine);
-        character.setOccult(occult);
-        character.setPolitics(politics);
-        character.setScience(science);
-
-        character.setAthletics(athletics);
-        character.setBrawl(brawl);
-        character.setDrive(drive);
-        character.setFirearms(firearms);
-        character.setLarceny(larceny);
-        character.setStealth(stealth);
-        character.setSurvival(survival);
-        character.setWeaponry(weaponry);
-
-        character.setAnimalKen(animalKen);
-        character.setEmpathy(empathy);
-        character.setExpression(expression);
-        character.setIntimidation(intimidation);
-        character.setPersuasion(persuasion);
-        character.setSocialize(socialize);
-        character.setStrength(streetwise);
-        character.setSubterfuge(subterfuge);
-
-        long charId = commitChoices(character);
-
-//        CharacterVices vices = new CharacterVices();
-//
-//        vices.setIdCharacter(charId);
-//        vices.setIdVice(characterVice);
-//
-//        commitChoices(vices);
-//
-//        CharacterVirtues virtues = new CharacterVirtues();
-//
-//        virtues.setIdCharacter(charId);
-//        virtues.setIdVirtue(characterVirtue);
-//
-//        commitChoices(virtues);
-
-        CharacterPersonalityTraits traits = new CharacterPersonalityTraits();
-        traits.setIdCharacter(charId);
-        traits.setIdVice(characterVice);
-        traits.setIdVirtue(characterVirtue);
-        traits.setIdDemeanor(characterDemeanor);
-        traits.setIdNature(characterNature);
-
-        commitChoices(traits);
+    public void saveCharacterToRealm() {
+        helper.save(character);
 
         ((NavDrawerActivity) getActivity()).onCharacterCreatorFinish();
     }
 
     @Override
     public void onPagerFinished() {
-        saveCharacter();
+        saveCharacterToRealm();
     }
-
-    public long commitChoices(Character character) {
-        characterController = CharacterController.getInstance(getContext());
-
-        long result = characterController.save(character);
-
-        Log.d("Character creator", String.valueOf(result));
-
-        return result;
-    }
-
-    public long commitChoices(CharacterPersonalityTraits traits) {
-        traitsController = CharacterPersonalityTraitsController.getInstance(getContext());
-
-        long result = traitsController.save(traits);
-
-        Log.d("Character creator", String.valueOf(result));
-
-        return result;
-    }
-
-//    public long commitChoices(CharacterVices characterVices) {
-//        characterVicesController = CharacterVicesController.getInstance(getContext());
-//
-//        long result = characterVicesController.save(characterVices);
-//
-//        Log.d("Character creator", String.valueOf(result));
-//
-//        return result;
-//    }
-//
-//    public long commitChoices(CharacterVirtues characterVirtues) {
-//        characterVirtuesController = CharacterVirtuesController.getInstance(getContext());
-//
-//        long result = characterVirtuesController.save(characterVirtues);
 }

@@ -1,6 +1,5 @@
 package com.emi.nwodcombat.activities;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerFragment;
+import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
 import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
 import com.emi.nwodcombat.charactercreator.steps.PersonalInfoStep;
@@ -24,7 +24,6 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
-import com.emi.nwodcombat.charactercreator.steps.WizardStep;
 import com.emi.nwodcombat.characterlist.CharacterListFragment;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 import com.emi.nwodcombat.fragments.SettingsFragment;
@@ -34,13 +33,14 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-//    private CharacterListPresenter presenter;
-
     @Bind(R.id.toolbar) Toolbar toolbar;
+
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,8 @@ public class NavDrawerActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle(null);
+
+        realm = Realm.getInstance(this);
 
         loadCharacterList();
 
@@ -141,7 +143,7 @@ public class NavDrawerActivity extends AppCompatActivity
             return;
         }
 
-        List<Fragment> fragmentList = new ArrayList<>();
+        List<PagerStep> fragmentList = new ArrayList<>();
 
         PersonalInfoStep personalInfoStep = new PersonalInfoStep();
         AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();

@@ -7,30 +7,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.NothingSelectedSpinnerAdapter;
+import com.emi.nwodcombat.adapters.PersonalityRealmAdapter;
+import com.emi.nwodcombat.adapters.ViceRealmAdapter;
+import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
-import com.emi.nwodcombat.greendao.controllers.DemeanorController;
-import com.emi.nwodcombat.greendao.controllers.NatureController;
-import com.emi.nwodcombat.greendao.controllers.ViceController;
-import com.emi.nwodcombat.greendao.controllers.VirtueController;
-import com.emi.nwodcombat.model.Record;
-import com.emi.nwodcombat.model.db.Demeanor;
-import com.emi.nwodcombat.model.db.Nature;
-import com.emi.nwodcombat.model.db.Vice;
-import com.emi.nwodcombat.model.db.Virtue;
+import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
+import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Vice;
+import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.persistence.PersistenceLayer;
+import com.emi.nwodcombat.persistence.RealmHelper;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
 
 /**
  * Created by Crux on 3/11/2016.
@@ -50,33 +51,28 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
+    private PersistenceLayer helper;
+
     private Long idDemeanor;
     private String demeanorName;
-    private DemeanorController demeanorController;
 
     private Long idNature;
     private String natureName;
-    private NatureController natureController;
 
     private long idVice;
     private String viceName;
-    private ViceController viceController;
 
     private Long idVirtue;
     private String virtueName;
-    private VirtueController virtueController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
 
-        demeanorController = DemeanorController.getInstance(getContext());
-        natureController = NatureController.getInstance(getContext());
-        viceController = ViceController.getInstance(getContext());
-        virtueController = VirtueController.getInstance(getContext());
-
         ButterKnife.bind(this, view);
+
+        helper = RealmHelper.getInstance(getActivity());
 
         return view;
     }
@@ -136,11 +132,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onClick(View v) {
                 AddRecordDialog dialog = AddRecordDialog.newInstance(
-                        Demeanor.class,
+                        PersonalityArchetypePojo.class,
                         getString(R.string.dialog_demeanor_new_title),
-                        getString(R.string.dialog_demeanor_new_hint),
-                        PersonalInfoStep.this
+                        getString(R.string.dialog_demeanor_new_hint)
                 );
+                dialog.setListener(PersonalInfoStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
@@ -149,11 +145,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onClick(View v) {
                 AddRecordDialog dialog = AddRecordDialog.newInstance(
-                        Nature.class,
-                        getString(R.string.dialog_nature_new_title),
-                        getString(R.string.dialog_nature_new_hint),
-                        PersonalInfoStep.this
+                    PersonalityArchetypePojo.class,
+                    getString(R.string.dialog_nature_new_title),
+                    getString(R.string.dialog_nature_new_hint)
                 );
+                dialog.setListener(PersonalInfoStep.this);
                 dialog.show(getActivity().getFragmentManager(), "Some tag");
             }
         });
@@ -199,7 +195,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     }
 
     private void setUpDemeanorSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpDemeanorAdapter();
+        PersonalityRealmAdapter adapter;
+        List<PersonalityArchetype> vices = helper.getList(PersonalityArchetype.class);
+
+        adapter = new PersonalityRealmAdapter(getActivity(), (RealmResults<PersonalityArchetype>) vices, true);
 
         spinnerDemeanor.setAdapter(adapter);
 
@@ -207,9 +206,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
-                    Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
-                    idDemeanor = demeanor.getIdDemeanor();
-                    demeanorName = demeanor.getName();
+                    PersonalityArchetype archetype = ((PersonalityArchetype) spinnerDemeanor
+                        .getItemAtPosition(position));
+                    idDemeanor = archetype.getId();
+                    demeanorName = archetype.getName();
                 }
             }
 
@@ -219,20 +219,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpDemeanorAdapter() {
-        ArrayAdapter<Demeanor> demeanorArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, demeanorController.getList());
-
-        demeanorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        return new NothingSelectedSpinnerAdapter<>(
-                demeanorArrayAdapter,
-                R.layout.spinner_nothing_selected,
-                getContext()
-        );
-    }
-
     private void setUpNatureSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpNatureAdapter();
+        PersonalityRealmAdapter adapter;
+        List<PersonalityArchetype> vices = helper.getList(PersonalityArchetype.class);
+
+        adapter = new PersonalityRealmAdapter(getActivity(), (RealmResults<PersonalityArchetype>) vices, true);
 
         spinnerNature.setAdapter(adapter);
 
@@ -240,9 +231,10 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
-                    Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
-                    idNature = nature.getIdNature();
-                    natureName = nature.getName();
+                    PersonalityArchetype archetype = ((PersonalityArchetype) spinnerDemeanor
+                        .getItemAtPosition(position));
+                    idNature = archetype.getId();
+                    natureName = archetype.getName();
                 }
             }
 
@@ -252,20 +244,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpNatureAdapter() {
-        ArrayAdapter<Nature> natureArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, natureController.getList());
-
-        natureArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        return new NothingSelectedSpinnerAdapter<>(
-                natureArrayAdapter,
-                R.layout.spinner_nothing_selected,
-                getContext()
-        );
-    }
-
     private void setUpViceSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpViceAdapter();
+        ViceRealmAdapter adapter;
+        List<Vice> vices = helper.getList(Vice.class);
+
+        adapter = new ViceRealmAdapter(getActivity(), (RealmResults<Vice>) vices, true);
 
         spinnerVice.setAdapter(adapter);
 
@@ -274,7 +257,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
                     Vice vice = ((Vice) spinnerVice.getItemAtPosition(position));
-                    idVice = vice.getIdVice();
+                    idVice = vice.getId();
                     viceName = vice.getName();
                 }
             }
@@ -285,20 +268,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpViceAdapter() {
-        ArrayAdapter<Vice> viceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, viceController.getList());
-
-        viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        return new NothingSelectedSpinnerAdapter<>(
-                viceArrayAdapter,
-                R.layout.spinner_nothing_selected,
-                getContext()
-        );
-    }
-
     private void setUpVirtueSpinner() {
-        NothingSelectedSpinnerAdapter adapter = setUpVirtueAdapter();
+        VirtueRealmAdapter adapter;
+        List<Virtue> virtues = helper.getList(Virtue.class);
+
+        adapter = new VirtueRealmAdapter(getActivity(), (RealmResults<Virtue>) virtues, true);
 
         spinnerVirtue.setAdapter(adapter);
 
@@ -307,7 +281,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (id != -1) {
                     Virtue virtue = ((Virtue) spinnerVirtue.getItemAtPosition(position));
-                    idVirtue = virtue.getIdVirtue();
+                    idVirtue = virtue.getId();
                     virtueName = virtue.getName();
                 }
             }
@@ -318,25 +292,11 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
     }
 
-    private NothingSelectedSpinnerAdapter setUpVirtueAdapter() {
-        ArrayAdapter<Virtue> viceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, virtueController.getList());
-
-        viceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        return new NothingSelectedSpinnerAdapter<>(
-                viceArrayAdapter,
-                R.layout.spinner_nothing_selected,
-                getContext()
-        );
-    }
-
     @Override
-    public void afterCreatingRecord(Record record) {
-        if (record instanceof Demeanor) {
-            demeanorController.save((Demeanor) record);
+    public void afterCreatingRecord(Object record) {
+        if (record instanceof PersonalityArchetypePojo) {
+            helper.save(PersonalityArchetype.class, new Gson().toJson(record));
             setUpDemeanorSpinner();
-        } else if (record instanceof Nature) {
-            natureController.save((Nature) record);
             setUpNatureSpinner();
         }
     }

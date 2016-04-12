@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -10,6 +11,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -29,9 +31,10 @@ dependencies {
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
     compile "org.apache.commons:commons-lang3:$rootProject.ext.commonsLangVersion"
-    compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
-    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
+//    compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
+//    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    compile "com.github.thorbenprimke:realm-recyclerview:$rootProject.ext.realmRecyclerViewVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
@@ -54,4 +57,6 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.force "com.android.support:support-annotations:$rootProject.ext.supportLibraryVersion"
+//    resolutionStrategy.force 'org.javassist:javassist:3.20.0-GA'
+//    resolutionStrategy.force 'com.squareup:javawriter:2.5.0'
 }

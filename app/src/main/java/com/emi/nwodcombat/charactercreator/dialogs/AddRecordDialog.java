@@ -12,9 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
-import com.emi.nwodcombat.model.Record;
+import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
+import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.persistence.PersistenceLayer;
+import com.emi.nwodcombat.persistence.RealmHelper;
+
+import java.lang.reflect.InvocationTargetException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,10 +28,10 @@ import butterknife.ButterKnife;
 /**
  * Created by Crux on 3/26/2016.
  */
-public class AddRecordDialog<T extends Record> extends DialogFragment {
+public class AddRecordDialog<T> extends DialogFragment {
     @Bind(R.id.editRecordName) EditText editRecordName;
 
-    private Class<T> clazz;
+    private Class<T> klass;
     private String hint;
     private String title;
     private AfterCreatingRecordListener listener;
@@ -33,16 +39,32 @@ public class AddRecordDialog<T extends Record> extends DialogFragment {
     AlertDialog dialog;
 
     public static AddRecordDialog newInstance (
-            Class clazz,
-            String title,
-            String hint,
-            AfterCreatingRecordListener listener
+        Class klass,
+        String title,
+        String hint,
+        String[] varArgs
     ) {
         AddRecordDialog fragment = new AddRecordDialog();
-        fragment.clazz = clazz;
-        fragment.title = title;
-        fragment.hint = hint;
-        fragment.listener = listener;
+        Bundle args = new Bundle();
+        args.putSerializable(Constants.ARG_CLASS, klass);
+        args.putString(Constants.ARG_TITLE, title);
+        args.putString(Constants.ARG_HINT, hint);
+        args.putStringArray(Constants.ARG_CLASS_ARGS, varArgs);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddRecordDialog newInstance (
+        Class klass,
+        String title,
+        String hint
+    ) {
+        AddRecordDialog fragment = new AddRecordDialog();
+        Bundle args = new Bundle();
+        args.putSerializable(Constants.ARG_CLASS, klass);
+        args.putString(Constants.ARG_TITLE, title);
+        args.putString(Constants.ARG_HINT, hint);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -50,6 +72,11 @@ public class AddRecordDialog<T extends Record> extends DialogFragment {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         LinearLayout root = (LinearLayout) inflater.inflate(getLayout(), null);
         ButterKnife.bind(this, root);
+
+        final Bundle args = getArguments();
+        this.klass = (Class) args.getSerializable(Constants.ARG_CLASS);
+        this.title = args.getString(Constants.ARG_TITLE);
+        this.hint = args.getString(Constants.ARG_HINT);
 
         editRecordName.setHint(hint);
         editRecordName.addTextChangedListener(new TextWatcher() {
@@ -72,11 +99,44 @@ public class AddRecordDialog<T extends Record> extends DialogFragment {
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Record record = getInstanceOfT();
+                String[] varArgs = args.getStringArray(Constants.ARG_CLASS_ARGS);
 
-                record.setName(editRecordName.getText().toString());
+                Object record = null;
 
-                listener.afterCreatingRecord(record);
+                if (varArgs != null) {
+                    Class[] types = new Class[varArgs.length];
+                    for (int i = 0; i < types.length; i++) {
+                        types[i] = varArgs[i].getClass();
+                    }
+
+                    try {
+                        record = Class.forName(klass.getName()).getConstructor(types)
+                            .newInstance(varArgs);
+
+                    } catch (java.lang.InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        record = Class.forName(klass.getName()).newInstance();
+                    } catch (java.lang.InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                exportRecord(record);
             }
         });
 
@@ -95,6 +155,17 @@ public class AddRecordDialog<T extends Record> extends DialogFragment {
         return dialog;
     }
 
+    private void exportRecord(Object record) {
+        if (record instanceof PersonalityArchetypePojo) {
+            PersistenceLayer helper = RealmHelper.getInstance(getActivity());
+
+            ((PersonalityArchetypePojo) record)
+                .setName(editRecordName.getText().toString());
+            ((PersonalityArchetypePojo) record).setId(helper.getLastId(PersonalityArchetype.class));
+        }
+        listener.afterCreatingRecord(record);
+    }
+
     @Override public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -106,12 +177,20 @@ public class AddRecordDialog<T extends Record> extends DialogFragment {
 
     public T getInstanceOfT() {
         try {
-            return clazz.newInstance();
+            return klass.newInstance();
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public AfterCreatingRecordListener getListener() {
+        return listener;
+    }
+
+    public void setListener(AfterCreatingRecordListener listener) {
+        this.listener = listener;
     }
 }

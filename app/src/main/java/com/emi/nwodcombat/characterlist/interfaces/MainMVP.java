@@ -1,10 +1,6 @@
 package com.emi.nwodcombat.characterlist.interfaces;
 
-import android.content.Loader;
-
-import com.emi.nwodcombat.model.db.Character;
-
-import java.util.List;
+import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 31/03/2016.
@@ -19,10 +15,9 @@ public interface MainMVP {
 
     // View -> Presenter
     interface PresenterOps {
-        void newCharacter(String characterJson);
+        RealmResults<com.emi.nwodcombat.model.realm.Character> queryCharacters();
+        void newCharacter(com.emi.nwodcombat.model.realm.Character character);
         void removeCharacter(long idCharacter);
-
-
         void onFabPressed();
 
         // Any other ops to be called from View
@@ -39,11 +34,12 @@ public interface MainMVP {
 
     // Presenter -> Model
     interface ModelOps {
-        void insertCharacter(Character character);
-        void removeCharacter(long character);
+        void insertCharacter(com.emi.nwodcombat.model.realm.Character character);
+        void removeCharacter(long id);
         void onDestroy();
 
-        Loader<List<Character>> getCharactersLoader();
+//        Loader<List<com.emi.nwodcombat.model.realm.Character>> getCharactersLoader();
+        RealmResults<com.emi.nwodcombat.model.realm.Character> getList();
 
         // Any other data operations
     }

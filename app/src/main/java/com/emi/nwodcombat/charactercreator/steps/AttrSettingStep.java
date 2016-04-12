@@ -72,7 +72,7 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
         super.setUserVisibleHint(isVisible);
 
         if (isVisible) {
-            retrieveChoices();
+//            retrieveChoices();
             pagerMaster.checkStepIsComplete(false, this);
         }
     }
@@ -233,7 +233,7 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
         return preferences;
     }
