@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
 import com.emi.nwodcombat.characterlist.mvp.CharacterListModel;
 import com.emi.nwodcombat.characterlist.mvp.CharacterListPresenter;
 import com.emi.nwodcombat.characterlist.mvp.CharacterListView;
@@ -32,28 +31,25 @@ public class CharacterListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // According to Santiago Vidal, this goes here.
-        // VSM: I don't know where it was before but this code goes here
         if (presenter == null) {
             createPresenter();
         }
-
     }
 
     private void createPresenter() {
         //VSM: With Event bus you don't need delegators or callbacks
-        presenter = new CharacterListPresenter(new CharacterListModel(getActivity(), modelDelegator),
-                new CharacterListView(this, viewDelegator));
+//        presenter = new CharacterListPresenter(new CharacterListModel(getActivity(), modelDelegator),
+//                new CharacterListView(this, viewDelegator));
 
         //VSM: If you want to avoid delegators you can do this:
-        /*
-        MainMVP.ModelOps model = new CharacterListModel(getActivity());
-        FragmentView view = new CharacterListView(getActivity());
+
+        CharacterListModel model = new CharacterListModel(getActivity());
+        CharacterListView view = new CharacterListView(this);
         presenter = new CharacterListPresenter(model, view);
         model.setCallback(presenter); // Due presenter implements model callback interface
         view.setCallback(presenter); // Due presenter implements view callback interface
-        */
 
-        getLoaderManager().initLoader(R.id.characters_loader, null, presenter);
+//        getLoaderManager().initLoader(R.id.characters_loader, null, presenter);
     }
 
     @Override
@@ -62,39 +58,44 @@ public class CharacterListFragment extends Fragment {
     }
 
     //Callback from model
-    //WARNING:  most of these method should be bubbled through the Loaders.
-    private MainMVP.RequiredPresenterOps modelDelegator = new MainMVP.RequiredPresenterOps() {
-        @Override
-        public void onCharacterAdded() {
-            presenter.onCharacterAdded();
-        }
-
-        @Override
-        public void onCharacterRemoved() {
-            presenter.onCharacterRemoved();
-        }
-
-        @Override
-        public void onError(String message) {
-            presenter.onError(message);
-        }
-    };
-
-    //Callback from view
-    private MainMVP.PresenterOps viewDelegator = new MainMVP.PresenterOps() {
-        @Override
-        public void newCharacter(String characterJson) {
-            presenter.newCharacter(characterJson);
-        }
-
-        @Override
-        public void removeCharacter(long idCharacter) {
-            presenter.removeCharacter(idCharacter);
-        }
-
-        @Override
-        public void onFabPressed() {
-            presenter.onFabPressed();
-        }
-    };
+    //WARNING: most of these method should be bubbled through the Loaders.
+//    private MainMVP.RequiredPresenterOps modelDelegator = new MainMVP.RequiredPresenterOps() {
+//        @Override
+//        public RealmResults<Character> queryCharacters() {
+//            return presenter.queryCharacters();
+//        }
+//
+//        @Override
+//        public void onCharacterAdded() {
+//            presenter.onCharacterAdded();
+//        }
+//
+//        @Override
+//        public void onCharacterRemoved() {
+//            presenter.onCharacterRemoved();
+//        }
+//
+//        @Override
+//        public void onError(String message) {
+//            presenter.onError(message);
+//        }
+//    };
+//
+//    //Callback from view
+//    private MainMVP.PresenterOps viewDelegator = new MainMVP.PresenterOps() {
+//        @Override
+//        public void newCharacter(com.emi.nwodcombat.model.realm.Character character) {
+//            presenter.newCharacter(character);
+//        }
+//
+//        @Override
+//        public void removeCharacter(long idCharacter) {
+//            presenter.removeCharacter(idCharacter);
+//        }
+//
+//        @Override
+//        public void onFabPressed() {
+//            presenter.onFabPressed();
+//        }
+//    };
 }

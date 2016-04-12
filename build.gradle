@@ -15,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -31,11 +32,12 @@ ext {
     supportLibraryVersion = '24.0.0-alpha1' // 23.2.0
     butterKnifeVersion = '7.0.1'
     commonsLangVersion = '3.4'
-    greenDaoVersion = '2.0.0'
+//    greenDaoVersion = '2.0.0'
     wizardroidVersion = '1.3.0'
     ottoVersion = '1.3.5'
     gsonVersion = '2.6.2'
     realmVersion = '0.88.2'
+    realmRecyclerViewVersion = '0.9.14'
 
     jUnitVersion = '4.12'
     mockitoVersion = '1.10.19'

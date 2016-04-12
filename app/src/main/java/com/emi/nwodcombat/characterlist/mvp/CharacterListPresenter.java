@@ -1,43 +1,30 @@
 package com.emi.nwodcombat.characterlist.mvp;
 
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.os.Bundle;
-
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
-import com.emi.nwodcombat.model.db.Character;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.emi.nwodcombat.model.realm.Character;
 
-import java.lang.reflect.Type;
-import java.util.List;
+import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 29/03/2016.
  * Refer to this link for further info on MVP:
  * http://www.tinmegali.com/en/model-view-presenter-mvp-in-android-part-2/
  */
-public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, MainMVP.PresenterOps, LoaderManager.LoaderCallbacks<List<Object>>{
+public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, MainMVP.PresenterOps {
+//    ,LoaderManager.LoaderCallbacks<List<com.emi.nwodcombat.model.realm.Character>> {
 
-    // Layer View reference  [VSM] this is not a layer
     private CharacterListView mView;
 
-    // Layer Model reference  [VSM] this is not a layer
     private MainMVP.ModelOps mModel;
 
     public CharacterListPresenter(CharacterListModel model, CharacterListView view) {
         this.mModel = model;
         this.mView = view;
+        setupWidget();
     }
 
     @Override
-    //TODO this characterJson doesn't belong here instead this should be done into the model.
-    //Due this method is not used I can't give you a suggestion about the best place for this code.
-    public void newCharacter(String characterJson) {
-        Character character;
-        Gson gson = new Gson();
-        Type type = new TypeToken<Character>() {}.getType();
-        character = gson.fromJson(characterJson, type);
+    public void newCharacter(com.emi.nwodcombat.model.realm.Character character) {
         mModel.insertCharacter(character);
     }
 
@@ -49,6 +36,11 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
     @Override
     public void onFabPressed() {
         mView.showSnackBar("FAB pressed");
+    }
+
+    @Override
+    public RealmResults<Character> queryCharacters() {
+        return mModel.getList();
     }
 
     @Override
@@ -66,23 +58,27 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
         mView.showAlert(message);
     }
 
-    @Override
-    public Loader<List<Object>> onCreateLoader(int id, Bundle args) {
-        return mModel.getCharactersLoader();
+    public void setupWidget() {
+        mView.setUpRV(mModel.getList());
+//        mView.showCharacters(mModel.getList());
     }
-
-    @Override
-    public void onLoadFinished(Loader<List<Object>> loader, List<Object> characters) {
-        if (characters.size() == 0) {
-            mView.showNoCharacters();
-            return;
-        }
-        mView.hideNoCharacters();
-        mView.showCharacters(characters);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Object>> loader) {
-
-    }
+//    @Override
+//    public Loader<List<com.emi.nwodcombat.model.realm.Character>> onCreateLoader(int id, Bundle args) {
+//        return mModel.getCharactersLoader();
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<List<com.emi.nwodcombat.model.realm.Character>> loader, List<com.emi.nwodcombat.model.realm.Character> characters) {
+//        if (characters.size() == 0) {
+//            mView.showNoCharacters();
+//            return;
+//        }
+//        mView.hideNoCharacters();
+//        mView.showCharacters(characters);
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<List<com.emi.nwodcombat.model.realm.Character>> loader) {
+//
+//    }
 }

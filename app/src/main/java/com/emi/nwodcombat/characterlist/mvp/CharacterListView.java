@@ -4,52 +4,55 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.FragmentView;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterlist.CharacterAdapter;
+import com.emi.nwodcombat.characterlist.RealmCharacterAdapter;
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.emi.nwodcombat.model.realm.Character;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 29/03/2016.
  */
 public class CharacterListView extends FragmentView implements MainMVP.RequiredViewOps {
-    private final CharacterAdapter characterAdapter;
+//    private CharacterAdapter characterAdapter;
+    private RealmCharacterAdapter realmCharacterAdapter;
 
-    private ArrayList<Object> characters = new ArrayList<>();
+//    private ArrayList<com.emi.nwodcombat.model.realm.Character> characters = new ArrayList<>();
 
-    @Bind(R.id.rvCharacters) RecyclerView rvCharacters;
+    @Bind(R.id.rvCharacters) co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView rvCharacters;
     @Bind(R.id.fabNewCharacter) FloatingActionButton fab;
     @Bind(R.id.empty_characters) TextView empty;
 
-    private MainMVP.PresenterOps viewDelegator;
+    private MainMVP.PresenterOps mPresenter;
 
-    public CharacterListView(Fragment fragment, MainMVP.PresenterOps viewDelegator) {
+    public CharacterListView(Fragment fragment) {
         super(fragment);
         ButterKnife.bind(this, fragment.getView());
-
-        this.viewDelegator = viewDelegator;
-        characterAdapter = new CharacterAdapter(getActivity(), R.layout.row_character_name, characters);
-        rvCharacters.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvCharacters.setAdapter(characterAdapter);
     }
 
-    public void showCharacters(List<Object> characters) {
-        this.characters.clear();
-        this.characters.addAll(characters);
-        characterAdapter.notifyDataSetChanged();
-    }
+//    public CharacterListView(Fragment fragment, MainMVP.PresenterOps mPresenter) {
+//        super(fragment);
+//        ButterKnife.bind(this, fragment.getView());
+//
+//        this.mPresenter = mPresenter;
+//        characterAdapter = new CharacterAdapter(getActivity(), R.layout.row_character_name, mPresenter.queryCharacters());
+//        rvCharacters.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        rvCharacters.setAdapter(characterAdapter);
+//    }
+
+//    public void showCharacters(RealmResults<Character> characters) {
+//        this.characters.clear();
+//        this.characters.addAll(characters);
+//        characterAdapter.notifyDataSetChanged();
+//    }
 
     public void showSnackBar(String s) {
         Snackbar.make(rvCharacters, s, Snackbar.LENGTH_SHORT).show();
@@ -65,7 +68,7 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
 
     @OnClick(R.id.fabNewCharacter)
     public void fabPressed() {
-        viewDelegator.onFabPressed();
+        mPresenter.onFabPressed();
     }
 
     public void showNoCharacters() {
@@ -74,5 +77,18 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
 
     public void hideNoCharacters() {
         empty.setVisibility(View.GONE);
+    }
+
+    public void setCallback(CharacterListPresenter callback) {
+        this.mPresenter = callback;
+    }
+
+    public MainMVP.PresenterOps getCallback() {
+        return mPresenter;
+    }
+
+    public void setUpRV(RealmResults<Character> characters) {
+        realmCharacterAdapter = new RealmCharacterAdapter(characters, getActivity(), R.layout.row_character_name, true, false);
+        rvCharacters.setAdapter(realmCharacterAdapter);
     }
 }

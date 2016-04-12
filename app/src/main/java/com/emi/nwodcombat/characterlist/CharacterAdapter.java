@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.model.db.Character;
 import com.emi.nwodcombat.widgets.TypeFacedTextView;
 
 import java.util.List;
@@ -20,11 +19,11 @@ import butterknife.OnClick;
  * Created by emiliano.desantis on 28/03/2016.
  */
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
-    public List<Object> mItems;
+    public List<com.emi.nwodcombat.model.realm.Character> mItems;
     private Activity activity;
     private int idLayout;
 
-    public CharacterAdapter(Activity activity, int idLayout, List<Object> mItems) {
+    public CharacterAdapter(Activity activity, int idLayout, List<com.emi.nwodcombat.model.realm.Character> mItems) {
         this.activity = activity;
         this.idLayout = idLayout;
         this.mItems = mItems;
@@ -39,7 +38,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
 
     @Override
     public void onBindViewHolder(CharacterAdapter.ViewHolder holder, int position) {
-        Character character = (Character) mItems.get(position);
+        com.emi.nwodcombat.model.realm.Character character = mItems.get(position);
 
         String name = character.getName();
 

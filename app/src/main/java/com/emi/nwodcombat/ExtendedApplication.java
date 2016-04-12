@@ -2,7 +2,6 @@ package com.emi.nwodcombat;
 
 import android.app.Application;
 
-import com.emi.nwodcombat.greendao.controllers.CharacterController;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.pojos.VicePojo;
 import com.emi.nwodcombat.model.pojos.VirtuePojo;
@@ -28,8 +27,6 @@ public class ExtendedApplication extends Application {
         super.onCreate();
 
         helper = RealmHelper.getInstance(this);
-
-        initSingletons();
 
         generatePersonalityArchetypes();
         generateRealmVices();
@@ -384,9 +381,4 @@ public class ExtendedApplication extends Application {
             helper.save(PersonalityArchetype.class, jsonObjects);
         }
     }
-
-    private void initSingletons() {
-        CharacterController.init(getApplicationContext());
-    }
-
 }

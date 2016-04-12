@@ -31,9 +31,10 @@ dependencies {
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"
     compile "org.apache.commons:commons-lang3:$rootProject.ext.commonsLangVersion"
-    compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
+//    compile "de.greenrobot:greendao:$rootProject.ext.greenDaoVersion"
 //    compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    compile "com.github.thorbenprimke:realm-recyclerview:$rootProject.ext.realmRecyclerViewVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
