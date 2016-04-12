@@ -164,10 +164,6 @@ public class RealmHelper implements PersistenceLayer {
         return key;
     }
 
-    public Realm getRealm() {
-        return realm;
-    }
-
     @Override
     public void delete(Object item) {
 
@@ -176,5 +172,9 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public Object get(long id) {
         return null;
+    }
+
+    public Realm getRealm() {
+        return realm;
     }
 }

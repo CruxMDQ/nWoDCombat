@@ -1,14 +1,11 @@
-package com.emi.nwodcombat.model.realm;
+package com.emi.nwodcombat.model.pojos;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.util.ArrayList;
 
 /**
  * Created by emiliano.desantis on 05/04/2016.
  */
-public class Character extends RealmObject {
-    @PrimaryKey
+public class CharacterPojo {
     private Long id;
 
     private String name;
@@ -56,17 +53,10 @@ public class Character extends RealmObject {
     private int willpower;
     private int willpowerReserve;
 
-    private RealmList<PersonalityArchetype> personalityTraits;
-    private RealmList<Vice> vices;
-    private RealmList<Virtue> virtues;
-
-    public RealmList<PersonalityArchetype> getPersonalityTraits() {
-        return personalityTraits;
-    }
-
-    public void setPersonalityTraits(RealmList<PersonalityArchetype> personalityTraits) {
-        this.personalityTraits = personalityTraits;
-    }
+    private ArrayList<Long> demeanors;
+    private ArrayList<Long> natures;
+    private ArrayList<Long> vices;
+    private ArrayList<Long> virtues;
 
     public int getAcademics() {
         return academics;
@@ -404,19 +394,35 @@ public class Character extends RealmObject {
         this.id = id;
     }
 
-    public RealmList<Vice> getVices() {
+    public ArrayList<Long> getDemeanors() {
+        return demeanors;
+    }
+
+    public void setDemeanors(ArrayList<Long> demeanors) {
+        this.demeanors = demeanors;
+    }
+
+    public ArrayList<Long> getNatures() {
+        return natures;
+    }
+
+    public void setNatures(ArrayList<Long> natures) {
+        this.natures = natures;
+    }
+
+    public ArrayList<Long> getVices() {
         return vices;
     }
 
-    public void setVices(RealmList<Vice> vices) {
+    public void setVices(ArrayList<Long> vices) {
         this.vices = vices;
     }
 
-    public RealmList<Virtue> getVirtues() {
+    public ArrayList<Long> getVirtues() {
         return virtues;
     }
 
-    public void setVirtues(RealmList<Virtue> virtues) {
+    public void setVirtues(ArrayList<Long> virtues) {
         this.virtues = virtues;
     }
 }

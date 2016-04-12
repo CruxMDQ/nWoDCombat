@@ -6,6 +6,7 @@ import android.content.Loader;
 
 import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
 import com.emi.nwodcombat.greendao.controllers.CharacterController;
+import com.emi.nwodcombat.persistence.RealmHelper;
 
 import java.util.List;
 
@@ -18,11 +19,13 @@ public class CharacterListModel implements MainMVP.ModelOps {
     private MainMVP.RequiredPresenterOps mPresenter;
     private Context context;
     private CharacterController controller;
+//    private RealmHelper helper;
 
     public CharacterListModel(Context context, MainMVP.RequiredPresenterOps mPresenter) {
         this.context = context;
         this.mPresenter = mPresenter;
         controller = CharacterController.getInstance(context);
+//        helper = RealmHelper.getInstance(context);
     }
 
     @Override
