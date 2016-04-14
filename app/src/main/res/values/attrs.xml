@@ -14,7 +14,4 @@
         <attr name="valueMaximum" format="integer" />
         <attr name="traitCategory" format="string" />
     </declare-styleable>
-    <declare-styleable name="TypeFacedTextView">
-        <attr name="fontName" format="string" />
-    </declare-styleable>
 </resources>

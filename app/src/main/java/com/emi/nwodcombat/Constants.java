@@ -13,6 +13,8 @@ public class Constants {
     public static final String TYPEFACE_EXTENSION_TTF = ".ttf";
 
     public static final String TAG_FRAG_CHARACTER_CREATOR_PAGER = "characterCreatorPager";
+    public static final String TAG_FRAG_CHARACTER_VIEWER = "characterViewerFragment";
+    public static final String TAG_FRAG_CHARACTER_LIST = "characterListFragment";
     public static final String TAG_FRAG_SETTINGS = "settingsFragment";
     public static final String TAG_SHARED_PREFS = "sharedPrefs";
 

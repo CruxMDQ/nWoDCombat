@@ -24,7 +24,7 @@ public class CharacterViewerModel implements MainMVP.ModelOps {
 
     @Override
     public Character getQueriedCharacter(long id) {
-        return null;
+        return (Character) helper.get(Character.class, id);
     }
 
     @Override

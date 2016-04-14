@@ -2,6 +2,7 @@ package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
 
+import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.FragmentView;
 import com.emi.nwodcombat.characterviewer.interfaces.MainMVP;
 
@@ -12,8 +13,9 @@ import butterknife.ButterKnife;
  */
 public class CharacterViewerView extends FragmentView implements MainMVP.RequiredViewOps {
 
-    private MainMVP.PresenterOps mPresenter;
-    private CharacterViewerPresenter callback;
+    private Character character;
+
+    private MainMVP.PresenterOps callback;
 
     public CharacterViewerView(Fragment fragment) {
         super(fragment);
@@ -21,15 +23,15 @@ public class CharacterViewerView extends FragmentView implements MainMVP.Require
     }
 
     @Override
-    public void setUpView(com.emi.nwodcombat.model.realm.Character queriedCharacter) {
-
+    public void setUpView(Character queriedCharacter) {
+        this.character = queriedCharacter;
     }
 
-    public void setCallback(CharacterViewerPresenter callback) {
+    public void setCallback(MainMVP.PresenterOps callback) {
         this.callback = callback;
     }
 
-    public CharacterViewerPresenter getCallback() {
+    public MainMVP.PresenterOps getCallback() {
         return callback;
     }
 }
