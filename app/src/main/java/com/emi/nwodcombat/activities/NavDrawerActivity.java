@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.activities;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -204,5 +206,10 @@ public class NavDrawerActivity extends AppCompatActivity
 
     public String getToolbarTitle() {
         return getString(R.string.app_name);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

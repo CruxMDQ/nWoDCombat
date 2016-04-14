@@ -12,6 +12,7 @@ import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.POJOField;
 import com.emi.nwodcombat.model.realm.PersonalityArchetype;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
@@ -71,9 +72,12 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     }
 
     private void setUpCharacter() {
-        character.setName(characterName);
-        character.setPlayer(characterPlayer);
-        character.setConcept(characterConcept);
+        addFieldToCharacter(Constants.CHARACTER_NAME, characterName);
+        addFieldToCharacter(Constants.CHARACTER_PLAYER, characterPlayer);
+        addFieldToCharacter(Constants.CHARACTER_CONCEPT, characterConcept);
+
+        addFieldToCharacter(Constants.ATTR_INT, intelligence);
+
 
         character.setIntelligence(intelligence);
         character.setWits(wits);
@@ -125,6 +129,21 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         character.getPersonalityTraits().add(nature);
         character.getVices().add(vice);
         character.getVirtues().add(virtue);
+    }
+
+    private void addFieldToCharacter(String key, String value) {
+        character.getPojoFields().add(new POJOField()
+            .setKey(key).setType(Constants.FIELD_TYPE_STRING).setValue(value));
+    }
+
+    private void addFieldToCharacter(String key, String type, String value) {
+        character.getPojoFields().add(new POJOField()
+            .setKey(key).setType(type).setValue(value));
+    }
+
+    private void addFieldToCharacter(String key, Integer value) {
+        character.getPojoFields().add(new POJOField()
+            .setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(String.valueOf(value)));
     }
 
     @Override

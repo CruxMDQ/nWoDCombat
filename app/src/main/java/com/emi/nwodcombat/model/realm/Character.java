@@ -56,6 +56,7 @@ public class Character extends RealmObject {
     private int willpower;
     private int willpowerReserve;
 
+    private RealmList<POJOField> pojoFields = new RealmList<>();
     private RealmList<PersonalityArchetype> personalityTraits = new RealmList<>();
     private RealmList<Vice> vices = new RealmList<>();
     private RealmList<Virtue> virtues = new RealmList<>();
@@ -418,5 +419,13 @@ public class Character extends RealmObject {
 
     public void setVirtues(RealmList<Virtue> virtues) {
         this.virtues = virtues;
+    }
+
+    public RealmList<POJOField> getPojoFields() {
+        return pojoFields;
+    }
+
+    public void setPojoFields(RealmList<POJOField> pojoFields) {
+        this.pojoFields = pojoFields;
     }
 }

@@ -109,4 +109,7 @@ public class Constants {
     public static final String ARG_CLASS_ARGS = "ClassArguments";
 
     public static final String FIELD_ID = "id";
+
+    public static final String FIELD_TYPE_STRING = "String";
+    public static final String FIELD_TYPE_INTEGER = "Integer";
 }
