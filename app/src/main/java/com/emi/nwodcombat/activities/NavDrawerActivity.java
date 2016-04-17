@@ -71,6 +71,8 @@ public class NavDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -187,7 +189,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     public void onCharacterCreatorFinish() {
         clearBackStack();
-        loadCombatFragment();
+        loadCharacterList();
     }
 
     private void clearBackStack() {

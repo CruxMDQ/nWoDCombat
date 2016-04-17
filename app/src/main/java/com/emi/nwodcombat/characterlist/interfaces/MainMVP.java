@@ -13,6 +13,8 @@ public interface MainMVP {
     interface RequiredViewOps {
         void showSnackBar(String msg);
         void showAlert(String msg);
+        void setUpRV(RealmResults<Character> characters);
+        void updateRV(RealmResults<Character> characters);
     }
 
     // View -> Presenter
@@ -30,6 +32,8 @@ public interface MainMVP {
         void onCharacterAdded();
         void onCharacterRemoved();
         void onError(String message);
+        void setUpRV();
+        void updateRV();
 
         // Any other returning operation Model -> Presenter
     }

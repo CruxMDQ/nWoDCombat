@@ -57,6 +57,12 @@ public class CharacterListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_list_characters, container, false);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.updateRV();
+    }
+
     //Callback from model
     //WARNING: most of these method should be bubbled through the Loaders.
 //    private MainMVP.RequiredPresenterOps modelDelegator = new MainMVP.RequiredPresenterOps() {

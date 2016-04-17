@@ -50,6 +50,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
     private Long characterVirtue, characterVice, characterDemeanor, characterNature;
 
+    private Long lastPOJOFieldId;
+
     private PersistenceLayer helper;
 
     private Character character;
@@ -68,6 +70,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         character = new Character();
 
+        lastPOJOFieldId = helper.getLastId(POJOField.class);
+
         return view;
     }
 
@@ -77,46 +81,43 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         addFieldToCharacter(Constants.CHARACTER_CONCEPT, characterConcept);
 
         addFieldToCharacter(Constants.ATTR_INT, intelligence);
+        addFieldToCharacter(Constants.ATTR_WIT, wits);
+        addFieldToCharacter(Constants.ATTR_RES, resolve);
 
+        addFieldToCharacter(Constants.ATTR_STR, strength);
+        addFieldToCharacter(Constants.ATTR_DEX, dexterity);
+        addFieldToCharacter(Constants.ATTR_STA, stamina);
 
-        character.setIntelligence(intelligence);
-        character.setWits(wits);
-        character.setResolve(resolve);
+        addFieldToCharacter(Constants.ATTR_PRE, presence);
+        addFieldToCharacter(Constants.ATTR_MAN, manipulation);
+        addFieldToCharacter(Constants.ATTR_COM, composure);
 
-        character.setStrength(strength);
-        character.setDexterity(dexterity);
-        character.setStamina(stamina);
+        addFieldToCharacter(Constants.SKILL_ACADEMICS, academics);
+        addFieldToCharacter(Constants.SKILL_COMPUTER, computer);
+        addFieldToCharacter(Constants.SKILL_CRAFTS, crafts);
+        addFieldToCharacter(Constants.SKILL_INVESTIGATION, investigation);
+        addFieldToCharacter(Constants.SKILL_MEDICINE, medicine);
+        addFieldToCharacter(Constants.SKILL_OCCULT, occult);
+        addFieldToCharacter(Constants.SKILL_POLITICS, politics);
+        addFieldToCharacter(Constants.SKILL_SCIENCE, science);
 
-        character.setPresence(presence);
-        character.setManipulation(manipulation);
-        character.setComposure(composure);
+        addFieldToCharacter(Constants.SKILL_ATHLETICS, athletics);
+        addFieldToCharacter(Constants.SKILL_BRAWL, brawl);
+        addFieldToCharacter(Constants.SKILL_DRIVE, drive);
+        addFieldToCharacter(Constants.SKILL_FIREARMS, firearms);
+        addFieldToCharacter(Constants.SKILL_LARCENY, larceny);
+        addFieldToCharacter(Constants.SKILL_STEALTH, stealth);
+        addFieldToCharacter(Constants.SKILL_SURVIVAL, survival);
+        addFieldToCharacter(Constants.SKILL_WEAPONRY, weaponry);
 
-        character.setAcademics(academics);
-        character.setComputer(computer);
-        character.setCrafts(crafts);
-        character.setInvestigation(investigation);
-        character.setMedicine(medicine);
-        character.setOccult(occult);
-        character.setPolitics(politics);
-        character.setScience(science);
-
-        character.setAthletics(athletics);
-        character.setBrawl(brawl);
-        character.setDrive(drive);
-        character.setFirearms(firearms);
-        character.setLarceny(larceny);
-        character.setStealth(stealth);
-        character.setSurvival(survival);
-        character.setWeaponry(weaponry);
-
-        character.setAnimalKen(animalKen);
-        character.setEmpathy(empathy);
-        character.setExpression(expression);
-        character.setIntimidation(intimidation);
-        character.setPersuasion(persuasion);
-        character.setSocialize(socialize);
-        character.setStrength(streetwise);
-        character.setSubterfuge(subterfuge);
+        addFieldToCharacter(Constants.SKILL_ANIMAL_KEN, animalKen);
+        addFieldToCharacter(Constants.SKILL_EMPATHY, empathy);
+        addFieldToCharacter(Constants.SKILL_EXPRESSION, expression);
+        addFieldToCharacter(Constants.SKILL_INTIMIDATION, intimidation);
+        addFieldToCharacter(Constants.SKILL_PERSUASION, persuasion);
+        addFieldToCharacter(Constants.SKILL_SOCIALIZE, socialize);
+        addFieldToCharacter(Constants.SKILL_STREETWISE, streetwise);
+        addFieldToCharacter(Constants.SKILL_SUBTERFUGE, subterfuge);
 
         character.setId(helper.getLastId(Character.class));
 
@@ -132,18 +133,24 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     }
 
     private void addFieldToCharacter(String key, String value) {
-        character.getPojoFields().add(new POJOField()
+        character.getPojoFields().add(new POJOField().setId(lastPOJOFieldId)
             .setKey(key).setType(Constants.FIELD_TYPE_STRING).setValue(value));
+
+        lastPOJOFieldId++;
     }
 
     private void addFieldToCharacter(String key, String type, String value) {
-        character.getPojoFields().add(new POJOField()
+        character.getPojoFields().add(new POJOField().setId(lastPOJOFieldId)
             .setKey(key).setType(type).setValue(value));
+
+        lastPOJOFieldId++;
     }
 
     private void addFieldToCharacter(String key, Integer value) {
-        character.getPojoFields().add(new POJOField()
+        character.getPojoFields().add(new POJOField().setId(lastPOJOFieldId)
             .setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(String.valueOf(value)));
+
+        lastPOJOFieldId++;
     }
 
     @Override

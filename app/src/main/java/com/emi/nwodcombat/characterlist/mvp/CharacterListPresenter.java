@@ -20,7 +20,7 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
     public CharacterListPresenter(CharacterListModel model, CharacterListView view) {
         this.mModel = model;
         this.mView = view;
-        setupWidget();
+        setUpRV();
     }
 
     @Override
@@ -58,9 +58,13 @@ public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, Mai
         mView.showAlert(message);
     }
 
-    public void setupWidget() {
+    public void setUpRV() {
         mView.setUpRV(mModel.getList());
-//        mView.showCharacters(mModel.getList());
+    }
+
+    @Override
+    public void updateRV() {
+        mView.updateRV(mModel.getList());
     }
 //    @Override
 //    public Loader<List<com.emi.nwodcombat.model.realm.Character>> onCreateLoader(int id, Bundle args) {

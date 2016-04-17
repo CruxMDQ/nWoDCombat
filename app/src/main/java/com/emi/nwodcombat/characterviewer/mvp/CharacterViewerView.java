@@ -44,13 +44,16 @@ public class CharacterViewerView extends FragmentView implements MainMVP.Require
                     txtCharacterName.setText(field.getValue());
                     break;
                 }
+                case Constants.CHARACTER_CONCEPT: {
+                    txtCharacterConcept.setText(field.getValue());
+                    break;
+                }
+                case Constants.CHARACTER_PLAYER: {
+                    txtCharacterPlayer.setText(field.getValue());
+                    break;
+                }
             }
         }
-//        txtCharacterName.setText(character.getPojoFields().g);
-
-//        txtCharacterName.setText(character.getName());
-//        txtCharacterConcept.setText(character.getConcept());
-//        txtCharacterPlayer.setText(character.getPlayer());
     }
 
     public void setCallback(MainMVP.PresenterOps callback) {

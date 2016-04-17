@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -70,6 +71,11 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
 
     public void setUpRV(RealmResults<Character> characters) {
         realmCharacterAdapter = new RealmCharacterAdapter(characters, getActivity(), R.layout.row_character_name, true, false);
+        rvCharacters.setAdapter(realmCharacterAdapter);
+    }
+
+    public void updateRV(RealmResults<Character> characters) {
+        realmCharacterAdapter.updateRealmResults(characters);
         rvCharacters.setAdapter(realmCharacterAdapter);
     }
 }

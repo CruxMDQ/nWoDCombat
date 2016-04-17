@@ -8,17 +8,17 @@ import io.realm.annotations.PrimaryKey;
  */
 public class POJOField extends RealmObject {
     @PrimaryKey
-    private int id;
+    private long id;
 
     private String key;
     private String value;
     private String type;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public POJOField setId(int id) {
+    public POJOField setId(long id) {
         this.id = id;
         return this;
     }
