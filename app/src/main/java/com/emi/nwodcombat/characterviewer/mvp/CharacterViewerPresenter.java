@@ -1,9 +1,5 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
-import com.emi.nwodcombat.model.realm.Character;
-
-import io.realm.RealmResults;
-
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */

@@ -1,26 +1,20 @@
 package com.emi.nwodcombat.characterlist;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterviewer.CharacterViewerFragment;
 import com.emi.nwodcombat.model.realm.Character;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
-import io.realm.internal.RealmCore;
 
 /**
  * Created by emiliano.desantis on 28/03/2016.

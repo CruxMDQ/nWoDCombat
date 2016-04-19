@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerModel;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerPresenter;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView;
+import com.emi.nwodcombat.utils.Constants;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
