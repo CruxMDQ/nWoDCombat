@@ -114,17 +114,29 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/lblCharacterVirtue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_virtue"/>
+
+                    <TextView
+                        android:id="@+id/txtCharacterVirtue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/spacing_half"
+                        android:text="@string/hint_tap_to_select"
+                        android:visibility="visible"
+                        />
 
                     <Spinner
                         android:id="@+id/spinnerVirtue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/btnAddVirtue"

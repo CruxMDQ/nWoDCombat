@@ -90,6 +90,7 @@
     <string name="setting_cheat">Add points freely</string>
     <string name="setting_char_creator">Character creator</string>
     <string name="setting_ignore_caps">Ignore stat caps</string>
+    <string name="hint_tap_to_select">Tap to select</string>
     <string name="hint_step_personal_info_name">Name</string>
     <string name="hint_step_personal_info_player">Player</string>
     <string name="default_step_personal_info_player">Storyteller</string>

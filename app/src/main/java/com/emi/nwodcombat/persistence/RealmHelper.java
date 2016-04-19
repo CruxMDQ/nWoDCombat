@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
-import com.emi.nwodcombat.model.realm.Vice;
-import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.*;
 import com.emi.nwodcombat.utils.Constants;
 
 import java.util.List;
@@ -136,7 +134,7 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
-    public <T  extends RealmObject> T get(Class<T> klass, long id) {
+    public <T extends RealmObject> T get(Class<T> klass, long id) {
         return realm.where(klass).equalTo(Constants.FIELD_ID, id).findFirst();
     }
 
