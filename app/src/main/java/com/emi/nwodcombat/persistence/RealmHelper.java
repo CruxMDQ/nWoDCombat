@@ -3,13 +3,12 @@ package com.emi.nwodcombat.persistence;
 import android.content.Context;
 import android.util.Log;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.PersonalityArchetype;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;

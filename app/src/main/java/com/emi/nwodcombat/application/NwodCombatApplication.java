@@ -15,8 +15,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import io.realm.RealmObject;
-
 /**
  * Created by Emi on 3/14/16.
  * Refer to this site for training on Realm: https://realm.io/docs/java/latest/

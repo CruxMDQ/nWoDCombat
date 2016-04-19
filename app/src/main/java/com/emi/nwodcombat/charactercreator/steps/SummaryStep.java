@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
@@ -18,6 +17,7 @@ import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
+import com.emi.nwodcombat.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -264,44 +264,12 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             mentalSkills.add(entry);            // 1
                             break;
                         }
-                        case Constants.SKILL_ANIMAL_KEN: {
-                            socialSkills.add(entry);            // 1
-                            break;
-                        }
-                        case Constants.SKILL_ATHLETICS: {
-                            physicalSkills.add(entry);          // 1
-                            break;
-                        }
-                        case Constants.SKILL_BRAWL: {
-                            physicalSkills.add(entry);          // 2
-                            break;
-                        }
                         case Constants.SKILL_COMPUTER: {
                             mentalSkills.add(entry);            // 2
                             break;
                         }
                         case Constants.SKILL_CRAFTS: {
                             mentalSkills.add(entry);            // 3
-                            break;
-                        }
-                        case Constants.SKILL_DRIVE: {
-                            physicalSkills.add(entry);          // 3
-                            break;
-                        }
-                        case Constants.SKILL_EMPATHY: {
-                            socialSkills.add(entry);            // 2
-                            break;
-                        }
-                        case Constants.SKILL_EXPRESSION: {
-                            socialSkills.add(entry);            // 3
-                            break;
-                        }
-                        case Constants.SKILL_FIREARMS: {
-                            physicalSkills.add(entry);          // 4
-                            break;
-                        }
-                        case Constants.SKILL_INTIMIDATION: {
-                            socialSkills.add(entry);            // 4
                             break;
                         }
                         case Constants.SKILL_INVESTIGATION: {
@@ -316,10 +284,6 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             mentalSkills.add(entry);            // 6
                             break;
                         }
-                        case Constants.SKILL_PERSUASION: {
-                            socialSkills.add(entry);            // 5
-                            break;
-                        }
                         case Constants.SKILL_POLITICS: {
                             mentalSkills.add(entry);            // 7
                             break;
@@ -328,20 +292,28 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             mentalSkills.add(entry);            // 8
                             break;
                         }
-                        case Constants.SKILL_SOCIALIZE: {
-                            socialSkills.add(entry);            // 6
+                        case Constants.SKILL_ATHLETICS: {
+                            physicalSkills.add(entry);          // 1
                             break;
                         }
-                        case Constants.SKILL_STEALTH: {
+                        case Constants.SKILL_BRAWL: {
+                            physicalSkills.add(entry);          // 2
+                            break;
+                        }
+                        case Constants.SKILL_DRIVE: {
+                            physicalSkills.add(entry);          // 3
+                            break;
+                        }
+                        case Constants.SKILL_FIREARMS: {
+                            physicalSkills.add(entry);          // 4
+                            break;
+                        }
+                        case Constants.SKILL_LARCENY: {
                             physicalSkills.add(entry);          // 5
                             break;
                         }
-                        case Constants.SKILL_STREETWISE: {
-                            socialSkills.add(entry);            // 7
-                            break;
-                        }
-                        case Constants.SKILL_SUBTERFUGE: {
-                            socialSkills.add(entry);            // 8
+                        case Constants.SKILL_STEALTH: {
+                            physicalSkills.add(entry);          // 6
                             break;
                         }
                         case Constants.SKILL_SURVIVAL: {
@@ -350,6 +322,38 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                         }
                         case Constants.SKILL_WEAPONRY: {
                             physicalSkills.add(entry);          // 8
+                            break;
+                        }
+                        case Constants.SKILL_ANIMAL_KEN: {
+                            socialSkills.add(entry);            // 1
+                            break;
+                        }
+                        case Constants.SKILL_EMPATHY: {
+                            socialSkills.add(entry);            // 2
+                            break;
+                        }
+                        case Constants.SKILL_EXPRESSION: {
+                            socialSkills.add(entry);            // 3
+                            break;
+                        }
+                        case Constants.SKILL_INTIMIDATION: {
+                            socialSkills.add(entry);            // 4
+                            break;
+                        }
+                        case Constants.SKILL_PERSUASION: {
+                            socialSkills.add(entry);            // 5
+                            break;
+                        }
+                        case Constants.SKILL_SOCIALIZE: {
+                            socialSkills.add(entry);            // 6
+                            break;
+                        }
+                        case Constants.SKILL_STREETWISE: {
+                            socialSkills.add(entry);            // 7
+                            break;
+                        }
+                        case Constants.SKILL_SUBTERFUGE: {
+                            socialSkills.add(entry);            // 8
                             break;
                         }
                     }

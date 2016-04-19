@@ -1,7 +1,7 @@
 package com.emi.nwodcombat.model.realm;
 
-import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.tools.ArrayHelper;
+import com.emi.nwodcombat.utils.Constants;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

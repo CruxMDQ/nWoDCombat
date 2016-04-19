@@ -1,15 +1,17 @@
 package com.emi.nwodcombat.characterlist.mvp;
 
 import android.app.FragmentManager;
-import android.os.Bundle;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.CharacterViewerFragment;
 import com.emi.nwodcombat.utils.Constants;
 import com.squareup.otto.Subscribe;
 
-import static com.emi.nwodcombat.characterlist.RealmCharacterAdapter.*;
-import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.*;
+import static com.emi.nwodcombat.characterlist.RealmCharacterAdapter.CharacterDetailEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.ErrorEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.FabPressedEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.NewCharacterEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.RemoveCharacterEvent;
 
 /**
  * Created by emiliano.desantis on 29/03/2016.

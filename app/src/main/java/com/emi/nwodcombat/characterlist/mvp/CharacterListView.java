@@ -36,7 +36,12 @@ public class CharacterListView extends FragmentView {
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-        realmCharacterAdapter = new RealmCharacterAdapter(null, getActivity(), R.layout.row_character_name, true, false, BusProvider.getInstance());
+        initializeRV();
+    }
+
+    private void initializeRV() {
+        realmCharacterAdapter = new RealmCharacterAdapter(null, getActivity(), R.layout.row_character_name, true, false, BusProvider
+            .getInstance());
         rvCharacters.setAdapter(realmCharacterAdapter);
     }
 

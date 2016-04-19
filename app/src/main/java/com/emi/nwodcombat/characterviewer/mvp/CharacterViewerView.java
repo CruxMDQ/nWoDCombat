@@ -3,11 +3,11 @@ package com.emi.nwodcombat.characterviewer.mvp;
 import android.app.Fragment;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.POJOField;
+import com.emi.nwodcombat.utils.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

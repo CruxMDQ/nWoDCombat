@@ -5,11 +5,7 @@ package com.emi.nwodcombat.utils;
  */
 // TODO VSM ride off this class
 public class Constants {
-
-
     public static final boolean MODE_TEST = true;
-
-    public static final String DB_NAME = "nWoDDB";
 
     public static final String TYPEFACE_FOLDER = "fonts/";
     public static final String TYPEFACE_EXTENSION_TTF = ".ttf";
