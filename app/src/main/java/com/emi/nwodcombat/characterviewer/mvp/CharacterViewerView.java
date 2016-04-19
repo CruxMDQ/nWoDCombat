@@ -3,10 +3,9 @@ package com.emi.nwodcombat.characterviewer.mvp;
 import android.app.Fragment;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
-import com.emi.nwodcombat.FragmentView;
+import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterviewer.interfaces.MainMVP;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.POJOField;
 
@@ -17,11 +16,10 @@ import io.realm.RealmList;
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
-public class CharacterViewerView extends FragmentView implements MainMVP.RequiredViewOps {
+public class CharacterViewerView extends FragmentView {
 
     private Character character;
 
-    private MainMVP.PresenterOps callback;
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;
@@ -32,7 +30,6 @@ public class CharacterViewerView extends FragmentView implements MainMVP.Require
         ButterKnife.bind(this, fragment.getView());
     }
 
-    @Override
     public void setUpView(Character queriedCharacter) {
         this.character = queriedCharacter;
 
@@ -54,13 +51,5 @@ public class CharacterViewerView extends FragmentView implements MainMVP.Require
                 }
             }
         }
-    }
-
-    public void setCallback(MainMVP.PresenterOps callback) {
-        this.callback = callback;
-    }
-
-    public MainMVP.PresenterOps getCallback() {
-        return callback;
     }
 }

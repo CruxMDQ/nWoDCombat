@@ -1,7 +1,8 @@
-package com.emi.nwodcombat;
+package com.emi.nwodcombat.application;
 
 import android.app.Application;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.pojos.VicePojo;
 import com.emi.nwodcombat.model.pojos.VirtuePojo;
@@ -14,11 +15,13 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Emi on 3/14/16.
  * Refer to this site for training on Realm: https://realm.io/docs/java/latest/
  */
-public class ExtendedApplication extends Application {
+public class NwodCombatApplication extends Application {
 
     PersistenceLayer helper;
 
@@ -36,7 +39,7 @@ public class ExtendedApplication extends Application {
     private void generateRealmVirtues() {
         Gson gson = new Gson();
 
-        if (helper.getCount(Virtue.class) == 0) {
+        if (helper.getCountVirtue() == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
             VirtuePojo charity = new VirtuePojo();
@@ -95,7 +98,7 @@ public class ExtendedApplication extends Application {
     private void generateRealmVices() {
         Gson gson = new Gson();
 
-        if (helper.getCount(Vice.class) == 0) {
+        if (helper.getCountVice() == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
 //            envy.setId(Long.valueOf(helper.getCount(Vice.class)));
@@ -156,7 +159,7 @@ public class ExtendedApplication extends Application {
 
         Gson gson = new Gson();
 
-        if (helper.getCount(PersonalityArchetype.class) == 0) {
+        if (helper.getCountPersonalityArchetype() == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
             PersonalityArchetypePojo authoritarian = new PersonalityArchetypePojo();

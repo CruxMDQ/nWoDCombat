@@ -1,9 +1,7 @@
 package com.emi.nwodcombat.model.realm;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.tools.ArrayHelper;
-
-import java.util.NoSuchElementException;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -31,12 +29,15 @@ public class Character extends RealmObject {
 
     public String getName() {
         // TODO This solution requires Java 8 support. Test it once it's available.
+        // VSM java 8 is not supported yet on android, you can have some of its features
+        // with retrolambda library
+
 //        List<POJOField> result = Stream.of(getPojoFields())
 //                .filter(a -> Objects.equals(a.getKey(), Constants.CHARACTER_NAME))
 //                .collect(Collectors.toList());
 //        if (result.size() > 0) return result.get(0).getValue();
 //        else return name;
-        return (String) ArrayHelper.find(pojoFields, Constants.CHARACTER_NAME);
+        return ArrayHelper.find(pojoFields, Constants.CHARACTER_NAME);
     }
 
     public Long getId() {

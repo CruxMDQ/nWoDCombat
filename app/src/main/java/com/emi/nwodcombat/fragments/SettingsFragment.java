@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 
 import butterknife.Bind;

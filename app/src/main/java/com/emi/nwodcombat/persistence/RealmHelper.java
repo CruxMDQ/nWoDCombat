@@ -3,7 +3,10 @@ package com.emi.nwodcombat.persistence;
 import android.content.Context;
 import android.util.Log;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Vice;
+import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 
 import java.util.ArrayList;
@@ -85,20 +88,14 @@ public class RealmHelper implements PersistenceLayer {
 //    }
 
     @Override
-    public long save(Object item) {
-        if (item instanceof RealmObject) {
+    public <T extends RealmObject> long save(T item) {
             realm.beginTransaction();
-
-            realm.copyToRealmOrUpdate((RealmObject) item);
-
+            realm.copyToRealmOrUpdate(item);
             realm.commitTransaction();
-
             return 0;
-        }
-        return -1;
     }
 
-    public long save(Class klass, String json) {
+    public <T extends RealmObject> long save(Class<T> klass, String json) {
         try {
             realm.beginTransaction();
 
@@ -116,7 +113,7 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
-    public long save(Class klass, ArrayList<String> jsonObjects) {
+    public <T extends RealmObject> long save(Class<T> klass, List<String> jsonObjects) {
         try {
             realm.beginTransaction();
 
@@ -135,20 +132,13 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
-    public List<Object> getList() {
-        return null;
-    }
-
-    @Override
-    public RealmResults getList(Class klass) {
+    public <T extends RealmObject> RealmResults<T> getList(Class<T> klass) {
         return realm.allObjects(klass);
     }
 
     @Override
-    public Object get(Class klass, long id) {
-        RealmQuery query = realm.where(klass);
-        RealmResults result = query.equalTo(Constants.FIELD_ID, id).findAll();
-        return result.get(0);
+    public <T  extends RealmObject> T get(Class<T> klass, long id) {
+        return realm.where(klass).equalTo(Constants.FIELD_ID, id).findFirst();
     }
 
     @Override
@@ -175,12 +165,27 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
+    public int getCountVirtue() {
+        return getCount(Virtue.class);
+    }
+
+    @Override
+    public int getCountVice() {
+        return getCount(Vice.class);
+    }
+
+    @Override
+    public int getCountPersonalityArchetype() {
+        return getCount(PersonalityArchetype.class);
+    }
+
+    @Override
     public void delete(Object item) {
 
     }
 
     @Override
-    public Object get(long id) {
+    public <T extends RealmObject> T get(long id) {
         return null;
     }
 }

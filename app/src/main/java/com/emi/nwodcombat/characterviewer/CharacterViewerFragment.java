@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerModel;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerPresenter;
@@ -44,12 +44,7 @@ public class CharacterViewerFragment extends Fragment {
 
 
     private void createPresenter() {
-        CharacterViewerModel model = new CharacterViewerModel(getActivity());
-        CharacterViewerView view = new CharacterViewerView(this);
-        mPresenter = new CharacterViewerPresenter(model, view);
-        model.setCallback(mPresenter);
-        view.setCallback(mPresenter);
-
+        mPresenter = new CharacterViewerPresenter(new CharacterViewerModel(getActivity()), new CharacterViewerView(this));
         mPresenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));
     }
 

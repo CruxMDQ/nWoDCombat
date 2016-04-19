@@ -3,17 +3,15 @@ package com.emi.nwodcombat.characterviewer.mvp;
 import android.app.Activity;
 import android.content.Context;
 
-import com.emi.nwodcombat.characterviewer.interfaces.MainMVP;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.persistence.RealmHelper;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
-public class CharacterViewerModel implements MainMVP.ModelOps {
+public class CharacterViewerModel {
 
     // Presenter reference
-    private MainMVP.RequiredPresenterOps mPresenter;
     private Context mContext;
     private RealmHelper helper;
 
@@ -22,21 +20,7 @@ public class CharacterViewerModel implements MainMVP.ModelOps {
         helper = RealmHelper.getInstance(mContext);
     }
 
-    @Override
     public Character getQueriedCharacter(long id) {
-        return (Character) helper.get(Character.class, id);
-    }
-
-    @Override
-    public void updateCharacter(Character character) {
-
-    }
-
-    public void setCallback(CharacterViewerPresenter callback) {
-        this.mPresenter = callback;
-    }
-
-    public MainMVP.RequiredPresenterOps getCallback() {
-        return mPresenter;
+        return helper.get(Character.class, id);
     }
 }

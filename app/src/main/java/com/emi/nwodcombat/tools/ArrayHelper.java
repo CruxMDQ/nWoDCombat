@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.tools;
 
-import com.emi.nwodcombat.Constants;
+import android.support.annotation.NonNull;
+
 import com.emi.nwodcombat.model.realm.POJOField;
 
 import java.util.List;
@@ -10,13 +11,11 @@ import java.util.NoSuchElementException;
  * Created by Crux on 4/17/2016.
  */
 public class ArrayHelper {
-    public static Object find(List list, String arg) {
+    public static <T extends POJOField> String find(List<T> list,@NonNull String arg) {
         try {
-            for (Object field : list) {
-                if (field instanceof POJOField) {
-                    if (((POJOField) field).getKey().equals(arg)) {
-                        return ((POJOField) field).getValue();
-                    }
+            for (T field : list) {
+                if (field.getKey().equals(arg)) {
+                    return field.getValue();
                 }
             }
             return null;

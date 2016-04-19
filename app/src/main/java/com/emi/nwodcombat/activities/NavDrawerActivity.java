@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerFragment;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
@@ -35,14 +35,17 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.drawer_layout) DrawerLayout drawer;
+    @Bind(R.id.nav_view) NavigationView navigationView;
 
-    private Realm realm;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,25 +53,16 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(null);
-
-        realm = Realm.getInstance(this);
-
-        loadCharacterList();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        loadCharacterList();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (getFragmentManager().getBackStackEntryCount() > 0) {
@@ -87,9 +81,6 @@ public class NavDrawerActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -103,34 +94,37 @@ public class NavDrawerActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            loadNewCharacterWizard();
-        } else if (id == R.id.nav_gallery) {
-            loadCharacterList();
-        } else if (id == R.id.nav_slideshow) {
-            loadCombatFragment();
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.nav_camera:
+                loadNewCharacterWizard();
+                break;
+            case R.id.nav_gallery:
+                loadCharacterList();
+                break;
+            case R.id.nav_slideshow:
+                loadCombatFragment();
+                break;
+            case R.id.nav_manage:
+
+                break;
+            case R.id.nav_share:
+
+                break;
+            case R.id.nav_send:
+
+                break;
+        }
         return true;
     }
 
     private void loadCharacterList() {
         FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterListFragment) {
-            return;
-        }
-        fragmentManager.beginTransaction().replace(R.id.flContent,  CharacterListFragment.newInstance()).commit();
+//        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterListFragment) {
+//            return;
+//        }
+        fragmentManager.beginTransaction().replace(R.id.flContent,  CharacterListFragment.newInstance()).addToBackStack(null).commit();
     }
 
     private void loadCombatFragment() {
@@ -138,9 +132,10 @@ public class NavDrawerActivity extends AppCompatActivity
         if (fragmentManager.findFragmentById(R.id.flContent) instanceof DynamicCombatFragment) {
             return;
         }
-        fragmentManager.beginTransaction().replace(R.id.flContent, DynamicCombatFragment.newInstance()).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, DynamicCombatFragment.newInstance()).addToBackStack(null).commit();
     }
 
+    //VSM this is memory consuming, use a better approach. Maybe a ViewPager is the best option.
     private void loadNewCharacterWizard() {
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterCreatorPagerFragment) {
@@ -188,7 +183,7 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     public void onCharacterCreatorFinish() {
-        clearBackStack();
+//        clearBackStack();
         loadCharacterList();
     }
 
@@ -198,12 +193,6 @@ public class NavDrawerActivity extends AppCompatActivity
             FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
             manager.popBackStackImmediate(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-    }
-
-    protected void setToolbarTitle(String title) {
-        TextView txtToolbarTitle = (TextView) findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
-
-        txtToolbarTitle.setText(title);
     }
 
     public String getToolbarTitle() {

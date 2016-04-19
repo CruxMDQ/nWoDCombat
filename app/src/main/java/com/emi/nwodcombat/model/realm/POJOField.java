@@ -6,6 +6,8 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by emiliano.desantis on 14/04/2016.
  */
+
+// TODO put a better name than POJO even Field is not right.
 public class POJOField extends RealmObject {
     @PrimaryKey
     private long id;

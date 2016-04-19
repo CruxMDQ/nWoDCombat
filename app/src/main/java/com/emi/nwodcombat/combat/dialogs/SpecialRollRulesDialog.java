@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.RadioAdapter;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;

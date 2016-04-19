@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.dialogs.CategorySettingDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;

@@ -1,9 +1,11 @@
-package com.emi.nwodcombat;
+package com.emi.nwodcombat.utils;
 
 /**
  * Created by Emi on 2/18/16.
  */
+// TODO VSM ride off this class
 public class Constants {
+
 
     public static final boolean MODE_TEST = true;
 

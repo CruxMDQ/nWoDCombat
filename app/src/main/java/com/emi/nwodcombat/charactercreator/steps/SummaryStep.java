@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
@@ -121,10 +121,10 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         character.setId(helper.getLastId(Character.class));
 
-        PersonalityArchetype demeanor = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterDemeanor);
-        PersonalityArchetype nature = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterNature);
-        Vice vice = (Vice) helper.get(Vice.class, characterVice);
-        Virtue virtue = (Virtue) helper.get(Virtue.class, characterVirtue);
+        PersonalityArchetype demeanor = helper.get(PersonalityArchetype.class, characterDemeanor);
+        PersonalityArchetype nature = helper.get(PersonalityArchetype.class, characterNature);
+        Vice vice = helper.get(Vice.class, characterVice);
+        Virtue virtue = helper.get(Virtue.class, characterVirtue);
 
         character.getPersonalityTraits().add(demeanor);
         character.getPersonalityTraits().add(nature);
