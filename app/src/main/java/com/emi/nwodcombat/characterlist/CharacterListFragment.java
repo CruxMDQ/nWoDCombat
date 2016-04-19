@@ -1,6 +1,8 @@
 package com.emi.nwodcombat.characterlist;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,15 +32,12 @@ public class CharacterListFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if (presenter == null) {
-            createPresenter();
-        }
+        createPresenter();
     }
 
     private void createPresenter() {
         presenter = new CharacterListPresenter(new CharacterListModel(RealmHelper.getInstance(getActivity())),
-                                               new CharacterListView(this, BusProvider.getInstance()));
+                new CharacterListView(this, BusProvider.getInstance()));
     }
 
     @Override
@@ -47,10 +46,14 @@ public class CharacterListFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         BusProvider.register(presenter);
-        presenter.refresh();
     }
 
     @Override
