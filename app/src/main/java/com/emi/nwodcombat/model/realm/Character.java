@@ -15,16 +15,25 @@ public class Character extends RealmObject {
     private Long id;
 
     private RealmList<POJOField> pojoFields = new RealmList<>();
-    private RealmList<PersonalityArchetype> personalityTraits = new RealmList<>();
+    private RealmList<PersonalityArchetype> natures = new RealmList<>();
+    private RealmList<PersonalityArchetype> demeanors = new RealmList<>();
     private RealmList<Vice> vices = new RealmList<>();
     private RealmList<Virtue> virtues = new RealmList<>();
 
-    public RealmList<PersonalityArchetype> getPersonalityTraits() {
-        return personalityTraits;
+    public RealmList<PersonalityArchetype> getNatures() {
+        return natures;
     }
 
-    public void setPersonalityTraits(RealmList<PersonalityArchetype> personalityTraits) {
-        this.personalityTraits = personalityTraits;
+    public void setNatures(RealmList<PersonalityArchetype> natures) {
+        this.natures = natures;
+    }
+
+    public RealmList<PersonalityArchetype> getDemeanors() {
+        return demeanors;
+    }
+
+    public void setDemeanors(RealmList<PersonalityArchetype> demeanors) {
+        this.demeanors = demeanors;
     }
 
     public String getName() {

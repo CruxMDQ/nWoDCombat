@@ -126,8 +126,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         Vice vice = helper.get(Vice.class, characterVice);
         Virtue virtue = helper.get(Virtue.class, characterVirtue);
 
-        character.getPersonalityTraits().add(demeanor);
-        character.getPersonalityTraits().add(nature);
+        character.getDemeanors().add(demeanor);
+        character.getNatures().add(nature);
         character.getVices().add(vice);
         character.getVirtues().add(virtue);
     }

@@ -1,5 +1,9 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
+import com.squareup.otto.Subscribe;
+
+import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.*;
+
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
@@ -15,5 +19,14 @@ public class CharacterViewerPresenter  {
     public void setUpView(long idCharacter) {
         view.setUpView(model.getQueriedCharacter(idCharacter));
         view.setUpVirtueSpinner(model.getVirtues());
+    }
+
+    public void onPause() {
+        view.onPause();
+    }
+
+    @Subscribe
+    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
+        model.updateCharacter(event.updatedCharacter);
     }
 }

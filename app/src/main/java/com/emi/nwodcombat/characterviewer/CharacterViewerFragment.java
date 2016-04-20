@@ -10,13 +10,14 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerModel;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerPresenter;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView;
+import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
 public class CharacterViewerFragment extends Fragment {
-    private CharacterViewerPresenter mPresenter;
+    private CharacterViewerPresenter presenter;
 
     public CharacterViewerFragment() {}
 
@@ -31,10 +32,7 @@ public class CharacterViewerFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if (mPresenter == null) {
-            createPresenter();
-        }
+        createPresenter();
     }
 
     @Override
@@ -44,8 +42,21 @@ public class CharacterViewerFragment extends Fragment {
 
 
     private void createPresenter() {
-        mPresenter = new CharacterViewerPresenter(new CharacterViewerModel(getActivity()), new CharacterViewerView(this));
-        mPresenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));
+        presenter = new CharacterViewerPresenter(new CharacterViewerModel(getActivity()), new CharacterViewerView(this,
+            BusProvider.getInstance()));
+        presenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.register(presenter);
+    }
+
+    @Override
+    public void onPause() {
+        presenter.onPause();
+        BusProvider.unregister(presenter);
+        super.onPause();
+    }
 }

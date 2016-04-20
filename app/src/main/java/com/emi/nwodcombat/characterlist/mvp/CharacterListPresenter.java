@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.CharacterViewerFragment;
-import com.emi.nwodcombat.utils.Constants;
 import com.squareup.otto.Subscribe;
 
 import static com.emi.nwodcombat.characterlist.RealmCharacterAdapter.CharacterDetailEvent;

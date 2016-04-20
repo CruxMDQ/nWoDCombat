@@ -30,4 +30,8 @@ public class CharacterViewerModel {
     public RealmResults<Virtue> getVirtues() {
         return helper.getList(Virtue.class);
     }
+
+    public void updateCharacter(Character updatedCharacter) {
+        helper.save(updatedCharacter);
+    }
 }
