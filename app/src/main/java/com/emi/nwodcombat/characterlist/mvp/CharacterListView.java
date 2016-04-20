@@ -72,7 +72,6 @@ public class CharacterListView extends FragmentView {
 
     public void updateRV(RealmResults<Character> characters) {
         realmCharacterAdapter.updateRealmResults(characters);
-        realmCharacterAdapter.notifyDataSetChanged(); // VSM ves que existe :)
     }
 
     public static class FabPressedEvent {

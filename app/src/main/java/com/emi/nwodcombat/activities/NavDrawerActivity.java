@@ -122,11 +122,10 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private void loadCharacterList() {
         FragmentManager fragmentManager = getFragmentManager();
-//        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterListFragment) {
-//            return;
-//        }
-        fragmentManager.beginTransaction().replace(R.id.flContent, CharacterListFragment.newInstance())
-            .addToBackStack(Constants.TAG_FRAG_CHARACTER_LIST).commit();
+        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterListFragment) {
+            return;
+        }
+        fragmentManager.beginTransaction().replace(R.id.flContent,  CharacterListFragment.newInstance()).addToBackStack(null).commit();
     }
 
     private void loadCombatFragment() {

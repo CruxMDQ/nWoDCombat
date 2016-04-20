@@ -25,6 +25,7 @@ public class CharacterListPresenter {
     public CharacterListPresenter(CharacterListModel model, CharacterListView view) {
         this.model = model;
         this.view = view;
+        view.updateRV(model.getList());
     }
 
     @Subscribe
@@ -57,10 +58,6 @@ public class CharacterListPresenter {
         }
 
         fragmentManager.beginTransaction().replace(R.id.flContent, CharacterViewerFragment.newInstance(event.id))
-                .addToBackStack(Constants.TAG_FRAG_CHARACTER_VIEWER).commit();
-    }
-
-    public void refresh() {
-        view.updateRV(model.getList());
+                .addToBackStack(null).commit();
     }
 }
