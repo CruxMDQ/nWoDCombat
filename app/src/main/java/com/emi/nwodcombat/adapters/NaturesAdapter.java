@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Nature;
 
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -13,8 +13,8 @@ import io.realm.RealmResults;
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class PersonalityRealmAdapter extends RealmBaseAdapter<PersonalityArchetype> {
-    public PersonalityRealmAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
+public class NaturesAdapter extends RealmBaseAdapter<Nature> {
+    public NaturesAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
         super(context, realmResults, automaticUpdate);
     }
 
@@ -30,7 +30,7 @@ public class PersonalityRealmAdapter extends RealmBaseAdapter<PersonalityArchety
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        PersonalityArchetype item = realmResults.get(position);
+        Nature item = realmResults.get(position);
         viewHolder.text.setText(item.getName());
 
         return convertView;

@@ -20,15 +20,16 @@ public class CharacterViewerPresenter  {
         view.setUpView(model.getQueriedCharacter(idCharacter));
         view.setUpVirtueSpinner(model.getVirtues());
         view.setUpViceSpinner(model.getVices());
-        view.setUpPersonalityTraitsSpinners(model.getPersonalityArchetypes());
+        view.setUpNaturesSpinner(model.getNatures());
+        view.setUpDemeanorsSpinner(model.getDemeanors());
     }
 
     public void onPause() {
         view.onPause();
     }
 
-//    @Subscribe
-//    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
-//        model.updateCharacter(event.updatedCharacter);
-//    }
+    @Subscribe
+    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
+        model.updateCharacter(event.characterToUpdate);
+    }
 }

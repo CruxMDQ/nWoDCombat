@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.utils.Constants;
@@ -161,7 +161,7 @@ public class AddRecordDialog<T> extends DialogFragment {
 
             ((PersonalityArchetypePojo) record)
                 .setName(editRecordName.getText().toString());
-            ((PersonalityArchetypePojo) record).setId(helper.getLastId(PersonalityArchetype.class));
+            ((PersonalityArchetypePojo) record).setId(helper.getLastId(Nature.class));
         }
         listener.afterCreatingRecord(record);
     }

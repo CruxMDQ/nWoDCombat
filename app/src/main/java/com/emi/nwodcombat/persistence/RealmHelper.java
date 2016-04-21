@@ -4,7 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.model.realm.*;
+import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.Nature;
+import com.emi.nwodcombat.model.realm.Vice;
+import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.utils.Constants;
 
 import java.util.List;
@@ -31,8 +34,6 @@ public class RealmHelper implements PersistenceLayer {
         }
         return instance;
     }
-
-    private RealmHelper() {}
 
     private RealmHelper(Context context) {
         RealmConfiguration.Builder builder = new RealmConfiguration.Builder(context);
@@ -173,7 +174,7 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public int getCountPersonalityArchetype() {
-        return getCount(PersonalityArchetype.class);
+        return getCount(Nature.class);
     }
 
     @Override
@@ -184,5 +185,18 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public <T extends RealmObject> T get(long id) {
         return null;
+    }
+
+    public void updateCharacter(Character updateInfo) {
+        realm.beginTransaction();
+
+        Character characterToUpdate = get(Character.class, updateInfo.getId());
+
+        characterToUpdate.getDemeanors().set(0, updateInfo.getDemeanors().first());
+        characterToUpdate.getNatures().set(0, updateInfo.getNatures().first());
+        characterToUpdate.getVirtues().set(0, updateInfo.getVirtues().first());
+        characterToUpdate.getVices().set(0, updateInfo.getVices().first());
+
+        realm.commitTransaction();
     }
 }

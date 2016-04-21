@@ -11,8 +11,9 @@ import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.POJOField;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
@@ -121,8 +122,8 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         character.setId(helper.getLastId(Character.class));
 
-        PersonalityArchetype demeanor = helper.get(PersonalityArchetype.class, characterDemeanor);
-        PersonalityArchetype nature = helper.get(PersonalityArchetype.class, characterNature);
+        Demeanor demeanor = helper.get(Demeanor.class, characterDemeanor);
+        Nature nature = helper.get(Nature.class, characterNature);
         Vice vice = helper.get(Vice.class, characterVice);
         Virtue virtue = helper.get(Virtue.class, characterVirtue);
 

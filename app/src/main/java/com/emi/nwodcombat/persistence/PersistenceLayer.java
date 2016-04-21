@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.persistence;
 
+import com.emi.nwodcombat.model.realm.Character;
+
 import java.util.List;
 
 import io.realm.RealmObject;
@@ -34,4 +36,6 @@ public interface PersistenceLayer {
     int getCountVice();
 
     int getCountPersonalityArchetype();
+
+    void updateCharacter(Character updatedCharacter);
 }

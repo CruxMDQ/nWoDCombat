@@ -6,7 +6,8 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.pojos.VicePojo;
 import com.emi.nwodcombat.model.pojos.VirtuePojo;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
@@ -379,7 +380,8 @@ public class NwodCombatApplication extends Application {
             visionary.setRegainAll(getString(R.string.personality_regain_all_visionary));
             jsonObjects.add(gson.toJson(visionary));
 
-            helper.save(PersonalityArchetype.class, jsonObjects);
+            helper.save(Nature.class, jsonObjects);
+            helper.save(Demeanor.class, jsonObjects);
         }
     }
 }

@@ -7,13 +7,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.adapters.PersonalityRealmAdapter;
+import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.ViceRealmAdapter;
 import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.POJOField;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.utils.Constants;
@@ -31,7 +32,8 @@ import io.realm.RealmResults;
 public class CharacterViewerView extends FragmentView {
 
     private final Bus bus;
-    private Character character;
+    private Character queriedCharacter;
+    private Character updatedCharacter = new Character();
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;
@@ -47,6 +49,8 @@ public class CharacterViewerView extends FragmentView {
     @Bind(R.id.txtCharacterNature) TextView txtCharacterNature;
     @Bind(R.id.txtCharacterDemeanor) TextView txtCharacterDemeanor;
 
+    private boolean hasChanges = false;
+
     public CharacterViewerView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
@@ -54,9 +58,10 @@ public class CharacterViewerView extends FragmentView {
     }
 
     public void setUpView(Character queriedCharacter) {
-        this.character = queriedCharacter;
+        this.queriedCharacter = queriedCharacter;
+        updatedCharacter.setId(queriedCharacter.getId());
 
-        RealmList<POJOField> fields = character.getPojoFields();
+        RealmList<POJOField> fields = this.queriedCharacter.getPojoFields();
 
         for (POJOField field : fields) {
             switch (field.getKey()) {
@@ -75,10 +80,10 @@ public class CharacterViewerView extends FragmentView {
             }
         }
 
-        txtCharacterVirtue.setText(character.getVirtues().get(0).getName());
-        txtCharacterVice.setText(character.getVices().get(0).getName());
-        txtCharacterNature.setText(character.getNatures().get(0).getName());
-        txtCharacterDemeanor.setText(character.getDemeanors().get(0).getName());
+        txtCharacterVirtue.setText(this.queriedCharacter.getVirtues().first().getName());
+        txtCharacterVice.setText(this.queriedCharacter.getVices().first().getName());
+        txtCharacterNature.setText(this.queriedCharacter.getNatures().first().getName());
+        txtCharacterDemeanor.setText(this.queriedCharacter.getDemeanors().first().getName());
 
     }
 
@@ -91,7 +96,7 @@ public class CharacterViewerView extends FragmentView {
     @OnClick(R.id.txtCharacterDemeanor)
     public void onDemeanorClicked() {
         txtCharacterDemeanor.setVisibility(View.GONE);
-        spinnerNature.setVisibility(View.VISIBLE);
+        spinnerDemeanor.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.txtCharacterVice)
@@ -106,43 +111,17 @@ public class CharacterViewerView extends FragmentView {
         spinnerVirtue.setVisibility(View.VISIBLE);
     }
 
-    public void setUpPersonalityTraitsSpinners(RealmResults<PersonalityArchetype> traits) {
-        PersonalityRealmAdapter natures;
-        PersonalityRealmAdapter demeanors;
+    public void setUpDemeanorsSpinner(RealmResults<Demeanor> traits) {
+        NaturesAdapter demeanors;
 
-        natures = new PersonalityRealmAdapter(getActivity(), traits, true);
-        demeanors = new PersonalityRealmAdapter(getActivity(), traits, true);
+        demeanors = new NaturesAdapter(getActivity(), traits, true);
 
-        spinnerNature.setAdapter(natures);
         spinnerDemeanor.setAdapter(demeanors);
 
-        spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PersonalityArchetype nature = ((PersonalityArchetype) spinnerNature.getItemAtPosition(position));
-
-                txtCharacterNature.setText(nature.getName());
-                txtCharacterNature.setVisibility(View.VISIBLE);
-                spinnerNature.setVisibility(View.GONE);
-
-                // Cannot set these values here: this causes a crash
-//                character.getNatures().get(0).setId(nature.getId());
-//                character.getNatures().get(0).setName(nature.getName());
-//                character.getNatures().get(0).setDescription(nature.getDescription());
-//                character.getNatures().get(0).setRegainOne(nature.getRegainOne());
-//                character.getNatures().get(0).setRegainAll(nature.getRegainAll());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         for (int i = 0; i < traits.size(); i++) {
-            PersonalityArchetype nature = traits.get(i);
-            if (nature.getName().equals(character.getNatures().get(0).getName())) {
-                spinnerNature.setSelection(i);
+            Demeanor demeanor = traits.get(i);
+            if (demeanor.getName().equals(queriedCharacter.getDemeanors().get(0).getName())) {
+                spinnerDemeanor.setSelection(i);
                 break;
             }
         }
@@ -150,18 +129,16 @@ public class CharacterViewerView extends FragmentView {
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PersonalityArchetype demeanor = ((PersonalityArchetype) spinnerDemeanor.getItemAtPosition(position));
+                Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
 
                 txtCharacterDemeanor.setText(demeanor.getName());
                 txtCharacterDemeanor.setVisibility(View.VISIBLE);
                 spinnerDemeanor.setVisibility(View.GONE);
 
-                // Cannot set these values here: this causes a crash
-//                character.getDemeanors().get(0).setId(demeanor.getId());
-//                character.getDemeanors().get(0).setName(demeanor.getName());
-//                character.getDemeanors().get(0).setDescription(demeanor.getDescription());
-//                character.getDemeanors().get(0).setRegainOne(demeanor.getRegainOne());
-//                character.getDemeanors().get(0).setRegainAll(demeanor.getRegainAll());
+                updatedCharacter.getDemeanors().clear();
+                updatedCharacter.getDemeanors().add(demeanor);
+
+                hasChanges = true;
             }
 
             @Override
@@ -170,13 +147,44 @@ public class CharacterViewerView extends FragmentView {
             }
         });
 
+    }
+
+    public void setUpNaturesSpinner(RealmResults<Nature> traits) {
+        NaturesAdapter natures;
+
+        natures = new NaturesAdapter(getActivity(), traits, true);
+
+        spinnerNature.setAdapter(natures);
+
         for (int i = 0; i < traits.size(); i++) {
-            PersonalityArchetype demeanor = traits.get(i);
-            if (demeanor.getName().equals(character.getDemeanors().get(0).getName())) {
-                spinnerDemeanor.setSelection(i);
+            Nature nature = traits.get(i);
+            if (nature.getName().equals(queriedCharacter.getNatures().get(0).getName())) {
+                spinnerNature.setSelection(i);
                 break;
             }
         }
+
+        spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Nature nature = ((Nature) spinnerNature
+                    .getItemAtPosition(position));
+
+                txtCharacterNature.setText(nature.getName());
+                txtCharacterNature.setVisibility(View.VISIBLE);
+                spinnerNature.setVisibility(View.GONE);
+
+                updatedCharacter.getNatures().clear();
+                updatedCharacter.getNatures().add(nature);
+
+                hasChanges = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void setUpViceSpinner(RealmResults<Vice> vices) {
@@ -186,6 +194,14 @@ public class CharacterViewerView extends FragmentView {
 
         spinnerVice.setAdapter(adapter);
 
+        for (int i = 0; i < vices.size(); i++) {
+            Vice vice = vices.get(i);
+            if (vice.getName().equals(queriedCharacter.getVices().get(0).getName())) {
+                spinnerVice.setSelection(i);
+                break;
+            }
+        }
+
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -194,26 +210,17 @@ public class CharacterViewerView extends FragmentView {
                 txtCharacterVice.setText(vice.getName());
                 txtCharacterVice.setVisibility(View.VISIBLE);
                 spinnerVice.setVisibility(View.GONE);
+                
+                updatedCharacter.getVices().clear();
+                updatedCharacter.getVices().add(vice);
 
-                // Cannot set these values here: this causes a crash
-//                character.getVices().get(0).setId(vice.getId());
-//                character.getVices().get(0).setName(vice.getName());
-//                character.getVices().get(0).setDescription(vice.getDescription());
-//                character.getVices().get(0).setRegainOne(vice.getRegainOne());
+                hasChanges = true;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        for (int i = 0; i < vices.size(); i++) {
-            Vice vice = vices.get(i);
-            if (vice.getName().equals(character.getVices().get(0).getName())) {
-                spinnerVice.setSelection(i);
-                break;
-            }
-        }
     }
 
     public void setUpVirtueSpinner(RealmResults<Virtue> virtues) {
@@ -222,6 +229,14 @@ public class CharacterViewerView extends FragmentView {
         adapter = new VirtueRealmAdapter(getActivity(), virtues, true);
 
         spinnerVirtue.setAdapter(adapter);
+
+        for (int i = 0; i < virtues.size(); i++) {
+            Virtue virtue = virtues.get(i);
+            if (virtue.getName().equals(queriedCharacter.getVirtues().get(0).getName())) {
+                spinnerVirtue.setSelection(i);
+                break;
+            }
+        }
 
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -233,37 +248,29 @@ public class CharacterViewerView extends FragmentView {
                     txtCharacterVirtue.setVisibility(View.VISIBLE);
                     spinnerVirtue.setVisibility(View.GONE);
 
-                    // TODO Research how to use Otto bus to change the virtue on the character
-                    // Cannot set these values here: this causes a crash
-//                    character.getVirtues().get(0).setId(virtue.getId());
-//                    character.getVirtues().get(0).setName(virtue.getName());
-//                    character.getVirtues().get(0).setDescription(virtue.getDescription());
-//                    character.getVirtues().get(0).setRegainAll(virtue.getRegainAll());
+                    updatedCharacter.getVirtues().clear();
+                    updatedCharacter.getVirtues().add(virtue);
+
+                    hasChanges = true;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
-
-        for (int i = 0; i < virtues.size(); i++) {
-            Virtue virtue = virtues.get(i);
-            if (virtue.getName().equals(character.getVirtues().get(0).getName())) {
-                spinnerVirtue.setSelection(i);
-                break;
-            }
-        }
     }
 
     public void onPause() {
-        bus.post(new UpdateCharacterEvent(character));
+        if (hasChanges) {
+            bus.post(new UpdateCharacterEvent(updatedCharacter));
+        }
     }
 
     public static class UpdateCharacterEvent {
-        public Character updatedCharacter;
+        public Character characterToUpdate;
 
         UpdateCharacterEvent(Character character) {
-            this.updatedCharacter = character;
+            this.characterToUpdate = character;
         }
     }
 }

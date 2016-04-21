@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.emi.nwodcombat.model.realm.Character;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.RealmHelper;
@@ -37,11 +38,15 @@ public class CharacterViewerModel {
         return helper.getList(Vice.class);
     }
 
-    public RealmResults<PersonalityArchetype> getPersonalityArchetypes() {
-        return helper.getList(PersonalityArchetype.class);
+    public RealmResults<Nature> getNatures() {
+        return helper.getList(Nature.class);
     }
 
-//    public void updateCharacter(Character updatedCharacter) {
-//        helper.save(updatedCharacter);
-//    }
+    public RealmResults<Demeanor> getDemeanors() {
+        return helper.getList(Demeanor.class);
+    }
+
+    public void updateCharacter(Character updatedCharacter) {
+        helper.updateCharacter(updatedCharacter);
+    }
 }
