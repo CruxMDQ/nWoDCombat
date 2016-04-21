@@ -19,14 +19,16 @@ public class CharacterViewerPresenter  {
     public void setUpView(long idCharacter) {
         view.setUpView(model.getQueriedCharacter(idCharacter));
         view.setUpVirtueSpinner(model.getVirtues());
+        view.setUpViceSpinner(model.getVices());
+        view.setUpPersonalityTraitsSpinners(model.getPersonalityArchetypes());
     }
 
     public void onPause() {
         view.onPause();
     }
 
-    @Subscribe
-    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
-        model.updateCharacter(event.updatedCharacter);
-    }
+//    @Subscribe
+//    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
+//        model.updateCharacter(event.updatedCharacter);
+//    }
 }
