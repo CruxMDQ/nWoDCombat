@@ -13,5 +13,6 @@
         <attr name="valueDefault" format="integer" />
         <attr name="valueMaximum" format="integer" />
         <attr name="traitCategory" format="string" />
+        <attr name="showEditionPanel" format="boolean" />
     </declare-styleable>
 </resources>

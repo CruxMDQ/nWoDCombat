@@ -1,27 +1,24 @@
 package com.emi.nwodcombat.tools;
 
-import android.support.annotation.NonNull;
-
 import com.emi.nwodcombat.model.realm.POJOField;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Created by Crux on 4/17/2016.
  */
 public class ArrayHelper {
-    public static <T extends POJOField> String find(List<T> list,@NonNull String arg) {
-        try {
-            for (T field : list) {
-                if (field.getKey().equals(arg)) {
-                    return field.getValue();
-                }
+
+    public static <T extends POJOField> String find(List<T> list, final String key) {
+        T result = Iterables.find(list, new Predicate<T>() {
+            public boolean apply(T instance) {
+                return instance.getKey().equals(
+                    key);
             }
-            return null;
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            return null;
-        }
+        });
+
+        return result.getValue();
     }
 }

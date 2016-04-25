@@ -49,7 +49,6 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
 
     @Bind(R.id.btnAddDemeanor) Button btnAddDemeanor;
     @Bind(R.id.btnAddNature) Button btnAddNature;
-    // TODO Implement code for adding vices and virtues
     @Bind(R.id.btnAddVice) Button btnAddVice;
     @Bind(R.id.btnAddVirtue) Button btnAddVirtue;
 
@@ -254,6 +253,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
     public void afterCreatingRecord(Object record) {
         if (record instanceof PersonalityArchetypePojo) {
             helper.save(Nature.class, new Gson().toJson(record));
+            // TODO Recode spinner item addition
 //            setUpDemeanorSpinner();
 //            setUpNatureSpinner();
         }

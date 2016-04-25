@@ -22,9 +22,11 @@ import butterknife.ButterKnife;
  */
 public class ValueSetterWidget extends LinearLayout {
     private static SharedPreferences preferences;
+    private boolean showEditionPanel;
 
     @Bind(R.id.lblValue) TextView lblValue;
     @Bind(R.id.panelValue) LinearLayout panelValue;
+    @Bind(R.id.panelEdition) LinearLayout panelEdition;
     @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
     @Bind(R.id.btnValueIncrease) Button btnValueIncrease;
 
@@ -46,6 +48,7 @@ public class ValueSetterWidget extends LinearLayout {
         if (!isInEditMode()) {
             TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetterWidget, 0, 0);
 
+            showEditionPanel = aAttrs.getBoolean(R.styleable.ValueSetterWidget_showEditionPanel, true);
             setValueName(aAttrs.getString(R.styleable.ValueSetterWidget_valueName));
             setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 0));
 
@@ -93,6 +96,12 @@ public class ValueSetterWidget extends LinearLayout {
     private void inflateLayout() {
         View view = inflate(this.getContext(), getLayout(), this);
         ButterKnife.bind(this, view);
+        if (showEditionPanel) {
+            showEditionPanel();
+        } else {
+            hideEditionPanel();
+        }
+
     }
 
     private int getLayout() {
@@ -184,5 +193,13 @@ public class ValueSetterWidget extends LinearLayout {
             pool -= decreaseCurrentValue();
         }
         return pool;
+    }
+
+    public void hideEditionPanel() {
+        panelEdition.setVisibility(INVISIBLE);
+    }
+
+    public void showEditionPanel() {
+        panelEdition.setVisibility(VISIBLE);
     }
 }

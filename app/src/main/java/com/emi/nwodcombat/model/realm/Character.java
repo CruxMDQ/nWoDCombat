@@ -1,7 +1,8 @@
 package com.emi.nwodcombat.model.realm;
 
+import android.support.annotation.NonNull;
+
 import com.emi.nwodcombat.tools.ArrayHelper;
-import com.emi.nwodcombat.utils.Constants;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -36,19 +37,6 @@ public class Character extends RealmObject {
         this.demeanors = demeanors;
     }
 
-    public String getName() {
-        // TODO This solution requires Java 8 support. Test it once it's available.
-        // VSM java 8 is not supported yet on android, you can have some of its features
-        // with retrolambda library
-
-//        List<POJOField> result = Stream.of(getPojoFields())
-//                .filter(a -> Objects.equals(a.getKey(), Constants.CHARACTER_NAME))
-//                .collect(Collectors.toList());
-//        if (result.size() > 0) return result.get(0).getValue();
-//        else return name;
-        return ArrayHelper.find(pojoFields, Constants.CHARACTER_NAME);
-    }
-
     public Long getId() {
         return id;
     }
@@ -79,5 +67,22 @@ public class Character extends RealmObject {
 
     public void setPojoFields(RealmList<POJOField> pojoFields) {
         this.pojoFields = pojoFields;
+    }
+
+    public int getSkill(@NonNull String code) {
+        String result = ArrayHelper.find(pojoFields, code);
+
+        return result != null ? Integer.valueOf(result) : 0;
+    }
+
+    public Object getValue(@NonNull String code, Class klass) {
+        if (klass.equals(Integer.class)) {
+            String result = ArrayHelper.find(pojoFields, code);
+
+            return result != null ? Integer.valueOf(result) : 0;
+        } else if (klass.equals(String.class)) {
+            return ArrayHelper.find(pojoFields, code);
+        }
+        return null;
     }
 }

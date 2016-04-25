@@ -295,6 +295,7 @@
                 class="com.emi.nwodcombat.widgets.ValueSetterWidget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_academics"
                 />
@@ -305,6 +306,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterAcademics"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_computer"
                 />
@@ -315,6 +317,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterComputer"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_crafts"
                 />
@@ -325,6 +328,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterCrafts"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_investigation"
                 />
@@ -335,6 +339,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterInvestigation"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_medicine"
                 />
@@ -345,6 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterMedicine"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_occult"
                 />
@@ -355,6 +361,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterOccult"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_politics"
                 />
@@ -365,6 +372,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterPolitics"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_mental"
                 app:valueName="@string/skill_science"
                 />
@@ -394,6 +402,7 @@
                 class="com.emi.nwodcombat.widgets.ValueSetterWidget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_athletics"
                 />
@@ -404,6 +413,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterAthletics"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_brawl"
                 />
@@ -414,6 +424,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterBrawl"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_drive"
                 />
@@ -424,6 +435,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterDrive"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_firearms"
                 />
@@ -434,6 +446,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterFirearms"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_larceny"
                 />
@@ -444,6 +457,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterLarceny"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_stealth"
                 />
@@ -454,6 +468,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterStealth"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_survival"
                 />
@@ -464,6 +479,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/valueSetterSurvival"
+                app:showEditionPanel="false"
                 app:traitCategory="@string/cat_physical"
                 app:valueName="@string/skill_weaponry"
                 />
@@ -484,6 +500,7 @@
             android:paddingBottom="@dimen/spacing_half"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/bkgd_cat_panel">
 
             <view
@@ -491,6 +508,7 @@
                 android:id="@+id/valueSetterAnimalKen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_animal_ken"
                 app:traitCategory="@string/cat_social"
                 />
@@ -501,6 +519,7 @@
                 android:layout_below="@id/valueSetterAnimalKen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_empathy"
                 app:traitCategory="@string/cat_social"
                 />
@@ -511,6 +530,7 @@
                 android:layout_below="@id/valueSetterEmpathy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_expression"
                 app:traitCategory="@string/cat_social"
                 />
@@ -521,6 +541,7 @@
                 android:layout_below="@id/valueSetterExpression"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_intimidation"
                 app:traitCategory="@string/cat_social"
                 />
@@ -531,6 +552,7 @@
                 android:layout_below="@id/valueSetterIntimidation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_persuasion"
                 app:traitCategory="@string/cat_social"
                 />
@@ -541,6 +563,7 @@
                 android:layout_below="@id/valueSetterPersuasion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_socialize"
                 app:traitCategory="@string/cat_social"
                 />
@@ -551,6 +574,7 @@
                 android:layout_below="@id/valueSetterSocialize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_streetwise"
                 app:traitCategory="@string/cat_social"
                 />
@@ -561,6 +585,7 @@
                 android:layout_below="@id/valueSetterStreetwise"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:showEditionPanel="false"
                 app:valueName="@string/skill_subterfuge"
                 app:traitCategory="@string/cat_social"
                 />

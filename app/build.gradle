@@ -35,6 +35,7 @@ dependencies {
     compile "com.github.thorbenprimke:realm-recyclerview:$rootProject.ext.realmRecyclerViewVersion"
     compile "uk.co.chrisjenx:calligraphy:$rootProject.ext.calligraphyVersion"
     compile "com.squareup:otto:$rootProject.ext.ottoVersion"
+    compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

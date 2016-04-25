@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.utils.Constants;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;
@@ -44,7 +45,7 @@ public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Charact
     public void onBindRealmViewHolder(CharacterViewHolder viewHolder, int position) {
         Character character = realmResults.get(position);
         final Long id = character.getId();
-        viewHolder.rowCharacterName.setText(character.getName());
+        viewHolder.rowCharacterName.setText(character.getValue(Constants.CHARACTER_NAME, String.class).toString());
         viewHolder.rowCharacterName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
