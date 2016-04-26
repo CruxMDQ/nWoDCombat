@@ -1,6 +1,8 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -31,6 +33,8 @@ import io.realm.RealmResults;
  */
 public class CharacterViewerView extends FragmentView implements OnTraitChangedListener {
 
+    private SharedPreferences preferences;
+
     private final Bus bus;
     private Character character;
     private Character updatedCharacter = new Character();
@@ -48,6 +52,20 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     @Bind(R.id.txtCharacterVice) TextView txtCharacterVice;
     @Bind(R.id.txtCharacterNature) TextView txtCharacterNature;
     @Bind(R.id.txtCharacterDemeanor) TextView txtCharacterDemeanor;
+
+    @Bind(R.id.txtMentalAttrsTitle) TextView txtPoolMental;
+    @Bind(R.id.txtPhysicalAttrsTitle) TextView txtPoolPhysical;
+    @Bind(R.id.txtSocialAttrsTitle) TextView txtPoolSocial;
+
+    @Bind(R.id.valueSetterInt) ValueSetterWidget valueSetterIntelligence;
+    @Bind(R.id.valueSetterWits) ValueSetterWidget valueSetterWits;
+    @Bind(R.id.valueSetterRes) ValueSetterWidget valueSetterResolve;
+    @Bind(R.id.valueSetterStr) ValueSetterWidget valueSetterStrength;
+    @Bind(R.id.valueSetterDex) ValueSetterWidget valueSetterDexterity;
+    @Bind(R.id.valueSetterSta) ValueSetterWidget valueSetterStamina;
+    @Bind(R.id.valueSetterPre) ValueSetterWidget valueSetterPresence;
+    @Bind(R.id.valueSetterMan) ValueSetterWidget valueSetterManipulation;
+    @Bind(R.id.valueSetterCom) ValueSetterWidget valueSetterComposure;
 
     @Bind(R.id.txtMentalSkillsTitle) TextView txtMentalSkillsTitle;
     @Bind(R.id.txtPhysicalSkillsTitle) TextView txtPhysicalSkillsTitle;
@@ -81,6 +99,8 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     @Bind(R.id.valueSetterSubterfuge) ValueSetterWidget valueSetterSubterfuge;
 
     private boolean hasChanges = false;
+
+    private int experiencePool = 0;
 
     public CharacterViewerView(Fragment fragment, Bus bus) {
         super(fragment);
@@ -241,7 +261,8 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -361,7 +382,24 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     @Override
     public void onTraitChanged(Object caller, int value) {
+        hasChanges = true;
 
+        // TODO Replace this with logic for experience costs
+        int experienceCost = 1;
+
+        ValueSetterWidget widget = (ValueSetterWidget) caller;
+
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+        } else {
+            widget.changeValue(value, experiencePool, experienceCost);
+        }
+    }
+
+    public SharedPreferences getPreferences() {
+        if (preferences == null) {
+            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+        return preferences;
     }
 
     public static class UpdateCharacterEvent {

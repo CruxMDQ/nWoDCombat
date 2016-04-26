@@ -120,6 +120,10 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         addFieldToCharacter(Constants.SKILL_STREETWISE, streetwise);
         addFieldToCharacter(Constants.SKILL_SUBTERFUGE, subterfuge);
 
+        // TODO Implement starting experience spinner or widget
+        addFieldToCharacter(Constants.CHARACTER_BEATS, 0);
+        addFieldToCharacter(Constants.CHARACTER_EXPERIENCE, 0);
+
         character.setId(helper.getLastId(Character.class));
 
         Demeanor demeanor = helper.get(Demeanor.class, characterDemeanor);

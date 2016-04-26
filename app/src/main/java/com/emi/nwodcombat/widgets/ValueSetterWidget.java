@@ -195,6 +195,19 @@ public class ValueSetterWidget extends LinearLayout {
         return pool;
     }
 
+    public int changeValue(int value, int pool, int cost) {
+        if (value > 0) {
+            if (pool > cost) {
+                increaseCurrentValue();
+                pool -= cost;
+            }
+        } else {
+            decreaseCurrentValue();
+            pool += cost;
+        }
+        return pool;
+    }
+
     public void hideEditionPanel() {
         panelEdition.setVisibility(INVISIBLE);
     }

@@ -2,10 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            tools:context="com.emi.nwodcombat.characterviewer.CharacterViewerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            tools:context="com.emi.nwodcombat.characterviewer.CharacterViewerFragment"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,8 +33,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_step_personal_info_name"
                         />
                     <!--Note: Font names are CASE SENSITIVE. -->
@@ -44,9 +44,10 @@
                         android:id="@+id/txtCharacterName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:layout_margin="@dimen/spacing_half"/>
+                        android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="3"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,8 +56,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_step_personal_info_concept"
                         />
                     <!--Note: Font names are CASE SENSITIVE. -->
@@ -66,9 +67,10 @@
                         android:id="@+id/txtCharacterConcept"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:layout_margin="@dimen/spacing_half"/>
+                        android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="3"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -77,8 +79,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_step_personal_info_player"
                         />
                     <!--Note: Font names are CASE SENSITIVE. -->
@@ -88,8 +90,8 @@
                         android:id="@+id/txtCharacterPlayer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:layout_margin="@dimen/spacing_half"/>
+                        android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="3"/>
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -124,8 +126,8 @@
                         android:id="@+id/txtCharacterVirtue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_tap_to_select"
                         android:visibility="visible"
                         />
@@ -165,8 +167,8 @@
                         android:id="@+id/txtCharacterVice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_tap_to_select"
                         android:visibility="visible"
                         />
@@ -206,8 +208,8 @@
                         android:id="@+id/txtCharacterNature"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_tap_to_select"
                         android:visibility="visible"
                         />
@@ -247,8 +249,8 @@
                         android:id="@+id/txtCharacterDemeanor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/spacing_half"
+                        android:layout_weight="1"
                         android:text="@string/hint_tap_to_select"
                         android:visibility="visible"
                         />
@@ -273,323 +275,519 @@
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:id="@+id/txtMentalSkillsTitle"
+            android:id="@+id/txtAttributes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/spacing_normal"
-            android:text="@string/cat_mental"
+            android:text="@string/title_attributes"
             android:textStyle="bold"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_normal"
             android:background="@drawable/bkgd_cat_panel"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/spacing_half"
             android:paddingTop="@dimen/spacing_half">
 
-            <view
-                android:id="@+id/valueSetterAcademics"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+            <TextView
+                android:id="@+id/txtMentalAttrsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/cat_mental"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_academics"
-                />
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:background="@drawable/bkgd_cat_panel"
+                android:paddingBottom="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half">
 
-            <view
-                android:id="@+id/valueSetterComputer"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                <view
+                    android:id="@+id/valueSetterInt"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_int"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterWits"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterInt"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_wits"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterRes"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterWits"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_res"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtPhysicalAttrsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/cat_physical"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterAcademics"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_computer"
-                />
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:background="@drawable/bkgd_cat_panel"
+                android:paddingBottom="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half">
 
-            <view
-                android:id="@+id/valueSetterCrafts"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                <view
+                    android:id="@+id/valueSetterStr"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_str"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterDex"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterStr"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_dex"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterSta"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterDex"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_sta"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtSocialAttrsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/cat_social"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterComputer"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_crafts"
-                />
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:background="@drawable/bkgd_cat_panel"
+                android:paddingBottom="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half">
 
-            <view
-                android:id="@+id/valueSetterInvestigation"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterCrafts"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_investigation"
-                />
+                <view
+                    android:id="@+id/valueSetterPre"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:traitCategory="@string/cat_social"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_pre"
+                    />
 
-            <view
-                android:id="@+id/valueSetterMedicine"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterInvestigation"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_medicine"
-                />
+                <view
+                    android:id="@+id/valueSetterMan"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterPre"
+                    app:traitCategory="@string/cat_social"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_man"
+                    />
 
-            <view
-                android:id="@+id/valueSetterOccult"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterMedicine"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_occult"
-                />
-
-            <view
-                android:id="@+id/valueSetterPolitics"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterOccult"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_politics"
-                />
-
-            <view
-                android:id="@+id/valueSetterScience"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterPolitics"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_mental"
-                app:valueName="@string/skill_science"
-                />
-
-        </RelativeLayout>
+                <view
+                    android:id="@+id/valueSetterCom"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterMan"
+                    app:traitCategory="@string/cat_social"
+                    app:valueDefault="1"
+                    app:valueName="@string/attr_com"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/txtPhysicalSkillsTitle"
+            android:id="@+id/txtSkills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/spacing_normal"
-            android:text="@string/cat_physical"
+            android:text="@string/title_skills"
             android:textStyle="bold"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:background="@drawable/bkgd_cat_panel"
-            android:paddingBottom="@dimen/spacing_half"
-            android:paddingTop="@dimen/spacing_half">
-
-            <view
-                android:id="@+id/valueSetterAthletics"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_athletics"
-                />
-
-            <view
-                android:id="@+id/valueSetterBrawl"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterAthletics"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_brawl"
-                />
-
-            <view
-                android:id="@+id/valueSetterDrive"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterBrawl"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_drive"
-                />
-
-            <view
-                android:id="@+id/valueSetterFirearms"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterDrive"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_firearms"
-                />
-
-            <view
-                android:id="@+id/valueSetterLarceny"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterFirearms"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_larceny"
-                />
-
-            <view
-                android:id="@+id/valueSetterStealth"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterLarceny"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_stealth"
-                />
-
-            <view
-                android:id="@+id/valueSetterSurvival"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterStealth"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_survival"
-                />
-
-            <view
-                android:id="@+id/valueSetterWeaponry"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/valueSetterSurvival"
-                app:showEditionPanel="false"
-                app:traitCategory="@string/cat_physical"
-                app:valueName="@string/skill_weaponry"
-                />
-        </RelativeLayout>
-        <TextView
-            android:id="@+id/txtSocialSkillsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:layout_gravity="center"
-            android:text="@string/cat_social"
-            android:textStyle="bold"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/spacing_half"
-            android:paddingBottom="@dimen/spacing_half"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:background="@drawable/bkgd_cat_panel">
+            android:background="@drawable/bkgd_cat_panel"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_half"
+            android:paddingTop="@dimen/spacing_half">
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterAnimalKen"
+            <TextView
+                android:id="@+id/txtMentalSkillsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/cat_mental"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_animal_ken"
-                app:traitCategory="@string/cat_social"
-                />
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:background="@drawable/bkgd_cat_panel"
+                android:paddingBottom="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half">
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterEmpathy"
-                android:layout_below="@id/valueSetterAnimalKen"
+                <view
+                    android:id="@+id/valueSetterAcademics"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_academics"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterComputer"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterAcademics"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_computer"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterCrafts"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterComputer"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_crafts"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterInvestigation"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterCrafts"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_investigation"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterMedicine"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterInvestigation"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_medicine"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterOccult"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterMedicine"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_occult"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterPolitics"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterOccult"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_politics"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterScience"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterPolitics"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_mental"
+                    app:valueName="@string/skill_science"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtPhysicalSkillsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/cat_physical"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_empathy"
-                app:traitCategory="@string/cat_social"
-                />
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:background="@drawable/bkgd_cat_panel"
+                android:paddingBottom="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half">
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterExpression"
-                android:layout_below="@id/valueSetterEmpathy"
+                <view
+                    android:id="@+id/valueSetterAthletics"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_athletics"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterBrawl"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterAthletics"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_brawl"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterDrive"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterBrawl"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_drive"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterFirearms"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterDrive"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_firearms"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterLarceny"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterFirearms"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_larceny"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterStealth"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterLarceny"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_stealth"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterSurvival"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterStealth"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_survival"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterWeaponry"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterSurvival"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_physical"
+                    app:valueName="@string/skill_weaponry"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtSocialSkillsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_normal"
+                android:text="@string/cat_social"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_expression"
-                app:traitCategory="@string/cat_social"
-                />
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:background="@drawable/bkgd_cat_panel"
+                android:paddingBottom="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half">
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterIntimidation"
-                android:layout_below="@id/valueSetterExpression"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_intimidation"
-                app:traitCategory="@string/cat_social"
-                />
+                <view
+                    android:id="@+id/valueSetterAnimalKen"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_animal_ken"
+                    />
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterPersuasion"
-                android:layout_below="@id/valueSetterIntimidation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_persuasion"
-                app:traitCategory="@string/cat_social"
-                />
+                <view
+                    android:id="@+id/valueSetterEmpathy"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterAnimalKen"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_empathy"
+                    />
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterSocialize"
-                android:layout_below="@id/valueSetterPersuasion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_socialize"
-                app:traitCategory="@string/cat_social"
-                />
+                <view
+                    android:id="@+id/valueSetterExpression"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterEmpathy"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_expression"
+                    />
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterStreetwise"
-                android:layout_below="@id/valueSetterSocialize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_streetwise"
-                app:traitCategory="@string/cat_social"
-                />
+                <view
+                    android:id="@+id/valueSetterIntimidation"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterExpression"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_intimidation"
+                    />
 
-            <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
-                android:id="@+id/valueSetterSubterfuge"
-                android:layout_below="@id/valueSetterStreetwise"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:showEditionPanel="false"
-                app:valueName="@string/skill_subterfuge"
-                app:traitCategory="@string/cat_social"
-                />
+                <view
+                    android:id="@+id/valueSetterPersuasion"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterIntimidation"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_persuasion"
+                    />
 
-        </RelativeLayout>
+                <view
+                    android:id="@+id/valueSetterSocialize"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterPersuasion"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_socialize"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterStreetwise"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterSocialize"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_streetwise"
+                    />
+
+                <view
+                    android:id="@+id/valueSetterSubterfuge"
+                    class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/valueSetterStreetwise"
+                    app:showEditionPanel="false"
+                    app:traitCategory="@string/cat_social"
+                    app:valueName="@string/skill_subterfuge"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
