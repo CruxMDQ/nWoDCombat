@@ -53,9 +53,9 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     @Bind(R.id.txtCharacterNature) TextView txtCharacterNature;
     @Bind(R.id.txtCharacterDemeanor) TextView txtCharacterDemeanor;
 
-    @Bind(R.id.txtMentalAttrsTitle) TextView txtPoolMental;
-    @Bind(R.id.txtPhysicalAttrsTitle) TextView txtPoolPhysical;
-    @Bind(R.id.txtSocialAttrsTitle) TextView txtPoolSocial;
+    @Bind(R.id.txtMentalAttrsTitle) TextView txtMentalAttrsTitle;
+    @Bind(R.id.txtPhysicalAttrsTitle) TextView txtPhysicalAttrsTitle;
+    @Bind(R.id.txtSocialAttrsTitle) TextView txtSocialAttrsTitle;
 
     @Bind(R.id.valueSetterInt) ValueSetterWidget valueSetterIntelligence;
     @Bind(R.id.valueSetterWits) ValueSetterWidget valueSetterWits;
@@ -176,34 +176,63 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         valueSetterSubterfuge.setListener(this);
         valueSetterSubterfuge.setContentDescription(Constants.SKILL_SUBTERFUGE);
 
+        valueSetterIntelligence.setListener(this);
+        valueSetterIntelligence.setContentDescription(Constants.ATTR_INT);
+        valueSetterWits.setListener(this);
+        valueSetterWits.setContentDescription(Constants.ATTR_WIT);
+        valueSetterResolve.setListener(this);
+        valueSetterResolve.setContentDescription(Constants.ATTR_RES);
+        valueSetterStrength.setListener(this);
+        valueSetterStrength.setContentDescription(Constants.ATTR_STR);
+        valueSetterDexterity.setListener(this);
+        valueSetterDexterity.setContentDescription(Constants.ATTR_DEX);
+        valueSetterStamina.setListener(this);
+        valueSetterStamina.setContentDescription(Constants.ATTR_STA);
+        valueSetterPresence.setListener(this);
+        valueSetterPresence.setContentDescription(Constants.ATTR_PRE);
+        valueSetterManipulation.setListener(this);
+        valueSetterManipulation.setContentDescription(Constants.ATTR_MAN);
+        valueSetterComposure.setListener(this);
+        valueSetterComposure.setContentDescription(Constants.ATTR_MAN);
+
         loadVSValues();
     }
 
     private void loadVSValues() {
-        valueSetterAcademics.setCurrentValue(character.getSkill(Constants.SKILL_ACADEMICS));
-        valueSetterAnimalKen.setCurrentValue(character.getSkill(Constants.SKILL_ANIMAL_KEN));
-        valueSetterAthletics.setCurrentValue(character.getSkill(Constants.SKILL_ATHLETICS));
-        valueSetterBrawl.setCurrentValue(character.getSkill(Constants.SKILL_BRAWL));
-        valueSetterComputer.setCurrentValue(character.getSkill(Constants.SKILL_COMPUTER));
-        valueSetterCrafts.setCurrentValue(character.getSkill(Constants.SKILL_CRAFTS));
-        valueSetterDrive.setCurrentValue(character.getSkill(Constants.SKILL_DRIVE));
-        valueSetterEmpathy.setCurrentValue(character.getSkill(Constants.SKILL_EMPATHY));
-        valueSetterExpression.setCurrentValue(character.getSkill(Constants.SKILL_EXPRESSION));
-        valueSetterFirearms.setCurrentValue(character.getSkill(Constants.SKILL_FIREARMS));
-        valueSetterIntimidation.setCurrentValue(character.getSkill(Constants.SKILL_INTIMIDATION));
-        valueSetterInvestigation.setCurrentValue(character.getSkill(Constants.SKILL_INVESTIGATION));
-        valueSetterLarceny.setCurrentValue(character.getSkill(Constants.SKILL_LARCENY));
-        valueSetterMedicine.setCurrentValue(character.getSkill(Constants.SKILL_MEDICINE));
-        valueSetterOccult.setCurrentValue(character.getSkill(Constants.SKILL_OCCULT));
-        valueSetterPersuasion.setCurrentValue(character.getSkill(Constants.SKILL_PERSUASION));
-        valueSetterPolitics.setCurrentValue(character.getSkill(Constants.SKILL_POLITICS));
-        valueSetterScience.setCurrentValue(character.getSkill(Constants.SKILL_SCIENCE));
-        valueSetterSocialize.setCurrentValue(character.getSkill(Constants.SKILL_SOCIALIZE));
-        valueSetterStealth.setCurrentValue(character.getSkill(Constants.SKILL_STEALTH));
-        valueSetterStreetwise.setCurrentValue(character.getSkill(Constants.SKILL_STREETWISE));
-        valueSetterSubterfuge.setCurrentValue(character.getSkill(Constants.SKILL_SUBTERFUGE));
-        valueSetterSurvival.setCurrentValue(character.getSkill(Constants.SKILL_SURVIVAL));
-        valueSetterWeaponry.setCurrentValue(character.getSkill(Constants.SKILL_WEAPONRY));
+        valueSetterAcademics.setCurrentValue(character.getValue(Constants.SKILL_ACADEMICS));
+        valueSetterAnimalKen.setCurrentValue(character.getValue(Constants.SKILL_ANIMAL_KEN));
+        valueSetterAthletics.setCurrentValue(character.getValue(Constants.SKILL_ATHLETICS));
+        valueSetterBrawl.setCurrentValue(character.getValue(Constants.SKILL_BRAWL));
+        valueSetterComputer.setCurrentValue(character.getValue(Constants.SKILL_COMPUTER));
+        valueSetterCrafts.setCurrentValue(character.getValue(Constants.SKILL_CRAFTS));
+        valueSetterDrive.setCurrentValue(character.getValue(Constants.SKILL_DRIVE));
+        valueSetterEmpathy.setCurrentValue(character.getValue(Constants.SKILL_EMPATHY));
+        valueSetterExpression.setCurrentValue(character.getValue(Constants.SKILL_EXPRESSION));
+        valueSetterFirearms.setCurrentValue(character.getValue(Constants.SKILL_FIREARMS));
+        valueSetterIntimidation.setCurrentValue(character.getValue(Constants.SKILL_INTIMIDATION));
+        valueSetterInvestigation.setCurrentValue(character.getValue(Constants.SKILL_INVESTIGATION));
+        valueSetterLarceny.setCurrentValue(character.getValue(Constants.SKILL_LARCENY));
+        valueSetterMedicine.setCurrentValue(character.getValue(Constants.SKILL_MEDICINE));
+        valueSetterOccult.setCurrentValue(character.getValue(Constants.SKILL_OCCULT));
+        valueSetterPersuasion.setCurrentValue(character.getValue(Constants.SKILL_PERSUASION));
+        valueSetterPolitics.setCurrentValue(character.getValue(Constants.SKILL_POLITICS));
+        valueSetterScience.setCurrentValue(character.getValue(Constants.SKILL_SCIENCE));
+        valueSetterSocialize.setCurrentValue(character.getValue(Constants.SKILL_SOCIALIZE));
+        valueSetterStealth.setCurrentValue(character.getValue(Constants.SKILL_STEALTH));
+        valueSetterStreetwise.setCurrentValue(character.getValue(Constants.SKILL_STREETWISE));
+        valueSetterSubterfuge.setCurrentValue(character.getValue(Constants.SKILL_SUBTERFUGE));
+        valueSetterSurvival.setCurrentValue(character.getValue(Constants.SKILL_SURVIVAL));
+        valueSetterWeaponry.setCurrentValue(character.getValue(Constants.SKILL_WEAPONRY));
+
+        valueSetterIntelligence.setCurrentValue(character.getValue(Constants.ATTR_INT));
+        valueSetterWits.setCurrentValue(character.getValue(Constants.ATTR_WIT));
+        valueSetterResolve.setCurrentValue(character.getValue(Constants.ATTR_RES));
+        valueSetterStrength.setCurrentValue(character.getValue(Constants.ATTR_STR));
+        valueSetterDexterity.setCurrentValue(character.getValue(Constants.ATTR_DEX));
+        valueSetterStamina.setCurrentValue(character.getValue(Constants.ATTR_STA));
+        valueSetterPresence.setCurrentValue(character.getValue(Constants.ATTR_PRE));
+        valueSetterManipulation.setCurrentValue(character.getValue(Constants.ATTR_MAN));
+        valueSetterComposure.setCurrentValue(character.getValue(Constants.ATTR_COM));
     }
 
     @OnClick(R.id.txtCharacterNature)

@@ -69,7 +69,7 @@ public class Character extends RealmObject {
         this.pojoFields = pojoFields;
     }
 
-    public int getSkill(@NonNull String code) {
+    public int getValue(@NonNull String code) {
         String result = ArrayHelper.find(pojoFields, code);
 
         return result != null ? Integer.valueOf(result) : 0;
