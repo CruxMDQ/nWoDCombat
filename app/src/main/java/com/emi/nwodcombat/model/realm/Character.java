@@ -15,7 +15,7 @@ public class Character extends RealmObject {
     @PrimaryKey
     private Long id;
 
-    private RealmList<POJOField> pojoFields = new RealmList<>();
+    private RealmList<Entry> entries = new RealmList<>();
     private RealmList<Nature> natures = new RealmList<>();
     private RealmList<Demeanor> demeanors = new RealmList<>();
     private RealmList<Vice> vices = new RealmList<>();
@@ -61,27 +61,27 @@ public class Character extends RealmObject {
         this.virtues = virtues;
     }
 
-    public RealmList<POJOField> getPojoFields() {
-        return pojoFields;
+    public RealmList<Entry> getEntries() {
+        return entries;
     }
 
-    public void setPojoFields(RealmList<POJOField> pojoFields) {
-        this.pojoFields = pojoFields;
+    public void setEntries(RealmList<Entry> entries) {
+        this.entries = entries;
     }
 
     public int getValue(@NonNull String code) {
-        String result = ArrayHelper.find(pojoFields, code);
+        String result = ArrayHelper.find(entries, code);
 
         return result != null ? Integer.valueOf(result) : 0;
     }
 
     public Object getValue(@NonNull String code, Class klass) {
         if (klass.equals(Integer.class)) {
-            String result = ArrayHelper.find(pojoFields, code);
+            String result = ArrayHelper.find(entries, code);
 
             return result != null ? Integer.valueOf(result) : 0;
         } else if (klass.equals(String.class)) {
-            return ArrayHelper.find(pojoFields, code);
+            return ArrayHelper.find(entries, code);
         }
         return null;
     }

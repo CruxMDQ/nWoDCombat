@@ -7,8 +7,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by emiliano.desantis on 14/04/2016.
  */
 
-// TODO put a better name than POJO even Field is not right.
-public class POJOField extends RealmObject {
+public class Entry extends RealmObject {
     @PrimaryKey
     private long id;
 
@@ -20,7 +19,7 @@ public class POJOField extends RealmObject {
         return id;
     }
 
-    public POJOField setId(long id) {
+    public Entry setId(long id) {
         this.id = id;
         return this;
     }
@@ -29,7 +28,7 @@ public class POJOField extends RealmObject {
         return key;
     }
 
-    public POJOField setKey(String key) {
+    public Entry setKey(String key) {
         this.key = key;
         return this;
     }
@@ -38,7 +37,7 @@ public class POJOField extends RealmObject {
         return value;
     }
 
-    public POJOField setValue(String value) {
+    public Entry setValue(String value) {
         this.value = value;
         return this;
     }
@@ -47,7 +46,7 @@ public class POJOField extends RealmObject {
         return type;
     }
 
-    public POJOField setType(String type) {
+    public Entry setType(String type) {
         this.type = type;
         return this;
     }

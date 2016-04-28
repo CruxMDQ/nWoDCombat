@@ -12,8 +12,8 @@ import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
-import com.emi.nwodcombat.model.realm.POJOField;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
@@ -51,7 +51,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
     private Long characterVirtue, characterVice, characterDemeanor, characterNature;
 
-    private Long lastPOJOFieldId;
+    private Long lastEntryId;
 
     private PersistenceLayer helper;
 
@@ -71,7 +71,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         character = new Character();
 
-        lastPOJOFieldId = helper.getLastId(POJOField.class);
+        lastEntryId = helper.getLastId(Entry.class);
 
         return view;
     }
@@ -138,24 +138,24 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     }
 
     private void addFieldToCharacter(String key, String value) {
-        character.getPojoFields().add(new POJOField().setId(lastPOJOFieldId)
+        character.getEntries().add(new Entry().setId(lastEntryId)
             .setKey(key).setType(Constants.FIELD_TYPE_STRING).setValue(value));
 
-        lastPOJOFieldId++;
+        lastEntryId++;
     }
 
     private void addFieldToCharacter(String key, String type, String value) {
-        character.getPojoFields().add(new POJOField().setId(lastPOJOFieldId)
+        character.getEntries().add(new Entry().setId(lastEntryId)
             .setKey(key).setType(type).setValue(value));
 
-        lastPOJOFieldId++;
+        lastEntryId++;
     }
 
     private void addFieldToCharacter(String key, Integer value) {
-        character.getPojoFields().add(new POJOField().setId(lastPOJOFieldId)
+        character.getEntries().add(new Entry().setId(lastEntryId)
             .setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(String.valueOf(value)));
 
-        lastPOJOFieldId++;
+        lastEntryId++;
     }
 
     @Override
@@ -222,7 +222,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         presence = (Integer) values.get(Constants.ATTR_PRE);
         manipulation = (Integer) values.get(Constants.ATTR_MAN);
         composure = (Integer) values.get(Constants.ATTR_COM);
-        
+
         academics = (Integer) values.get(Constants.SKILL_ACADEMICS);
         computer = (Integer) values.get(Constants.SKILL_COMPUTER);
         crafts = (Integer) values.get(Constants.SKILL_CRAFTS);
@@ -257,7 +257,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         ArrayList<Map.Entry<String, Object>> mentalSkills = new ArrayList<>();
         ArrayList<Map.Entry<String, Object>> physicalSkills = new ArrayList<>();
         ArrayList<Map.Entry<String, Object>> socialSkills = new ArrayList<>();
-        
+
         for (Map.Entry<String, Object> entry : values.entrySet()) {
 
             if (entry.getValue() != null && entry.getValue() instanceof Integer) {
