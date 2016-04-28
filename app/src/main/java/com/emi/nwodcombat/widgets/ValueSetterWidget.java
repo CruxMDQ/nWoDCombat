@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.interfaces.ExperienceSpender;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.utils.Constants;
 
 import butterknife.Bind;
@@ -20,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class ValueSetterWidget extends LinearLayout {
+public class ValueSetterWidget extends LinearLayout implements ExperienceSpender {
     private static SharedPreferences preferences;
     private boolean showEditionPanel;
 
@@ -37,6 +39,8 @@ public class ValueSetterWidget extends LinearLayout {
     private int currentValue;
 
     private OnTraitChangedListener listener;
+
+    private int pointCost;
 
     public ValueSetterWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -59,6 +63,7 @@ public class ValueSetterWidget extends LinearLayout {
             }
 
             setTraitCategory(aAttrs.getString(R.styleable.ValueSetterWidget_traitCategory));
+            setPointCost(aAttrs.getInt(R.styleable.ValueSetterWidget_pointCost, 1));
 
             currentValue = defaultValue;
 
@@ -180,6 +185,12 @@ public class ValueSetterWidget extends LinearLayout {
         refreshPointsPanel();
     }
 
+    public void setCurrentValue(Entry entry) {
+        this.setCurrentValue(Integer.valueOf(entry.getValue()));
+        this.setDefaultValue(Integer.valueOf(entry.getValue()));
+        this.setTag(entry);
+    }
+
     public int getCurrentValue() {
         return currentValue;
     }
@@ -208,11 +219,37 @@ public class ValueSetterWidget extends LinearLayout {
         return pool;
     }
 
+    public int getPointCost() {
+        return pointCost;
+    }
+
+    public void setPointCost(int pointCost) {
+        this.pointCost = pointCost;
+    }
+
     public void hideEditionPanel() {
         panelEdition.setVisibility(INVISIBLE);
     }
 
     public void showEditionPanel() {
         panelEdition.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void onCharacterExperienceChanged(int experiencePool) {
+        showEditionPanel();
+        if (experiencePool >= pointCost) {
+            btnValueIncrease.setVisibility(VISIBLE);
+//            showEditionPanel();
+        } else {
+            btnValueIncrease.setVisibility(INVISIBLE);
+//            hideEditionPanel();
+        }
+
+        if (currentValue <= defaultValue) {
+            btnValueDecrease.setVisibility(INVISIBLE);
+        } else {
+            btnValueDecrease.setVisibility(VISIBLE);
+        }
     }
 }

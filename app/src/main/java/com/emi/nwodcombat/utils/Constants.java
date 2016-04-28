@@ -103,6 +103,16 @@ public class Constants {
     public static final String SKILL_STREETWISE = "Streetwise";
     public static final String SKILL_SUBTERFUGE = "Subterfuge";
 
+    public static final String TRAIT_MORALITY = "Morality";
+    public static final String TRAIT_DERIVED_DEFENSE = "Defense";
+    public static final String TRAIT_DERIVED_HEALTH = "Health";
+    public static final String TRAIT_DERIVED_INITIATIVE = "Initiative";
+    public static final String TRAIT_DERIVED_SPEED = "Speed";
+    public static final String TRAIT_DERIVED_WILLPOWER = "Willpower";
+
+    public static final int TRAIT_MORALITY_DEFAULT = 7;
+    public static final int TRAIT_SIZE_DEFAULT = 5;
+
     public static final String ARG_CLASS = "Class";
     public static final String ARG_TITLE = "Title";
     public static final String ARG_HINT = "Hint";

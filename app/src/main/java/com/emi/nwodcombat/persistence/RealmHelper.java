@@ -5,12 +5,15 @@ import android.util.Log;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -192,10 +195,27 @@ public class RealmHelper implements PersistenceLayer {
 
         Character characterToUpdate = get(Character.class, updateInfo.getId());
 
-        characterToUpdate.getDemeanors().set(0, updateInfo.getDemeanors().first());
-        characterToUpdate.getNatures().set(0, updateInfo.getNatures().first());
-        characterToUpdate.getVirtues().set(0, updateInfo.getVirtues().first());
-        characterToUpdate.getVices().set(0, updateInfo.getVices().first());
+        if (updateInfo.getDemeanors().first() != null) {
+            characterToUpdate.getDemeanors().set(0, updateInfo.getDemeanors().first());
+        }
+        if (updateInfo.getNatures().first() != null) {
+            characterToUpdate.getNatures().set(0, updateInfo.getNatures().first());
+        }
+        if (updateInfo.getVirtues().first() != null) {
+            characterToUpdate.getVirtues().set(0, updateInfo.getVirtues().first());
+        }
+        if (updateInfo.getVices().first() != null) {
+            characterToUpdate.getVices().set(0, updateInfo.getVices().first());
+        }
+
+        for (Entry entry : updateInfo.getEntries()) {
+            try {
+                ArrayHelper.findEntry(characterToUpdate.getEntries(), Constants.FIELD_ID)
+                    .setValue(String.valueOf(entry.getValue()));
+            } catch (NoSuchElementException e) {
+                characterToUpdate.getEntries().add(entry);
+            }
+        }
 
         realm.commitTransaction();
     }

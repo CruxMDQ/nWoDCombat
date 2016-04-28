@@ -70,19 +70,23 @@ public class Character extends RealmObject {
     }
 
     public int getValue(@NonNull String code) {
-        String result = ArrayHelper.find(entries, code);
+        String result = ArrayHelper.findValue(entries, code);
 
         return result != null ? Integer.valueOf(result) : 0;
     }
 
     public Object getValue(@NonNull String code, Class klass) {
         if (klass.equals(Integer.class)) {
-            String result = ArrayHelper.find(entries, code);
+            String result = ArrayHelper.findValue(entries, code);
 
             return result != null ? Integer.valueOf(result) : 0;
         } else if (klass.equals(String.class)) {
-            return ArrayHelper.find(entries, code);
+            return ArrayHelper.findValue(entries, code);
         }
         return null;
+    }
+
+    public Entry getEntry(@NonNull String code) {
+        return ArrayHelper.findEntry(entries, code);
     }
 }

@@ -19,6 +19,7 @@ import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.widgets.ValueSetterWidget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,13 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     @Bind(R.id.txtSummarySkillsMental) TextView txtSummarySkillsMental;
     @Bind(R.id.txtSummarySkillsPhysical) TextView txtSummarySkillsPhysical;
     @Bind(R.id.txtSummarySkillsSocial) TextView txtSummarySkillsSocial;
+
+    @Bind(R.id.valueSetterDefense) ValueSetterWidget valueSetterDefense;
+    @Bind(R.id.valueSetterHealth) ValueSetterWidget valueSetterHealth;
+    @Bind(R.id.valueSetterInitiative) ValueSetterWidget valueSetterInitiative;
+    @Bind(R.id.valueSetterMorality) ValueSetterWidget valueSetterMorality;
+    @Bind(R.id.valueSetterSpeed) ValueSetterWidget valueSetterSpeed;
+    @Bind(R.id.valueSetterWillpower) ValueSetterWidget valueSetterWillpower;
 
     private Integer intelligence, wits, resolve;
     private Integer strength, dexterity, stamina;
@@ -123,6 +131,12 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         // TODO Implement starting experience spinner or widget
         addFieldToCharacter(Constants.CHARACTER_BEATS, 0);
         addFieldToCharacter(Constants.CHARACTER_EXPERIENCE, 0);
+        addFieldToCharacter(Constants.TRAIT_DERIVED_DEFENSE, Math.min(dexterity, wits));
+        addFieldToCharacter(Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY_DEFAULT);
+        addFieldToCharacter(Constants.TRAIT_DERIVED_HEALTH, (stamina + Constants.TRAIT_SIZE_DEFAULT));
+        addFieldToCharacter(Constants.TRAIT_DERIVED_INITIATIVE, (composure + dexterity));
+        addFieldToCharacter(Constants.TRAIT_DERIVED_SPEED, (dexterity + strength));
+        addFieldToCharacter(Constants.TRAIT_DERIVED_WILLPOWER, (resolve + composure));
 
         character.setId(helper.getLastId(Character.class));
 

@@ -11,6 +11,7 @@
     <string name="title_attribute">Attribute</string>
     <string name="title_attributes">Attributes</string>
     <string name="title_skills">Skills</string>
+    <string name="title_traits_derived">Derived traits</string>
 
     <string name="dialog_attacker_pool">Attacker\'s dice pool is %s.</string>
     <string name="dialog_attacker_pool_rerolls" formatted="false">Attacker\'s dice pool is %s, rerolling all %ss or better.</string>
@@ -83,6 +84,15 @@
     <string name="skill_socialize">Socialize</string>
     <string name="skill_streetwise">Streetwise</string>
     <string name="skill_subterfuge">Subterfuge</string>
+
+    <!--Other/derived traits-->
+    <string name="cat_derived">Other</string>
+    <string name="trait_defense">Defense</string>
+    <string name="trait_health">Health</string>
+    <string name="trait_initiative">Initiative</string>
+    <string name="trait_morality">Morality</string>
+    <string name="trait_speed">Speed</string>
+    <string name="trait_willpower">Willpower</string>
 
     <string name="summary_attr_mental" formatted="false">Intelligence %s, Wits %s, Resolve %s</string>
     <string name="summary_attr_physical" formatted="false">Strength %s, Dexterity %s, Stamina %s</string>
@@ -262,4 +272,5 @@
     <string name="alert_title">Alert</string>
     <string name="no_characters">No Characters</string>
 
+    <string name="label_experience">Experience</string>
 </resources>

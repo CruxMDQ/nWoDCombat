@@ -11,14 +11,16 @@ import java.util.List;
  */
 public class ArrayHelper {
 
-    public static <T extends Entry> String find(List<T> list, final String key) {
-        T result = Iterables.find(list, new Predicate<T>() {
+    public static <T extends Entry> String findValue(List<T> list, final String key) {
+        return findEntry(list, key).getValue();
+    }
+
+    public static <T extends Entry> Entry findEntry(List<T> list, final String key) {
+        return Iterables.find(list, new Predicate<T>() {
             public boolean apply(T instance) {
                 return instance.getKey().equals(
                     key);
             }
         });
-
-        return result.getValue();
     }
 }
