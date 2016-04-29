@@ -235,6 +235,14 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         valueSetterPresence.setCurrentValue(character.getEntry(Constants.ATTR_PRE));
         valueSetterManipulation.setCurrentValue(character.getEntry(Constants.ATTR_MAN));
         valueSetterComposure.setCurrentValue(character.getEntry(Constants.ATTR_COM));
+
+        valueSetterDefense.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_DEFENSE));
+        valueSetterHealth.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_HEALTH));
+        valueSetterInitiative
+            .setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_INITIATIVE));
+        valueSetterMorality.setCurrentValue(character.getEntry(Constants.TRAIT_MORALITY));
+        valueSetterSpeed.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_SPEED));
+        valueSetterWillpower.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_WILLPOWER));
     }
 
     @OnClick(R.id.txtCharacterNature)
@@ -372,7 +380,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
                 txtCharacterVice.setText(vice.getName());
                 txtCharacterVice.setVisibility(View.VISIBLE);
                 spinnerVice.setVisibility(View.GONE);
-                
+
                 updatedCharacter.getVices().clear();
                 updatedCharacter.getVices().add(vice);
 
@@ -434,28 +442,38 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         ValueSetterWidget widget = (ValueSetterWidget) caller;
 
         if (getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
-            widget.changeValue(value, experiencePool);
+            widget.changeValue(value);
         } else {
             experiencePool = widget.changeValue(value, experiencePool, widget.getPointCost());
 
             txtExperience.setText(String.valueOf(experiencePool));
-
-            try {
-                ArrayHelper.findEntry(updatedCharacter.getEntries(), Constants.FIELD_ID)
-                    .setValue(String.valueOf(widget.getCurrentValue()));
-            } catch (NoSuchElementException e) {
-                updatedCharacter.getEntries().add(new Entry()
-                    .setKey(widget.getContentDescription().toString())
-                    .setType(Constants.FIELD_TYPE_INTEGER)
-                    .setValue(String.valueOf(widget.getCurrentValue()))
-                );
-            }
-//            updatedCharacter.getEntries().where().equalTo(Constants.FIELD_ID, ((Entry) widget.getTag()).getId()).findAll().first()
-//                .setKey(widget.getContentDescription().toString())
-//                .setType(Constants.FIELD_TYPE_INTEGER)
-//                .setValue(String.valueOf(widget.getCurrentValue()));
-            notifyExperienceSpenders();
         }
+
+        try {
+            addEntryToUpdate(widget);
+        } catch (NoSuchElementException e) {
+            editEntryToUpdate(widget);
+        }
+
+        notifyExperienceSpenders();
+    }
+
+    private void editEntryToUpdate(ValueSetterWidget widget) {
+        Entry tag = (Entry) widget.getTag();
+
+        updatedCharacter.getEntries().add(new Entry()
+                .setId(tag.getId())
+                .setKey(widget.getContentDescription().toString())
+                .setType(Constants.FIELD_TYPE_INTEGER)
+                .setValue(String.valueOf(widget.getCurrentValue()))
+        );
+    }
+
+    private void addEntryToUpdate(ValueSetterWidget widget) {
+        Entry tag = (Entry) widget.getTag();
+
+        Entry entry = ArrayHelper.findEntry(updatedCharacter.getEntries(), tag.getId());
+        entry.setValue(String.valueOf(widget.getCurrentValue()));
     }
 
     private void notifyExperienceSpenders() {

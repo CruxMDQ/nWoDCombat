@@ -195,6 +195,14 @@ public class ValueSetterWidget extends LinearLayout implements ExperienceSpender
         return currentValue;
     }
 
+    public void changeValue(int value) {
+        if (value > 0) {
+            increaseCurrentValue();
+        } else {
+            decreaseCurrentValue();
+        }
+    }
+
     public int changeValue(int value, int pool) {
         if (value > 0) {
             if (pool > 0) {
@@ -208,7 +216,7 @@ public class ValueSetterWidget extends LinearLayout implements ExperienceSpender
 
     public int changeValue(int value, int pool, int cost) {
         if (value > 0) {
-            if (pool > cost) {
+            if (pool >= cost) {
                 increaseCurrentValue();
                 pool -= cost;
             }

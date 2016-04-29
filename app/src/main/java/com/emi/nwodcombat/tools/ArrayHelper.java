@@ -23,4 +23,12 @@ public class ArrayHelper {
             }
         });
     }
+
+    public static <T extends Entry> Entry findEntry(List<T> list, final long id) {
+        return Iterables.find(list, new Predicate<T>() {
+            public boolean apply(T instance) {
+                return instance.getId() == id;
+            }
+        });
+    }
 }

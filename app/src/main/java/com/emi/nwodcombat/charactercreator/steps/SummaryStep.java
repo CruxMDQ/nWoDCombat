@@ -383,6 +383,13 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         populateSkillField(txtSummarySkillsMental, mentalSkills);
         populateSkillField(txtSummarySkillsPhysical, physicalSkills);
         populateSkillField(txtSummarySkillsSocial, socialSkills);
+
+        valueSetterDefense.setCurrentValue(Math.min(dexterity, wits));
+        valueSetterMorality.setCurrentValue(Constants.TRAIT_MORALITY_DEFAULT);
+        valueSetterHealth.setCurrentValue(stamina + Constants.TRAIT_SIZE_DEFAULT);
+        valueSetterInitiative.setCurrentValue(composure + dexterity);
+        valueSetterSpeed.setCurrentValue(dexterity + strength);
+        valueSetterWillpower.setCurrentValue(resolve + composure);
     }
 
     private void populateSkillField(TextView textView, ArrayList<Map.Entry<String, Object>> skills) {
