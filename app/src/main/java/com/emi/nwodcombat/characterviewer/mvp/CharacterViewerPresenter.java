@@ -28,8 +28,17 @@ public class CharacterViewerPresenter  {
         view.onPause();
     }
 
+    public void onCharacterDelete() {
+        view.onCharacterDelete();
+    }
+
     @Subscribe
     public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
         model.updateCharacter(event.characterToUpdate);
+    }
+
+    @Subscribe
+    public void onDeleteCharacterEvent(DeleteCharacterEvent event) {
+        model.deleteCharacter(event.characterToDelete);
     }
 }

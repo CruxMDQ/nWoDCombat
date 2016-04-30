@@ -182,7 +182,15 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public void delete(Object item) {
+        if (item instanceof Character) {
+            realm.beginTransaction();
 
+            Character target = realm.where(Character.class).equalTo(Constants.FIELD_ID, ((Character) item).getId()).findAll().first();
+
+            target.removeFromRealm();
+
+            realm.commitTransaction();
+        }
     }
 
     @Override

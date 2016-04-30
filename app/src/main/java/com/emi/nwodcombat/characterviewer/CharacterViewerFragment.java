@@ -3,6 +3,9 @@ package com.emi.nwodcombat.characterviewer;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,12 +39,31 @@ public class CharacterViewerFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_view_character, container, false);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.character_viewer, menu);
+    }
 
-    private void createPresenter() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_delete){
+            presenter.onCharacterDelete();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }    private void createPresenter() {
         presenter = new CharacterViewerPresenter(new CharacterViewerModel(getActivity()), new CharacterViewerView(this,
             BusProvider.getInstance()));
         presenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));

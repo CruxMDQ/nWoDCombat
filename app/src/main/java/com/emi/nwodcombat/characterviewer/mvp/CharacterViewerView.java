@@ -1,10 +1,13 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
+import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -114,6 +117,8 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     @Bind(R.id.valueSetterWillpower) ValueSetterWidget valueSetterWillpower;
 
     @Bind(R.id.txtExperience) TextView txtExperience;
+
+    @Bind(R.id.scrollCharView) ScrollView scrollCharView;
 
     private boolean hasChanges = false;
 
@@ -487,6 +492,29 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
             preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
         return preferences;
+    }
+
+    public void onCharacterDelete() {
+        final Snackbar snackbar = Snackbar.make(scrollCharView,
+                getActivity().getString(R.string.alert_character_delete), Snackbar.LENGTH_SHORT);
+
+        snackbar.setAction("Delete", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bus.post(new DeleteCharacterEvent(updatedCharacter));
+                        CharacterViewerView.this.getFragmentManager().popBackStack();
+                    }
+                });
+
+        snackbar.show();
+    }
+
+    public static class DeleteCharacterEvent {
+        public Character characterToDelete;
+
+        DeleteCharacterEvent(Character character) {
+            this.characterToDelete = character;
+        }
     }
 
     public static class UpdateCharacterEvent {

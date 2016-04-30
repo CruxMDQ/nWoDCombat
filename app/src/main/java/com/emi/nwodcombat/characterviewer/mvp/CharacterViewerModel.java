@@ -49,4 +49,8 @@ public class CharacterViewerModel {
     public void updateCharacter(Character updatedCharacter) {
         helper.updateCharacter(updatedCharacter);
     }
+
+    public void deleteCharacter(Character characterToDelete) {
+        helper.delete(characterToDelete);
+    }
 }
