@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
@@ -455,15 +454,15 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
 
         try {
-            addEntryToUpdate(widget);
-        } catch (NoSuchElementException e) {
             editEntryToUpdate(widget);
+        } catch (NoSuchElementException e) {
+            addEntryToUpdate(widget);
         }
 
         notifyExperienceSpenders();
     }
 
-    private void editEntryToUpdate(ValueSetterWidget widget) {
+    private void addEntryToUpdate(ValueSetterWidget widget) {
         Entry tag = (Entry) widget.getTag();
 
         updatedCharacter.getEntries().add(new Entry()
@@ -474,7 +473,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         );
     }
 
-    private void addEntryToUpdate(ValueSetterWidget widget) {
+    private void editEntryToUpdate(ValueSetterWidget widget) {
         Entry tag = (Entry) widget.getTag();
 
         Entry entry = ArrayHelper.findEntry(updatedCharacter.getEntries(), tag.getId());

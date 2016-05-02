@@ -887,6 +887,7 @@
                         class="com.emi.nwodcombat.widgets.ValueSetterWidget"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:pointCost="@integer/cost_morality"
                         app:showEditionPanel="false"
                         app:traitCategory="@string/cat_derived"
                         app:valueDefault="1"
