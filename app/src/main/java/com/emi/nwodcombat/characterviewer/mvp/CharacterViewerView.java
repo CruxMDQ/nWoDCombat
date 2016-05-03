@@ -41,13 +41,31 @@ import io.realm.RealmResults;
  */
 public class CharacterViewerView extends FragmentView implements OnTraitChangedListener {
 
+    // Used for deciding what to do whenever a ValueSetterWidget value is changed: if the 'cheat'
+    // flag is on, experience is disregarded
     private SharedPreferences preferences;
 
+    // Otto bus is used to forward actions to the model, bypassing the presenter
+    // (Consideration: is it a good idea to bypass the presenter in the first place?)
     private final Bus bus;
+
+    // Character object being viewed
     private Character character;
+
+    // Object that will be used to update the character being viewed
     private Character updatedCharacter = new Character();
 
+    // This stores all the components that will increase or decrease the experience score
     private ArrayList<ExperienceSpender> experienceSpenders = new ArrayList<>();
+
+    // This flag checks whether anything has been changed on the updatedCharacter object - if it's
+    // called far from it, then probably there's trouble
+    private boolean hasChanges = false;
+
+    // Variable to keep track of the amount of experience the character has available to spend
+    // (Spec: probably a good idea to do away with it? Or, at least, to streamline how experience
+    // is managed - stuff is rather disorganized)
+    private int experiencePool = 0;
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;
@@ -119,35 +137,62 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     @Bind(R.id.scrollCharView) ScrollView scrollCharView;
 
-    private boolean hasChanges = false;
-
-    private int experiencePool = 0;
-
+    /**
+     * Default constructor
+     * @param fragment Fragment to bind
+     * @param bus Bus object to manage events
+     */
     public CharacterViewerView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
     }
 
+    /**
+     * Populates UI with data from the character to view.
+     * @param queriedCharacter Self-explanatory.
+     */
     public void setUpView(Character queriedCharacter) {
         this.character = queriedCharacter;
+
+        // ID setting necessary to make sure the changes are applied to the correct character
         updatedCharacter.setId(queriedCharacter.getId());
 
+        // Populate personal info cardview
         txtCharacterName.setText(
             character.getValue(Constants.CHARACTER_NAME, String.class).toString());
         txtCharacterConcept.setText(character.getValue(Constants.CHARACTER_CONCEPT, String.class).toString());
         txtCharacterPlayer.setText(character.getValue(Constants.CHARACTER_PLAYER, String.class).toString());
 
+        // Populate personality traits cardview
         txtCharacterVirtue.setText(character.getVirtues().first().getName());
         txtCharacterVice.setText(character.getVices().first().getName());
         txtCharacterNature.setText(character.getNatures().first().getName());
         txtCharacterDemeanor.setText(character.getDemeanors().first().getName());
 
-        txtExperience.setText(character.getValue(Constants.CHARACTER_EXPERIENCE, Integer.class).toString());
+        // Load up available experience to spend - this is handled in a way similar to but separate
+        // from a ValueSetterWidget (is it okay? Or is there a better way?)
+        txtExperience.setText(
+            character.getValue(Constants.CHARACTER_EXPERIENCE, Integer.class).toString());
 
         setUpValueSetters();
+
+        setUpExperienceSpendingWidget();
     }
 
+    /*** Sets up the components that does the experience spending - in a way similar to but not
+     * exactly equal to a ValueSetter (which invites again the question: is it worth handling
+     * separately? Just how much experience is a character going to have at any time?)
+     */
+    private void setUpExperienceSpendingWidget() {
+        Entry experience = character.getEntry(Constants.CHARACTER_EXPERIENCE);
+        txtExperience.setTag(experience);
+        experiencePool = Integer.valueOf(experience.getValue());
+        txtExperience.setText(String.valueOf(experiencePool));
+    }
+
+    /** Container method for all the calls to setUpValueSetter
+     */
     private void setUpValueSetters() {
         setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, true);
         setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, true);
@@ -192,139 +237,156 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         setUpValueSetter(valueSetterMorality, Constants.TRAIT_MORALITY, true);
         setUpValueSetter(valueSetterSpeed, Constants.TRAIT_DERIVED_SPEED, false);
         setUpValueSetter(valueSetterWillpower, Constants.TRAIT_DERIVED_WILLPOWER, true);
-
-        loadVSValues();
     }
 
+    /*** Demigod method doing four things:
+     * - Sets this view as the OnTraitChangedListener
+     * - Sets a constant as the content description for the widget
+     * - If a flag is set to true, adds the widget to the experience spenders list
+     * - After the whole shebang is done, loads values on each ValueSetter
+     */
     private void setUpValueSetter(ValueSetterWidget valueSetter, String valueConstant, boolean spendsExperience) {
         valueSetter.setListener(this);
         valueSetter.setContentDescription(valueConstant);
         if (spendsExperience) {
             experienceSpenders.add(valueSetter);
         }
+        valueSetter.setCurrentValue(character.getEntry(valueConstant));
     }
 
-    private void loadVSValues() {
-        valueSetterAcademics.setCurrentValue(character.getEntry(Constants.SKILL_ACADEMICS));
-        valueSetterAnimalKen.setCurrentValue(character.getEntry(Constants.SKILL_ANIMAL_KEN));
-        valueSetterAthletics.setCurrentValue(character.getEntry(Constants.SKILL_ATHLETICS));
-        valueSetterBrawl.setCurrentValue(character.getEntry(Constants.SKILL_BRAWL));
-        valueSetterComputer.setCurrentValue(character.getEntry(Constants.SKILL_COMPUTER));
-        valueSetterCrafts.setCurrentValue(character.getEntry(Constants.SKILL_CRAFTS));
-        valueSetterDrive.setCurrentValue(character.getEntry(Constants.SKILL_DRIVE));
-        valueSetterEmpathy.setCurrentValue(character.getEntry(Constants.SKILL_EMPATHY));
-        valueSetterExpression.setCurrentValue(character.getEntry(Constants.SKILL_EXPRESSION));
-        valueSetterFirearms.setCurrentValue(character.getEntry(Constants.SKILL_FIREARMS));
-        valueSetterIntimidation.setCurrentValue(character.getEntry(Constants.SKILL_INTIMIDATION));
-        valueSetterInvestigation.setCurrentValue(character.getEntry(Constants.SKILL_INVESTIGATION));
-        valueSetterLarceny.setCurrentValue(character.getEntry(Constants.SKILL_LARCENY));
-        valueSetterMedicine.setCurrentValue(character.getEntry(Constants.SKILL_MEDICINE));
-        valueSetterOccult.setCurrentValue(character.getEntry(Constants.SKILL_OCCULT));
-        valueSetterPersuasion.setCurrentValue(character.getEntry(Constants.SKILL_PERSUASION));
-        valueSetterPolitics.setCurrentValue(character.getEntry(Constants.SKILL_POLITICS));
-        valueSetterScience.setCurrentValue(character.getEntry(Constants.SKILL_SCIENCE));
-        valueSetterSocialize.setCurrentValue(character.getEntry(Constants.SKILL_SOCIALIZE));
-        valueSetterStealth.setCurrentValue(character.getEntry(Constants.SKILL_STEALTH));
-        valueSetterStreetwise.setCurrentValue(character.getEntry(Constants.SKILL_STREETWISE));
-        valueSetterSubterfuge.setCurrentValue(character.getEntry(Constants.SKILL_SUBTERFUGE));
-        valueSetterSurvival.setCurrentValue(character.getEntry(Constants.SKILL_SURVIVAL));
-        valueSetterWeaponry.setCurrentValue(character.getEntry(Constants.SKILL_WEAPONRY));
-
-        valueSetterIntelligence.setCurrentValue(character.getEntry(Constants.ATTR_INT));
-        valueSetterWits.setCurrentValue(character.getEntry(Constants.ATTR_WIT));
-        valueSetterResolve.setCurrentValue(character.getEntry(Constants.ATTR_RES));
-        valueSetterStrength.setCurrentValue(character.getEntry(Constants.ATTR_STR));
-        valueSetterDexterity.setCurrentValue(character.getEntry(Constants.ATTR_DEX));
-        valueSetterStamina.setCurrentValue(character.getEntry(Constants.ATTR_STA));
-        valueSetterPresence.setCurrentValue(character.getEntry(Constants.ATTR_PRE));
-        valueSetterManipulation.setCurrentValue(character.getEntry(Constants.ATTR_MAN));
-        valueSetterComposure.setCurrentValue(character.getEntry(Constants.ATTR_COM));
-
-        valueSetterDefense.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_DEFENSE));
-        valueSetterHealth.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_HEALTH));
-        valueSetterInitiative
-            .setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_INITIATIVE));
-        valueSetterMorality.setCurrentValue(character.getEntry(Constants.TRAIT_MORALITY));
-        valueSetterSpeed.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_SPEED));
-        valueSetterWillpower.setCurrentValue(character.getEntry(Constants.TRAIT_DERIVED_WILLPOWER));
-    }
-
+    // Personality trait on-click method - may get the axe if UI changes into something better
     @OnClick(R.id.txtCharacterNature)
     public void onNatureClicked() {
         txtCharacterNature.setVisibility(View.GONE);
         spinnerNature.setVisibility(View.VISIBLE);
     }
 
+    // Personality trait on-click method - may get the axe if UI changes into something better
     @OnClick(R.id.txtCharacterDemeanor)
     public void onDemeanorClicked() {
         txtCharacterDemeanor.setVisibility(View.GONE);
         spinnerDemeanor.setVisibility(View.VISIBLE);
     }
 
+    // Personality trait on-click method - may get the axe if UI changes into something better
     @OnClick(R.id.txtCharacterVice)
     public void onViceClicked() {
         txtCharacterVice.setVisibility(View.GONE);
         spinnerVice.setVisibility(View.VISIBLE);
     }
 
+    // Personality trait on-click method - may get the axe if UI changes into something better
     @OnClick(R.id.txtCharacterVirtue)
     public void onVirtueClicked() {
         txtCharacterVirtue.setVisibility(View.GONE);
         spinnerVirtue.setVisibility(View.VISIBLE);
     }
 
+    // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
     public void onExperienceAdded() {
         experiencePool++;
         txtExperience.setText(String.valueOf(experiencePool));
         notifyExperienceSpenders();
+        saveExperience();
     }
 
+    // Triggered when experience increases via tapping of the 'minus' button on the view
     @OnClick(R.id.btnRemoveExp)
     public void onExperienceRemoved() {
         if (experiencePool > 0) {
             experiencePool--;
             txtExperience.setText(String.valueOf(experiencePool));
             notifyExperienceSpenders();
+            saveExperience();
         }
     }
 
+    // Separate method for handling experience saving (once again, similar but not equal to other
+    // traits - just why is it a good idea to do this differently again?)
+    private void saveExperience() {
+        hasChanges = true;
+
+        Entry template = (Entry) txtExperience.getTag();
+
+        try {
+            editEntryToUpdate(template, experiencePool);
+        } catch (NoSuchElementException e) {
+            addEntryToUpdate(template, experiencePool);
+        }
+    }
+
+    // Separate method for setting up a spinner; I've been trying to generify this but without
+    // success so far - read below why
     public void setUpDemeanorsSpinner(RealmResults<Demeanor> traits) {
+        // This extends a parametrized {@link RealmBaseAdapter}
         NaturesAdapter demeanors;
 
+        // Initializing the spinner takes:
+        // - a context
+        // - a list of objects of the right class
+        // - a flag for automaticUpdate (don't yet know what 'automatic update' means in this context)
         demeanors = new NaturesAdapter(getActivity(), traits, true);
 
+        // Associate the adapter to the spinner (well, duh)
         spinnerDemeanor.setAdapter(demeanors);
 
+        // Cycle through the list of objects and if the name matches that of the first item on the
+        // corresponding list for the character, set it as the selection for the spinner
         for (int i = 0; i < traits.size(); i++) {
             Demeanor demeanor = traits.get(i);
+
+            // This one is REALLY shaky: the whole 'personality trait list' mumbo-jumbo is set up
+            // for the case that a character has a merit that lets it select multiple traits. This
+            // assumes that the object we want will always be the first one on the list, but what
+            // happens if, having more than one trait, somehow the order is changed?
+            // Having a map instead of a list probably would solve the issue, but there is no such
+            // thing as a RealmMap. An alternative would be to simply add a boolean isDefault flag
+            // to the trait class.
+            // TODO Find a better way to figure out which object to get, as opposed to simply the first
             if (demeanor.getName().equals(character.getDemeanors().get(0).getName())) {
                 spinnerDemeanor.setSelection(i);
                 break;
             }
         }
 
+        // Vanilla listener setting - could have been managed as a parameter, except for one of one
+        // of the variables requiring that it be final, don't recall which now
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Retrieve object based on spinner position
                 Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
 
+                // Set textView text according to object value
                 txtCharacterDemeanor.setText(demeanor.getName());
+                // Set textView visible
                 txtCharacterDemeanor.setVisibility(View.VISIBLE);
+                // Conceal spinner
                 spinnerDemeanor.setVisibility(View.GONE);
 
+                // Empties list in the updatedCharacter object and adds the modified one.
+                // Major problem: if there are other objects in this list, they are gone, but
+                // modifying the entry itself means making changes to objects shared with other
+                // characters.
+                // Probably it would be a better idea to simply handle Entries, but personality
+                // traits have fields exclusive to their type, depending on which they are.
+                // Still need to figure this out, but as a proof of concept this is okay. Ish.
+                // (Spec: maybe storing the original value before replacement helps?)
+                // TODO Find a solution for the multiple item problem.
                 updatedCharacter.getDemeanors().clear();
                 updatedCharacter.getDemeanors().add(demeanor);
 
+                // If this flag is not set, changes will not be saved
                 hasChanges = true;
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
+    // Another spinner setting up method - refer to setUpDemeanorsSpinner for info
     public void setUpNaturesSpinner(RealmResults<Nature> traits) {
         NaturesAdapter natures;
 
@@ -361,6 +423,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
+    // Another spinner setting up method - refer to setUpDemeanorsSpinner for info
     public void setUpViceSpinner(RealmResults<Vice> vices) {
         ViceRealmAdapter adapter;
 
@@ -396,6 +459,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
+    // Another spinner setting up method - refer to setUpDemeanorsSpinner for info
     public void setUpVirtueSpinner(RealmResults<Virtue> virtues) {
         VirtueRealmAdapter adapter;
 
@@ -433,59 +497,97 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
+    // Triggered on fragment's onPause, via the presenter
     public void onPause() {
+        // If there have been any changes...
         if (hasChanges) {
+            // ...you post a new event for the model class to digest, bypassing the presenter
             bus.post(new UpdateCharacterEvent(updatedCharacter));
         }
     }
 
     @Override
     public void onTraitChanged(Object caller, int value) {
+        // If this flag is not set, changes will not be saved
         hasChanges = true;
 
+        // De-abstract object into widget
         ValueSetterWidget widget = (ValueSetterWidget) caller;
+        // Retrieve enty associated with widget as tag
+        Entry template = (Entry) widget.getTag();
 
+        // Evaluates preference setting: if cheating is on, attributes can be edited at will,
+        // regardless of available experience
         if (getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
             widget.changeValue(value);
         } else {
+            // Experience pool becomes whatever results from trying to spend experience; whether this
+            // succeeds or fails is processed inside changeValue()
+            // This is rather convoluted, but I cannot think of a better way
             experiencePool = widget.changeValue(value, experiencePool, widget.getPointCost());
 
+            // Refresh text on the experience textView
             txtExperience.setText(String.valueOf(experiencePool));
         }
 
         try {
-            editEntryToUpdate(widget);
+            // Try editing an existing entry to update
+            editEntryToUpdate(template, widget.getCurrentValue());
         } catch (NoSuchElementException e) {
-            addEntryToUpdate(widget);
+            // If we got a NSEE, it (probably, most likely - I know >.< ) means that there is no
+            // entry that matches the parameters, so we create one
+            addEntryToUpdate(template, widget.getCurrentValue());
         }
 
+        // Notifies the list of experience spending widgets that there is a change in the experience
+        // pool - just why is this outside the if-else?
         notifyExperienceSpenders();
     }
 
-    private void addEntryToUpdate(ValueSetterWidget widget) {
-        Entry tag = (Entry) widget.getTag();
+    /**
+     * Method for adding a value for updating - nothing strange here, just create and add to list
+     * @param template The entry to update
+     * @param value The new value for the entry
+     */
+    private void addEntryToUpdate(Entry template, int value) {
+        Entry entry = new Entry()
+            .setId(template.getId())
+            .setKey(template.getKey())
+            .setType(Constants.FIELD_TYPE_INTEGER)
+            .setValue(String.valueOf(value));
 
-        updatedCharacter.getEntries().add(new Entry()
-                .setId(tag.getId())
-                .setKey(widget.getContentDescription().toString())
-                .setType(Constants.FIELD_TYPE_INTEGER)
-                .setValue(String.valueOf(widget.getCurrentValue()))
-        );
+        updatedCharacter.getEntries().add(entry);
     }
 
-    private void editEntryToUpdate(ValueSetterWidget widget) {
-        Entry tag = (Entry) widget.getTag();
+    /**
+     * Method for editing an existing value for updating
+     * @param template The entry to update
+     * @param value The new value for the entry
+     */
+    private void editEntryToUpdate(Entry template, int value) throws NoSuchElementException {
+        // Look up if the template is on the list - this will result in a NoSuchElementException if
+        // it does not
+        Entry entry = ArrayHelper.findEntry(updatedCharacter.getEntries(), template.getId());
 
-        Entry entry = ArrayHelper.findEntry(updatedCharacter.getEntries(), tag.getId());
-        entry.setValue(String.valueOf(widget.getCurrentValue()));
+        // Change the value on the entry
+        entry.setValue(String.valueOf(value));
     }
 
+    /**
+     * Method for triggering actions on all objects on the experienceSpenders watch list
+     */
     private void notifyExperienceSpenders() {
         for (ExperienceSpender experienceSpender : experienceSpenders) {
+            // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
+            // I code this on an interface as opposed to simply adding a method to the widget?)
             experienceSpender.onCharacterExperienceChanged(experiencePool);
         }
     }
 
+    /**
+     * Method for returning singleton instance of SharedPreferences
+     * @return Preferences object containing app settings
+     */
     public SharedPreferences getPreferences() {
         if (preferences == null) {
             preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
@@ -493,14 +595,21 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         return preferences;
     }
 
+    /**
+     * Callback from presenter; handles what happens when the 'Delete' button is tapped
+     */
     public void onCharacterDelete() {
+        // Just your run-of-the-mill Snackbar instantiation - nothing to see here
         final Snackbar snackbar = Snackbar.make(scrollCharView,
                 getActivity().getString(R.string.alert_character_delete), Snackbar.LENGTH_SHORT);
 
+        // Setting the action for the Snackbar
         snackbar.setAction("Delete", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Create event for character deletion, to be digested by model class
                         bus.post(new DeleteCharacterEvent(updatedCharacter));
+                        // Pop back stack and remove this fragment
                         CharacterViewerView.this.getFragmentManager().popBackStack();
                     }
                 });
