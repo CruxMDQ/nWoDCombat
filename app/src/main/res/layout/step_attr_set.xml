@@ -28,7 +28,7 @@
             android:layout_marginEnd="@dimen/spacing_normal"
             android:background="@drawable/bkgd_cat_panel">
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterInt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterWits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterRes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:background="@drawable/bkgd_cat_panel">
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterStr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterDex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterSta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
             android:background="@drawable/bkgd_cat_panel">
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterPre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterMan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterCom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

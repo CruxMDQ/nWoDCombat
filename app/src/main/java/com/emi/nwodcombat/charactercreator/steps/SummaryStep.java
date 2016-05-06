@@ -19,7 +19,7 @@ import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.widgets.ValueSetterWidget;
+import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,12 +40,18 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     @Bind(R.id.txtSummarySkillsPhysical) TextView txtSummarySkillsPhysical;
     @Bind(R.id.txtSummarySkillsSocial) TextView txtSummarySkillsSocial;
 
-    @Bind(R.id.valueSetterDefense) ValueSetterWidget valueSetterDefense;
-    @Bind(R.id.valueSetterHealth) ValueSetterWidget valueSetterHealth;
-    @Bind(R.id.valueSetterInitiative) ValueSetterWidget valueSetterInitiative;
-    @Bind(R.id.valueSetterMorality) ValueSetterWidget valueSetterMorality;
-    @Bind(R.id.valueSetterSpeed) ValueSetterWidget valueSetterSpeed;
-    @Bind(R.id.valueSetterWillpower) ValueSetterWidget valueSetterWillpower;
+    @Bind(R.id.valueSetterDefense)
+    ValueSetter valueSetterDefense;
+    @Bind(R.id.valueSetterHealth)
+    ValueSetter valueSetterHealth;
+    @Bind(R.id.valueSetterInitiative)
+    ValueSetter valueSetterInitiative;
+    @Bind(R.id.valueSetterMorality)
+    ValueSetter valueSetterMorality;
+    @Bind(R.id.valueSetterSpeed)
+    ValueSetter valueSetterSpeed;
+    @Bind(R.id.valueSetterWillpower)
+    ValueSetter valueSetterWillpower;
 
     private Integer intelligence, wits, resolve;
     private Integer strength, dexterity, stamina;

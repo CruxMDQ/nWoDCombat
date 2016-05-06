@@ -12,7 +12,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.widgets.ValueSetterWidget;
+import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.HashMap;
 
@@ -28,14 +28,22 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     private int physicalPoints;
     private int currentPhysicalPool;
 
-    @Bind(R.id.valueSetterAthletics) ValueSetterWidget valueSetterAthletics;
-    @Bind(R.id.valueSetterBrawl) ValueSetterWidget valueSetterBrawl;
-    @Bind(R.id.valueSetterDrive) ValueSetterWidget valueSetterDrive;
-    @Bind(R.id.valueSetterFirearms) ValueSetterWidget valueSetterFirearms;
-    @Bind(R.id.valueSetterLarceny) ValueSetterWidget valueSetterLarceny;
-    @Bind(R.id.valueSetterStealth) ValueSetterWidget valueSetterStealth;
-    @Bind(R.id.valueSetterSurvival) ValueSetterWidget valueSetterSurvival;
-    @Bind(R.id.valueSetterWeaponry) ValueSetterWidget valueSetterWeaponry;
+    @Bind(R.id.valueSetterAthletics)
+    ValueSetter valueSetterAthletics;
+    @Bind(R.id.valueSetterBrawl)
+    ValueSetter valueSetterBrawl;
+    @Bind(R.id.valueSetterDrive)
+    ValueSetter valueSetterDrive;
+    @Bind(R.id.valueSetterFirearms)
+    ValueSetter valueSetterFirearms;
+    @Bind(R.id.valueSetterLarceny)
+    ValueSetter valueSetterLarceny;
+    @Bind(R.id.valueSetterStealth)
+    ValueSetter valueSetterStealth;
+    @Bind(R.id.valueSetterSurvival)
+    ValueSetter valueSetterSurvival;
+    @Bind(R.id.valueSetterWeaponry)
+    ValueSetter valueSetterWeaponry;
 
     @Bind(R.id.txtPhysicalSkillsTitle) TextView txtPhysicalSkillsTitle;
 
@@ -93,8 +101,8 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value) {
-        ValueSetterWidget widget = (ValueSetterWidget) caller;
+    public void onTraitChanged(Object caller, int value, String constant) {
+        ValueSetter widget = (ValueSetter) caller;
 
         if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
             currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);

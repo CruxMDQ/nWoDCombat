@@ -12,7 +12,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.widgets.ValueSetterWidget;
+import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.HashMap;
 
@@ -28,14 +28,22 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
     private int socialPoints;
     private int currentSocialPool;
 
-    @Bind(R.id.valueSetterAnimalKen) ValueSetterWidget valueSetterAnimalKen;
-    @Bind(R.id.valueSetterEmpathy) ValueSetterWidget valueSetterEmpathy;
-    @Bind(R.id.valueSetterExpression) ValueSetterWidget valueSetterExpression;
-    @Bind(R.id.valueSetterIntimidation) ValueSetterWidget valueSetterIntimidation;
-    @Bind(R.id.valueSetterPersuasion) ValueSetterWidget valueSetterPersuasion;
-    @Bind(R.id.valueSetterSocialize) ValueSetterWidget valueSetterSocialize;
-    @Bind(R.id.valueSetterStreetwise) ValueSetterWidget valueSetterStreetwise;
-    @Bind(R.id.valueSetterSubterfuge) ValueSetterWidget valueSetterSubterfuge;
+    @Bind(R.id.valueSetterAnimalKen)
+    ValueSetter valueSetterAnimalKen;
+    @Bind(R.id.valueSetterEmpathy)
+    ValueSetter valueSetterEmpathy;
+    @Bind(R.id.valueSetterExpression)
+    ValueSetter valueSetterExpression;
+    @Bind(R.id.valueSetterIntimidation)
+    ValueSetter valueSetterIntimidation;
+    @Bind(R.id.valueSetterPersuasion)
+    ValueSetter valueSetterPersuasion;
+    @Bind(R.id.valueSetterSocialize)
+    ValueSetter valueSetterSocialize;
+    @Bind(R.id.valueSetterStreetwise)
+    ValueSetter valueSetterStreetwise;
+    @Bind(R.id.valueSetterSubterfuge)
+    ValueSetter valueSetterSubterfuge;
 
     @Bind(R.id.txtSocialSkillsTitle) TextView txtSocialSkillsTitle;
 
@@ -98,8 +106,8 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value) {
-        ValueSetterWidget widget = (ValueSetterWidget) caller;
+    public void onTraitChanged(Object caller, int value, String constant) {
+        ValueSetter widget = (ValueSetter) caller;
 
         if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
             currentSocialPool = widget.changeValue(value, currentSocialPool);

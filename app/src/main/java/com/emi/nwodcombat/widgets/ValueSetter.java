@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class ValueSetterWidget extends LinearLayout implements ExperienceSpender {
+public class ValueSetter extends LinearLayout implements ExperienceSpender {
     private static SharedPreferences preferences;
     private boolean showEditionPanel;
 
@@ -42,28 +42,28 @@ public class ValueSetterWidget extends LinearLayout implements ExperienceSpender
 
     private int pointCost;
 
-    public ValueSetterWidget(Context context, AttributeSet attrs) {
+    public ValueSetter(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        if (ValueSetterWidget.preferences == null) {
+        if (ValueSetter.preferences == null) {
             preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
 
         if (!isInEditMode()) {
-            TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetterWidget, 0, 0);
+            TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetter, 0, 0);
 
-            showEditionPanel = aAttrs.getBoolean(R.styleable.ValueSetterWidget_showEditionPanel, true);
-            setValueName(aAttrs.getString(R.styleable.ValueSetterWidget_valueName));
-            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 0));
+            showEditionPanel = aAttrs.getBoolean(R.styleable.ValueSetter_showEditionPanel, true);
+            setValueName(aAttrs.getString(R.styleable.ValueSetter_valueName));
+            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetter_valueDefault, 0));
 
             if (preferences.getBoolean(Constants.SETTING_IGNORE_STAT_CAPS, false)) {
-                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 20));
+                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, 20));
             } else {
-                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 5));
+                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, 5));
             }
 
-            setTraitCategory(aAttrs.getString(R.styleable.ValueSetterWidget_traitCategory));
-            setPointCost(aAttrs.getInt(R.styleable.ValueSetterWidget_pointCost, 1));
+            setTraitCategory(aAttrs.getString(R.styleable.ValueSetter_traitCategory));
+            setPointCost(aAttrs.getInt(R.styleable.ValueSetter_pointCost, 1));
 
             currentValue = defaultValue;
 
@@ -75,7 +75,8 @@ public class ValueSetterWidget extends LinearLayout implements ExperienceSpender
                 @Override
                 public void onClick(View v) {
                     if (currentValue > defaultValue) {
-                        listener.onTraitChanged(ValueSetterWidget.this, -1);
+                        listener.onTraitChanged(ValueSetter.this, -1,
+                            ValueSetter.this.getContentDescription().toString());
                     }
                 }
             });
@@ -83,7 +84,8 @@ public class ValueSetterWidget extends LinearLayout implements ExperienceSpender
                 @Override
                 public void onClick(View v) {
                     if (currentValue < maximumValue) {
-                        listener.onTraitChanged(ValueSetterWidget.this, 1);
+                        listener.onTraitChanged(ValueSetter.this, 1,
+                            ValueSetter.this.getContentDescription().toString());
                     }
                 }
             });
@@ -215,16 +217,18 @@ public class ValueSetterWidget extends LinearLayout implements ExperienceSpender
     }
 
     public int changeValue(int value, int pool, int cost) {
+        int result = pool;
+
         if (value > 0) {
-            if (pool >= cost) {
+            if (result >= cost) {
                 increaseCurrentValue();
-                pool -= cost;
+                result -= cost;
             }
         } else {
             decreaseCurrentValue();
-            pool += cost;
+            result += cost;
         }
-        return pool;
+        return result;
     }
 
     public int getPointCost() {

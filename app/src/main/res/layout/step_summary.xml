@@ -234,7 +234,7 @@
 
             <view
                 android:id="@+id/valueSetterDefense"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:showEditionPanel="false"
@@ -244,7 +244,7 @@
 
             <view
                 android:id="@+id/valueSetterHealth"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:showEditionPanel="false"
@@ -254,7 +254,7 @@
 
             <view
                 android:id="@+id/valueSetterInitiative"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:showEditionPanel="false"
@@ -264,7 +264,7 @@
 
             <view
                 android:id="@+id/valueSetterMorality"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:showEditionPanel="false"
@@ -274,7 +274,7 @@
 
             <view
                 android:id="@+id/valueSetterSpeed"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:showEditionPanel="false"
@@ -284,7 +284,7 @@
 
             <view
                 android:id="@+id/valueSetterWillpower"
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:showEditionPanel="false"

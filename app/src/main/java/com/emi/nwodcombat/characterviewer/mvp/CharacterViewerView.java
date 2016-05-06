@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -23,13 +22,10 @@ import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.tools.ArrayHelper;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.widgets.ValueSetterWidget;
+import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,11 +34,19 @@ import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
+ * Corrections to apply:
+ * - One method per component to update
+ * - The only operations performed here are component value changes
+ * - Consider that the view is not testable
+ * - Any 'new' operation done within a method is not testable
+ * - Only public, package or protected methods are testable
  */
-public class CharacterViewerView extends FragmentView implements OnTraitChangedListener {
+public class CharacterViewerView extends FragmentView //implements OnTraitChangedListener {
+{
 
     // Used for deciding what to do whenever a ValueSetterWidget value is changed: if the 'cheat'
     // flag is on, experience is disregarded
+    // TODO Move this to model class
     private SharedPreferences preferences;
 
     // Otto bus is used to forward actions to the model, bypassing the presenter
@@ -56,7 +60,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     private Character updatedCharacter = new Character();
 
     // This stores all the components that will increase or decrease the experience score
-    private ArrayList<ExperienceSpender> experienceSpenders = new ArrayList<>();
+    private ArrayList<ValueSetter> valueSetters = new ArrayList<>();
 
     // This flag checks whether anything has been changed on the updatedCharacter object - if it's
     // called far from it, then probably there's trouble
@@ -85,53 +89,53 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     @Bind(R.id.txtPhysicalAttrsTitle) TextView txtPhysicalAttrsTitle;
     @Bind(R.id.txtSocialAttrsTitle) TextView txtSocialAttrsTitle;
 
-    @Bind(R.id.valueSetterInt) ValueSetterWidget valueSetterIntelligence;
-    @Bind(R.id.valueSetterWits) ValueSetterWidget valueSetterWits;
-    @Bind(R.id.valueSetterRes) ValueSetterWidget valueSetterResolve;
-    @Bind(R.id.valueSetterStr) ValueSetterWidget valueSetterStrength;
-    @Bind(R.id.valueSetterDex) ValueSetterWidget valueSetterDexterity;
-    @Bind(R.id.valueSetterSta) ValueSetterWidget valueSetterStamina;
-    @Bind(R.id.valueSetterPre) ValueSetterWidget valueSetterPresence;
-    @Bind(R.id.valueSetterMan) ValueSetterWidget valueSetterManipulation;
-    @Bind(R.id.valueSetterCom) ValueSetterWidget valueSetterComposure;
+    @Bind(R.id.valueSetterInt) ValueSetter valueSetterIntelligence;
+    @Bind(R.id.valueSetterWits) ValueSetter valueSetterWits;
+    @Bind(R.id.valueSetterRes) ValueSetter valueSetterResolve;
+    @Bind(R.id.valueSetterStr) ValueSetter valueSetterStrength;
+    @Bind(R.id.valueSetterDex) ValueSetter valueSetterDexterity;
+    @Bind(R.id.valueSetterSta) ValueSetter valueSetterStamina;
+    @Bind(R.id.valueSetterPre) ValueSetter valueSetterPresence;
+    @Bind(R.id.valueSetterMan) ValueSetter valueSetterManipulation;
+    @Bind(R.id.valueSetterCom) ValueSetter valueSetterComposure;
 
     @Bind(R.id.txtMentalSkillsTitle) TextView txtMentalSkillsTitle;
     @Bind(R.id.txtPhysicalSkillsTitle) TextView txtPhysicalSkillsTitle;
     @Bind(R.id.txtSocialSkillsTitle) TextView txtSocialSkillsTitle;
 
-    @Bind(R.id.valueSetterAcademics) ValueSetterWidget valueSetterAcademics;
-    @Bind(R.id.valueSetterComputer) ValueSetterWidget valueSetterComputer;
-    @Bind(R.id.valueSetterCrafts) ValueSetterWidget valueSetterCrafts;
-    @Bind(R.id.valueSetterInvestigation) ValueSetterWidget valueSetterInvestigation;
-    @Bind(R.id.valueSetterMedicine) ValueSetterWidget valueSetterMedicine;
-    @Bind(R.id.valueSetterOccult) ValueSetterWidget valueSetterOccult;
-    @Bind(R.id.valueSetterPolitics) ValueSetterWidget valueSetterPolitics;
-    @Bind(R.id.valueSetterScience) ValueSetterWidget valueSetterScience;
+    @Bind(R.id.valueSetterAcademics) ValueSetter valueSetterAcademics;
+    @Bind(R.id.valueSetterComputer) ValueSetter valueSetterComputer;
+    @Bind(R.id.valueSetterCrafts) ValueSetter valueSetterCrafts;
+    @Bind(R.id.valueSetterInvestigation) ValueSetter valueSetterInvestigation;
+    @Bind(R.id.valueSetterMedicine) ValueSetter valueSetterMedicine;
+    @Bind(R.id.valueSetterOccult) ValueSetter valueSetterOccult;
+    @Bind(R.id.valueSetterPolitics) ValueSetter valueSetterPolitics;
+    @Bind(R.id.valueSetterScience) ValueSetter valueSetterScience;
 
-    @Bind(R.id.valueSetterAthletics) ValueSetterWidget valueSetterAthletics;
-    @Bind(R.id.valueSetterBrawl) ValueSetterWidget valueSetterBrawl;
-    @Bind(R.id.valueSetterDrive) ValueSetterWidget valueSetterDrive;
-    @Bind(R.id.valueSetterFirearms) ValueSetterWidget valueSetterFirearms;
-    @Bind(R.id.valueSetterLarceny) ValueSetterWidget valueSetterLarceny;
-    @Bind(R.id.valueSetterStealth) ValueSetterWidget valueSetterStealth;
-    @Bind(R.id.valueSetterSurvival) ValueSetterWidget valueSetterSurvival;
-    @Bind(R.id.valueSetterWeaponry) ValueSetterWidget valueSetterWeaponry;
+    @Bind(R.id.valueSetterAthletics) ValueSetter valueSetterAthletics;
+    @Bind(R.id.valueSetterBrawl) ValueSetter valueSetterBrawl;
+    @Bind(R.id.valueSetterDrive) ValueSetter valueSetterDrive;
+    @Bind(R.id.valueSetterFirearms) ValueSetter valueSetterFirearms;
+    @Bind(R.id.valueSetterLarceny) ValueSetter valueSetterLarceny;
+    @Bind(R.id.valueSetterStealth) ValueSetter valueSetterStealth;
+    @Bind(R.id.valueSetterSurvival) ValueSetter valueSetterSurvival;
+    @Bind(R.id.valueSetterWeaponry) ValueSetter valueSetterWeaponry;
 
-    @Bind(R.id.valueSetterAnimalKen) ValueSetterWidget valueSetterAnimalKen;
-    @Bind(R.id.valueSetterEmpathy) ValueSetterWidget valueSetterEmpathy;
-    @Bind(R.id.valueSetterExpression) ValueSetterWidget valueSetterExpression;
-    @Bind(R.id.valueSetterIntimidation) ValueSetterWidget valueSetterIntimidation;
-    @Bind(R.id.valueSetterPersuasion) ValueSetterWidget valueSetterPersuasion;
-    @Bind(R.id.valueSetterSocialize) ValueSetterWidget valueSetterSocialize;
-    @Bind(R.id.valueSetterStreetwise) ValueSetterWidget valueSetterStreetwise;
-    @Bind(R.id.valueSetterSubterfuge) ValueSetterWidget valueSetterSubterfuge;
+    @Bind(R.id.valueSetterAnimalKen) ValueSetter valueSetterAnimalKen;
+    @Bind(R.id.valueSetterEmpathy) ValueSetter valueSetterEmpathy;
+    @Bind(R.id.valueSetterExpression) ValueSetter valueSetterExpression;
+    @Bind(R.id.valueSetterIntimidation) ValueSetter valueSetterIntimidation;
+    @Bind(R.id.valueSetterPersuasion) ValueSetter valueSetterPersuasion;
+    @Bind(R.id.valueSetterSocialize) ValueSetter valueSetterSocialize;
+    @Bind(R.id.valueSetterStreetwise) ValueSetter valueSetterStreetwise;
+    @Bind(R.id.valueSetterSubterfuge) ValueSetter valueSetterSubterfuge;
 
-    @Bind(R.id.valueSetterDefense) ValueSetterWidget valueSetterDefense;
-    @Bind(R.id.valueSetterHealth) ValueSetterWidget valueSetterHealth;
-    @Bind(R.id.valueSetterInitiative) ValueSetterWidget valueSetterInitiative;
-    @Bind(R.id.valueSetterMorality) ValueSetterWidget valueSetterMorality;
-    @Bind(R.id.valueSetterSpeed) ValueSetterWidget valueSetterSpeed;
-    @Bind(R.id.valueSetterWillpower) ValueSetterWidget valueSetterWillpower;
+    @Bind(R.id.valueSetterDefense) ValueSetter valueSetterDefense;
+    @Bind(R.id.valueSetterHealth) ValueSetter valueSetterHealth;
+    @Bind(R.id.valueSetterInitiative) ValueSetter valueSetterInitiative;
+    @Bind(R.id.valueSetterMorality) ValueSetter valueSetterMorality;
+    @Bind(R.id.valueSetterSpeed) ValueSetter valueSetterSpeed;
+    @Bind(R.id.valueSetterWillpower) ValueSetter valueSetterWillpower;
 
     @Bind(R.id.txtExperience) TextView txtExperience;
 
@@ -146,112 +150,6 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-    }
-
-    /**
-     * Populates UI with data from the character to view.
-     * @param queriedCharacter Self-explanatory.
-     */
-    public void setUpView(Character queriedCharacter) {
-        this.character = queriedCharacter;
-
-        // ID setting necessary to make sure the changes are applied to the correct character
-        updatedCharacter.setId(queriedCharacter.getId());
-
-        // Populate personal info cardview
-        txtCharacterName.setText(
-            character.getValue(Constants.CHARACTER_NAME, String.class).toString());
-        txtCharacterConcept.setText(character.getValue(Constants.CHARACTER_CONCEPT, String.class).toString());
-        txtCharacterPlayer.setText(character.getValue(Constants.CHARACTER_PLAYER, String.class).toString());
-
-        // Populate personality traits cardview
-        txtCharacterVirtue.setText(character.getVirtues().first().getName());
-        txtCharacterVice.setText(character.getVices().first().getName());
-        txtCharacterNature.setText(character.getNatures().first().getName());
-        txtCharacterDemeanor.setText(character.getDemeanors().first().getName());
-
-        // Load up available experience to spend - this is handled in a way similar to but separate
-        // from a ValueSetterWidget (is it okay? Or is there a better way?)
-        txtExperience.setText(
-            character.getValue(Constants.CHARACTER_EXPERIENCE, Integer.class).toString());
-
-        setUpValueSetters();
-
-        setUpExperienceSpendingWidget();
-    }
-
-    /*** Sets up the components that does the experience spending - in a way similar to but not
-     * exactly equal to a ValueSetter (which invites again the question: is it worth handling
-     * separately? Just how much experience is a character going to have at any time?)
-     */
-    private void setUpExperienceSpendingWidget() {
-        Entry experience = character.getEntry(Constants.CHARACTER_EXPERIENCE);
-        txtExperience.setTag(experience);
-        experiencePool = Integer.valueOf(experience.getValue());
-        txtExperience.setText(String.valueOf(experiencePool));
-    }
-
-    /** Container method for all the calls to setUpValueSetter
-     */
-    private void setUpValueSetters() {
-        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, true);
-        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, true);
-        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, true);
-        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, true);
-        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, true);
-        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, true);
-        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, true);
-        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, true);
-
-        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, true);
-        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, true);
-        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, true);
-        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, true);
-        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, true);
-        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, true);
-        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, true);
-        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, true);
-
-        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, true);
-        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, true);
-        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, true);
-        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, true);
-        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, true);
-        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, true);
-        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, true);
-        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, true);
-
-        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, true);
-        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, true);
-        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, true);
-        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, true);
-        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, true);
-        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, true);
-        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, true);
-        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, true);
-        setUpValueSetter(valueSetterComposure, Constants.ATTR_MAN, true);
-
-        setUpValueSetter(valueSetterDefense, Constants.TRAIT_DERIVED_DEFENSE, false);
-        setUpValueSetter(valueSetterHealth, Constants.TRAIT_DERIVED_HEALTH, false);
-        setUpValueSetter(valueSetterInitiative, Constants.TRAIT_DERIVED_INITIATIVE, false);
-        setUpValueSetter(valueSetterMorality, Constants.TRAIT_MORALITY, true);
-        setUpValueSetter(valueSetterSpeed, Constants.TRAIT_DERIVED_SPEED, false);
-        setUpValueSetter(valueSetterWillpower, Constants.TRAIT_DERIVED_WILLPOWER, true);
-    }
-
-    /*** Demigod method doing four things:
-     * - Sets this view as the OnTraitChangedListener
-     * - Sets a constant as the content description for the widget
-     * - If a flag is set to true, adds the widget to the experience spenders list
-     * - After the whole shebang is done, loads values on each ValueSetter
-     */
-    private void setUpValueSetter(ValueSetterWidget valueSetter, String valueConstant, boolean spendsExperience) {
-        valueSetter.setListener(this);
-        valueSetter.setContentDescription(valueConstant);
-        if (spendsExperience) {
-            experienceSpenders.add(valueSetter);
-        }
-        valueSetter.setCurrentValue(character.getEntry(valueConstant));
     }
 
     // Personality trait on-click method - may get the axe if UI changes into something better
@@ -285,35 +183,13 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
     public void onExperienceAdded() {
-        experiencePool++;
-        txtExperience.setText(String.valueOf(experiencePool));
-        notifyExperienceSpenders();
-        saveExperience();
+        bus.post(new ExperiencePoolChangeEvent(true));
     }
 
     // Triggered when experience increases via tapping of the 'minus' button on the view
     @OnClick(R.id.btnRemoveExp)
     public void onExperienceRemoved() {
-        if (experiencePool > 0) {
-            experiencePool--;
-            txtExperience.setText(String.valueOf(experiencePool));
-            notifyExperienceSpenders();
-            saveExperience();
-        }
-    }
-
-    // Separate method for handling experience saving (once again, similar but not equal to other
-    // traits - just why is it a good idea to do this differently again?)
-    private void saveExperience() {
-        hasChanges = true;
-
-        Entry template = (Entry) txtExperience.getTag();
-
-        try {
-            editEntryToUpdate(template, experiencePool);
-        } catch (NoSuchElementException e) {
-            addEntryToUpdate(template, experiencePool);
-        }
+        bus.post(new ExperiencePoolChangeEvent(false));
     }
 
     // Separate method for setting up a spinner; I've been trying to generify this but without
@@ -497,104 +373,6 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
-    // Triggered on fragment's onPause, via the presenter
-    public void onPause() {
-        // If there have been any changes...
-        if (hasChanges) {
-            // ...you post a new event for the model class to digest, bypassing the presenter
-            bus.post(new UpdateCharacterEvent(updatedCharacter));
-        }
-    }
-
-    @Override
-    public void onTraitChanged(Object caller, int value) {
-        // If this flag is not set, changes will not be saved
-        hasChanges = true;
-
-        // De-abstract object into widget
-        ValueSetterWidget widget = (ValueSetterWidget) caller;
-        // Retrieve enty associated with widget as tag
-        Entry template = (Entry) widget.getTag();
-
-        // Evaluates preference setting: if cheating is on, attributes can be edited at will,
-        // regardless of available experience
-        if (getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
-            widget.changeValue(value);
-        } else {
-            // Experience pool becomes whatever results from trying to spend experience; whether this
-            // succeeds or fails is processed inside changeValue()
-            // This is rather convoluted, but I cannot think of a better way
-            experiencePool = widget.changeValue(value, experiencePool, widget.getPointCost());
-
-            // Refresh text on the experience textView
-            txtExperience.setText(String.valueOf(experiencePool));
-        }
-
-        try {
-            // Try editing an existing entry to update
-            editEntryToUpdate(template, widget.getCurrentValue());
-        } catch (NoSuchElementException e) {
-            // If we got a NSEE, it (probably, most likely - I know >.< ) means that there is no
-            // entry that matches the parameters, so we create one
-            addEntryToUpdate(template, widget.getCurrentValue());
-        }
-
-        // Notifies the list of experience spending widgets that there is a change in the experience
-        // pool - just why is this outside the if-else?
-        notifyExperienceSpenders();
-    }
-
-    /**
-     * Method for adding a value for updating - nothing strange here, just create and add to list
-     * @param template The entry to update
-     * @param value The new value for the entry
-     */
-    private void addEntryToUpdate(Entry template, int value) {
-        Entry entry = new Entry()
-            .setId(template.getId())
-            .setKey(template.getKey())
-            .setType(Constants.FIELD_TYPE_INTEGER)
-            .setValue(String.valueOf(value));
-
-        updatedCharacter.getEntries().add(entry);
-    }
-
-    /**
-     * Method for editing an existing value for updating
-     * @param template The entry to update
-     * @param value The new value for the entry
-     */
-    private void editEntryToUpdate(Entry template, int value) throws NoSuchElementException {
-        // Look up if the template is on the list - this will result in a NoSuchElementException if
-        // it does not
-        Entry entry = ArrayHelper.findEntry(updatedCharacter.getEntries(), template.getId());
-
-        // Change the value on the entry
-        entry.setValue(String.valueOf(value));
-    }
-
-    /**
-     * Method for triggering actions on all objects on the experienceSpenders watch list
-     */
-    private void notifyExperienceSpenders() {
-        for (ExperienceSpender experienceSpender : experienceSpenders) {
-            // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
-            // I code this on an interface as opposed to simply adding a method to the widget?)
-            experienceSpender.onCharacterExperienceChanged(experiencePool);
-        }
-    }
-
-    /**
-     * Method for returning singleton instance of SharedPreferences
-     * @return Preferences object containing app settings
-     */
-    public SharedPreferences getPreferences() {
-        if (preferences == null) {
-            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
-        }
-        return preferences;
-    }
-
     /**
      * Callback from presenter; handles what happens when the 'Delete' button is tapped
      */
@@ -605,16 +383,390 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
         // Setting the action for the Snackbar
         snackbar.setAction("Delete", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Create event for character deletion, to be digested by model class
-                        bus.post(new DeleteCharacterEvent(updatedCharacter));
-                        // Pop back stack and remove this fragment
-                        CharacterViewerView.this.getFragmentManager().popBackStack();
-                    }
-                });
+            @Override
+            public void onClick(View v) {
+                // Create event for character deletion, to be digested by model class
+                bus.post(new DeleteCharacterEvent(updatedCharacter));
+                // Pop back stack and remove this fragment
+                CharacterViewerView.this.getFragmentManager().popBackStack();
+            }
+        });
 
         snackbar.show();
+    }
+
+    public ExperienceSpender setUpWidgetIntelligence(OnTraitChangedListener listener, Entry entry) {
+        valueSetterIntelligence.setListener(listener);
+        valueSetterIntelligence.setContentDescription(entry.getKey());
+        valueSetterIntelligence.setCurrentValue(entry);
+        valueSetters.add(valueSetterIntelligence);
+        return valueSetterIntelligence;
+    }
+
+    public ExperienceSpender setUpWidgetWits(OnTraitChangedListener listener, Entry entry) {
+        valueSetterWits.setListener(listener);
+        valueSetterWits.setContentDescription(entry.getKey());
+        valueSetterWits.setCurrentValue(entry);
+        valueSetters.add(valueSetterWits);
+        return valueSetterWits;
+    }
+
+    public ExperienceSpender setUpWidgetResolve(OnTraitChangedListener listener, Entry entry) {
+        valueSetterResolve.setListener(listener);
+        valueSetterResolve.setContentDescription(entry.getKey());
+        valueSetterResolve.setCurrentValue(entry);
+        valueSetters.add(valueSetterResolve);
+        return valueSetterResolve;
+    }
+
+    public ExperienceSpender setUpWidgetStrength(OnTraitChangedListener listener, Entry entry) {
+        valueSetterStrength.setListener(listener);
+        valueSetterStrength.setContentDescription(entry.getKey());
+        valueSetterStrength.setCurrentValue(entry);
+        valueSetters.add(valueSetterStrength);
+        return valueSetterStrength;
+    }
+
+    public ExperienceSpender setUpWidgetDexterity(OnTraitChangedListener listener, Entry entry) {
+        valueSetterDexterity.setListener(listener);
+        valueSetterDexterity.setContentDescription(entry.getKey());
+        valueSetterDexterity.setCurrentValue(entry);
+        valueSetters.add(valueSetterDexterity);
+        return valueSetterDexterity;
+    }
+
+    public ExperienceSpender setUpWidgetStamina(OnTraitChangedListener listener, Entry entry) {
+        valueSetterStamina.setListener(listener);
+        valueSetterStamina.setContentDescription(entry.getKey());
+        valueSetterStamina.setCurrentValue(entry);
+        valueSetters.add(valueSetterStamina);
+        return valueSetterStamina;
+    }
+
+    public ExperienceSpender setUpWidgetPresence(OnTraitChangedListener listener, Entry entry) {
+        valueSetterPresence.setListener(listener);
+        valueSetterPresence.setContentDescription(entry.getKey());
+        valueSetterPresence.setCurrentValue(entry);
+        valueSetters.add(valueSetterPresence);
+        return valueSetterPresence;
+    }
+
+    public ExperienceSpender setUpWidgetManipulation(OnTraitChangedListener listener, Entry entry) {
+        valueSetterManipulation.setListener(listener);
+        valueSetterManipulation.setContentDescription(entry.getKey());
+        valueSetterManipulation.setCurrentValue(entry);
+        valueSetters.add(valueSetterManipulation);
+        return valueSetterManipulation;
+    }
+
+    public ExperienceSpender setUpWidgetComposure(OnTraitChangedListener listener, Entry entry) {
+        valueSetterComposure.setListener(listener);
+        valueSetterComposure.setContentDescription(entry.getKey());
+        valueSetterComposure.setCurrentValue(entry);
+        valueSetters.add(valueSetterComposure);
+        return valueSetterComposure;
+    }
+
+    public ExperienceSpender setUpWidgetAcademics(OnTraitChangedListener listener, Entry entry) {
+        valueSetterAcademics.setListener(listener);
+        valueSetterAcademics.setContentDescription(entry.getKey());
+        valueSetterAcademics.setCurrentValue(entry);
+        valueSetters.add(valueSetterAcademics);
+        return valueSetterAcademics;
+    }
+
+    public ExperienceSpender setUpWidgetComputer(OnTraitChangedListener listener, Entry entry) {
+        valueSetterComputer.setListener(listener);
+        valueSetterComputer.setContentDescription(entry.getKey());
+        valueSetterComputer.setCurrentValue(entry);
+        valueSetters.add(valueSetterComputer);
+        return valueSetterComputer;
+    }
+
+    public ExperienceSpender setUpWidgetCrafts(OnTraitChangedListener listener, Entry entry) {
+        valueSetterCrafts.setListener(listener);
+        valueSetterCrafts.setContentDescription(entry.getKey());
+        valueSetterCrafts.setCurrentValue(entry);
+        valueSetters.add(valueSetterCrafts);
+        return valueSetterCrafts;
+    }
+
+    public ExperienceSpender setUpWidgetInvestigation(OnTraitChangedListener listener, Entry entry) {
+        valueSetterInvestigation.setListener(listener);
+        valueSetterInvestigation.setContentDescription(entry.getKey());
+        valueSetterInvestigation.setCurrentValue(entry);
+        valueSetters.add(valueSetterInvestigation);
+        return valueSetterInvestigation;
+    }
+
+    public ExperienceSpender setUpWidgetMedicine(OnTraitChangedListener listener, Entry entry) {
+        valueSetterMedicine.setListener(listener);
+        valueSetterMedicine.setContentDescription(entry.getKey());
+        valueSetterMedicine.setCurrentValue(entry);
+        valueSetters.add(valueSetterMedicine);
+        return valueSetterMedicine;
+    }
+
+    public ExperienceSpender setUpWidgetOccult(OnTraitChangedListener listener, Entry entry) {
+        valueSetterOccult.setListener(listener);
+        valueSetterOccult.setContentDescription(entry.getKey());
+        valueSetterOccult.setCurrentValue(entry);
+        valueSetters.add(valueSetterOccult);
+        return valueSetterOccult;
+    }
+
+    public ExperienceSpender setUpWidgetPolitics(OnTraitChangedListener listener, Entry entry) {
+        valueSetterPolitics.setListener(listener);
+        valueSetterPolitics.setContentDescription(entry.getKey());
+        valueSetterPolitics.setCurrentValue(entry);
+        valueSetters.add(valueSetterPolitics);
+        return valueSetterPolitics;
+    }
+
+    public ExperienceSpender setUpWidgetScience(OnTraitChangedListener listener, Entry entry) {
+        valueSetterScience.setListener(listener);
+        valueSetterScience.setContentDescription(entry.getKey());
+        valueSetterScience.setCurrentValue(entry);
+        valueSetters.add(valueSetterScience);
+        return valueSetterScience;
+    }
+
+    public ExperienceSpender setUpWidgetAthletics(OnTraitChangedListener listener, Entry entry) {
+        valueSetterAthletics.setListener(listener);
+        valueSetterAthletics.setContentDescription(entry.getKey());
+        valueSetterAthletics.setCurrentValue(entry);
+        valueSetters.add(valueSetterAthletics);
+        return valueSetterAthletics;
+    }
+
+    public ExperienceSpender setUpWidgetBrawl(OnTraitChangedListener listener, Entry entry) {
+        valueSetterBrawl.setListener(listener);
+        valueSetterBrawl.setContentDescription(entry.getKey());
+        valueSetterBrawl.setCurrentValue(entry);
+        valueSetters.add(valueSetterBrawl);
+        return valueSetterBrawl;
+    }
+
+    public ExperienceSpender setUpWidgetDrive(OnTraitChangedListener listener, Entry entry) {
+        valueSetterDrive.setListener(listener);
+        valueSetterDrive.setContentDescription(entry.getKey());
+        valueSetterDrive.setCurrentValue(entry);
+        valueSetters.add(valueSetterDrive);
+        return valueSetterDrive;
+    }
+
+    public ExperienceSpender setUpWidgetFirearms(OnTraitChangedListener listener, Entry entry) {
+        valueSetterFirearms.setListener(listener);
+        valueSetterFirearms.setContentDescription(entry.getKey());
+        valueSetterFirearms.setCurrentValue(entry);
+        valueSetters.add(valueSetterFirearms);
+        return valueSetterFirearms;
+    }
+
+    public ExperienceSpender setUpWidgetLarceny(OnTraitChangedListener listener, Entry entry) {
+        valueSetterLarceny.setListener(listener);
+        valueSetterLarceny.setContentDescription(entry.getKey());
+        valueSetterLarceny.setCurrentValue(entry);
+        valueSetters.add(valueSetterLarceny);
+        return valueSetterLarceny;
+    }
+
+    public ExperienceSpender setUpWidgetStealth(OnTraitChangedListener listener, Entry entry) {
+        valueSetterStealth.setListener(listener);
+        valueSetterStealth.setContentDescription(entry.getKey());
+        valueSetterStealth.setCurrentValue(entry);
+        valueSetters.add(valueSetterStealth);
+        return valueSetterStealth;
+    }
+
+    public ExperienceSpender setUpWidgetSurvival(OnTraitChangedListener listener, Entry entry) {
+        valueSetterSurvival.setListener(listener);
+        valueSetterSurvival.setContentDescription(entry.getKey());
+        valueSetterSurvival.setCurrentValue(entry);
+        valueSetters.add(valueSetterSurvival);
+        return valueSetterSurvival;
+    }
+
+    public ExperienceSpender setUpWidgetWeaponry(OnTraitChangedListener listener, Entry entry) {
+        valueSetterWeaponry.setListener(listener);
+        valueSetterWeaponry.setContentDescription(entry.getKey());
+        valueSetterWeaponry.setCurrentValue(entry);
+        valueSetters.add(valueSetterWeaponry);
+        return valueSetterWeaponry;
+    }
+
+    public ExperienceSpender setUpWidgetAnimalKen(OnTraitChangedListener listener, Entry entry) {
+        valueSetterAnimalKen.setListener(listener);
+        valueSetterAnimalKen.setContentDescription(entry.getKey());
+        valueSetterAnimalKen.setCurrentValue(entry);
+        valueSetters.add(valueSetterAnimalKen);
+        return valueSetterAnimalKen;
+    }
+
+    public ExperienceSpender setUpWidgetEmpathy(OnTraitChangedListener listener, Entry entry) {
+        valueSetterEmpathy.setListener(listener);
+        valueSetterEmpathy.setContentDescription(entry.getKey());
+        valueSetterEmpathy.setCurrentValue(entry);
+        valueSetters.add(valueSetterEmpathy);
+        return valueSetterEmpathy;
+    }
+
+    public ExperienceSpender setUpWidgetExpression(OnTraitChangedListener listener, Entry entry) {
+        valueSetterExpression.setListener(listener);
+        valueSetterExpression.setContentDescription(entry.getKey());
+        valueSetterExpression.setCurrentValue(entry);
+        valueSetters.add(valueSetterExpression);
+        return valueSetterExpression;
+    }
+
+    public ExperienceSpender setUpWidgetIntimidation(OnTraitChangedListener listener, Entry entry) {
+        valueSetterIntimidation.setListener(listener);
+        valueSetterIntimidation.setContentDescription(entry.getKey());
+        valueSetterIntimidation.setCurrentValue(entry);
+        valueSetters.add(valueSetterIntimidation);
+        return valueSetterIntimidation;
+    }
+
+    public ExperienceSpender setUpWidgetPersuasion(OnTraitChangedListener listener, Entry entry) {
+        valueSetterPersuasion.setListener(listener);
+        valueSetterPersuasion.setContentDescription(entry.getKey());
+        valueSetterPersuasion.setCurrentValue(entry);
+        valueSetters.add(valueSetterPersuasion);
+        return valueSetterPersuasion;
+    }
+
+    public ExperienceSpender setUpWidgetSocialize(OnTraitChangedListener listener, Entry entry) {
+        valueSetterSocialize.setListener(listener);
+        valueSetterSocialize.setContentDescription(entry.getKey());
+        valueSetterSocialize.setCurrentValue(entry);
+        valueSetters.add(valueSetterSocialize);
+        return valueSetterSocialize;
+    }
+
+    public ExperienceSpender setUpWidgetStreetwise(OnTraitChangedListener listener, Entry entry) {
+        valueSetterStreetwise.setListener(listener);
+        valueSetterStreetwise.setContentDescription(entry.getKey());
+        valueSetterStreetwise.setCurrentValue(entry);
+        valueSetters.add(valueSetterStreetwise);
+        return valueSetterStreetwise;
+    }
+
+    public ExperienceSpender setUpWidgetSubterfuge(OnTraitChangedListener listener, Entry entry) {
+        valueSetterSubterfuge.setListener(listener);
+        valueSetterSubterfuge.setContentDescription(entry.getKey());
+        valueSetterSubterfuge.setCurrentValue(entry);
+        valueSetters.add(valueSetterSubterfuge);
+        return valueSetterSubterfuge;
+    }
+
+    public void setUpWidgetDefense(OnTraitChangedListener listener, Entry entry) {
+        valueSetterDefense.setListener(listener);
+        valueSetterDefense.setContentDescription(entry.getKey());
+        valueSetterDefense.setCurrentValue(entry);
+//        valueSetters.add(valueSetterDefense);
+//        return valueSetterDefense;
+    }
+
+    public void setUpWidgetHealth(OnTraitChangedListener listener, Entry entry) {
+        valueSetterHealth.setListener(listener);
+        valueSetterHealth.setContentDescription(entry.getKey());
+        valueSetterHealth.setCurrentValue(entry);
+//        valueSetters.add(valueSetterHealth);
+//        return valueSetterHealth;
+    }
+
+    public void setUpWidgetInitiative(OnTraitChangedListener listener, Entry entry) {
+        valueSetterInitiative.setListener(listener);
+        valueSetterInitiative.setContentDescription(entry.getKey());
+        valueSetterInitiative.setCurrentValue(entry);
+//        valueSetters.add(valueSetterInitiative);
+//        return valueSetterInitiative;
+    }
+
+    public ExperienceSpender setUpWidgetMorality(OnTraitChangedListener listener, Entry entry) {
+        valueSetterMorality.setListener(listener);
+        valueSetterMorality.setContentDescription(entry.getKey());
+        valueSetterMorality.setCurrentValue(entry);
+        valueSetters.add(valueSetterMorality);
+        return valueSetterMorality;
+    }
+
+    public void setUpWidgetSpeed(OnTraitChangedListener listener, Entry entry) {
+        valueSetterSpeed.setListener(listener);
+        valueSetterSpeed.setContentDescription(entry.getKey());
+        valueSetterSpeed.setCurrentValue(entry);
+//        valueSetters.add(valueSetterSpeed);
+//        return valueSetterSpeed;
+    }
+
+    public ExperienceSpender setUpWidgetWillpower(OnTraitChangedListener listener, Entry entry) {
+        valueSetterWillpower.setListener(listener);
+        valueSetterWillpower.setContentDescription(entry.getKey());
+        valueSetterWillpower.setCurrentValue(entry);
+        valueSetters.add(valueSetterWillpower);
+        return valueSetterWillpower;
+    }
+
+    public void setCharacterName(String characterName) {
+        txtCharacterName.setText(characterName);
+    }
+
+    public void setCharacterConcept(String concept) {
+        txtCharacterConcept.setText(concept);
+    }
+
+    public void setCharacterPlayer(String player) {
+        txtCharacterPlayer.setText(player);
+    }
+
+    public void setCharacterVirtue(String firstVirtue) {
+        txtCharacterVirtue.setText(firstVirtue);
+    }
+
+    public void setCharacterVice(String firstVice) {
+        txtCharacterVice.setText(firstVice);
+    }
+
+    public void setCharacterNature(String firstNature) {
+        txtCharacterNature.setText(firstNature);
+    }
+
+    public void setCharacterDemeanor(String firstDemeanor) {
+        txtCharacterDemeanor.setText(firstDemeanor);
+    }
+
+    /*** Sets up the components that does the experience spending - in a way similar to but not
+     * exactly equal to a ValueSetter (which invites again the question: is it worth handling
+     * separately? Just how much experience is a character going to have at any time?)
+     */
+    public void setUpExperienceSpendingWidget(Entry experience) {
+        txtExperience.setTag(experience);
+        txtExperience.setText(experience.getValue());
+    }
+
+    public void setExperience(String experience) {
+        txtExperience.setText(experience);
+    }
+
+    public int changeWidgetValue(String constant, int value, int experiencePool, boolean isCheating) {
+        for (ValueSetter widget : valueSetters) {
+            if (widget.getContentDescription().equals(constant)) {
+                if (isCheating) {
+                    widget.setCurrentValue(value);
+                } else {
+                    // Experience pool becomes whatever results from trying to spend experience; whether this
+                    // succeeds or fails is processed inside changeValue()
+                    // This is rather convoluted, but I cannot think of a better way
+                    int experience = widget.changeValue(value, experiencePool, widget.getPointCost());
+
+                    // Refresh text on the experience textView
+                    setExperience(String.valueOf(experience));
+
+                    return experience;
+                }
+            }
+        }
+        return experiencePool;
     }
 
     public static class DeleteCharacterEvent {
@@ -631,5 +783,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         UpdateCharacterEvent(Character character) {
             this.characterToUpdate = character;
         }
+    }
+
+    public static class ExperiencePoolChangeEvent {
+        public boolean isIncrease;
+
+        ExperiencePoolChangeEvent(boolean isIncrease) { this.isIncrease = isIncrease; }
     }
 }

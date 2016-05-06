@@ -319,7 +319,7 @@
 
                         <view
                             android:id="@+id/valueSetterInt"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_attributes"
@@ -330,7 +330,7 @@
 
                         <view
                             android:id="@+id/valueSetterWits"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterInt"
@@ -342,7 +342,7 @@
 
                         <view
                             android:id="@+id/valueSetterRes"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterWits"
@@ -373,7 +373,7 @@
 
                         <view
                             android:id="@+id/valueSetterStr"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_attributes"
@@ -384,7 +384,7 @@
 
                         <view
                             android:id="@+id/valueSetterDex"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterStr"
@@ -396,7 +396,7 @@
 
                         <view
                             android:id="@+id/valueSetterSta"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterDex"
@@ -428,7 +428,7 @@
 
                         <view
                             android:id="@+id/valueSetterPre"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_attributes"
@@ -439,7 +439,7 @@
 
                         <view
                             android:id="@+id/valueSetterMan"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterPre"
@@ -451,7 +451,7 @@
 
                         <view
                             android:id="@+id/valueSetterCom"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterMan"
@@ -517,7 +517,7 @@
 
                         <view
                             android:id="@+id/valueSetterAcademics"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_skills"
@@ -527,7 +527,7 @@
 
                         <view
                             android:id="@+id/valueSetterComputer"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterAcademics"
@@ -538,7 +538,7 @@
 
                         <view
                             android:id="@+id/valueSetterCrafts"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterComputer"
@@ -549,7 +549,7 @@
 
                         <view
                             android:id="@+id/valueSetterInvestigation"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterCrafts"
@@ -560,7 +560,7 @@
 
                         <view
                             android:id="@+id/valueSetterMedicine"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterInvestigation"
@@ -571,7 +571,7 @@
 
                         <view
                             android:id="@+id/valueSetterOccult"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterMedicine"
@@ -582,7 +582,7 @@
 
                         <view
                             android:id="@+id/valueSetterPolitics"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterOccult"
@@ -593,7 +593,7 @@
 
                         <view
                             android:id="@+id/valueSetterScience"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterPolitics"
@@ -624,7 +624,7 @@
 
                         <view
                             android:id="@+id/valueSetterAthletics"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_skills"
@@ -634,7 +634,7 @@
 
                         <view
                             android:id="@+id/valueSetterBrawl"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterAthletics"
@@ -645,7 +645,7 @@
 
                         <view
                             android:id="@+id/valueSetterDrive"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterBrawl"
@@ -656,7 +656,7 @@
 
                         <view
                             android:id="@+id/valueSetterFirearms"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterDrive"
@@ -667,7 +667,7 @@
 
                         <view
                             android:id="@+id/valueSetterLarceny"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterFirearms"
@@ -678,7 +678,7 @@
 
                         <view
                             android:id="@+id/valueSetterStealth"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterLarceny"
@@ -689,7 +689,7 @@
 
                         <view
                             android:id="@+id/valueSetterSurvival"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterStealth"
@@ -700,7 +700,7 @@
 
                         <view
                             android:id="@+id/valueSetterWeaponry"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterSurvival"
@@ -731,7 +731,7 @@
 
                         <view
                             android:id="@+id/valueSetterAnimalKen"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_skills"
@@ -741,7 +741,7 @@
 
                         <view
                             android:id="@+id/valueSetterEmpathy"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterAnimalKen"
@@ -752,7 +752,7 @@
 
                         <view
                             android:id="@+id/valueSetterExpression"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterEmpathy"
@@ -763,7 +763,7 @@
 
                         <view
                             android:id="@+id/valueSetterIntimidation"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterExpression"
@@ -774,7 +774,7 @@
 
                         <view
                             android:id="@+id/valueSetterPersuasion"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterIntimidation"
@@ -785,7 +785,7 @@
 
                         <view
                             android:id="@+id/valueSetterSocialize"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterPersuasion"
@@ -796,7 +796,7 @@
 
                         <view
                             android:id="@+id/valueSetterStreetwise"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterSocialize"
@@ -807,7 +807,7 @@
 
                         <view
                             android:id="@+id/valueSetterSubterfuge"
-                            class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                            class="com.emi.nwodcombat.widgets.ValueSetter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/valueSetterStreetwise"
@@ -854,7 +854,7 @@
 
                     <view
                         android:id="@+id/valueSetterDefense"
-                        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                        class="com.emi.nwodcombat.widgets.ValueSetter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:showEditionPanel="false"
@@ -864,7 +864,7 @@
 
                     <view
                         android:id="@+id/valueSetterHealth"
-                        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                        class="com.emi.nwodcombat.widgets.ValueSetter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:showEditionPanel="false"
@@ -874,7 +874,7 @@
 
                     <view
                         android:id="@+id/valueSetterInitiative"
-                        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                        class="com.emi.nwodcombat.widgets.ValueSetter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:showEditionPanel="false"
@@ -884,7 +884,7 @@
 
                     <view
                         android:id="@+id/valueSetterMorality"
-                        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                        class="com.emi.nwodcombat.widgets.ValueSetter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:pointCost="@integer/cost_morality"
@@ -895,7 +895,7 @@
 
                     <view
                         android:id="@+id/valueSetterSpeed"
-                        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                        class="com.emi.nwodcombat.widgets.ValueSetter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:showEditionPanel="false"
@@ -905,7 +905,7 @@
 
                     <view
                         android:id="@+id/valueSetterWillpower"
-                        class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                        class="com.emi.nwodcombat.widgets.ValueSetter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:pointCost="@integer/cost_willpower"

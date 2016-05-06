@@ -29,7 +29,7 @@
             android:background="@drawable/bkgd_cat_panel">
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterAcademics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterComputer"
                 android:layout_below="@id/valueSetterAcademics"
                 android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterCrafts"
                 android:layout_below="@id/valueSetterComputer"
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterInvestigation"
                 android:layout_below="@id/valueSetterCrafts"
                 android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterMedicine"
                 android:layout_below="@id/valueSetterInvestigation"
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterOccult"
                 android:layout_below="@id/valueSetterMedicine"
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterPolitics"
                 android:layout_below="@id/valueSetterOccult"
                 android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterScience"
                 android:layout_below="@id/valueSetterPolitics"
                 android:layout_width="match_parent"
