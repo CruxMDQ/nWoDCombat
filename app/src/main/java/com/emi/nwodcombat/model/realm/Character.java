@@ -18,6 +18,8 @@ public class Character extends RealmObject {
     @PrimaryKey
     private Long id;
 
+    // TODO Consider packaging each personality trait class in a wrapper for ease of edition
+    private RealmList<DemeanorTrait> demeanorTraits = new RealmList<>();
     private RealmList<Entry> entries = new RealmList<>();
     private RealmList<Nature> natures = new RealmList<>();
     private RealmList<Demeanor> demeanors = new RealmList<>();
@@ -279,5 +281,13 @@ public class Character extends RealmObject {
 
     public Entry getWillpower() {
         return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_WILLPOWER);
+    }
+
+    public RealmList<DemeanorTrait> getDemeanorTraits() {
+        return demeanorTraits;
+    }
+
+    public void setDemeanorTraits(RealmList<DemeanorTrait> demeanorTraits) {
+        this.demeanorTraits = demeanorTraits;
     }
 }

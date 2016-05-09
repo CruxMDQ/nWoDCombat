@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
@@ -178,6 +179,11 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public int getCountPersonalityArchetype() {
         return getCount(Nature.class);
+    }
+
+    @Override
+    public int getDemeanorTraitCount() {
+        return getCount(DemeanorTrait.class);
     }
 
     @Override

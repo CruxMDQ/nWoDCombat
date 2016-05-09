@@ -1,10 +1,17 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
+import android.content.Context;
+
+import com.emi.nwodcombat.adapters.DemeanorsAdapter;
+import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.ExperiencePoolChangeEvent;
+import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.TraitChangedEvent;
 import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.model.realm.DemeanorTrait;
 import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -13,6 +20,8 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+import io.realm.RealmResults;
+
 import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.DeleteCharacterEvent;
 import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.UpdateCharacterEvent;
 
@@ -20,6 +29,8 @@ import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.UpdateC
  * Created by emiliano.desantis on 12/04/2016.
  */
 public class CharacterViewerPresenter implements OnTraitChangedListener {
+
+    private Context context;
     private CharacterViewerView view;
     private CharacterViewerModel model;
 
@@ -41,7 +52,8 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     // This stores all the components that will increase or decrease the experience score
     private ArrayList<ExperienceSpender> experienceSpenders = new ArrayList<>();
 
-    public CharacterViewerPresenter(CharacterViewerModel model, CharacterViewerView view) {
+    public CharacterViewerPresenter(Context context, CharacterViewerModel model, CharacterViewerView view) {
+        this.context = context;
         this.model = model;
         this.view = view;
     }
@@ -49,13 +61,15 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setUpView(long idCharacter) {
         queriedCharacter = model.getQueriedCharacter(idCharacter);
         updatedCharacter.setId(queriedCharacter.getId());
+        updatedCharacter.setDemeanorTraits(queriedCharacter.getDemeanorTraits());
 
         experiencePool = Integer.valueOf(queriedCharacter.getExperience().getValue());
 
-        view.setUpVirtueSpinner(model.getVirtues());
-        view.setUpViceSpinner(model.getVices());
-        view.setUpNaturesSpinner(model.getNatures());
-        view.setUpDemeanorsSpinner(model.getDemeanors());
+        setUpDemeanorsSpinner();
+//        view.setUpVirtueSpinner(model.getVirtues());
+//        view.setUpViceSpinner(model.getVices());
+//        view.setUpNaturesSpinner(model.getNatures());
+//        view.setUpDemeanorsSpinner(model.getDemeanors());
 
         // Populate personal info cardview
         view.setCharacterName(queriedCharacter.getName());
@@ -138,53 +152,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     // Sends menu option selection event to the view for processing
     public void onCharacterDelete() {
         view.onCharacterDelete();
-    }
-
-    @Subscribe
-    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
-        model.updateCharacter(event.characterToUpdate);
-    }
-
-    @Subscribe
-    public void onDeleteCharacterEvent(DeleteCharacterEvent event) {
-        model.deleteCharacter(event.characterToDelete);
-    }
-
-    @Subscribe
-    public void onExperiencePoolChange(ExperiencePoolChangeEvent event) {
-        if (event.isIncrease) {
-
-            // Changes amount of experience in the pool
-            experiencePool++;
-
-            // Updates text in experience tracker widget
-            view.setExperience(String.valueOf(experiencePool));
-
-            // Notifies all widgets registered as experience spenders and disables/enables
-            // increasing/decreasing buttons as necessary
-            notifyExperienceSpenders();
-
-            // Updates remaining experience, if any
-            saveExperience();
-        } else {
-
-            // It's pointless to execute this block if trying to decrease the experience below 0
-            if (experiencePool > 0) {
-
-                // Changes amount of experience in the pool
-                experiencePool--;
-
-                // Updates text in experience tracker widget
-                view.setExperience(String.valueOf(experiencePool));
-
-                // Notifies all widgets registered as experience spenders and disables/enables
-                // increasing/decreasing buttons as necessary
-                notifyExperienceSpenders();
-
-                // Updates remaining experience, if any
-                saveExperience();
-            }
-        }
     }
 
     // Separate method for handling experience saving (once again, similar but not equal to other
@@ -277,5 +244,124 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
             // I code this on an interface as opposed to simply adding a method to the widget?)
             experienceSpender.onCharacterExperienceChanged(experiencePool);
         }
+    }
+
+    // Separate method for setting up a spinner; I've been trying to generify this but without
+    // success so far - read below why
+    public void setUpDemeanorsSpinner() {
+        /** This extends a parametrized {@link io.realm.RealmBaseAdapter} */
+        DemeanorsAdapter demeanorsAdapter;
+
+        // Initializing the spinner takes:
+        // - a context
+        // - a list of objects of the right class
+        // - a flag for automaticUpdate (don't yet know what 'automatic update' means in this context)
+        demeanorsAdapter = new DemeanorsAdapter(context, model.getDemeanors(), true);
+
+        // Associate the adapter to the spinner (well, duh)
+        view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
+        setDemeanorsSpinnerSelection();
+    }
+
+    private void setDemeanorsSpinnerSelection() {
+        // Cycle through the list of objects and if the name matches that of the first item on the
+        // corresponding list for the character, set it as the selection for the spinner
+        RealmResults<Demeanor> demeanors = model.getDemeanors();
+
+        for (int i = 0; i < model.getDemeanors().size(); i++) {
+            Demeanor cycledDemeanor = demeanors.get(i);
+
+            // This one is REALLY shaky: the whole 'personality trait list' mumbo-jumbo is set up
+            // for the case that a character has a merit that lets it select multiple traits. This
+            // assumes that the object we want will always be the first one on the list, but what
+            // happens if, having more than one trait, somehow the order is changed?
+            // Having a map instead of a list probably would solve the issue, but there is no such
+            // thing as a RealmMap. An alternative would be to simply add a boolean isDefault flag
+            // to the trait class.
+            // TODO Find a better way to figure out which object to get, as opposed to simply the first
+
+            Demeanor currentDemeanor = queriedCharacter.getDemeanorTraits()
+                    .where()
+                    .equalTo("ordinal", 0)
+                    .findFirst()
+                    .getDemeanor();
+
+            if (cycledDemeanor.getName().equals(currentDemeanor.getName())) {
+                view.setDemeanorsSpinnerSelection(i);
+                break;
+            }
+        }
+    }
+
+    @Subscribe
+    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
+        model.updateCharacter(event.characterToUpdate);
+    }
+
+    @Subscribe
+    public void onDeleteCharacterEvent(DeleteCharacterEvent event) {
+        model.deleteCharacter(event.characterToDelete);
+    }
+
+    @Subscribe
+    public void onExperiencePoolChange(ExperiencePoolChangeEvent event) {
+        if (event.isIncrease) {
+
+            // Changes amount of experience in the pool
+            experiencePool++;
+
+            // Updates text in experience tracker widget
+            view.setExperience(String.valueOf(experiencePool));
+
+            // Notifies all widgets registered as experience spenders and disables/enables
+            // increasing/decreasing buttons as necessary
+            notifyExperienceSpenders();
+
+            // Updates remaining experience, if any
+            saveExperience();
+        } else {
+
+            // It's pointless to execute this block if trying to decrease the experience below 0
+            if (experiencePool > 0) {
+
+                // Changes amount of experience in the pool
+                experiencePool--;
+
+                // Updates text in experience tracker widget
+                view.setExperience(String.valueOf(experiencePool));
+
+                // Notifies all widgets registered as experience spenders and disables/enables
+                // increasing/decreasing buttons as necessary
+                notifyExperienceSpenders();
+
+                // Updates remaining experience, if any
+                saveExperience();
+            }
+        }
+    }
+
+    @Subscribe
+    public void onTraitChangedEvent(TraitChangedEvent event) {
+        DemeanorTrait demeanorTrait = event.demeanorTrait;
+        Long ordinal = demeanorTrait.getOrdinal();
+
+        Demeanor demeanor = demeanorTrait.getDemeanor();
+
+        // This will only work within a Realm transaction, gotta figure this out the old way
+//        updatedCharacter.getDemeanorTraits()
+//                .where()
+//                .equalTo("ordinal", ordinal)
+//                .findFirst()
+//                .setDemeanor(demeanor);
+
+        // This doesn't work either. Fuck.
+        for (DemeanorTrait trait : updatedCharacter.getDemeanorTraits()) {
+            if (trait.getOrdinal().equals(ordinal)) {
+                trait.setDemeanor(demeanor);
+                break;
+            }
+        }
+
+        // TODO Try committing this update now
     }
 }

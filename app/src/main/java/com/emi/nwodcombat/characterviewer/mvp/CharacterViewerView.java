@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.ViceRealmAdapter;
 import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
@@ -20,8 +21,10 @@ import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
+import com.emi.nwodcombat.model.realm.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
@@ -43,11 +46,6 @@ import io.realm.RealmResults;
  */
 public class CharacterViewerView extends FragmentView //implements OnTraitChangedListener {
 {
-
-    // Used for deciding what to do whenever a ValueSetterWidget value is changed: if the 'cheat'
-    // flag is on, experience is disregarded
-    // TODO Move this to model class
-    private SharedPreferences preferences;
 
     // Otto bus is used to forward actions to the model, bypassing the presenter
     // (Consideration: is it a good idea to bypass the presenter in the first place?)
@@ -769,6 +767,55 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         return experiencePool;
     }
 
+    public void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
+        spinnerDemeanor.setAdapter(demeanors);
+
+        // Vanilla listener setting - could have been managed as a parameter, except for one of one
+        // of the variables requiring that it be final, don't recall which now
+        spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Retrieve object based on spinner position
+                Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
+
+                // Set textView text according to object value
+                txtCharacterDemeanor.setText(demeanor.getName());
+                // Set textView visible
+                txtCharacterDemeanor.setVisibility(View.VISIBLE);
+                // Conceal spinner
+                spinnerDemeanor.setVisibility(View.GONE);
+
+                DemeanorTrait demeanorTrait = new DemeanorTrait();
+
+                demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
+                demeanorTrait.setDemeanor(demeanor);
+                // This should change depending on which demeanor we're
+                // editing: first, second, third, or whatever
+                demeanorTrait.setOrdinal(0L);
+
+                bus.post(new TraitChangedEvent(demeanorTrait));
+
+                // Empties list in the updatedCharacter object and adds the modified one.
+                // Major problem: if there are other objects in this list, they are gone, but
+                // modifying the entry itself means making changes to objects shared with other
+                // characters.
+                // Probably it would be a better idea to simply handle Entries, but personality
+                // traits have fields exclusive to their type, depending on which they are.
+                // Still need to figure this out, but as a proof of concept this is okay. Ish.
+                // (Spec: maybe storing the original value before replacement helps?)
+                // TODO Find a solution for the multiple item problem.
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+    }
+
+    public void setDemeanorsSpinnerSelection(int index) {
+        spinnerDemeanor.setSelection(index);
+    }
+
     public static class DeleteCharacterEvent {
         public Character characterToDelete;
 
@@ -789,5 +836,13 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         public boolean isIncrease;
 
         ExperiencePoolChangeEvent(boolean isIncrease) { this.isIncrease = isIncrease; }
+    }
+
+    public static class TraitChangedEvent {
+        public DemeanorTrait demeanorTrait;
+
+        TraitChangedEvent(DemeanorTrait demeanorTrait) {
+            this.demeanorTrait = demeanorTrait;
+        }
     }
 }

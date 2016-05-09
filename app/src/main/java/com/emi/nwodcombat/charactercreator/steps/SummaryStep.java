@@ -12,6 +12,7 @@ import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
@@ -155,6 +156,13 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         character.getNatures().add(nature);
         character.getVices().add(vice);
         character.getVirtues().add(virtue);
+
+        DemeanorTrait demeanorTrait = new DemeanorTrait();
+        demeanorTrait.setOrdinal((long) helper.getDemeanorTraitCount());
+        demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
+        demeanorTrait.setDemeanor(demeanor);
+
+        character.getDemeanorTraits().add(demeanorTrait);
     }
 
     private void addFieldToCharacter(String key, String value) {
