@@ -2,6 +2,10 @@ package com.emi.nwodcombat.model.realm;
 
 import android.support.annotation.NonNull;
 
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 
@@ -18,8 +22,10 @@ public class Character extends RealmObject {
     @PrimaryKey
     private Long id;
 
-    // TODO Consider packaging each personality trait class in a wrapper for ease of edition
     private RealmList<DemeanorTrait> demeanorTraits = new RealmList<>();
+    private RealmList<NatureTrait> natureTraits = new RealmList<>();
+    private RealmList<ViceTrait> viceTraits = new RealmList<>();
+    private RealmList<VirtueTrait> virtueTraits = new RealmList<>();
     private RealmList<Entry> entries = new RealmList<>();
     private RealmList<Nature> natures = new RealmList<>();
     private RealmList<Demeanor> demeanors = new RealmList<>();
@@ -96,19 +102,19 @@ public class Character extends RealmObject {
     }
 
     public String getFirstDemeanor() {
-        return getDemeanors().first().getName();
+        return getDemeanorTraits().first().getDemeanor().getName();
     }
 
     public String getFirstNature() {
-        return getNatures().first().getName();
+        return getNatureTraits().first().getNature().getName();
     }
 
     public String getFirstVice() {
-        return getVices().first().getName();
+        return getViceTraits().first().getVice().getName();
     }
 
     public String getFirstVirtue() {
-        return getVirtues().first().getName();
+        return getVirtueTraits().first().getVirtue().getName();
     }
 
     public String getName() {
@@ -289,5 +295,29 @@ public class Character extends RealmObject {
 
     public void setDemeanorTraits(RealmList<DemeanorTrait> demeanorTraits) {
         this.demeanorTraits = demeanorTraits;
+    }
+
+    public RealmList<NatureTrait> getNatureTraits() {
+        return natureTraits;
+    }
+
+    public void setNatureTraits(RealmList<NatureTrait> natureTraits) {
+        this.natureTraits = natureTraits;
+    }
+
+    public RealmList<ViceTrait> getViceTraits() {
+        return viceTraits;
+    }
+
+    public void setViceTraits(RealmList<ViceTrait> viceTraits) {
+        this.viceTraits = viceTraits;
+    }
+
+    public RealmList<VirtueTrait> getVirtueTraits() {
+        return virtueTraits;
+    }
+
+    public void setVirtueTraits(RealmList<VirtueTrait> virtueTraits) {
+        this.virtueTraits = virtueTraits;
     }
 }

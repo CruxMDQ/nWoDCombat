@@ -4,14 +4,19 @@ import android.content.Context;
 
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
+import com.emi.nwodcombat.adapters.ViceRealmAdapter;
+import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.DemeanorTraitChangedEvent;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.ExperiencePoolChangeEvent;
-import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.TraitChangedEvent;
+import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.NatureTraitChangedEvent;
 import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.model.realm.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.Nature;
+import com.emi.nwodcombat.model.realm.Vice;
+import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -61,15 +66,15 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setUpView(long idCharacter) {
         queriedCharacter = model.getQueriedCharacter(idCharacter);
         updatedCharacter.setId(queriedCharacter.getId());
-        updatedCharacter.setDemeanorTraits(queriedCharacter.getDemeanorTraits());
+//        updatedCharacter.setDemeanorTraits(queriedCharacter.getDemeanorTraits());
+//        updatedCharacter.setNatureTraits(queriedCharacter.getNatureTraits());
 
         experiencePool = Integer.valueOf(queriedCharacter.getExperience().getValue());
 
         setUpDemeanorsSpinner();
-//        view.setUpVirtueSpinner(model.getVirtues());
-//        view.setUpViceSpinner(model.getVices());
-//        view.setUpNaturesSpinner(model.getNatures());
-//        view.setUpDemeanorsSpinner(model.getDemeanors());
+        setUpNaturesSpinner();
+        setUpVicesSpinner();
+        setUpVirtuesSpinner();
 
         // Populate personal info cardview
         view.setCharacterName(queriedCharacter.getName());
@@ -77,10 +82,10 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         view.setCharacterPlayer(queriedCharacter.getPlayer());
 
         // Populate personality traits cardview
-        view.setCharacterVirtue(queriedCharacter.getFirstVirtue());
-        view.setCharacterVice(queriedCharacter.getFirstVice());
         view.setCharacterNature(queriedCharacter.getFirstNature());
         view.setCharacterDemeanor(queriedCharacter.getFirstDemeanor());
+        view.setCharacterVice(queriedCharacter.getFirstVice());
+        view.setCharacterVirtue(queriedCharacter.getFirstVirtue());
 
         view.setUpExperienceSpendingWidget(queriedCharacter.getExperience());
 
@@ -260,6 +265,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
         // Associate the adapter to the spinner (well, duh)
         view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
+
         setDemeanorsSpinnerSelection();
     }
 
@@ -271,24 +277,103 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         for (int i = 0; i < model.getDemeanors().size(); i++) {
             Demeanor cycledDemeanor = demeanors.get(i);
 
-            // This one is REALLY shaky: the whole 'personality trait list' mumbo-jumbo is set up
-            // for the case that a character has a merit that lets it select multiple traits. This
-            // assumes that the object we want will always be the first one on the list, but what
-            // happens if, having more than one trait, somehow the order is changed?
-            // Having a map instead of a list probably would solve the issue, but there is no such
-            // thing as a RealmMap. An alternative would be to simply add a boolean isDefault flag
-            // to the trait class.
-            // TODO Find a better way to figure out which object to get, as opposed to simply the first
-
             Demeanor currentDemeanor = queriedCharacter.getDemeanorTraits()
-                    .where()
-                    .equalTo("ordinal", 0)
-                    .findFirst()
-                    .getDemeanor();
+                .where()
+                .equalTo("ordinal", 0)
+                .findFirst()
+                .getDemeanor();
 
             if (cycledDemeanor.getName().equals(currentDemeanor.getName())) {
                 view.setDemeanorsSpinnerSelection(i);
+                view.setDemeanorSpinnerLabel(currentDemeanor.getName());
                 break;
+            }
+        }
+    }
+
+    public void setUpNaturesSpinner() {
+        NaturesAdapter naturesAdapter;
+
+        naturesAdapter = new NaturesAdapter(context, model.getNatures(), true);
+
+        view.setNaturesSpinnerAdapter(naturesAdapter);
+
+        setNaturesSpinnerSelection();
+    }
+
+    private void setNaturesSpinnerSelection() {
+        RealmResults<Nature> natures = model.getNatures();
+
+        for (int i = 0; i < model.getNatures().size(); i++) {
+            Nature cycledNature = natures.get(i);
+
+            Nature currentNature = queriedCharacter.getNatureTraits()
+                .where()
+                .equalTo("ordinal", 0)
+                .findFirst()
+                .getNature();
+
+            if (cycledNature.getName().equals(currentNature.getName())) {
+                view.setNaturesSpinnerSelection(i);
+                view.setNatureSpinnerLabel(currentNature.getName());
+            }
+        }
+    }
+
+    public void setUpVicesSpinner() {
+        ViceRealmAdapter viceRealmAdapter;
+
+        viceRealmAdapter = new ViceRealmAdapter(context, model.getVices(), true);
+
+        view.setVicesSpinnerAdapter(viceRealmAdapter);
+
+        setVicesSpinnerSelection();
+    }
+
+    private void setVicesSpinnerSelection() {
+        RealmResults<Vice> vices = model.getVices();
+
+        for (int i = 0; i < model.getVices().size(); i++) {
+            Vice cycledVice = vices.get(i);
+
+            Vice currentVice = queriedCharacter.getViceTraits()
+                .where()
+                .equalTo("ordinal", 0)
+                .findFirst()
+                .getVice();
+
+            if (cycledVice.getName().equals(currentVice.getName())) {
+                view.setVicesSpinnerSelection(i);
+                view.setViceSpinnerLabel(currentVice.getName());
+            }
+        }
+    }
+
+    public void setUpVirtuesSpinner() {
+        VirtueRealmAdapter virtueRealmAdapter;
+
+        virtueRealmAdapter = new VirtueRealmAdapter(context, model.getVirtues(), true);
+
+        view.setVirtuesSpinnerAdapter(virtueRealmAdapter);
+
+        setVirtuesSpinnerSelection();
+    }
+
+    private void setVirtuesSpinnerSelection() {
+        RealmResults<Virtue> virtues = model.getVirtues();
+
+        for (int i = 0; i < model.getVirtues().size(); i++) {
+            Virtue cycledVirtue = virtues.get(i);
+
+            Virtue currentVirtue = queriedCharacter.getVirtueTraits()
+                .where()
+                .equalTo("ordinal", 0)
+                .findFirst()
+                .getVirtue();
+
+            if (cycledVirtue.getName().equals(currentVirtue.getName())) {
+                view.setVirtuesSpinnerSelection(i);
+                view.setVirtueSpinnerLabel(currentVirtue.getName());
             }
         }
     }
@@ -341,27 +426,23 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Subscribe
-    public void onTraitChangedEvent(TraitChangedEvent event) {
-        DemeanorTrait demeanorTrait = event.demeanorTrait;
-        Long ordinal = demeanorTrait.getOrdinal();
+    public void onDemeanorTraitChangedEvent(DemeanorTraitChangedEvent event) {
+        // Pass the updating operation straight out to the model to handle
+        model.updateDemeanorTrait(queriedCharacter.getId(), event.demeanorTrait);
+    }
 
-        Demeanor demeanor = demeanorTrait.getDemeanor();
+    @Subscribe
+    public void onNatureTraitChangedEvent(NatureTraitChangedEvent event) {
+        model.updateNatureTrait(queriedCharacter.getId(), event.natureTrait);
+    }
 
-        // This will only work within a Realm transaction, gotta figure this out the old way
-//        updatedCharacter.getDemeanorTraits()
-//                .where()
-//                .equalTo("ordinal", ordinal)
-//                .findFirst()
-//                .setDemeanor(demeanor);
+    @Subscribe
+    public void onViceTraitChangedEvent(CharacterViewerView.ViceTraitChangedEvent event) {
+        model.updateViceTrait(queriedCharacter.getId(), event.viceTrait);
+    }
 
-        // This doesn't work either. Fuck.
-        for (DemeanorTrait trait : updatedCharacter.getDemeanorTraits()) {
-            if (trait.getOrdinal().equals(ordinal)) {
-                trait.setDemeanor(demeanor);
-                break;
-            }
-        }
-
-        // TODO Try committing this update now
+    @Subscribe
+    public void onVirtueTraitChangedEvent(CharacterViewerView.VirtueTraitChangedEvent event) {
+        model.updateVirtueTrait(queriedCharacter.getId(), event.virtueTrait);
     }
 }

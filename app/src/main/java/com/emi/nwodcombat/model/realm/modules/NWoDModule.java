@@ -1,6 +1,6 @@
 package com.emi.nwodcombat.model.realm.modules;
 
-import com.emi.nwodcombat.model.realm.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;

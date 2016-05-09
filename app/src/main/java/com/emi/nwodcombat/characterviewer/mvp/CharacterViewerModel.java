@@ -6,9 +6,13 @@ import android.content.SharedPreferences;
 
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Nature;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.utils.Constants;
 
@@ -66,5 +70,22 @@ public class CharacterViewerModel {
                 Context.MODE_PRIVATE);
         }
         return preferences;
+    }
+
+    public void updateDemeanorTrait(Long characterId, DemeanorTrait demeanorTrait) {
+        helper.updateDemeanorTrait(characterId, demeanorTrait);
+    }
+
+    public void updateNatureTrait(Long characterId, NatureTrait natureTrait) {
+        helper.updateNatureTrait(characterId, natureTrait);
+    }
+
+    public void updateViceTrait(Long characterId, ViceTrait viceTrait) {
+        helper.updateViceTrait(characterId, viceTrait);
+    }
+
+
+    public void updateVirtueTrait(Long characterId, VirtueTrait virtueTrait) {
+        helper.updateVirtueTrait(characterId, virtueTrait);
     }
 }

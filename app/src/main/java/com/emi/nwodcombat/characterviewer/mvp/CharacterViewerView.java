@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +20,12 @@ import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
-import com.emi.nwodcombat.model.realm.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
@@ -233,11 +235,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
                 Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
 
                 // Set textView text according to object value
-                txtCharacterDemeanor.setText(demeanor.getName());
-                // Set textView visible
-                txtCharacterDemeanor.setVisibility(View.VISIBLE);
-                // Conceal spinner
-                spinnerDemeanor.setVisibility(View.GONE);
+                setDemeanorSpinnerLabel(demeanor.getName());
 
                 // Empties list in the updatedCharacter object and adds the modified one.
                 // Major problem: if there are other objects in this list, they are gone, but
@@ -293,7 +291,8 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -329,7 +328,8 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -779,41 +779,141 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
                 Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
 
                 // Set textView text according to object value
-                txtCharacterDemeanor.setText(demeanor.getName());
-                // Set textView visible
-                txtCharacterDemeanor.setVisibility(View.VISIBLE);
-                // Conceal spinner
-                spinnerDemeanor.setVisibility(View.GONE);
+                setDemeanorSpinnerLabel(demeanor.getName());
 
+                // This object will be posted for handling by the model
                 DemeanorTrait demeanorTrait = new DemeanorTrait();
 
                 demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
                 demeanorTrait.setDemeanor(demeanor);
+
                 // This should change depending on which demeanor we're
                 // editing: first, second, third, or whatever
                 demeanorTrait.setOrdinal(0L);
 
-                bus.post(new TraitChangedEvent(demeanorTrait));
-
-                // Empties list in the updatedCharacter object and adds the modified one.
-                // Major problem: if there are other objects in this list, they are gone, but
-                // modifying the entry itself means making changes to objects shared with other
-                // characters.
-                // Probably it would be a better idea to simply handle Entries, but personality
-                // traits have fields exclusive to their type, depending on which they are.
-                // Still need to figure this out, but as a proof of concept this is okay. Ish.
-                // (Spec: maybe storing the original value before replacement helps?)
-                // TODO Find a solution for the multiple item problem.
+                bus.post(new DemeanorTraitChangedEvent(demeanorTrait));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
     }
 
+    public void setDemeanorSpinnerLabel(String text) {
+        // Set textView text according to object value
+        txtCharacterDemeanor.setText(text);
+        // Set textView visible
+        txtCharacterDemeanor.setVisibility(View.VISIBLE);
+        // Conceal spinner
+        spinnerDemeanor.setVisibility(View.GONE);
+    }
+
     public void setDemeanorsSpinnerSelection(int index) {
         spinnerDemeanor.setSelection(index);
+    }
+
+    public void setNaturesSpinnerAdapter(NaturesAdapter natures) {
+        spinnerNature.setAdapter(natures);
+
+        spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
+
+                setNatureSpinnerLabel(nature.getName());
+
+                NatureTrait natureTrait = new NatureTrait();
+                natureTrait.setType(Constants.CHARACTER_NATURE);
+                natureTrait.setNature(nature);
+                natureTrait.setOrdinal(0L);
+
+                bus.post(new NatureTraitChangedEvent(natureTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void setNatureSpinnerLabel(String text) {
+        txtCharacterNature.setText(text);
+        txtCharacterNature.setVisibility(View.VISIBLE);
+        spinnerNature.setVisibility(View.GONE);
+    }
+
+    public void setNaturesSpinnerSelection(int index) {
+        spinnerNature.setSelection(index);
+    }
+
+    public void setVicesSpinnerAdapter(ViceRealmAdapter vices) {
+        spinnerVice.setAdapter(vices);
+
+        spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Vice vice = ((Vice) spinnerVice.getItemAtPosition(position));
+
+                setViceSpinnerLabel(vice.getName());
+
+                ViceTrait viceTrait = new ViceTrait();
+                viceTrait.setType(Constants.CHARACTER_NATURE);
+                viceTrait.setVice(vice);
+                viceTrait.setOrdinal(0L);
+
+                bus.post(new ViceTraitChangedEvent(viceTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void setViceSpinnerLabel(String text) {
+        txtCharacterVice.setText(text);
+        txtCharacterVice.setVisibility(View.VISIBLE);
+        spinnerVice.setVisibility(View.GONE);
+    }
+
+    public void setVicesSpinnerSelection(int index) {
+        spinnerVice.setSelection(index);
+    }
+
+    public void setVirtuesSpinnerAdapter(VirtueRealmAdapter virtues) {
+        spinnerVirtue.setAdapter(virtues);
+
+        spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Virtue virtue = ((Virtue) spinnerVirtue.getItemAtPosition(position));
+
+                setVirtueSpinnerLabel(virtue.getName());
+
+                VirtueTrait virtueTrait = new VirtueTrait();
+                virtueTrait.setType(Constants.CHARACTER_NATURE);
+                virtueTrait.setVirtue(virtue);
+                virtueTrait.setOrdinal(0L);
+
+                bus.post(new VirtueTraitChangedEvent(virtueTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void setVirtueSpinnerLabel(String text) {
+        txtCharacterVirtue.setText(text);
+        txtCharacterVirtue.setVisibility(View.VISIBLE);
+        spinnerVirtue.setVisibility(View.GONE);
+    }
+
+    public void setVirtuesSpinnerSelection(int index) {
+        spinnerVirtue.setSelection(index);
     }
 
     public static class DeleteCharacterEvent {
@@ -838,11 +938,35 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         ExperiencePoolChangeEvent(boolean isIncrease) { this.isIncrease = isIncrease; }
     }
 
-    public static class TraitChangedEvent {
+    public static class DemeanorTraitChangedEvent {
         public DemeanorTrait demeanorTrait;
 
-        TraitChangedEvent(DemeanorTrait demeanorTrait) {
+        DemeanorTraitChangedEvent(DemeanorTrait demeanorTrait) {
             this.demeanorTrait = demeanorTrait;
+        }
+    }
+
+    public static class NatureTraitChangedEvent {
+        public NatureTrait natureTrait;
+
+        public NatureTraitChangedEvent(NatureTrait natureTrait) {
+            this.natureTrait = natureTrait;
+        }
+    }
+
+    public static class ViceTraitChangedEvent {
+        public ViceTrait viceTrait;
+
+        public ViceTraitChangedEvent(ViceTrait viceTrait) {
+            this.viceTrait = viceTrait;
+        }
+    }
+
+    public class VirtueTraitChangedEvent {
+        public VirtueTrait virtueTrait;
+
+        public VirtueTraitChangedEvent(VirtueTrait virtueTrait) {
+            this.virtueTrait = virtueTrait;
         }
     }
 }

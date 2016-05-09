@@ -12,11 +12,14 @@ import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
-import com.emi.nwodcombat.model.realm.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.utils.Constants;
@@ -152,17 +155,33 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         Vice vice = helper.get(Vice.class, characterVice);
         Virtue virtue = helper.get(Virtue.class, characterVirtue);
 
-        character.getDemeanors().add(demeanor);
-        character.getNatures().add(nature);
-        character.getVices().add(vice);
-        character.getVirtues().add(virtue);
-
         DemeanorTrait demeanorTrait = new DemeanorTrait();
         demeanorTrait.setOrdinal((long) helper.getDemeanorTraitCount());
         demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
         demeanorTrait.setDemeanor(demeanor);
 
         character.getDemeanorTraits().add(demeanorTrait);
+
+        NatureTrait natureTrait = new NatureTrait();
+        natureTrait.setOrdinal((long) helper.getNatureTraitCount());
+        natureTrait.setType(Constants.CHARACTER_NATURE);
+        natureTrait.setNature(nature);
+
+        character.getNatureTraits().add(natureTrait);
+
+        ViceTrait viceTrait = new ViceTrait();
+        viceTrait.setOrdinal((long) helper.getViceTraitCount());
+        viceTrait.setType(Constants.CHARACTER_VICE);
+        viceTrait.setVice(vice);
+
+        character.getViceTraits().add(viceTrait);
+
+        VirtueTrait virtueTrait = new VirtueTrait();
+        virtueTrait.setOrdinal((long) helper.getVirtueTraitCount());
+        virtueTrait.setType(Constants.CHARACTER_VIRTUE);
+        virtueTrait.setVirtue(virtue);
+
+        character.getVirtueTraits().add(virtueTrait);
     }
 
     private void addFieldToCharacter(String key, String value) {
