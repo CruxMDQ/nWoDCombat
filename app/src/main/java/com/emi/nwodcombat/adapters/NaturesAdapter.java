@@ -22,7 +22,7 @@ public class NaturesAdapter extends RealmBaseAdapter<Nature> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.text = (TextView) convertView.findViewById(android.R.id.text1);
             convertView.setTag(viewHolder);
