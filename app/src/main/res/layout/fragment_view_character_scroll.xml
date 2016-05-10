@@ -891,6 +891,7 @@
                         app:showEditionPanel="false"
                         app:traitCategory="@string/cat_derived"
                         app:valueDefault="1"
+                        app:valueMaximum="10"
                         app:valueName="@string/trait_morality"/>
 
                     <view
@@ -912,6 +913,7 @@
                         app:showEditionPanel="false"
                         app:traitCategory="@string/cat_derived"
                         app:valueDefault="1"
+                        app:valueMaximum="10"
                         app:valueName="@string/trait_willpower"/>
                 </LinearLayout>
             </LinearLayout>

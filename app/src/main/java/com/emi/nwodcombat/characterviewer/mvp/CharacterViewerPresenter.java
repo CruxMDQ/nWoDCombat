@@ -121,16 +121,13 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         experienceSpenders.add(view.setUpWidgetStreetwise(this, queriedCharacter.getStreetwise()));
         experienceSpenders.add(view.setUpWidgetSubterfuge(this, queriedCharacter.getSubterfuge()));
 
-//        experienceSpenders.add(view.setUpWidgetDefense(this, queriedCharacter.getDefense()));
-        view.setUpWidgetDefense(this, queriedCharacter.getDefense());
-//        experienceSpenders.add(view.setUpWidgetHealth(this, queriedCharacter.getHealth()));
-        view.setUpWidgetHealth(this, queriedCharacter.getHealth());
-//        experienceSpenders.add(view.setUpWidgetInitiative(this, queriedCharacter.getInitiative()));
-        view.setUpWidgetInitiative(this, queriedCharacter.getInitiative());
         experienceSpenders.add(view.setUpWidgetMorality(this, queriedCharacter.getMorality()));
-//        experienceSpenders.add(view.setUpWidgetSpeed(this, queriedCharacter.getSpeed()));
-        view.setUpWidgetSpeed(this, queriedCharacter.getSpeed());
         experienceSpenders.add(view.setUpWidgetWillpower(this, queriedCharacter.getWillpower()));
+
+        view.setUpWidgetDefense(this, queriedCharacter.getDefense());
+        view.setUpWidgetHealth(this, queriedCharacter.getHealth());
+        view.setUpWidgetInitiative(this, queriedCharacter.getInitiative());
+        view.setUpWidgetSpeed(this, queriedCharacter.getSpeed());
     }
 
     // Sends menu option selection event to the view for processing
