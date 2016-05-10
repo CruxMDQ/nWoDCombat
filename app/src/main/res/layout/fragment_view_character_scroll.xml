@@ -120,22 +120,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_virtue"/>
 
-                    <TextView
-                        android:id="@+id/txtCharacterVirtue"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1"
-                        android:text="@string/hint_tap_to_select"
-                        android:visibility="visible"/>
-
                     <Spinner
                         android:id="@+id/spinnerVirtue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
                         android:layout_weight="1"
-                        android:visibility="gone"/>
+                        android:visibility="visible"/>
 
                     <Button
                         android:id="@+id/btnAddVirtue"
@@ -160,22 +151,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_vice"/>
 
-                    <TextView
-                        android:id="@+id/txtCharacterVice"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1"
-                        android:text="@string/hint_tap_to_select"
-                        android:visibility="visible"/>
-
                     <Spinner
                         android:id="@+id/spinnerVice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
                         android:layout_weight="1"
-                        android:visibility="gone"/>
+                        android:visibility="visible"/>
 
                     <Button
                         android:id="@+id/btnAddVice"
@@ -200,22 +182,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_nature"/>
 
-                    <TextView
-                        android:id="@+id/txtCharacterNature"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1"
-                        android:text="@string/hint_tap_to_select"
-                        android:visibility="visible"/>
-
                     <Spinner
                         android:id="@+id/spinnerNature"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
                         android:layout_weight="1"
-                        android:visibility="gone"/>
+                        android:visibility="visible"/>
 
                     <Button
                         android:id="@+id/btnAddNature"
@@ -240,22 +213,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_demeanor"/>
 
-                    <TextView
-                        android:id="@+id/txtCharacterDemeanor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1"
-                        android:text="@string/hint_tap_to_select"
-                        android:visibility="visible"/>
-
                     <Spinner
                         android:id="@+id/spinnerDemeanor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
                         android:layout_weight="1"
-                        android:visibility="gone"/>
+                        android:visibility="visible"/>
 
                     <Button
                         android:id="@+id/btnAddDemeanor"

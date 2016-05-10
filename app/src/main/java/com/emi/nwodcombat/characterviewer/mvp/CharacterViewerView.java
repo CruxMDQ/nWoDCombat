@@ -47,28 +47,11 @@ import butterknife.OnClick;
  */
 public class CharacterViewerView extends FragmentView //implements OnTraitChangedListener {
 {
-
-    // Otto bus is used to forward actions to the model, bypassing the presenter
-    // (Consideration: is it a good idea to bypass the presenter in the first place?)
+    // Otto bus is used to forward actions to the model
     private final Bus bus;
-
-    // Character object being viewed
-    private Character character;
-
-    // Object that will be used to update the character being viewed
-    private Character updatedCharacter = new Character();
 
     // This stores all the components that will increase or decrease the experience score
     private ArrayList<ValueSetter> valueSetters = new ArrayList<>();
-
-    // This flag checks whether anything has been changed on the updatedCharacter object - if it's
-    // called far from it, then probably there's trouble
-    private boolean hasChanges = false;
-
-    // Variable to keep track of the amount of experience the character has available to spend
-    // (Spec: probably a good idea to do away with it? Or, at least, to streamline how experience
-    // is managed - stuff is rather disorganized)
-    private int experiencePool = 0;
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;
@@ -78,11 +61,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
     @Bind(R.id.spinnerVice) Spinner spinnerVice;
     @Bind(R.id.spinnerNature) Spinner spinnerNature;
     @Bind(R.id.spinnerDemeanor) Spinner spinnerDemeanor;
-
-    @Bind(R.id.txtCharacterVirtue) TextView txtCharacterVirtue;
-    @Bind(R.id.txtCharacterVice) TextView txtCharacterVice;
-    @Bind(R.id.txtCharacterNature) TextView txtCharacterNature;
-    @Bind(R.id.txtCharacterDemeanor) TextView txtCharacterDemeanor;
 
     @Bind(R.id.txtMentalAttrsTitle) TextView txtMentalAttrsTitle;
     @Bind(R.id.txtPhysicalAttrsTitle) TextView txtPhysicalAttrsTitle;
@@ -151,34 +129,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         ButterKnife.bind(this, fragment.getView());
     }
 
-    // Personality trait on-click method - may get the axe if UI changes into something better
-    @OnClick(R.id.txtCharacterNature)
-    public void onNatureClicked() {
-        txtCharacterNature.setVisibility(View.GONE);
-        spinnerNature.setVisibility(View.VISIBLE);
-    }
-
-    // Personality trait on-click method - may get the axe if UI changes into something better
-    @OnClick(R.id.txtCharacterDemeanor)
-    public void onDemeanorClicked() {
-        txtCharacterDemeanor.setVisibility(View.GONE);
-        spinnerDemeanor.setVisibility(View.VISIBLE);
-    }
-
-    // Personality trait on-click method - may get the axe if UI changes into something better
-    @OnClick(R.id.txtCharacterVice)
-    public void onViceClicked() {
-        txtCharacterVice.setVisibility(View.GONE);
-        spinnerVice.setVisibility(View.VISIBLE);
-    }
-
-    // Personality trait on-click method - may get the axe if UI changes into something better
-    @OnClick(R.id.txtCharacterVirtue)
-    public void onVirtueClicked() {
-        txtCharacterVirtue.setVisibility(View.GONE);
-        spinnerVirtue.setVisibility(View.VISIBLE);
-    }
-
     // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
     public void onExperienceAdded() {
@@ -193,8 +143,9 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
 
     /**
      * Callback from presenter; handles what happens when the 'Delete' button is tapped
+     * @param queriedCharacter
      */
-    public void onCharacterDelete() {
+    public void onCharacterDelete(final Character queriedCharacter) {
         // Just your run-of-the-mill Snackbar instantiation - nothing to see here
         final Snackbar snackbar = Snackbar.make(scrollCharView,
                 getActivity().getString(R.string.alert_character_delete), Snackbar.LENGTH_SHORT);
@@ -204,7 +155,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             @Override
             public void onClick(View v) {
                 // Create event for character deletion, to be digested by model class
-                bus.post(new DeleteCharacterEvent(updatedCharacter));
+                bus.post(new DeleteCharacterEvent(queriedCharacter));
                 // Pop back stack and remove this fragment
                 CharacterViewerView.this.getFragmentManager().popBackStack();
             }
@@ -537,22 +488,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         txtCharacterPlayer.setText(player);
     }
 
-    public void setCharacterVirtue(String firstVirtue) {
-        txtCharacterVirtue.setText(firstVirtue);
-    }
-
-    public void setCharacterVice(String firstVice) {
-        txtCharacterVice.setText(firstVice);
-    }
-
-    public void setCharacterNature(String firstNature) {
-        txtCharacterNature.setText(firstNature);
-    }
-
-    public void setCharacterDemeanor(String firstDemeanor) {
-        txtCharacterDemeanor.setText(firstDemeanor);
-    }
-
     /*** Sets up the components that does the experience spending - in a way similar to but not
      * exactly equal to a ValueSetter (which invites again the question: is it worth handling
      * separately? Just how much experience is a character going to have at any time?)
@@ -598,9 +533,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
                 // Retrieve object based on spinner position
                 Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
 
-                // Set textView text according to object value
-                setDemeanorSpinnerLabel(demeanor.getName());
-
                 // This object will be posted for handling by the model
                 DemeanorTrait demeanorTrait = new DemeanorTrait();
 
@@ -621,15 +553,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
 
     }
 
-    public void setDemeanorSpinnerLabel(String text) {
-        // Set textView text according to object value
-        txtCharacterDemeanor.setText(text);
-        // Set textView visible
-        txtCharacterDemeanor.setVisibility(View.VISIBLE);
-        // Conceal spinner
-        spinnerDemeanor.setVisibility(View.GONE);
-    }
-
     public void setDemeanorsSpinnerSelection(int index) {
         spinnerDemeanor.setSelection(index);
     }
@@ -641,8 +564,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
-
-                setNatureSpinnerLabel(nature.getName());
 
                 NatureTrait natureTrait = new NatureTrait();
                 natureTrait.setType(Constants.CHARACTER_NATURE);
@@ -658,12 +579,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         });
     }
 
-    public void setNatureSpinnerLabel(String text) {
-        txtCharacterNature.setText(text);
-        txtCharacterNature.setVisibility(View.VISIBLE);
-        spinnerNature.setVisibility(View.GONE);
-    }
-
     public void setNaturesSpinnerSelection(int index) {
         spinnerNature.setSelection(index);
     }
@@ -675,8 +590,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Vice vice = ((Vice) spinnerVice.getItemAtPosition(position));
-
-                setViceSpinnerLabel(vice.getName());
 
                 ViceTrait viceTrait = new ViceTrait();
                 viceTrait.setType(Constants.CHARACTER_NATURE);
@@ -692,12 +605,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         });
     }
 
-    public void setViceSpinnerLabel(String text) {
-        txtCharacterVice.setText(text);
-        txtCharacterVice.setVisibility(View.VISIBLE);
-        spinnerVice.setVisibility(View.GONE);
-    }
-
     public void setVicesSpinnerSelection(int index) {
         spinnerVice.setSelection(index);
     }
@@ -709,8 +616,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Virtue virtue = ((Virtue) spinnerVirtue.getItemAtPosition(position));
-
-                setVirtueSpinnerLabel(virtue.getName());
 
                 VirtueTrait virtueTrait = new VirtueTrait();
                 virtueTrait.setType(Constants.CHARACTER_NATURE);
@@ -724,12 +629,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-    }
-
-    public void setVirtueSpinnerLabel(String text) {
-        txtCharacterVirtue.setText(text);
-        txtCharacterVirtue.setVisibility(View.VISIBLE);
-        spinnerVirtue.setVisibility(View.GONE);
     }
 
     public void setVirtuesSpinnerSelection(int index) {

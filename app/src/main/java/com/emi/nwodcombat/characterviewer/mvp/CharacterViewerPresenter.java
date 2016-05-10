@@ -68,12 +68,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         view.setCharacterConcept(queriedCharacter.getConcept());
         view.setCharacterPlayer(queriedCharacter.getPlayer());
 
-        // Populate personality traits cardview
-        view.setCharacterNature(queriedCharacter.getFirstNature());
-        view.setCharacterDemeanor(queriedCharacter.getFirstDemeanor());
-        view.setCharacterVice(queriedCharacter.getFirstVice());
-        view.setCharacterVirtue(queriedCharacter.getFirstVirtue());
-
         view.setUpExperienceSpendingWidget(queriedCharacter.getExperience());
 
         setUpStatWidgets();
@@ -132,7 +126,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
     // Sends menu option selection event to the view for processing
     public void onCharacterDelete() {
-        view.onCharacterDelete();
+        view.onCharacterDelete(queriedCharacter);
     }
 
     // Separate method for handling experience saving (once again, similar but not equal to other
@@ -214,7 +208,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             if (cycledDemeanor.getName().equals(currentDemeanor.getName())) {
                 view.setDemeanorsSpinnerSelection(i);
-                view.setDemeanorSpinnerLabel(currentDemeanor.getName());
                 break;
             }
         }
@@ -244,7 +237,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             if (cycledNature.getName().equals(currentNature.getName())) {
                 view.setNaturesSpinnerSelection(i);
-                view.setNatureSpinnerLabel(currentNature.getName());
             }
         }
     }
@@ -273,7 +265,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             if (cycledVice.getName().equals(currentVice.getName())) {
                 view.setVicesSpinnerSelection(i);
-                view.setViceSpinnerLabel(currentVice.getName());
             }
         }
     }
@@ -302,7 +293,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             if (cycledVirtue.getName().equals(currentVirtue.getName())) {
                 view.setVirtuesSpinnerSelection(i);
-                view.setVirtueSpinnerLabel(currentVirtue.getName());
             }
         }
     }
