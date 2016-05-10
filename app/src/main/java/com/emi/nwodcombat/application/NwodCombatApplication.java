@@ -38,7 +38,7 @@ public class NwodCombatApplication extends Application {
     private void generateRealmVirtues() {
         Gson gson = new Gson();
 
-        if (helper.getCountVirtue() == 0) {
+        if (helper.getCount(Virtue.class) == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
             VirtuePojo charity = new VirtuePojo();
@@ -97,7 +97,7 @@ public class NwodCombatApplication extends Application {
     private void generateRealmVices() {
         Gson gson = new Gson();
 
-        if (helper.getCountVice() == 0) {
+        if (helper.getCount(Vice.class) == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
 //            envy.setId(Long.valueOf(helper.getCount(Vice.class)));
@@ -158,7 +158,7 @@ public class NwodCombatApplication extends Application {
 
         Gson gson = new Gson();
 
-        if (helper.getCountPersonalityArchetype() == 0) {
+        if (helper.getCount(Nature.class) == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
             PersonalityArchetypePojo authoritarian = new PersonalityArchetypePojo();

@@ -17,13 +17,11 @@ import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 import io.realm.RealmResults;
 
@@ -42,13 +40,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     // Character object being viewed
     private Character queriedCharacter;
 
-    // Object that will be used to update the character being viewed
-    private Character updatedCharacter = new Character();
-
-    // This flag checks whether anything has been changed on the updatedCharacter object - if it's
-    // called far from it, then probably there's trouble
-    private boolean hasChanges = false;
-
     // Variable to keep track of the amount of experience the character has available to spend
     // (Spec: probably a good idea to do away with it? Or, at least, to streamline how experience
     // is managed - stuff is rather disorganized)
@@ -65,9 +56,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
     public void setUpView(long idCharacter) {
         queriedCharacter = model.getQueriedCharacter(idCharacter);
-        updatedCharacter.setId(queriedCharacter.getId());
-//        updatedCharacter.setDemeanorTraits(queriedCharacter.getDemeanorTraits());
-//        updatedCharacter.setNatureTraits(queriedCharacter.getNatureTraits());
 
         experiencePool = Integer.valueOf(queriedCharacter.getExperience().getValue());
 
@@ -146,14 +134,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         experienceSpenders.add(view.setUpWidgetWillpower(this, queriedCharacter.getWillpower()));
     }
 
-    public void onPause() {
-        // If there have been any changes...
-        if (hasChanges) {
-            // ...you update the character
-            model.updateCharacter(updatedCharacter);
-        }
-    }
-
     // Sends menu option selection event to the view for processing
     public void onCharacterDelete() {
         view.onCharacterDelete();
@@ -163,45 +143,27 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     // traits - just why is it a good idea to do this differently again?)
     private void saveExperience() {
 
-        // Any change in the experience pool implies a change to the character
-        hasChanges = true;
-
         // The entry to use as template for updating the remaining experience amount
         Entry template = queriedCharacter.getExperience();
 
-        // If this was not yet edited, there will be no entry on the updatedCharacter object, so it
-        // will be necessary to create one
-        // TODO Check if a NSEE could be triggered by other means
-        try {
-            editEntryToUpdate(template, experiencePool);
-        } catch (NoSuchElementException e) {
-            addEntryToUpdate(template, experiencePool);
-        }
+        // Have the model update the data about remaining experience on the spot
+        model.updateEntry(queriedCharacter.getId(), template.getId(), experiencePool);
     }
 
     @Override
     public void onTraitChanged(Object caller, int value, String constant) {
-        // If this flag is not set, changes will not be saved
-        hasChanges = true;
-
         // De-abstract object into widget
         ValueSetter widget = (ValueSetter) caller;
 
         // Retrieve entry associated with widget as tag
         Entry template = (Entry) widget.getTag();
 
+        // Spend experience, if not cheating
         experiencePool = view.changeWidgetValue(constant, value, experiencePool, model.getPreferences().getBoolean(
             Constants.SETTING_CHEAT, false));
 
-        try {
-            // Try editing an existing entry to update
-            editEntryToUpdate(template, widget.getCurrentValue());
-
-        } catch (NoSuchElementException e) {
-            // If we got a NSEE, it (probably, most likely - I know >.< ) means that there is no
-            // entry that matches the parameters, so we create one
-            addEntryToUpdate(template, widget.getCurrentValue());
-        }
+        // Have the model update the data about the entry on the spot
+        model.updateEntry(queriedCharacter.getId(), template.getId(), widget.getCurrentValue());
 
         // Notifies all widgets registered as experience spenders and disables/enables
         // increasing/decreasing buttons as necessary
@@ -209,35 +171,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
         // Updates remaining experience, if any
         saveExperience();
-    }
-
-    /**
-     * Method to add a value for updating - nothing strange here, just create and add to list
-     * @param template The entry to update
-     * @param value The new value for the entry
-     */
-    private void addEntryToUpdate(Entry template, int value) {
-        Entry entry = new Entry()
-            .setId(template.getId())
-            .setKey(template.getKey())
-            .setType(Constants.FIELD_TYPE_INTEGER)
-            .setValue(String.valueOf(value));
-
-        updatedCharacter.getEntries().add(entry);
-    }
-
-    /**
-     * Method for editing an existing value for updating
-     * @param template The entry to update
-     * @param value The new value for the entry
-     */
-    private void editEntryToUpdate(Entry template, int value) throws NoSuchElementException {
-        // Look up if the template is on the list - this will result in a NoSuchElementException if
-        // it does not
-        Entry entry = ArrayHelper.findEntry(updatedCharacter.getEntries(), template.getId());
-
-        // Change the value on the entry
-        entry.setValue(String.valueOf(value));
     }
 
     /**
@@ -279,7 +212,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             Demeanor currentDemeanor = queriedCharacter.getDemeanorTraits()
                 .where()
-                .equalTo("ordinal", 0)
+                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
                 .findFirst()
                 .getDemeanor();
 
@@ -309,7 +242,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             Nature currentNature = queriedCharacter.getNatureTraits()
                 .where()
-                .equalTo("ordinal", 0)
+                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
                 .findFirst()
                 .getNature();
 
@@ -338,7 +271,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             Vice currentVice = queriedCharacter.getViceTraits()
                 .where()
-                .equalTo("ordinal", 0)
+                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
                 .findFirst()
                 .getVice();
 
@@ -367,7 +300,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
             Virtue currentVirtue = queriedCharacter.getVirtueTraits()
                 .where()
-                .equalTo("ordinal", 0)
+                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
                 .findFirst()
                 .getVirtue();
 
@@ -427,7 +360,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
     @Subscribe
     public void onDemeanorTraitChangedEvent(DemeanorTraitChangedEvent event) {
-        // Pass the updating operation straight out to the model to handle
+        // Pass the updating operation straight out to the model for handling
         model.updateDemeanorTrait(queriedCharacter.getId(), event.demeanorTrait);
     }
 

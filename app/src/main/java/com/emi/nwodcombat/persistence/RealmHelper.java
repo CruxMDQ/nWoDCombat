@@ -6,12 +6,12 @@ import android.util.Log;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
-import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
-import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.tools.ArrayHelper;
@@ -166,41 +166,6 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
-    public int getCountVirtue() {
-        return getCount(Virtue.class);
-    }
-
-    @Override
-    public int getCountVice() {
-        return getCount(Vice.class);
-    }
-
-    @Override
-    public int getCountPersonalityArchetype() {
-        return getCount(Nature.class);
-    }
-
-    @Override
-    public int getDemeanorTraitCount() {
-        return getCount(DemeanorTrait.class);
-    }
-
-    @Override
-    public int getNatureTraitCount() {
-        return getCount(NatureTrait.class);
-    }
-
-    @Override
-    public int getViceTraitCount() {
-        return getCount(ViceTrait.class);
-    }
-
-    @Override
-    public int getVirtueTraitCount() {
-        return getCount(VirtueTrait.class);
-    }
-
-    @Override
     public void delete(Object item) {
         if (item instanceof Character) {
             realm.beginTransaction();
@@ -235,22 +200,56 @@ public class RealmHelper implements PersistenceLayer {
         realm.commitTransaction();
     }
 
+    @Override
+    public void updateEntry(Long characterId, Long entryId, int value) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        for (Entry cycledEntry : characterToUpdate.getEntries()) {
+            if (cycledEntry.getId() == entryId) {
+                realm.beginTransaction();
+
+                cycledEntry.setValue(String.valueOf(value));
+
+                realm.commitTransaction();
+
+                break;
+            }
+        }
+    }
+
+    public int getDemeanorTraitCount() {
+        return getCount(DemeanorTrait.class);
+    }
+
+    public int getNatureTraitCount() {
+        return getCount(NatureTrait.class);
+    }
+
+    public int getViceTraitCount() {
+        return getCount(ViceTrait.class);
+    }
+
+    public int getVirtueTraitCount() {
+        return getCount(VirtueTrait.class);
+    }
+
     public void updateDemeanorTrait(Long characterId, DemeanorTrait demeanorTrait) {
         Character characterToUpdate = get(Character.class, characterId);
 
         Long ordinal = demeanorTrait.getOrdinal();
         Demeanor demeanor = demeanorTrait.getDemeanor();
 
-        realm.beginTransaction();
-
         for (DemeanorTrait trait : characterToUpdate.getDemeanorTraits()) {
             if (trait.getOrdinal().equals(ordinal)) {
+                realm.beginTransaction();
+
                 trait.setDemeanor(demeanor);
+
+                realm.commitTransaction();
+
                 break;
             }
         }
-
-        realm.commitTransaction();
     }
 
     public void updateNatureTrait(Long characterId, NatureTrait natureTrait) {

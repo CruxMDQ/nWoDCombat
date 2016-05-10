@@ -3,7 +3,6 @@ package com.emi.nwodcombat.utils;
 /**
  * Created by Emi on 2/18/16.
  */
-// TODO VSM ride off this class
 public class Constants {
     public static final boolean MODE_TEST = true;
 
@@ -122,4 +121,6 @@ public class Constants {
 
     public static final String FIELD_TYPE_STRING = "String";
     public static final String FIELD_TYPE_INTEGER = "Integer";
+
+    public static final String FIELD_TRAIT_ORDINAL = "ordinal";
 }

@@ -63,7 +63,9 @@ public class CharacterViewerFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }    private void createPresenter() {
+    }
+
+    private void createPresenter() {
         presenter = new CharacterViewerPresenter(getActivity(), new CharacterViewerModel(getActivity()), new CharacterViewerView(this,
             BusProvider.getInstance()));
         presenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));
@@ -77,7 +79,6 @@ public class CharacterViewerFragment extends Fragment {
 
     @Override
     public void onPause() {
-        presenter.onPause();
         BusProvider.unregister(presenter);
         super.onPause();
     }
