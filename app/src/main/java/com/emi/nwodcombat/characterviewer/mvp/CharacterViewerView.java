@@ -1,7 +1,6 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.ViceRealmAdapter;
 import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
@@ -22,6 +22,11 @@ import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
@@ -43,11 +48,6 @@ import io.realm.RealmResults;
  */
 public class CharacterViewerView extends FragmentView //implements OnTraitChangedListener {
 {
-
-    // Used for deciding what to do whenever a ValueSetterWidget value is changed: if the 'cheat'
-    // flag is on, experience is disregarded
-    // TODO Move this to model class
-    private SharedPreferences preferences;
 
     // Otto bus is used to forward actions to the model, bypassing the presenter
     // (Consideration: is it a good idea to bypass the presenter in the first place?)
@@ -235,11 +235,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
                 Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
 
                 // Set textView text according to object value
-                txtCharacterDemeanor.setText(demeanor.getName());
-                // Set textView visible
-                txtCharacterDemeanor.setVisibility(View.VISIBLE);
-                // Conceal spinner
-                spinnerDemeanor.setVisibility(View.GONE);
+                setDemeanorSpinnerLabel(demeanor.getName());
 
                 // Empties list in the updatedCharacter object and adds the modified one.
                 // Major problem: if there are other objects in this list, they are gone, but
@@ -295,7 +291,8 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -331,7 +328,8 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -769,6 +767,155 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         return experiencePool;
     }
 
+    public void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
+        spinnerDemeanor.setAdapter(demeanors);
+
+        // Vanilla listener setting - could have been managed as a parameter, except for one of one
+        // of the variables requiring that it be final, don't recall which now
+        spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Retrieve object based on spinner position
+                Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
+
+                // Set textView text according to object value
+                setDemeanorSpinnerLabel(demeanor.getName());
+
+                // This object will be posted for handling by the model
+                DemeanorTrait demeanorTrait = new DemeanorTrait();
+
+                demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
+                demeanorTrait.setDemeanor(demeanor);
+
+                // This should change depending on which demeanor we're
+                // editing: first, second, third, or whatever
+                demeanorTrait.setOrdinal(0L);
+
+                bus.post(new DemeanorTraitChangedEvent(demeanorTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+    }
+
+    public void setDemeanorSpinnerLabel(String text) {
+        // Set textView text according to object value
+        txtCharacterDemeanor.setText(text);
+        // Set textView visible
+        txtCharacterDemeanor.setVisibility(View.VISIBLE);
+        // Conceal spinner
+        spinnerDemeanor.setVisibility(View.GONE);
+    }
+
+    public void setDemeanorsSpinnerSelection(int index) {
+        spinnerDemeanor.setSelection(index);
+    }
+
+    public void setNaturesSpinnerAdapter(NaturesAdapter natures) {
+        spinnerNature.setAdapter(natures);
+
+        spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
+
+                setNatureSpinnerLabel(nature.getName());
+
+                NatureTrait natureTrait = new NatureTrait();
+                natureTrait.setType(Constants.CHARACTER_NATURE);
+                natureTrait.setNature(nature);
+                natureTrait.setOrdinal(0L);
+
+                bus.post(new NatureTraitChangedEvent(natureTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void setNatureSpinnerLabel(String text) {
+        txtCharacterNature.setText(text);
+        txtCharacterNature.setVisibility(View.VISIBLE);
+        spinnerNature.setVisibility(View.GONE);
+    }
+
+    public void setNaturesSpinnerSelection(int index) {
+        spinnerNature.setSelection(index);
+    }
+
+    public void setVicesSpinnerAdapter(ViceRealmAdapter vices) {
+        spinnerVice.setAdapter(vices);
+
+        spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Vice vice = ((Vice) spinnerVice.getItemAtPosition(position));
+
+                setViceSpinnerLabel(vice.getName());
+
+                ViceTrait viceTrait = new ViceTrait();
+                viceTrait.setType(Constants.CHARACTER_NATURE);
+                viceTrait.setVice(vice);
+                viceTrait.setOrdinal(0L);
+
+                bus.post(new ViceTraitChangedEvent(viceTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void setViceSpinnerLabel(String text) {
+        txtCharacterVice.setText(text);
+        txtCharacterVice.setVisibility(View.VISIBLE);
+        spinnerVice.setVisibility(View.GONE);
+    }
+
+    public void setVicesSpinnerSelection(int index) {
+        spinnerVice.setSelection(index);
+    }
+
+    public void setVirtuesSpinnerAdapter(VirtueRealmAdapter virtues) {
+        spinnerVirtue.setAdapter(virtues);
+
+        spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Virtue virtue = ((Virtue) spinnerVirtue.getItemAtPosition(position));
+
+                setVirtueSpinnerLabel(virtue.getName());
+
+                VirtueTrait virtueTrait = new VirtueTrait();
+                virtueTrait.setType(Constants.CHARACTER_NATURE);
+                virtueTrait.setVirtue(virtue);
+                virtueTrait.setOrdinal(0L);
+
+                bus.post(new VirtueTraitChangedEvent(virtueTrait));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void setVirtueSpinnerLabel(String text) {
+        txtCharacterVirtue.setText(text);
+        txtCharacterVirtue.setVisibility(View.VISIBLE);
+        spinnerVirtue.setVisibility(View.GONE);
+    }
+
+    public void setVirtuesSpinnerSelection(int index) {
+        spinnerVirtue.setSelection(index);
+    }
+
     public static class DeleteCharacterEvent {
         public Character characterToDelete;
 
@@ -789,5 +936,37 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         public boolean isIncrease;
 
         ExperiencePoolChangeEvent(boolean isIncrease) { this.isIncrease = isIncrease; }
+    }
+
+    public static class DemeanorTraitChangedEvent {
+        public DemeanorTrait demeanorTrait;
+
+        DemeanorTraitChangedEvent(DemeanorTrait demeanorTrait) {
+            this.demeanorTrait = demeanorTrait;
+        }
+    }
+
+    public static class NatureTraitChangedEvent {
+        public NatureTrait natureTrait;
+
+        public NatureTraitChangedEvent(NatureTrait natureTrait) {
+            this.natureTrait = natureTrait;
+        }
+    }
+
+    public static class ViceTraitChangedEvent {
+        public ViceTrait viceTrait;
+
+        public ViceTraitChangedEvent(ViceTrait viceTrait) {
+            this.viceTrait = viceTrait;
+        }
+    }
+
+    public class VirtueTraitChangedEvent {
+        public VirtueTrait virtueTrait;
+
+        public VirtueTraitChangedEvent(VirtueTrait virtueTrait) {
+            this.virtueTrait = virtueTrait;
+        }
     }
 }

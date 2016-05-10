@@ -5,10 +5,15 @@ import android.util.Log;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 
@@ -143,11 +148,6 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
-    public void update(Object item) {
-
-    }
-
-    @Override
     public int getCount(Class className) {
         return realm.allObjects(className).size();
     }
@@ -181,6 +181,26 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
+    public int getDemeanorTraitCount() {
+        return getCount(DemeanorTrait.class);
+    }
+
+    @Override
+    public int getNatureTraitCount() {
+        return getCount(NatureTrait.class);
+    }
+
+    @Override
+    public int getViceTraitCount() {
+        return getCount(ViceTrait.class);
+    }
+
+    @Override
+    public int getVirtueTraitCount() {
+        return getCount(VirtueTrait.class);
+    }
+
+    @Override
     public void delete(Object item) {
         if (item instanceof Character) {
             realm.beginTransaction();
@@ -203,25 +223,84 @@ public class RealmHelper implements PersistenceLayer {
 
         Character characterToUpdate = get(Character.class, updateInfo.getId());
 
-        if (updateInfo.getDemeanors().first() != null) {
-            characterToUpdate.getDemeanors().set(0, updateInfo.getDemeanors().first());
-        }
-        if (updateInfo.getNatures().first() != null) {
-            characterToUpdate.getNatures().set(0, updateInfo.getNatures().first());
-        }
-        if (updateInfo.getVirtues().first() != null) {
-            characterToUpdate.getVirtues().set(0, updateInfo.getVirtues().first());
-        }
-        if (updateInfo.getVices().first() != null) {
-            characterToUpdate.getVices().set(0, updateInfo.getVices().first());
-        }
-
         for (Entry entry : updateInfo.getEntries()) {
             try {
                 ArrayHelper.findEntry(characterToUpdate.getEntries(), Constants.FIELD_ID)
                     .setValue(String.valueOf(entry.getValue()));
             } catch (NoSuchElementException e) {
                 characterToUpdate.getEntries().add(entry);
+            }
+        }
+
+        realm.commitTransaction();
+    }
+
+    public void updateDemeanorTrait(Long characterId, DemeanorTrait demeanorTrait) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        Long ordinal = demeanorTrait.getOrdinal();
+        Demeanor demeanor = demeanorTrait.getDemeanor();
+
+        realm.beginTransaction();
+
+        for (DemeanorTrait trait : characterToUpdate.getDemeanorTraits()) {
+            if (trait.getOrdinal().equals(ordinal)) {
+                trait.setDemeanor(demeanor);
+                break;
+            }
+        }
+
+        realm.commitTransaction();
+    }
+
+    public void updateNatureTrait(Long characterId, NatureTrait natureTrait) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        Long ordinal = natureTrait.getOrdinal();
+        Nature nature = natureTrait.getNature();
+
+        realm.beginTransaction();
+
+        for (NatureTrait trait : characterToUpdate.getNatureTraits()) {
+            if (trait.getOrdinal().equals(ordinal)) {
+                trait.setNature(nature);
+                break;
+            }
+        }
+
+        realm.commitTransaction();
+    }
+
+    public void updateViceTrait(Long characterId, ViceTrait ViceTrait) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        Long ordinal = ViceTrait.getOrdinal();
+        Vice Vice = ViceTrait.getVice();
+
+        realm.beginTransaction();
+
+        for (ViceTrait trait : characterToUpdate.getViceTraits()) {
+            if (trait.getOrdinal().equals(ordinal)) {
+                trait.setVice(Vice);
+                break;
+            }
+        }
+
+        realm.commitTransaction();
+    }
+
+    public void updateVirtueTrait(Long characterId, VirtueTrait VirtueTrait) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        Long ordinal = VirtueTrait.getOrdinal();
+        Virtue Virtue = VirtueTrait.getVirtue();
+
+        realm.beginTransaction();
+
+        for (VirtueTrait trait : characterToUpdate.getVirtueTraits()) {
+            if (trait.getOrdinal().equals(ordinal)) {
+                trait.setVirtue(Virtue);
+                break;
             }
         }
 

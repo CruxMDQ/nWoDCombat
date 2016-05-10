@@ -23,9 +23,7 @@ public interface PersistenceLayer {
 
     <T extends RealmObject> T get(long id);
 
-    <T  extends RealmObject> T get(Class<T> klass, long id);
-
-    void update(Object item);
+    <T extends RealmObject> T get(Class<T> klass, long id);
 
     int getCount(Class className);
 
@@ -37,5 +35,13 @@ public interface PersistenceLayer {
 
     int getCountPersonalityArchetype();
 
+    int getDemeanorTraitCount();
+
     void updateCharacter(Character updatedCharacter);
+
+    int getNatureTraitCount();
+
+    int getViceTraitCount();
+
+    int getVirtueTraitCount();
 }

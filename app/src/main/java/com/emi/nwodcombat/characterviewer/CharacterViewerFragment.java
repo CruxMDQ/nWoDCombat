@@ -64,7 +64,7 @@ public class CharacterViewerFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }    private void createPresenter() {
-        presenter = new CharacterViewerPresenter(new CharacterViewerModel(getActivity()), new CharacterViewerView(this,
+        presenter = new CharacterViewerPresenter(getActivity(), new CharacterViewerModel(getActivity()), new CharacterViewerView(this,
             BusProvider.getInstance()));
         presenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));
     }
