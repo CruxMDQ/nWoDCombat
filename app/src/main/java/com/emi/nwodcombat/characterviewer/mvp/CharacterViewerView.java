@@ -924,14 +924,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         }
     }
 
-    public static class UpdateCharacterEvent {
-        public Character characterToUpdate;
-
-        UpdateCharacterEvent(Character character) {
-            this.characterToUpdate = character;
-        }
-    }
-
     public static class ExperiencePoolChangeEvent {
         public boolean isIncrease;
 

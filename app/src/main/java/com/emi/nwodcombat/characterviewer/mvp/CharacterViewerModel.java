@@ -52,10 +52,6 @@ public class CharacterViewerModel {
         return helper.getList(Demeanor.class);
     }
 
-    public void updateCharacter(Character updatedCharacter) {
-        helper.updateCharacter(updatedCharacter);
-    }
-
     public void deleteCharacter(Character characterToDelete) {
         helper.delete(characterToDelete);
     }

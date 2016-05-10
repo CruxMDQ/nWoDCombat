@@ -14,11 +14,9 @@ import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
-import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -181,23 +179,6 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public <T extends RealmObject> T get(long id) {
         return null;
-    }
-
-    public void updateCharacter(Character updateInfo) {
-        realm.beginTransaction();
-
-        Character characterToUpdate = get(Character.class, updateInfo.getId());
-
-        for (Entry entry : updateInfo.getEntries()) {
-            try {
-                ArrayHelper.findEntry(characterToUpdate.getEntries(), Constants.FIELD_ID)
-                    .setValue(String.valueOf(entry.getValue()));
-            } catch (NoSuchElementException e) {
-                characterToUpdate.getEntries().add(entry);
-            }
-        }
-
-        realm.commitTransaction();
     }
 
     @Override

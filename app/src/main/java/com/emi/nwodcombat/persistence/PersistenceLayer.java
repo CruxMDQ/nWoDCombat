@@ -27,7 +27,5 @@ public interface PersistenceLayer {
 
     long getLastId(Class className);
 
-    void updateCharacter(com.emi.nwodcombat.model.realm.Character updatedCharacter);
-
     void updateEntry(Long characterId, Long entryId, int value);
 }

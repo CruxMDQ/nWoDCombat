@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import io.realm.RealmResults;
 
 import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.DeleteCharacterEvent;
-import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.UpdateCharacterEvent;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
@@ -309,11 +308,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
                 view.setVirtueSpinnerLabel(currentVirtue.getName());
             }
         }
-    }
-
-    @Subscribe
-    public void onUpdateCharacterEvent(UpdateCharacterEvent event) {
-        model.updateCharacter(event.characterToUpdate);
     }
 
     @Subscribe
