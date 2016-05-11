@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -210,6 +211,87 @@
 
             </LinearLayout>
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtDerivedTraits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:layout_gravity="center"
+            android:text="@string/title_traits_derived"
+            android:textAllCaps="true"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_half"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/bkgd_cat_panel"
+            android:orientation="vertical">
+
+            <view
+                android:id="@+id/valueSetterDefense"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:showEditionPanel="false"
+                app:traitCategory="@string/cat_derived"
+                app:valueDefault="1"
+                app:valueName="@string/trait_defense"/>
+
+            <view
+                android:id="@+id/valueSetterHealth"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:showEditionPanel="false"
+                app:traitCategory="@string/cat_derived"
+                app:valueDefault="1"
+                app:valueName="@string/trait_health"/>
+
+            <view
+                android:id="@+id/valueSetterInitiative"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:showEditionPanel="false"
+                app:traitCategory="@string/cat_derived"
+                app:valueDefault="1"
+                app:valueName="@string/trait_initiative"/>
+
+            <view
+                android:id="@+id/valueSetterMorality"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:showEditionPanel="false"
+                app:traitCategory="@string/cat_derived"
+                app:valueDefault="1"
+                app:valueName="@string/trait_morality"/>
+
+            <view
+                android:id="@+id/valueSetterSpeed"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:showEditionPanel="false"
+                app:traitCategory="@string/cat_derived"
+                app:valueDefault="1"
+                app:valueName="@string/trait_speed"/>
+
+            <view
+                android:id="@+id/valueSetterWillpower"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:showEditionPanel="false"
+                app:traitCategory="@string/cat_derived"
+                app:valueDefault="1"
+                app:valueName="@string/trait_willpower"/>
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

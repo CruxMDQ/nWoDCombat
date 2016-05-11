@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class PersonalityArchetype extends RealmObject {
+public class Nature extends RealmObject {
     @PrimaryKey
     private Long id;
 

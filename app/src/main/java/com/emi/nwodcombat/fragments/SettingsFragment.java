@@ -11,8 +11,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.utils.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by Crux on 3/10/2016.
  */
 public class SettingsFragment extends Fragment {
-    private static SharedPreferences preferences;
+    private SharedPreferences preferences;
 
     @Bind(R.id.chkCheat) CheckBox chkCheat;
     @Bind(R.id.chkIgnoreStatCaps) CheckBox chkIgnoreStatCaps;
@@ -41,10 +41,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO VSM: please don't do this. static properties are impossible for test
-        if (SettingsFragment.preferences == null) {
-            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
-        }
+        preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
 
         setUpUI();
     }

@@ -1,31 +1,31 @@
 package com.emi.nwodcombat.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
 public interface PersistenceLayer {
-    long save(Object item);
+    <T extends RealmObject> long save(T item);
 
-    long save(Class klass, String json);
+    <T extends RealmObject> long save(Class<T> klass, String json);
 
-    long save(Class klass, ArrayList<String> jsonObjects);
+    <T extends RealmObject> long save(Class<T> klass, List<String> jsonObjects);
 
-    List<Object> getList();
-
-    List getList(Class klass);
+    <T extends RealmObject> RealmResults<T> getList(Class<T> klass);
 
     void delete(Object item);
 
-    Object get(long id);
+    <T extends RealmObject> T get(long id);
 
-    Object get(Class klass, long id);
-
-    void update(Object item);
+    <T extends RealmObject> T get(Class<T> klass, long id);
 
     int getCount(Class className);
 
     long getLastId(Class className);
+
+    void updateEntry(Long characterId, Long entryId, int value);
 }

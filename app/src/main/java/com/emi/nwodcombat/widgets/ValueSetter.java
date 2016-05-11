@@ -10,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.interfaces.ExperienceSpender;
+import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.utils.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,11 +22,13 @@ import butterknife.ButterKnife;
 /**
  * Created by Emi on 3/1/16.
  */
-public class ValueSetterWidget extends LinearLayout {
+public class ValueSetter extends LinearLayout implements ExperienceSpender {
     private static SharedPreferences preferences;
+    private boolean showEditionPanel;
 
     @Bind(R.id.lblValue) TextView lblValue;
     @Bind(R.id.panelValue) LinearLayout panelValue;
+    @Bind(R.id.panelEdition) LinearLayout panelEdition;
     @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
     @Bind(R.id.btnValueIncrease) Button btnValueIncrease;
 
@@ -36,26 +40,30 @@ public class ValueSetterWidget extends LinearLayout {
 
     private OnTraitChangedListener listener;
 
-    public ValueSetterWidget(Context context, AttributeSet attrs) {
+    private int pointCost;
+
+    public ValueSetter(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        if (ValueSetterWidget.preferences == null) {
+        if (ValueSetter.preferences == null) {
             preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
 
         if (!isInEditMode()) {
-            TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetterWidget, 0, 0);
+            TypedArray aAttrs = context.obtainStyledAttributes(attrs, R.styleable.ValueSetter, 0, 0);
 
-            setValueName(aAttrs.getString(R.styleable.ValueSetterWidget_valueName));
-            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueDefault, 0));
+            showEditionPanel = aAttrs.getBoolean(R.styleable.ValueSetter_showEditionPanel, true);
+            setValueName(aAttrs.getString(R.styleable.ValueSetter_valueName));
+            setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetter_valueDefault, 0));
 
             if (preferences.getBoolean(Constants.SETTING_IGNORE_STAT_CAPS, false)) {
-                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 20));
+                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, 20));
             } else {
-                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetterWidget_valueMaximum, 5));
+                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, 5));
             }
 
-            setTraitCategory(aAttrs.getString(R.styleable.ValueSetterWidget_traitCategory));
+            setTraitCategory(aAttrs.getString(R.styleable.ValueSetter_traitCategory));
+            setPointCost(aAttrs.getInt(R.styleable.ValueSetter_pointCost, 1));
 
             currentValue = defaultValue;
 
@@ -67,7 +75,8 @@ public class ValueSetterWidget extends LinearLayout {
                 @Override
                 public void onClick(View v) {
                     if (currentValue > defaultValue) {
-                        listener.onTraitChanged(ValueSetterWidget.this, -1);
+                        listener.onTraitChanged(ValueSetter.this, -1,
+                            ValueSetter.this.getContentDescription().toString());
                     }
                 }
             });
@@ -75,7 +84,8 @@ public class ValueSetterWidget extends LinearLayout {
                 @Override
                 public void onClick(View v) {
                     if (currentValue < maximumValue) {
-                        listener.onTraitChanged(ValueSetterWidget.this, 1);
+                        listener.onTraitChanged(ValueSetter.this, 1,
+                            ValueSetter.this.getContentDescription().toString());
                     }
                 }
             });
@@ -93,6 +103,12 @@ public class ValueSetterWidget extends LinearLayout {
     private void inflateLayout() {
         View view = inflate(this.getContext(), getLayout(), this);
         ButterKnife.bind(this, view);
+        if (showEditionPanel) {
+            showEditionPanel();
+        } else {
+            hideEditionPanel();
+        }
+
     }
 
     private int getLayout() {
@@ -171,8 +187,22 @@ public class ValueSetterWidget extends LinearLayout {
         refreshPointsPanel();
     }
 
+    public void setCurrentValue(Entry entry) {
+        this.setCurrentValue(Integer.valueOf(entry.getValue()));
+        this.setDefaultValue(Integer.valueOf(entry.getValue()));
+        this.setTag(entry);
+    }
+
     public int getCurrentValue() {
         return currentValue;
+    }
+
+    public void changeValue(int value) {
+        if (value > 0) {
+            increaseCurrentValue();
+        } else {
+            decreaseCurrentValue();
+        }
     }
 
     public int changeValue(int value, int pool) {
@@ -184,5 +214,54 @@ public class ValueSetterWidget extends LinearLayout {
             pool -= decreaseCurrentValue();
         }
         return pool;
+    }
+
+    public int changeValue(int value, int pool, int cost) {
+        int result = pool;
+
+        if (value > 0) {
+            if (result >= cost) {
+                increaseCurrentValue();
+                result -= cost;
+            }
+        } else {
+            decreaseCurrentValue();
+            result += cost;
+        }
+        return result;
+    }
+
+    public int getPointCost() {
+        return pointCost;
+    }
+
+    public void setPointCost(int pointCost) {
+        this.pointCost = pointCost;
+    }
+
+    public void hideEditionPanel() {
+        panelEdition.setVisibility(INVISIBLE);
+    }
+
+    public void showEditionPanel() {
+        panelEdition.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void onCharacterExperienceChanged(int experiencePool) {
+        showEditionPanel();
+        if (experiencePool >= pointCost) {
+            btnValueIncrease.setVisibility(VISIBLE);
+//            showEditionPanel();
+        } else {
+            btnValueIncrease.setVisibility(INVISIBLE);
+//            hideEditionPanel();
+        }
+
+        if (currentValue <= defaultValue) {
+            btnValueDecrease.setVisibility(INVISIBLE);
+        } else {
+            btnValueDecrease.setVisibility(VISIBLE);
+        }
     }
 }

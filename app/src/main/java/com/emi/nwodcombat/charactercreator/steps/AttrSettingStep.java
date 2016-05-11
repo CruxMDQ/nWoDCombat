@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.widgets.ValueSetterWidget;
+import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.HashMap;
 
@@ -34,15 +34,24 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     private int socialPoints;
     private int currentSocialPool;
 
-    @Bind(R.id.valueSetterInt) ValueSetterWidget valueSetterIntelligence;
-    @Bind(R.id.valueSetterWits) ValueSetterWidget valueSetterWits;
-    @Bind(R.id.valueSetterRes) ValueSetterWidget valueSetterResolve;
-    @Bind(R.id.valueSetterStr) ValueSetterWidget valueSetterStrength;
-    @Bind(R.id.valueSetterDex) ValueSetterWidget valueSetterDexterity;
-    @Bind(R.id.valueSetterSta) ValueSetterWidget valueSetterStamina;
-    @Bind(R.id.valueSetterPre) ValueSetterWidget valueSetterPresence;
-    @Bind(R.id.valueSetterMan) ValueSetterWidget valueSetterManipulation;
-    @Bind(R.id.valueSetterCom) ValueSetterWidget valueSetterComposure;
+    @Bind(R.id.valueSetterInt)
+    ValueSetter valueSetterIntelligence;
+    @Bind(R.id.valueSetterWits)
+    ValueSetter valueSetterWits;
+    @Bind(R.id.valueSetterRes)
+    ValueSetter valueSetterResolve;
+    @Bind(R.id.valueSetterStr)
+    ValueSetter valueSetterStrength;
+    @Bind(R.id.valueSetterDex)
+    ValueSetter valueSetterDexterity;
+    @Bind(R.id.valueSetterSta)
+    ValueSetter valueSetterStamina;
+    @Bind(R.id.valueSetterPre)
+    ValueSetter valueSetterPresence;
+    @Bind(R.id.valueSetterMan)
+    ValueSetter valueSetterManipulation;
+    @Bind(R.id.valueSetterCom)
+    ValueSetter valueSetterComposure;
 
     @Bind(R.id.txtPoolMental) TextView txtPoolMental;
     @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
@@ -106,8 +115,8 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value) {
-        ValueSetterWidget widget = (ValueSetterWidget) caller;
+    public void onTraitChanged(Object caller, int value, String constant) {
+        ValueSetter widget = (ValueSetter) caller;
 
         if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
             switch (widget.getTraitCategory()) {

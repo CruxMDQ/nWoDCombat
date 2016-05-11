@@ -1,84 +1,62 @@
 package com.emi.nwodcombat.characterlist.mvp;
 
-import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
-import com.emi.nwodcombat.model.realm.Character;
+import android.app.FragmentManager;
 
-import io.realm.RealmResults;
+import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.characterviewer.CharacterViewerFragment;
+import com.squareup.otto.Subscribe;
+
+import static com.emi.nwodcombat.characterlist.RealmCharacterAdapter.CharacterDetailEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.ErrorEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.FabPressedEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.NewCharacterEvent;
+import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.RemoveCharacterEvent;
 
 /**
  * Created by emiliano.desantis on 29/03/2016.
  * Refer to this link for further info on MVP:
  * http://www.tinmegali.com/en/model-view-presenter-mvp-in-android-part-2/
  */
-public class CharacterListPresenter implements MainMVP.RequiredPresenterOps, MainMVP.PresenterOps {
-//    ,LoaderManager.LoaderCallbacks<List<com.emi.nwodcombat.model.realm.Character>> {
-
-    private CharacterListView mView;
-
-    private MainMVP.ModelOps mModel;
+public class CharacterListPresenter {
+    private CharacterListView view;
+    private CharacterListModel model;
 
     public CharacterListPresenter(CharacterListModel model, CharacterListView view) {
-        this.mModel = model;
-        this.mView = view;
-        setupWidget();
+        this.model = model;
+        this.view = view;
+        view.updateRV(model.getList());
     }
 
-    @Override
-    public void newCharacter(com.emi.nwodcombat.model.realm.Character character) {
-        mModel.insertCharacter(character);
+    @Subscribe
+    public void onNewCharacter(NewCharacterEvent event) {
+        model.insertCharacter(event.name);
+        view.showSnackBar("New character created!");
     }
 
-    @Override
-    public void removeCharacter(long idCharacter) {
-        mModel.removeCharacter(idCharacter);
+    @Subscribe
+    public void onRemoveCharacter(RemoveCharacterEvent event) {
+        model.removeCharacter(event.id);
+        view.showSnackBar("Character removed!");
     }
 
-    @Override
-    public void onFabPressed() {
-        mView.showSnackBar("FAB pressed");
+    @Subscribe
+    public void onFabPressed(FabPressedEvent event) {
+        view.showSnackBar("FAB pressed");
     }
 
-    @Override
-    public RealmResults<Character> queryCharacters() {
-        return mModel.getList();
+    @Subscribe
+    public void onError(ErrorEvent event) {
+        view.showAlert(event.message);
     }
 
-    @Override
-    public void onCharacterAdded() {
-        mView.showSnackBar("New character created!");
-    }
+    @Subscribe
+    public void onCharacterDetailPressed(CharacterDetailEvent event) {
+        FragmentManager fragmentManager = view.getFragmentManager();
+        if (fragmentManager == null) {
+            return;
+        }
 
-    @Override
-    public void onCharacterRemoved() {
-        mView.showSnackBar("Character removed!");
+        fragmentManager.beginTransaction().replace(R.id.flContent, CharacterViewerFragment.newInstance(event.id))
+                .addToBackStack(null).commit();
     }
-
-    @Override
-    public void onError(String message) {
-        mView.showAlert(message);
-    }
-
-    public void setupWidget() {
-        mView.setUpRV(mModel.getList());
-//        mView.showCharacters(mModel.getList());
-    }
-//    @Override
-//    public Loader<List<com.emi.nwodcombat.model.realm.Character>> onCreateLoader(int id, Bundle args) {
-//        return mModel.getCharactersLoader();
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<List<com.emi.nwodcombat.model.realm.Character>> loader, List<com.emi.nwodcombat.model.realm.Character> characters) {
-//        if (characters.size() == 0) {
-//            mView.showNoCharacters();
-//            return;
-//        }
-//        mView.hideNoCharacters();
-//        mView.showCharacters(characters);
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<List<com.emi.nwodcombat.model.realm.Character>> loader) {
-//
-//    }
 }

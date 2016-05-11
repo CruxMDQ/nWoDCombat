@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
-import com.emi.nwodcombat.widgets.TypeFacedTextView;
+import com.emi.nwodcombat.utils.Constants;
+import com.squareup.otto.Bus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
@@ -19,70 +20,59 @@ import io.realm.RealmViewHolder;
 /**
  * Created by emiliano.desantis on 28/03/2016.
  */
-public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<com.emi.nwodcombat.model.realm.Character, RealmCharacterAdapter.ViewHolder> {
-//    public List<com.emi.nwodcombat.model.realm.Character> mItems;
+public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Character, RealmCharacterAdapter.CharacterViewHolder> {
     private Activity activity;
     private int idLayout;
+    private Bus bus;
 
     public RealmCharacterAdapter(RealmResults<Character> results,
                                  Activity activity, int idLayout,
-                                 boolean automaticUpdate, boolean animateIdType) {
+                                 boolean automaticUpdate, boolean animateIdType, Bus bus) {
         super(activity, results, automaticUpdate, animateIdType);
         this.activity = activity;
         this.idLayout = idLayout;
+        this.bus = bus;
     }
 
     @Override
-    public ViewHolder onCreateRealmViewHolder(ViewGroup parent, int viewType) {
+    public CharacterViewHolder onCreateRealmViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(activity);
         final View view = inflater.inflate(idLayout, parent, false);
-        return new ViewHolder(view);
+        return new CharacterViewHolder(view);
     }
 
     @Override
-    public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-        com.emi.nwodcombat.model.realm.Character character = realmResults.get(position);
-
-        String name = character.getName();
-
-        viewHolder.rowCharacterName.setText(name);
+    public void onBindRealmViewHolder(CharacterViewHolder viewHolder, int position) {
+        Character character = realmResults.get(position);
+        final Long id = character.getId();
+        viewHolder.rowCharacterName.setText(character.getValue(Constants.CHARACTER_NAME, String.class).toString());
+        viewHolder.rowCharacterName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bus.post(new CharacterDetailEvent(id));
+            }
+        });
     }
-
-//    @Override
-//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        LayoutInflater inflater = LayoutInflater.from(activity);
-//        final View view = inflater.inflate(idLayout, parent, false);
-//        return new ViewHolder(view);
-//    }
-
-//    @Override
-//    public void onBindViewHolder(RealmCharacterAdapter.ViewHolder holder, int position) {
-//        com.emi.nwodcombat.model.realm.Character character = mItems.get(position);
-//
-//        String name = character.getName();
-//
-//        holder.rowCharacterName.setText(name);
-//    }
 
     @Override
     public int getItemCount() {
         return realmResults.size();
     }
 
-    public class ViewHolder extends RealmViewHolder {
-        // TODO VSM: take a look Calligraphy library https://github.com/chrisjenx/Calligraphy
-        @Bind(R.id.rowCharacterName)
-        TypeFacedTextView rowCharacterName;
+    public static class CharacterViewHolder extends RealmViewHolder {
+        @Bind(R.id.rowCharacterName) TextView rowCharacterName;
 
-        public ViewHolder(View itemView) {
+        public CharacterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            // TODO Create onClickListener
         }
+    }
 
-        @OnClick(R.id.rowCharacterName)
-        public void characterNameChick() {
-            // TODO VSM: do what ever your want
+    public static class CharacterDetailEvent {
+        public Long id;
+
+        CharacterDetailEvent(Long id) {
+            this.id = id;
         }
     }
 }

@@ -6,17 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.activities.NavDrawerActivity;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerFinisher;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.model.realm.Character;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.persistence.PersistenceLayer;
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.RealmHelper;
+import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +43,19 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
     @Bind(R.id.txtSummarySkillsPhysical) TextView txtSummarySkillsPhysical;
     @Bind(R.id.txtSummarySkillsSocial) TextView txtSummarySkillsSocial;
 
+    @Bind(R.id.valueSetterDefense)
+    ValueSetter valueSetterDefense;
+    @Bind(R.id.valueSetterHealth)
+    ValueSetter valueSetterHealth;
+    @Bind(R.id.valueSetterInitiative)
+    ValueSetter valueSetterInitiative;
+    @Bind(R.id.valueSetterMorality)
+    ValueSetter valueSetterMorality;
+    @Bind(R.id.valueSetterSpeed)
+    ValueSetter valueSetterSpeed;
+    @Bind(R.id.valueSetterWillpower)
+    ValueSetter valueSetterWillpower;
+
     private Integer intelligence, wits, resolve;
     private Integer strength, dexterity, stamina;
     private Integer presence, manipulation, composure;
@@ -49,7 +68,9 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
     private Long characterVirtue, characterVice, characterDemeanor, characterNature;
 
-    private PersistenceLayer helper;
+    private Long lastEntryId;
+
+    private RealmHelper helper;
 
     private Character character;
 
@@ -67,64 +88,120 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
 
         character = new Character();
 
+        lastEntryId = helper.getLastId(Entry.class);
+
         return view;
     }
 
     private void setUpCharacter() {
-        character.setName(characterName);
-        character.setPlayer(characterPlayer);
-        character.setConcept(characterConcept);
+        addFieldToCharacter(Constants.CHARACTER_NAME, characterName);
+        addFieldToCharacter(Constants.CHARACTER_PLAYER, characterPlayer);
+        addFieldToCharacter(Constants.CHARACTER_CONCEPT, characterConcept);
 
-        character.setIntelligence(intelligence);
-        character.setWits(wits);
-        character.setResolve(resolve);
+        addFieldToCharacter(Constants.ATTR_INT, intelligence);
+        addFieldToCharacter(Constants.ATTR_WIT, wits);
+        addFieldToCharacter(Constants.ATTR_RES, resolve);
 
-        character.setStrength(strength);
-        character.setDexterity(dexterity);
-        character.setStamina(stamina);
+        addFieldToCharacter(Constants.ATTR_STR, strength);
+        addFieldToCharacter(Constants.ATTR_DEX, dexterity);
+        addFieldToCharacter(Constants.ATTR_STA, stamina);
 
-        character.setPresence(presence);
-        character.setManipulation(manipulation);
-        character.setComposure(composure);
+        addFieldToCharacter(Constants.ATTR_PRE, presence);
+        addFieldToCharacter(Constants.ATTR_MAN, manipulation);
+        addFieldToCharacter(Constants.ATTR_COM, composure);
 
-        character.setAcademics(academics);
-        character.setComputer(computer);
-        character.setCrafts(crafts);
-        character.setInvestigation(investigation);
-        character.setMedicine(medicine);
-        character.setOccult(occult);
-        character.setPolitics(politics);
-        character.setScience(science);
+        addFieldToCharacter(Constants.SKILL_ACADEMICS, academics);
+        addFieldToCharacter(Constants.SKILL_COMPUTER, computer);
+        addFieldToCharacter(Constants.SKILL_CRAFTS, crafts);
+        addFieldToCharacter(Constants.SKILL_INVESTIGATION, investigation);
+        addFieldToCharacter(Constants.SKILL_MEDICINE, medicine);
+        addFieldToCharacter(Constants.SKILL_OCCULT, occult);
+        addFieldToCharacter(Constants.SKILL_POLITICS, politics);
+        addFieldToCharacter(Constants.SKILL_SCIENCE, science);
 
-        character.setAthletics(athletics);
-        character.setBrawl(brawl);
-        character.setDrive(drive);
-        character.setFirearms(firearms);
-        character.setLarceny(larceny);
-        character.setStealth(stealth);
-        character.setSurvival(survival);
-        character.setWeaponry(weaponry);
+        addFieldToCharacter(Constants.SKILL_ATHLETICS, athletics);
+        addFieldToCharacter(Constants.SKILL_BRAWL, brawl);
+        addFieldToCharacter(Constants.SKILL_DRIVE, drive);
+        addFieldToCharacter(Constants.SKILL_FIREARMS, firearms);
+        addFieldToCharacter(Constants.SKILL_LARCENY, larceny);
+        addFieldToCharacter(Constants.SKILL_STEALTH, stealth);
+        addFieldToCharacter(Constants.SKILL_SURVIVAL, survival);
+        addFieldToCharacter(Constants.SKILL_WEAPONRY, weaponry);
 
-        character.setAnimalKen(animalKen);
-        character.setEmpathy(empathy);
-        character.setExpression(expression);
-        character.setIntimidation(intimidation);
-        character.setPersuasion(persuasion);
-        character.setSocialize(socialize);
-        character.setStrength(streetwise);
-        character.setSubterfuge(subterfuge);
+        addFieldToCharacter(Constants.SKILL_ANIMAL_KEN, animalKen);
+        addFieldToCharacter(Constants.SKILL_EMPATHY, empathy);
+        addFieldToCharacter(Constants.SKILL_EXPRESSION, expression);
+        addFieldToCharacter(Constants.SKILL_INTIMIDATION, intimidation);
+        addFieldToCharacter(Constants.SKILL_PERSUASION, persuasion);
+        addFieldToCharacter(Constants.SKILL_SOCIALIZE, socialize);
+        addFieldToCharacter(Constants.SKILL_STREETWISE, streetwise);
+        addFieldToCharacter(Constants.SKILL_SUBTERFUGE, subterfuge);
+
+        // TODO Implement starting experience spinner or widget
+        addFieldToCharacter(Constants.CHARACTER_BEATS, 0);
+        addFieldToCharacter(Constants.CHARACTER_EXPERIENCE, 0);
+        addFieldToCharacter(Constants.TRAIT_DERIVED_DEFENSE, Math.min(dexterity, wits));
+        addFieldToCharacter(Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY_DEFAULT);
+        addFieldToCharacter(Constants.TRAIT_DERIVED_HEALTH, (stamina + Constants.TRAIT_SIZE_DEFAULT));
+        addFieldToCharacter(Constants.TRAIT_DERIVED_INITIATIVE, (composure + dexterity));
+        addFieldToCharacter(Constants.TRAIT_DERIVED_SPEED, (dexterity + strength));
+        addFieldToCharacter(Constants.TRAIT_DERIVED_WILLPOWER, (resolve + composure));
 
         character.setId(helper.getLastId(Character.class));
 
-        PersonalityArchetype demeanor = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterDemeanor);
-        PersonalityArchetype nature = (PersonalityArchetype) helper.get(PersonalityArchetype.class, characterNature);
-        Vice vice = (Vice) helper.get(Vice.class, characterVice);
-        Virtue virtue = (Virtue) helper.get(Virtue.class, characterVirtue);
+        Demeanor demeanor = helper.get(Demeanor.class, characterDemeanor);
+        Nature nature = helper.get(Nature.class, characterNature);
+        Vice vice = helper.get(Vice.class, characterVice);
+        Virtue virtue = helper.get(Virtue.class, characterVirtue);
 
-        character.getPersonalityTraits().add(demeanor);
-        character.getPersonalityTraits().add(nature);
-        character.getVices().add(vice);
-        character.getVirtues().add(virtue);
+        DemeanorTrait demeanorTrait = new DemeanorTrait();
+        demeanorTrait.setOrdinal((long) helper.getDemeanorTraitCount());
+        demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
+        demeanorTrait.setDemeanor(demeanor);
+
+        character.getDemeanorTraits().add(demeanorTrait);
+
+        NatureTrait natureTrait = new NatureTrait();
+        natureTrait.setOrdinal((long) helper.getNatureTraitCount());
+        natureTrait.setType(Constants.CHARACTER_NATURE);
+        natureTrait.setNature(nature);
+
+        character.getNatureTraits().add(natureTrait);
+
+        ViceTrait viceTrait = new ViceTrait();
+        viceTrait.setOrdinal((long) helper.getViceTraitCount());
+        viceTrait.setType(Constants.CHARACTER_VICE);
+        viceTrait.setVice(vice);
+
+        character.getViceTraits().add(viceTrait);
+
+        VirtueTrait virtueTrait = new VirtueTrait();
+        virtueTrait.setOrdinal((long) helper.getVirtueTraitCount());
+        virtueTrait.setType(Constants.CHARACTER_VIRTUE);
+        virtueTrait.setVirtue(virtue);
+
+        character.getVirtueTraits().add(virtueTrait);
+    }
+
+    private void addFieldToCharacter(String key, String value) {
+        character.getEntries().add(new Entry().setId(lastEntryId)
+            .setKey(key).setType(Constants.FIELD_TYPE_STRING).setValue(value));
+
+        lastEntryId++;
+    }
+
+    private void addFieldToCharacter(String key, String type, String value) {
+        character.getEntries().add(new Entry().setId(lastEntryId)
+            .setKey(key).setType(type).setValue(value));
+
+        lastEntryId++;
+    }
+
+    private void addFieldToCharacter(String key, Integer value) {
+        character.getEntries().add(new Entry().setId(lastEntryId)
+            .setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(String.valueOf(value)));
+
+        lastEntryId++;
     }
 
     @Override
@@ -191,7 +268,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         presence = (Integer) values.get(Constants.ATTR_PRE);
         manipulation = (Integer) values.get(Constants.ATTR_MAN);
         composure = (Integer) values.get(Constants.ATTR_COM);
-        
+
         academics = (Integer) values.get(Constants.SKILL_ACADEMICS);
         computer = (Integer) values.get(Constants.SKILL_COMPUTER);
         crafts = (Integer) values.get(Constants.SKILL_CRAFTS);
@@ -226,7 +303,7 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         ArrayList<Map.Entry<String, Object>> mentalSkills = new ArrayList<>();
         ArrayList<Map.Entry<String, Object>> physicalSkills = new ArrayList<>();
         ArrayList<Map.Entry<String, Object>> socialSkills = new ArrayList<>();
-        
+
         for (Map.Entry<String, Object> entry : values.entrySet()) {
 
             if (entry.getValue() != null && entry.getValue() instanceof Integer) {
@@ -238,44 +315,12 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             mentalSkills.add(entry);            // 1
                             break;
                         }
-                        case Constants.SKILL_ANIMAL_KEN: {
-                            socialSkills.add(entry);            // 1
-                            break;
-                        }
-                        case Constants.SKILL_ATHLETICS: {
-                            physicalSkills.add(entry);          // 1
-                            break;
-                        }
-                        case Constants.SKILL_BRAWL: {
-                            physicalSkills.add(entry);          // 2
-                            break;
-                        }
                         case Constants.SKILL_COMPUTER: {
                             mentalSkills.add(entry);            // 2
                             break;
                         }
                         case Constants.SKILL_CRAFTS: {
                             mentalSkills.add(entry);            // 3
-                            break;
-                        }
-                        case Constants.SKILL_DRIVE: {
-                            physicalSkills.add(entry);          // 3
-                            break;
-                        }
-                        case Constants.SKILL_EMPATHY: {
-                            socialSkills.add(entry);            // 2
-                            break;
-                        }
-                        case Constants.SKILL_EXPRESSION: {
-                            socialSkills.add(entry);            // 3
-                            break;
-                        }
-                        case Constants.SKILL_FIREARMS: {
-                            physicalSkills.add(entry);          // 4
-                            break;
-                        }
-                        case Constants.SKILL_INTIMIDATION: {
-                            socialSkills.add(entry);            // 4
                             break;
                         }
                         case Constants.SKILL_INVESTIGATION: {
@@ -290,10 +335,6 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             mentalSkills.add(entry);            // 6
                             break;
                         }
-                        case Constants.SKILL_PERSUASION: {
-                            socialSkills.add(entry);            // 5
-                            break;
-                        }
                         case Constants.SKILL_POLITICS: {
                             mentalSkills.add(entry);            // 7
                             break;
@@ -302,20 +343,28 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             mentalSkills.add(entry);            // 8
                             break;
                         }
-                        case Constants.SKILL_SOCIALIZE: {
-                            socialSkills.add(entry);            // 6
+                        case Constants.SKILL_ATHLETICS: {
+                            physicalSkills.add(entry);          // 1
                             break;
                         }
-                        case Constants.SKILL_STEALTH: {
+                        case Constants.SKILL_BRAWL: {
+                            physicalSkills.add(entry);          // 2
+                            break;
+                        }
+                        case Constants.SKILL_DRIVE: {
+                            physicalSkills.add(entry);          // 3
+                            break;
+                        }
+                        case Constants.SKILL_FIREARMS: {
+                            physicalSkills.add(entry);          // 4
+                            break;
+                        }
+                        case Constants.SKILL_LARCENY: {
                             physicalSkills.add(entry);          // 5
                             break;
                         }
-                        case Constants.SKILL_STREETWISE: {
-                            socialSkills.add(entry);            // 7
-                            break;
-                        }
-                        case Constants.SKILL_SUBTERFUGE: {
-                            socialSkills.add(entry);            // 8
+                        case Constants.SKILL_STEALTH: {
+                            physicalSkills.add(entry);          // 6
                             break;
                         }
                         case Constants.SKILL_SURVIVAL: {
@@ -326,6 +375,38 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
                             physicalSkills.add(entry);          // 8
                             break;
                         }
+                        case Constants.SKILL_ANIMAL_KEN: {
+                            socialSkills.add(entry);            // 1
+                            break;
+                        }
+                        case Constants.SKILL_EMPATHY: {
+                            socialSkills.add(entry);            // 2
+                            break;
+                        }
+                        case Constants.SKILL_EXPRESSION: {
+                            socialSkills.add(entry);            // 3
+                            break;
+                        }
+                        case Constants.SKILL_INTIMIDATION: {
+                            socialSkills.add(entry);            // 4
+                            break;
+                        }
+                        case Constants.SKILL_PERSUASION: {
+                            socialSkills.add(entry);            // 5
+                            break;
+                        }
+                        case Constants.SKILL_SOCIALIZE: {
+                            socialSkills.add(entry);            // 6
+                            break;
+                        }
+                        case Constants.SKILL_STREETWISE: {
+                            socialSkills.add(entry);            // 7
+                            break;
+                        }
+                        case Constants.SKILL_SUBTERFUGE: {
+                            socialSkills.add(entry);            // 8
+                            break;
+                        }
                     }
                 }
             }
@@ -334,6 +415,13 @@ public class SummaryStep extends WizardStep implements PagerStep.ChildStep, Page
         populateSkillField(txtSummarySkillsMental, mentalSkills);
         populateSkillField(txtSummarySkillsPhysical, physicalSkills);
         populateSkillField(txtSummarySkillsSocial, socialSkills);
+
+        valueSetterDefense.setCurrentValue(Math.min(dexterity, wits));
+        valueSetterMorality.setCurrentValue(Constants.TRAIT_MORALITY_DEFAULT);
+        valueSetterHealth.setCurrentValue(stamina + Constants.TRAIT_SIZE_DEFAULT);
+        valueSetterInitiative.setCurrentValue(composure + dexterity);
+        valueSetterSpeed.setCurrentValue(dexterity + strength);
+        valueSetterWillpower.setCurrentValue(resolve + composure);
     }
 
     private void populateSkillField(TextView textView, ArrayList<Map.Entry<String, Object>> skills) {

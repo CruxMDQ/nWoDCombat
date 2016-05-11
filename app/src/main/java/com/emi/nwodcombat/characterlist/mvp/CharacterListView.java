@@ -7,52 +7,43 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.FragmentView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterlist.RealmCharacterAdapter;
-import com.emi.nwodcombat.characterlist.interfaces.MainMVP;
+import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.realm.Character;
+import com.emi.nwodcombat.utils.BusProvider;
+import com.squareup.otto.Bus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.RealmResults;
+
 
 /**
  * Created by emiliano.desantis on 29/03/2016.
  */
-public class CharacterListView extends FragmentView implements MainMVP.RequiredViewOps {
-//    private CharacterAdapter characterAdapter;
+public class CharacterListView extends FragmentView {
+    private final Bus bus;
     private RealmCharacterAdapter realmCharacterAdapter;
 
-//    private ArrayList<com.emi.nwodcombat.model.realm.Character> characters = new ArrayList<>();
-
-    @Bind(R.id.rvCharacters) co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView rvCharacters;
+    @Bind(R.id.rvCharacters) RealmRecyclerView rvCharacters;
     @Bind(R.id.fabNewCharacter) FloatingActionButton fab;
     @Bind(R.id.empty_characters) TextView empty;
 
-    private MainMVP.PresenterOps mPresenter;
-
-    public CharacterListView(Fragment fragment) {
+    public CharacterListView(Fragment fragment, Bus bus) {
         super(fragment);
+        this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
+        initializeRV();
     }
 
-//    public CharacterListView(Fragment fragment, MainMVP.PresenterOps mPresenter) {
-//        super(fragment);
-//        ButterKnife.bind(this, fragment.getView());
-//
-//        this.mPresenter = mPresenter;
-//        characterAdapter = new CharacterAdapter(getActivity(), R.layout.row_character_name, mPresenter.queryCharacters());
-//        rvCharacters.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        rvCharacters.setAdapter(characterAdapter);
-//    }
-
-//    public void showCharacters(RealmResults<Character> characters) {
-//        this.characters.clear();
-//        this.characters.addAll(characters);
-//        characterAdapter.notifyDataSetChanged();
-//    }
+    private void initializeRV() {
+        realmCharacterAdapter = new RealmCharacterAdapter(null, getActivity(), R.layout.row_character_name, true, false, BusProvider
+            .getInstance());
+        rvCharacters.setAdapter(realmCharacterAdapter);
+    }
 
     public void showSnackBar(String s) {
         Snackbar.make(rvCharacters, s, Snackbar.LENGTH_SHORT).show();
@@ -68,7 +59,7 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
 
     @OnClick(R.id.fabNewCharacter)
     public void fabPressed() {
-        mPresenter.onFabPressed();
+        bus.post(new FabPressedEvent());
     }
 
     public void showNoCharacters() {
@@ -79,16 +70,31 @@ public class CharacterListView extends FragmentView implements MainMVP.RequiredV
         empty.setVisibility(View.GONE);
     }
 
-    public void setCallback(CharacterListPresenter callback) {
-        this.mPresenter = callback;
+    public void updateRV(RealmResults<Character> characters) {
+        realmCharacterAdapter.updateRealmResults(characters);
     }
 
-    public MainMVP.PresenterOps getCallback() {
-        return mPresenter;
+    public static class FabPressedEvent {
+
     }
 
-    public void setUpRV(RealmResults<Character> characters) {
-        realmCharacterAdapter = new RealmCharacterAdapter(characters, getActivity(), R.layout.row_character_name, true, false);
-        rvCharacters.setAdapter(realmCharacterAdapter);
+    public static class ErrorEvent {
+        public String message;
+
+        ErrorEvent(String message) {
+            this.message = message;
+        }
+    }
+
+    public static class RemoveCharacterEvent {
+        public long id;
+
+        RemoveCharacterEvent(long id) {
+            this.id = id;
+        }
+    }
+
+    public static class NewCharacterEvent {
+        String name;
     }
 }

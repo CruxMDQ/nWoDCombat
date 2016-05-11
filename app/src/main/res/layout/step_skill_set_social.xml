@@ -29,7 +29,7 @@
             android:background="@drawable/bkgd_cat_panel">
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterAnimalKen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterEmpathy"
                 android:layout_below="@id/valueSetterAnimalKen"
                 android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterExpression"
                 android:layout_below="@id/valueSetterEmpathy"
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterIntimidation"
                 android:layout_below="@id/valueSetterExpression"
                 android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterPersuasion"
                 android:layout_below="@id/valueSetterIntimidation"
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterSocialize"
                 android:layout_below="@id/valueSetterPersuasion"
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterStreetwise"
                 android:layout_below="@id/valueSetterSocialize"
                 android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                 />
 
             <view
-                class="com.emi.nwodcombat.widgets.ValueSetterWidget"
+                class="com.emi.nwodcombat.widgets.ValueSetter"
                 android:id="@+id/valueSetterSubterfuge"
                 android:layout_below="@id/valueSetterStreetwise"
                 android:layout_width="match_parent"

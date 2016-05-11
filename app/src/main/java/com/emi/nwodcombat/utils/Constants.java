@@ -1,18 +1,17 @@
-package com.emi.nwodcombat;
+package com.emi.nwodcombat.utils;
 
 /**
  * Created by Emi on 2/18/16.
  */
 public class Constants {
-
     public static final boolean MODE_TEST = true;
-
-    public static final String DB_NAME = "nWoDDB";
 
     public static final String TYPEFACE_FOLDER = "fonts/";
     public static final String TYPEFACE_EXTENSION_TTF = ".ttf";
 
     public static final String TAG_FRAG_CHARACTER_CREATOR_PAGER = "characterCreatorPager";
+    public static final String TAG_FRAG_CHARACTER_VIEWER = "characterViewerFragment";
+    public static final String TAG_FRAG_CHARACTER_LIST = "characterListFragment";
     public static final String TAG_FRAG_SETTINGS = "settingsFragment";
     public static final String TAG_SHARED_PREFS = "sharedPrefs";
 
@@ -63,6 +62,8 @@ public class Constants {
     public static final String CHARACTER_VIRTUE = "Virtue";
     public static final String CHARACTER_DEMEANOR = "Demeanor";
     public static final String CHARACTER_NATURE = "Nature";
+    public static final String CHARACTER_BEATS = "Beats";
+    public static final String CHARACTER_EXPERIENCE = "Experience";
 
     public static final String ATTR_INT = "Intelligence";
     public static final String ATTR_WIT = "Wits";
@@ -101,10 +102,25 @@ public class Constants {
     public static final String SKILL_STREETWISE = "Streetwise";
     public static final String SKILL_SUBTERFUGE = "Subterfuge";
 
+    public static final String TRAIT_MORALITY = "Morality";
+    public static final String TRAIT_DERIVED_DEFENSE = "Defense";
+    public static final String TRAIT_DERIVED_HEALTH = "Health";
+    public static final String TRAIT_DERIVED_INITIATIVE = "Initiative";
+    public static final String TRAIT_DERIVED_SPEED = "Speed";
+    public static final String TRAIT_DERIVED_WILLPOWER = "Willpower";
+
+    public static final int TRAIT_MORALITY_DEFAULT = 7;
+    public static final int TRAIT_SIZE_DEFAULT = 5;
+
     public static final String ARG_CLASS = "Class";
     public static final String ARG_TITLE = "Title";
     public static final String ARG_HINT = "Hint";
     public static final String ARG_CLASS_ARGS = "ClassArguments";
 
     public static final String FIELD_ID = "id";
+
+    public static final String FIELD_TYPE_STRING = "String";
+    public static final String FIELD_TYPE_INTEGER = "Integer";
+
+    public static final String FIELD_TRAIT_ORDINAL = "ordinal";
 }

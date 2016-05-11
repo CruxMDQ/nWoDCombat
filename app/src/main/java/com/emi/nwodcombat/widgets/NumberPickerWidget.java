@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.interfaces.OnValueChangedListener;
+import com.emi.nwodcombat.utils.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

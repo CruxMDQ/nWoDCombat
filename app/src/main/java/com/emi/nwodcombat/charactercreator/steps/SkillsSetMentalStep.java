@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.widgets.ValueSetterWidget;
+import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.HashMap;
 
@@ -28,14 +28,22 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
     private int mentalPoints;
     private int currentMentalPool;
 
-    @Bind(R.id.valueSetterAcademics) ValueSetterWidget valueSetterAcademics;
-    @Bind(R.id.valueSetterComputer) ValueSetterWidget valueSetterComputer;
-    @Bind(R.id.valueSetterCrafts) ValueSetterWidget valueSetterCrafts;
-    @Bind(R.id.valueSetterInvestigation) ValueSetterWidget valueSetterInvestigation;
-    @Bind(R.id.valueSetterMedicine) ValueSetterWidget valueSetterMedicine;
-    @Bind(R.id.valueSetterOccult) ValueSetterWidget valueSetterOccult;
-    @Bind(R.id.valueSetterPolitics) ValueSetterWidget valueSetterPolitics;
-    @Bind(R.id.valueSetterScience) ValueSetterWidget valueSetterScience;
+    @Bind(R.id.valueSetterAcademics)
+    ValueSetter valueSetterAcademics;
+    @Bind(R.id.valueSetterComputer)
+    ValueSetter valueSetterComputer;
+    @Bind(R.id.valueSetterCrafts)
+    ValueSetter valueSetterCrafts;
+    @Bind(R.id.valueSetterInvestigation)
+    ValueSetter valueSetterInvestigation;
+    @Bind(R.id.valueSetterMedicine)
+    ValueSetter valueSetterMedicine;
+    @Bind(R.id.valueSetterOccult)
+    ValueSetter valueSetterOccult;
+    @Bind(R.id.valueSetterPolitics)
+    ValueSetter valueSetterPolitics;
+    @Bind(R.id.valueSetterScience)
+    ValueSetter valueSetterScience;
 
     @Bind(R.id.txtMentalSkillsTitle) TextView txtMentalSkillsTitle;
 
@@ -152,8 +160,8 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value) {
-        ValueSetterWidget widget = (ValueSetterWidget) caller;
+    public void onTraitChanged(Object caller, int value, String constant) {
+        ValueSetter widget = (ValueSetter) caller;
 
         if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
             currentMentalPool = widget.changeValue(value, currentMentalPool);
@@ -172,7 +180,7 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
 
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
         return preferences;
     }

@@ -26,7 +26,6 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     CharacterCreatorStatePagerAdapter adapter;
     List<PagerStep> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
-//    CharacterController controller;
     PagerFinisher pagerFinisher;
 
     @Bind(R.id.viewPager) ViewPager pager;

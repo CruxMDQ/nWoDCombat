@@ -1,399 +1,51 @@
 package com.emi.nwodcombat.model.realm;
 
+import android.support.annotation.NonNull;
+
+import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
+import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
+import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
+import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
+import com.emi.nwodcombat.tools.ArrayHelper;
+import com.emi.nwodcombat.utils.Constants;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by emiliano.desantis on 05/04/2016.
+ * Corrections to apply:
+ * - One method per value to retrieve from Entry list
  */
 public class Character extends RealmObject {
     @PrimaryKey
     private Long id;
 
-    private String name;
-    private String player;
-    private String concept;
-
-    private int intelligence;
-    private int wits;
-    private int resolve;
-    private int strength;
-    private int dexterity;
-    private int stamina;
-    private int presence;
-    private int manipulation;
-    private int composure;
-    
-    private int academics;
-    private int computer;
-    private int crafts;
-    private int investigation;
-    private int medicine;
-    private int occult;
-    private int politics;
-    private int science;
-    private int athletics;
-    private int brawl;
-    private int drive;
-    private int firearms;
-    private int larceny;
-    private int stealth;
-    private int survival;
-    private int weaponry;
-    private int animalKen;
-    private int empathy;
-    private int expression;
-    private int intimidation;
-    private int persuasion;
-    private int socialize;
-    private int streetwise;
-    private int subterfuge;
-
-    private int health;
-    private int morality;
-    private int potency;
-    private int willpower;
-    private int willpowerReserve;
-
-    private RealmList<PersonalityArchetype> personalityTraits = new RealmList<>();
+    private RealmList<DemeanorTrait> demeanorTraits = new RealmList<>();
+    private RealmList<NatureTrait> natureTraits = new RealmList<>();
+    private RealmList<ViceTrait> viceTraits = new RealmList<>();
+    private RealmList<VirtueTrait> virtueTraits = new RealmList<>();
+    private RealmList<Entry> entries = new RealmList<>();
+    private RealmList<Nature> natures = new RealmList<>();
+    private RealmList<Demeanor> demeanors = new RealmList<>();
     private RealmList<Vice> vices = new RealmList<>();
     private RealmList<Virtue> virtues = new RealmList<>();
 
-    public RealmList<PersonalityArchetype> getPersonalityTraits() {
-        return personalityTraits;
+    public RealmList<Nature> getNatures() {
+        return natures;
     }
 
-    public void setPersonalityTraits(RealmList<PersonalityArchetype> personalityTraits) {
-        this.personalityTraits = personalityTraits;
+    public void setNatures(RealmList<Nature> natures) {
+        this.natures = natures;
     }
 
-    public int getAcademics() {
-        return academics;
+    public RealmList<Demeanor> getDemeanors() {
+        return demeanors;
     }
 
-    public void setAcademics(int academics) {
-        this.academics = academics;
-    }
-
-    public int getAnimalKen() {
-        return animalKen;
-    }
-
-    public void setAnimalKen(int animalKen) {
-        this.animalKen = animalKen;
-    }
-
-    public int getAthletics() {
-        return athletics;
-    }
-
-    public void setAthletics(int athletics) {
-        this.athletics = athletics;
-    }
-
-    public int getBrawl() {
-        return brawl;
-    }
-
-    public void setBrawl(int brawl) {
-        this.brawl = brawl;
-    }
-
-    public int getComposure() {
-        return composure;
-    }
-
-    public void setComposure(int composure) {
-        this.composure = composure;
-    }
-
-    public int getComputer() {
-        return computer;
-    }
-
-    public void setComputer(int computer) {
-        this.computer = computer;
-    }
-
-    public String getConcept() {
-        return concept;
-    }
-
-    public void setConcept(String concept) {
-        this.concept = concept;
-    }
-
-    public int getCrafts() {
-        return crafts;
-    }
-
-    public void setCrafts(int crafts) {
-        this.crafts = crafts;
-    }
-
-    public int getDexterity() {
-        return dexterity;
-    }
-
-    public void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
-    }
-
-    public int getDrive() {
-        return drive;
-    }
-
-    public void setDrive(int drive) {
-        this.drive = drive;
-    }
-
-    public int getEmpathy() {
-        return empathy;
-    }
-
-    public void setEmpathy(int empathy) {
-        this.empathy = empathy;
-    }
-
-    public int getExpression() {
-        return expression;
-    }
-
-    public void setExpression(int expression) {
-        this.expression = expression;
-    }
-
-    public int getFirearms() {
-        return firearms;
-    }
-
-    public void setFirearms(int firearms) {
-        this.firearms = firearms;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
-
-    public int getIntimidation() {
-        return intimidation;
-    }
-
-    public void setIntimidation(int intimidation) {
-        this.intimidation = intimidation;
-    }
-
-    public int getInvestigation() {
-        return investigation;
-    }
-
-    public void setInvestigation(int investigation) {
-        this.investigation = investigation;
-    }
-
-    public int getLarceny() {
-        return larceny;
-    }
-
-    public void setLarceny(int larceny) {
-        this.larceny = larceny;
-    }
-
-    public int getManipulation() {
-        return manipulation;
-    }
-
-    public void setManipulation(int manipulation) {
-        this.manipulation = manipulation;
-    }
-
-    public int getMedicine() {
-        return medicine;
-    }
-
-    public void setMedicine(int medicine) {
-        this.medicine = medicine;
-    }
-
-    public int getMorality() {
-        return morality;
-    }
-
-    public void setMorality(int morality) {
-        this.morality = morality;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getOccult() {
-        return occult;
-    }
-
-    public void setOccult(int occult) {
-        this.occult = occult;
-    }
-
-    public int getPersuasion() {
-        return persuasion;
-    }
-
-    public void setPersuasion(int persuasion) {
-        this.persuasion = persuasion;
-    }
-
-    public String getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(String player) {
-        this.player = player;
-    }
-
-    public int getPolitics() {
-        return politics;
-    }
-
-    public void setPolitics(int politics) {
-        this.politics = politics;
-    }
-
-    public int getPotency() {
-        return potency;
-    }
-
-    public void setPotency(int potency) {
-        this.potency = potency;
-    }
-
-    public int getPresence() {
-        return presence;
-    }
-
-    public void setPresence(int presence) {
-        this.presence = presence;
-    }
-
-    public int getResolve() {
-        return resolve;
-    }
-
-    public void setResolve(int resolve) {
-        this.resolve = resolve;
-    }
-
-    public int getScience() {
-        return science;
-    }
-
-    public void setScience(int science) {
-        this.science = science;
-    }
-
-    public int getSocialize() {
-        return socialize;
-    }
-
-    public void setSocialize(int socialize) {
-        this.socialize = socialize;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(int stamina) {
-        this.stamina = stamina;
-    }
-
-    public int getStealth() {
-        return stealth;
-    }
-
-    public void setStealth(int stealth) {
-        this.stealth = stealth;
-    }
-
-    public int getStreetwise() {
-        return streetwise;
-    }
-
-    public void setStreetwise(int streetwise) {
-        this.streetwise = streetwise;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public int getSubterfuge() {
-        return subterfuge;
-    }
-
-    public void setSubterfuge(int subterfuge) {
-        this.subterfuge = subterfuge;
-    }
-
-    public int getSurvival() {
-        return survival;
-    }
-
-    public void setSurvival(int survival) {
-        this.survival = survival;
-    }
-
-    public int getWeaponry() {
-        return weaponry;
-    }
-
-    public void setWeaponry(int weaponry) {
-        this.weaponry = weaponry;
-    }
-
-    public int getWillpower() {
-        return willpower;
-    }
-
-    public void setWillpower(int willpower) {
-        this.willpower = willpower;
-    }
-
-    public int getWillpowerReserve() {
-        return willpowerReserve;
-    }
-
-    public void setWillpowerReserve(int willpowerReserve) {
-        this.willpowerReserve = willpowerReserve;
-    }
-
-    public int getWits() {
-        return wits;
-    }
-
-    public void setWits(int wits) {
-        this.wits = wits;
+    public void setDemeanors(RealmList<Demeanor> demeanors) {
+        this.demeanors = demeanors;
     }
 
     public Long getId() {
@@ -418,5 +70,254 @@ public class Character extends RealmObject {
 
     public void setVirtues(RealmList<Virtue> virtues) {
         this.virtues = virtues;
+    }
+
+    public RealmList<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(RealmList<Entry> entries) {
+        this.entries = entries;
+    }
+
+    public int getValue(@NonNull String code) {
+        String result = ArrayHelper.findValue(entries, code);
+
+        return result != null ? Integer.valueOf(result) : 0;
+    }
+
+    public Object getValue(@NonNull String code, Class klass) {
+        if (klass.equals(Integer.class)) {
+            String result = ArrayHelper.findValue(entries, code);
+
+            return result != null ? Integer.valueOf(result) : 0;
+        } else if (klass.equals(String.class)) {
+            return ArrayHelper.findValue(entries, code);
+        }
+        return null;
+    }
+
+    public Entry getEntry(@NonNull String code) {
+        return ArrayHelper.findEntry(entries, code);
+    }
+
+    public String getFirstDemeanor() {
+        return getDemeanorTraits().first().getDemeanor().getName();
+    }
+
+    public String getFirstNature() {
+        return getNatureTraits().first().getNature().getName();
+    }
+
+    public String getFirstVice() {
+        return getViceTraits().first().getVice().getName();
+    }
+
+    public String getFirstVirtue() {
+        return getVirtueTraits().first().getVirtue().getName();
+    }
+
+    public String getName() {
+        return getValue(Constants.CHARACTER_NAME, String.class).toString();
+    }
+
+    public String getPlayer() {
+        return getValue(Constants.CHARACTER_PLAYER, String.class).toString();
+    }
+
+    public String getConcept() {
+        return getValue(Constants.CHARACTER_CONCEPT, String.class).toString();
+    }
+
+    public Entry getExperience() {
+        return ArrayHelper.findEntry(entries, Constants.CHARACTER_EXPERIENCE);
+    }
+
+    public Entry getIntelligence() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_INT);
+    }
+
+    public Entry getWits() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_WIT);
+    }
+
+    public Entry getResolve() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_RES);
+    }
+
+    public Entry getStrength() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_STR);
+    }
+
+    public Entry getDexterity() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_DEX);
+    }
+
+    public Entry getStamina() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_STA);
+    }
+
+    public Entry getPresence() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_PRE);
+    }
+
+    public Entry getManipulation() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_MAN);
+    }
+
+    public Entry getComposure() {
+        return ArrayHelper.findEntry(entries, Constants.ATTR_COM);
+    }
+
+    public Entry getAcademics() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_ACADEMICS);
+    }
+
+    public Entry getComputer() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_COMPUTER);
+    }
+
+    public Entry getCrafts() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_CRAFTS);
+    }
+
+    public Entry getInvestigation() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_INVESTIGATION);
+    }
+
+    public Entry getMedicine() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_MEDICINE);
+    }
+
+    public Entry getOccult() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_OCCULT);
+    }
+
+    public Entry getPolitics() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_POLITICS);
+    }
+
+    public Entry getScience() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_SCIENCE);
+    }
+
+    public Entry getAthletics() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_ATHLETICS);
+    }
+
+    public Entry getBrawl() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_BRAWL);
+    }
+
+    public Entry getDrive() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_DRIVE);
+    }
+
+    public Entry getFirearms() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_FIREARMS);
+    }
+
+    public Entry getLarceny() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_LARCENY);
+    }
+
+    public Entry getStealth() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_STEALTH);
+    }
+
+    public Entry getSurvival() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_SURVIVAL);
+    }
+
+    public Entry getWeaponry() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_WEAPONRY);
+    }
+
+    public Entry getAnimalKen() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_ANIMAL_KEN);
+    }
+
+    public Entry getEmpathy() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_EMPATHY);
+    }
+
+    public Entry getExpression() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_EXPRESSION);
+    }
+
+    public Entry getIntimidation() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_INTIMIDATION);
+    }
+
+    public Entry getPersuasion() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_PERSUASION);
+    }
+
+    public Entry getSocialize() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_SOCIALIZE);
+    }
+
+    public Entry getStreetwise() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_STREETWISE);
+    }
+
+    public Entry getSubterfuge() {
+        return ArrayHelper.findEntry(entries, Constants.SKILL_SUBTERFUGE);
+    }
+
+    public Entry getDefense() {
+        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_DEFENSE);
+    }
+
+    public Entry getHealth() {
+        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_HEALTH);
+    }
+
+    public Entry getInitiative() {
+        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_INITIATIVE);
+    }
+
+    public Entry getMorality() {
+        return ArrayHelper.findEntry(entries, Constants.TRAIT_MORALITY);
+    }
+
+    public Entry getSpeed() {
+        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_SPEED);
+    }
+
+    public Entry getWillpower() {
+        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_WILLPOWER);
+    }
+
+    public RealmList<DemeanorTrait> getDemeanorTraits() {
+        return demeanorTraits;
+    }
+
+    public void setDemeanorTraits(RealmList<DemeanorTrait> demeanorTraits) {
+        this.demeanorTraits = demeanorTraits;
+    }
+
+    public RealmList<NatureTrait> getNatureTraits() {
+        return natureTraits;
+    }
+
+    public void setNatureTraits(RealmList<NatureTrait> natureTraits) {
+        this.natureTraits = natureTraits;
+    }
+
+    public RealmList<ViceTrait> getViceTraits() {
+        return viceTraits;
+    }
+
+    public void setViceTraits(RealmList<ViceTrait> viceTraits) {
+        this.viceTraits = viceTraits;
+    }
+
+    public RealmList<VirtueTrait> getVirtueTraits() {
+        return virtueTraits;
+    }
+
+    public void setVirtueTraits(RealmList<VirtueTrait> virtueTraits) {
+        this.virtueTraits = virtueTraits;
     }
 }

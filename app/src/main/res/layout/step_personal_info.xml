@@ -72,12 +72,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_virtue" />
 
-                    <Spinner
+                    <com.emi.nwodcombat.widgets.NoDefaultSpinner
                         android:id="@+id/spinnerVirtue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:prompt="@string/spinner_nothing_selected_option_pick"/>
 
                     <Button
                         android:id="@+id/btnAddVirtue"
@@ -101,12 +102,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_vice" />
 
-                    <Spinner
+                    <com.emi.nwodcombat.widgets.NoDefaultSpinner
                         android:id="@+id/spinnerVice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:prompt="@string/spinner_nothing_selected_option_pick"/>
 
                     <Button
                         android:id="@+id/btnAddVice"
@@ -130,12 +132,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_nature" />
 
-                    <Spinner
+                    <com.emi.nwodcombat.widgets.NoDefaultSpinner
                         android:id="@+id/spinnerNature"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:prompt="@string/spinner_nothing_selected_option_pick"/>
 
                     <Button
                         android:id="@+id/btnAddNature"
@@ -159,12 +162,13 @@
                         android:layout_margin="@dimen/spacing_half"
                         android:text="@string/label_step_personal_info_demeanor" />
 
-                    <Spinner
+                    <com.emi.nwodcombat.widgets.NoDefaultSpinner
                         android:id="@+id/spinnerDemeanor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_half"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:prompt="@string/spinner_nothing_selected_option_pick"/>
 
                     <Button
                         android:id="@+id/btnAddDemeanor"

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="cost_attributes">4</integer>
+    <integer name="cost_morality">3</integer>
+    <integer name="cost_skills">2</integer>
+    <integer name="cost_merits">1</integer>
+    <integer name="cost_specialties">1</integer>
+    <integer name="cost_willpower">1</integer>
+</resources>

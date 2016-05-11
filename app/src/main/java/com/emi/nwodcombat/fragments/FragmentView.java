@@ -1,4 +1,4 @@
-package com.emi.nwodcombat;
+package com.emi.nwodcombat.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;

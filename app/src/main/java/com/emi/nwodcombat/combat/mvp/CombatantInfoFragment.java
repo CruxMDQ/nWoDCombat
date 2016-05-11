@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.emi.nwodcombat.Constants;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.ValuesAdapter;
 import com.emi.nwodcombat.model.pojos.Rule;
 import com.emi.nwodcombat.model.pojos.Value;
+import com.emi.nwodcombat.utils.Constants;
 
 import org.apache.commons.lang3.text.WordUtils;
 

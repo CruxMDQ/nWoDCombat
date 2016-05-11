@@ -1,11 +1,13 @@
-package com.emi.nwodcombat;
+package com.emi.nwodcombat.application;
 
 import android.app.Application;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.pojos.VicePojo;
 import com.emi.nwodcombat.model.pojos.VirtuePojo;
-import com.emi.nwodcombat.model.realm.PersonalityArchetype;
+import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  * Created by Emi on 3/14/16.
  * Refer to this site for training on Realm: https://realm.io/docs/java/latest/
  */
-public class ExtendedApplication extends Application {
+public class NwodCombatApplication extends Application {
 
     PersistenceLayer helper;
 
@@ -156,7 +158,7 @@ public class ExtendedApplication extends Application {
 
         Gson gson = new Gson();
 
-        if (helper.getCount(PersonalityArchetype.class) == 0) {
+        if (helper.getCount(Nature.class) == 0) {
             ArrayList<String> jsonObjects = new ArrayList<>();
 
             PersonalityArchetypePojo authoritarian = new PersonalityArchetypePojo();
@@ -378,7 +380,8 @@ public class ExtendedApplication extends Application {
             visionary.setRegainAll(getString(R.string.personality_regain_all_visionary));
             jsonObjects.add(gson.toJson(visionary));
 
-            helper.save(PersonalityArchetype.class, jsonObjects);
+            helper.save(Nature.class, jsonObjects);
+            helper.save(Demeanor.class, jsonObjects);
         }
     }
 }
