@@ -12,10 +12,10 @@ import java.util.List;
 /**
  * Created by Emi on 3/3/16.
  */
-public class CharacterCreatorStatePagerAdapter extends FragmentStatePagerAdapter {
+public class CharacterCreatorPagerAdapter extends FragmentStatePagerAdapter {
     private List<PagerStep> fragments;
 
-    public CharacterCreatorStatePagerAdapter(FragmentManager fm, List<PagerStep> fragments) {
+    public CharacterCreatorPagerAdapter(FragmentManager fm, List<PagerStep> fragments) {
         super(fm);
         this.fragments = fragments;
     }
