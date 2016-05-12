@@ -22,7 +22,8 @@ import com.emi.nwodcombat.utils.Constants;
 public class CharacterViewerFragment extends Fragment {
     private CharacterViewerPresenter presenter;
 
-    public CharacterViewerFragment() {}
+    public CharacterViewerFragment() {
+    }
 
     public static CharacterViewerFragment newInstance(long idCharacter) {
         CharacterViewerFragment fragment = new CharacterViewerFragment();
@@ -57,7 +58,7 @@ public class CharacterViewerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_delete){
+        if (id == R.id.action_delete) {
             presenter.onCharacterDelete();
             return true;
         }
@@ -66,9 +67,8 @@ public class CharacterViewerFragment extends Fragment {
     }
 
     private void createPresenter() {
-        presenter = new CharacterViewerPresenter(getActivity(), new CharacterViewerModel(getActivity()), new CharacterViewerView(this,
-            BusProvider.getInstance()));
-        presenter.setUpView(this.getArguments().getLong(Constants.FIELD_ID));
+        presenter = new CharacterViewerPresenter(new CharacterViewerModel(getActivity(), getArguments().getLong(Constants.FIELD_ID)), new CharacterViewerView(this,
+                BusProvider.getInstance()));
     }
 
     @Override

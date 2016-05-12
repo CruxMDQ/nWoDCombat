@@ -17,7 +17,7 @@ public interface PersistenceLayer {
 
     <T extends RealmObject> RealmResults<T> getList(Class<T> klass);
 
-    void delete(Object item);
+    <T extends RealmObject> void delete(Class<T> clazz, long id);
 
     <T extends RealmObject> T get(long id);
 

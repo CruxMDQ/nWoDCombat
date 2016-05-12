@@ -13,8 +13,8 @@ import io.realm.RealmResults;
 /**
  * Created by emiliano.desantis on 07/04/2016.
  */
-public class ViceRealmAdapter extends RealmBaseAdapter<Vice> {
-    public ViceRealmAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
+public class ViceAdapter extends RealmBaseAdapter<Vice> {
+    public ViceAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
         super(context, realmResults, automaticUpdate);
     }
 
