@@ -11,22 +11,12 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
-import com.emi.nwodcombat.adapters.ViceRealmAdapter;
-import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
+import com.emi.nwodcombat.adapters.VicesAdapter;
+import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.interfaces.ExperienceSpender;
-import com.emi.nwodcombat.model.realm.Character;
-import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.model.realm.Nature;
-import com.emi.nwodcombat.model.realm.Vice;
-import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
-import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
-import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
-import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
-import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
@@ -120,8 +110,9 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
 
     /**
      * Default constructor
+     *
      * @param fragment Fragment to bind
-     * @param bus Bus object to manage events
+     * @param bus      Bus object to manage events
      */
     public CharacterViewerView(Fragment fragment, Bus bus) {
         super(fragment);
@@ -143,9 +134,10 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
 
     /**
      * Callback from presenter; handles what happens when the 'Delete' button is tapped
-     * @param queriedCharacter
+     *
+     * @param id
      */
-    public void onCharacterDelete(final Character queriedCharacter) {
+    public void showDeleteSnackbar(final long id) {
         // Just your run-of-the-mill Snackbar instantiation - nothing to see here
         final Snackbar snackbar = Snackbar.make(scrollCharView,
                 getActivity().getString(R.string.alert_character_delete), Snackbar.LENGTH_SHORT);
@@ -155,9 +147,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             @Override
             public void onClick(View v) {
                 // Create event for character deletion, to be digested by model class
-                bus.post(new DeleteCharacterEvent(queriedCharacter));
-                // Pop back stack and remove this fragment
-                CharacterViewerView.this.getFragmentManager().popBackStack();
+                bus.post(new DeleteCharacterEvent(id));
             }
         });
 
@@ -488,11 +478,12 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         txtCharacterPlayer.setText(player);
     }
 
-    /*** Sets up the components that does the experience spending - in a way similar to but not
+    /***
+     * Sets up the components that does the experience spending - in a way similar to but not
      * exactly equal to a ValueSetter (which invites again the question: is it worth handling
      * separately? Just how much experience is a character going to have at any time?)
      */
-    public void setUpExperienceSpendingWidget(Entry experience) {
+    public void setupExperienceSpendingWidget(Entry experience) {
         txtExperience.setTag(experience);
         txtExperience.setText(experience.getValue());
     }
@@ -501,25 +492,31 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         txtExperience.setText(experience);
     }
 
-    public int changeWidgetValue(String constant, int value, int experiencePool, boolean isCheating) {
+    // TODO VSM too much complex for a view.
+    public int changeWidgetValue(String constant, int value, int experiencePool) {
         for (ValueSetter widget : valueSetters) {
             if (widget.getContentDescription().equals(constant)) {
-                if (isCheating) {
-                    widget.setCurrentValue(value);
-                } else {
-                    // Experience pool becomes whatever results from trying to spend experience; whether this
-                    // succeeds or fails is processed inside changeValue()
-                    // This is rather convoluted, but I cannot think of a better way
-                    int experience = widget.changeValue(value, experiencePool, widget.getPointCost());
+                // Experience pool becomes whatever results from trying to spend experience; whether this
+                // succeeds or fails is processed inside changeValue()
+                // This is rather convoluted, but I cannot think of a better way
+                // TODO VSM move this logic to the presenter
+                int experience = widget.changeValue(value, experiencePool, widget.getPointCost());
 
-                    // Refresh text on the experience textView
-                    setExperience(String.valueOf(experience));
+                // Refresh text on the experience textView
+                setExperience(String.valueOf(experience));
 
-                    return experience;
-                }
+                return experience;
             }
         }
         return experiencePool;
+    }
+
+    public void cheatingWidgetValue(String constant, int value) {
+        for (ValueSetter widget : valueSetters) {
+            if (widget.getContentDescription().equals(constant)) {
+                widget.setCurrentValue(value);
+            }
+        }
     }
 
     public void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
@@ -530,20 +527,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Retrieve object based on spinner position
-                Demeanor demeanor = ((Demeanor) spinnerDemeanor.getItemAtPosition(position));
-
-                // This object will be posted for handling by the model
-                DemeanorTrait demeanorTrait = new DemeanorTrait();
-
-                demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
-                demeanorTrait.setDemeanor(demeanor);
-
-                // This should change depending on which demeanor we're
-                // editing: first, second, third, or whatever
-                demeanorTrait.setOrdinal(0L);
-
-                bus.post(new DemeanorTraitChangedEvent(demeanorTrait));
+                bus.post(new DemeanorTraitChangedEvent(position));
             }
 
             @Override
@@ -563,14 +547,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Nature nature = ((Nature) spinnerNature.getItemAtPosition(position));
-
-                NatureTrait natureTrait = new NatureTrait();
-                natureTrait.setType(Constants.CHARACTER_NATURE);
-                natureTrait.setNature(nature);
-                natureTrait.setOrdinal(0L);
-
-                bus.post(new NatureTraitChangedEvent(natureTrait));
+                bus.post(new NatureTraitChangedEvent(position));
             }
 
             @Override
@@ -583,20 +560,13 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerNature.setSelection(index);
     }
 
-    public void setVicesSpinnerAdapter(ViceRealmAdapter vices) {
+    public void setVicesSpinnerAdapter(VicesAdapter vices) {
         spinnerVice.setAdapter(vices);
 
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Vice vice = ((Vice) spinnerVice.getItemAtPosition(position));
-
-                ViceTrait viceTrait = new ViceTrait();
-                viceTrait.setType(Constants.CHARACTER_NATURE);
-                viceTrait.setVice(vice);
-                viceTrait.setOrdinal(0L);
-
-                bus.post(new ViceTraitChangedEvent(viceTrait));
+                bus.post(new ViceTraitChangedEvent(position));
             }
 
             @Override
@@ -609,20 +579,13 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVice.setSelection(index);
     }
 
-    public void setVirtuesSpinnerAdapter(VirtueRealmAdapter virtues) {
+    public void setVirtuesSpinnerAdapter(VirtuesAdapter virtues) {
         spinnerVirtue.setAdapter(virtues);
 
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Virtue virtue = ((Virtue) spinnerVirtue.getItemAtPosition(position));
-
-                VirtueTrait virtueTrait = new VirtueTrait();
-                virtueTrait.setType(Constants.CHARACTER_NATURE);
-                virtueTrait.setVirtue(virtue);
-                virtueTrait.setOrdinal(0L);
-
-                bus.post(new VirtueTraitChangedEvent(virtueTrait));
+                bus.post(new VirtueTraitChangedEvent(position));
             }
 
             @Override
@@ -636,48 +599,54 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
     }
 
     public static class DeleteCharacterEvent {
-        public Character characterToDelete;
 
-        DeleteCharacterEvent(Character character) {
-            this.characterToDelete = character;
+        public long id;
+
+        DeleteCharacterEvent(long id) {
+            this.id = id;
         }
     }
 
     public static class ExperiencePoolChangeEvent {
         public boolean isIncrease;
 
-        ExperiencePoolChangeEvent(boolean isIncrease) { this.isIncrease = isIncrease; }
+        ExperiencePoolChangeEvent(boolean isIncrease) {
+            this.isIncrease = isIncrease;
+        }
     }
 
     public static class DemeanorTraitChangedEvent {
-        public DemeanorTrait demeanorTrait;
+        public int position;
 
-        DemeanorTraitChangedEvent(DemeanorTrait demeanorTrait) {
-            this.demeanorTrait = demeanorTrait;
+        DemeanorTraitChangedEvent(int position) {
+            this.position = position;
         }
     }
 
     public static class NatureTraitChangedEvent {
-        public NatureTrait natureTrait;
 
-        public NatureTraitChangedEvent(NatureTrait natureTrait) {
-            this.natureTrait = natureTrait;
+        public int position;
+
+        public NatureTraitChangedEvent(int position) {
+            this.position = position;
         }
     }
 
     public static class ViceTraitChangedEvent {
-        public ViceTrait viceTrait;
 
-        public ViceTraitChangedEvent(ViceTrait viceTrait) {
-            this.viceTrait = viceTrait;
+        public int position;
+
+        public ViceTraitChangedEvent(int position) {
+            this.position = position;
         }
     }
 
-    public class VirtueTraitChangedEvent {
-        public VirtueTrait virtueTrait;
+    public static class VirtueTraitChangedEvent {
 
-        public VirtueTraitChangedEvent(VirtueTrait virtueTrait) {
-            this.virtueTrait = virtueTrait;
+        public int position;
+
+        public VirtueTraitChangedEvent(int position) {
+            this.position = position;
         }
     }
 }
