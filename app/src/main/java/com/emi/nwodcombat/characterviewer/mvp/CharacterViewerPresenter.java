@@ -5,8 +5,8 @@ import android.content.Context;
 
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
-import com.emi.nwodcombat.adapters.ViceAdapter;
-import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
+import com.emi.nwodcombat.adapters.VicesAdapter;
+import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.DemeanorTraitChangedEvent;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.ExperiencePoolChangeEvent;
@@ -45,20 +45,19 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     // Variable to keep track of the amount of experience the character has available to spend
     // (Spec: probably a good idea to do away with it? Or, at least, to streamline how experience
     // is managed - stuff is rather disorganized)
-    // VSM: Yes, move it into the model.
+    // TODO Find a way to move it into the model
     private int experiencePool = 0;
 
     // This stores all the components that will increase or decrease the experience score
     private ArrayList<ExperienceSpender> experienceSpenders = new ArrayList<>();
 
-    // This extends a parametrized {@link io.realm.RealmBaseAdapter}
     private DemeanorsAdapter demeanorsAdapter;
 
-    private ViceAdapter viceRealmAdapter;
+    private VicesAdapter vicesAdapter;
 
     private NaturesAdapter naturesAdapter;
 
-    private VirtueRealmAdapter virtueRealmAdapter;
+    private VirtuesAdapter virtuesAdapter;
 
 
     public CharacterViewerPresenter(CharacterViewerModel model, CharacterViewerView view) {
@@ -198,19 +197,19 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         // - a context
         // - a list of objects of the right class
         // - a flag for automaticUpdate (don't yet know what 'automatic update' means in this context)
-        demeanorsAdapter = new DemeanorsAdapter(context, model.getDemeanors(), true);
+        RealmResults<Demeanor> demeanors = model.getDemeanors();
+
+        demeanorsAdapter = new DemeanorsAdapter(context, demeanors, true);
 
         // Associate the adapter to the spinner (well, duh)
         view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
 
-        setDemeanorsSpinnerSelection();
+        setDemeanorsSpinnerSelection(demeanors);
     }
 
-    private void setDemeanorsSpinnerSelection() {
+    private void setDemeanorsSpinnerSelection(RealmResults<Demeanor> demeanors) {
         // Cycle through the list of objects and if the name matches that of the first item on the
         // corresponding list for the character, set it as the selection for the spinner
-        RealmResults<Demeanor> demeanors = model.getDemeanors();
-
         Demeanor currentDemeanor = queriedCharacter.getDemeanorTraits()
                 .where()
                 .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
@@ -228,16 +227,16 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     public void setupNaturesSpinner() {
-        naturesAdapter = new NaturesAdapter(context, model.getNatures(), true);
+        RealmResults<Nature> natures = model.getNatures();
+
+        naturesAdapter = new NaturesAdapter(context, natures, true);
 
         view.setNaturesSpinnerAdapter(naturesAdapter);
 
-        setNaturesSpinnerSelection();
+        setNaturesSpinnerSelection(natures);
     }
 
-    private void setNaturesSpinnerSelection() {
-        RealmResults<Nature> natures = model.getNatures();
-
+    private void setNaturesSpinnerSelection(RealmResults<Nature> natures) {
         Nature currentNature = queriedCharacter.getNatureTraits()
                 .where()
                 .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
@@ -254,16 +253,16 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     public void setupVicesSpinner() {
-        viceRealmAdapter = new ViceAdapter(context, model.getVices(), true);
-
-        view.setVicesSpinnerAdapter(viceRealmAdapter);
-
-        setVicesSpinnerSelection();
-    }
-
-    private void setVicesSpinnerSelection() {
         RealmResults<Vice> vices = model.getVices();
 
+        vicesAdapter = new VicesAdapter(context, vices, true);
+
+        view.setVicesSpinnerAdapter(vicesAdapter);
+
+        setVicesSpinnerSelection(vices);
+    }
+
+    private void setVicesSpinnerSelection(RealmResults<Vice> vices) {
         Vice currentVice = queriedCharacter.getViceTraits()
                 .where()
                 .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
@@ -280,17 +279,16 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     public void setupVirtuesSpinner() {
-        virtueRealmAdapter = new VirtueRealmAdapter(context, model.getVirtues(), true);
-
-        view.setVirtuesSpinnerAdapter(virtueRealmAdapter);
-
-        setVirtuesSpinnerSelection();
-    }
-
-    private void setVirtuesSpinnerSelection() {
-        // TODO VSM move to model
         RealmResults<Virtue> virtues = model.getVirtues();
 
+        virtuesAdapter = new VirtuesAdapter(context, virtues, true);
+
+        view.setVirtuesSpinnerAdapter(virtuesAdapter);
+
+        setVirtuesSpinnerSelection(virtues);
+    }
+
+    private void setVirtuesSpinnerSelection(RealmResults<Virtue> virtues) {
         Virtue currentVirtue = queriedCharacter.getVirtueTraits()
                 .where()
                 .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
@@ -349,11 +347,11 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
     @Subscribe
     public void onViceTraitChangedEvent(ViceTraitChangedEvent event) {
-        model.updateViceTrait(queriedCharacter.getId(), viceRealmAdapter.getItem(event.position));
+        model.updateViceTrait(queriedCharacter.getId(), vicesAdapter.getItem(event.position));
     }
 
     @Subscribe
     public void onVirtueTraitChangedEvent(VirtueTraitChangedEvent event) {
-        model.updateVirtueTrait(queriedCharacter.getId(), virtueRealmAdapter.getItem(event.position));
+        model.updateVirtueTrait(queriedCharacter.getId(), virtuesAdapter.getItem(event.position));
     }
 }

@@ -11,18 +11,12 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
-import com.emi.nwodcombat.adapters.ViceAdapter;
-import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
+import com.emi.nwodcombat.adapters.VicesAdapter;
+import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.interfaces.ExperienceSpender;
-import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.model.realm.Nature;
-import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
-import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
-import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
@@ -566,7 +560,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerNature.setSelection(index);
     }
 
-    public void setVicesSpinnerAdapter(ViceAdapter vices) {
+    public void setVicesSpinnerAdapter(VicesAdapter vices) {
         spinnerVice.setAdapter(vices);
 
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -585,7 +579,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVice.setSelection(index);
     }
 
-    public void setVirtuesSpinnerAdapter(VirtueRealmAdapter virtues) {
+    public void setVirtuesSpinnerAdapter(VirtuesAdapter virtues) {
         spinnerVirtue.setAdapter(virtues);
 
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

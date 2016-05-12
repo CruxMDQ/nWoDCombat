@@ -14,8 +14,8 @@ import android.widget.Spinner;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
-import com.emi.nwodcombat.adapters.ViceAdapter;
-import com.emi.nwodcombat.adapters.VirtueRealmAdapter;
+import com.emi.nwodcombat.adapters.VicesAdapter;
+import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
@@ -179,7 +179,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                 public void onNothingSelected(AdapterView<?> parent) { }
             });
 
-        setUpSpinner(spinnerVice, new ViceAdapter(getActivity(), helper.getList(Vice.class), true),
+        setUpSpinner(spinnerVice, new VicesAdapter(getActivity(), helper.getList(Vice.class), true),
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -192,7 +192,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                 public void onNothingSelected(AdapterView<?> parent) { }
             });
 
-        setUpSpinner(spinnerVirtue, new VirtueRealmAdapter(getActivity(), helper.getList(Virtue.class), true),
+        setUpSpinner(spinnerVirtue, new VirtuesAdapter(getActivity(), helper.getList(Virtue.class), true),
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
