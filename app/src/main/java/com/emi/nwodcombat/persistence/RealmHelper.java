@@ -34,7 +34,7 @@ public class RealmHelper implements PersistenceLayer {
     private Realm realm;
     private RealmConfiguration realmConfig;
 
-    public static RealmHelper getInstance (Context context) {
+    public static RealmHelper getInstance(Context context) {
         if (instance == null) {
             instance = new RealmHelper(context);
         }
@@ -50,11 +50,11 @@ public class RealmHelper implements PersistenceLayer {
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.e("RealmHelper", context.getString(R.string.error_message_context_null));
-        } catch (RealmMigrationNeededException e){
+        } catch (RealmMigrationNeededException e) {
             try {
                 Realm.deleteRealm(realmConfig);
                 realm = Realm.getInstance(realmConfig);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 throw ex;
                 //No Realm file to remove.
             }
@@ -93,10 +93,10 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public <T extends RealmObject> long save(T item) {
-            realm.beginTransaction();
-            realm.copyToRealmOrUpdate(item);
-            realm.commitTransaction();
-            return 0;
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(item);
+        realm.commitTransaction();
+        return 0;
     }
 
     public <T extends RealmObject> long save(Class<T> klass, String json) {
@@ -157,23 +157,21 @@ public class RealmHelper implements PersistenceLayer {
             RealmQuery query = realm.where(className);
             Number max = query.max("id");
             key = max != null ? max.longValue() + 1 : 0;
-        } catch(ArrayIndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException ex) {
             key = 0;
         }
         return key;
     }
 
     @Override
-    public void delete(Object item) {
-        if (item instanceof Character) {
-            realm.beginTransaction();
+    public <T extends RealmObject> void delete(Class<T> clazz, long id) {
+        realm.beginTransaction();
 
-            Character target = realm.where(Character.class).equalTo(Constants.FIELD_ID, ((Character) item).getId()).findAll().first();
+        T target = realm.where(clazz).equalTo(Constants.FIELD_ID, id).findAll().first();
 
-            target.removeFromRealm();
+        target.removeFromRealm();
 
-            realm.commitTransaction();
-        }
+        realm.commitTransaction();
     }
 
     @Override

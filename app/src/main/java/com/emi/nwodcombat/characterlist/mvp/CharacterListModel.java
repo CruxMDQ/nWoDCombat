@@ -37,7 +37,7 @@ public class CharacterListModel {
     }
 
     public void removeCharacter(long id) {
-        helper.delete(id);
+        helper.delete(Character.class, id);
     }
 
     public RealmResults<Character> getList() {
