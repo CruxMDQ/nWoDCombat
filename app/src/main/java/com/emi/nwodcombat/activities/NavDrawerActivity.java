@@ -24,6 +24,7 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
 import com.emi.nwodcombat.characterlist.CharacterListFragment;
+import com.emi.nwodcombat.characterwizard.CharacterWizardFragment;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 import com.emi.nwodcombat.fragments.SettingsFragment;
 import com.emi.nwodcombat.utils.Constants;
@@ -99,7 +100,7 @@ public class NavDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_camera:
-                loadNewCharacterWizard();
+                loadNewCharacterCreator();
                 break;
             case R.id.nav_gallery:
                 loadCharacterList();
@@ -108,7 +109,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 loadCombatFragment();
                 break;
             case R.id.nav_manage:
-
+                loadNewCharacterWizard();
                 break;
             case R.id.nav_share:
 
@@ -137,7 +138,7 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     //VSM this is memory consuming, use a better approach. Maybe a ViewPager is the best option.
-    private void loadNewCharacterWizard() {
+    private void loadNewCharacterCreator() {
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterCreatorPagerFragment) {
             return;
@@ -175,6 +176,17 @@ public class NavDrawerActivity extends AppCompatActivity
         fragmentList.add(summaryStep);
 
         fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
+    }
+
+    private void loadNewCharacterWizard() {
+        CharacterWizardFragment fragment = new CharacterWizardFragment();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterWizardFragment) {
+            return;
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
     }
 
     private void loadSettingsFragment() {

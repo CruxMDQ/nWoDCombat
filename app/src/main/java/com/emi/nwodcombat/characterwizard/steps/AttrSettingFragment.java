@@ -1,0 +1,194 @@
+package com.emi.nwodcombat.characterwizard.steps;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.widgets.ValueSetter;
+
+import java.util.HashMap;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+/**
+ * Created by Emi on 3/1/16.
+ */
+public class AttrSettingFragment extends PagerFragment implements OnTraitChangedListener {
+
+    private SharedPreferences preferences;
+
+    private int mentalPoints;
+    private int currentMentalPool;
+    private int physicalPoints;
+    private int currentPhysicalPool;
+    private int socialPoints;
+    private int currentSocialPool;
+
+    @Bind(R.id.valueSetterInt) ValueSetter valueSetterIntelligence;
+    @Bind(R.id.valueSetterWits) ValueSetter valueSetterWits;
+    @Bind(R.id.valueSetterRes) ValueSetter valueSetterResolve;
+    @Bind(R.id.valueSetterStr) ValueSetter valueSetterStrength;
+    @Bind(R.id.valueSetterDex) ValueSetter valueSetterDexterity;
+    @Bind(R.id.valueSetterSta) ValueSetter valueSetterStamina;
+    @Bind(R.id.valueSetterPre) ValueSetter valueSetterPresence;
+    @Bind(R.id.valueSetterMan) ValueSetter valueSetterManipulation;
+    @Bind(R.id.valueSetterCom) ValueSetter valueSetterComposure;
+
+    @Bind(R.id.txtPoolMental) TextView txtPoolMental;
+    @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
+    @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
+
+    public AttrSettingFragment() {
+        super();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(getLayout(), container, false);
+
+        ButterKnife.bind(this, view);
+
+        return view;
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setUpUI();
+    }
+
+    protected void setUpUI() {
+        valueSetterIntelligence.setListener(this);
+        valueSetterIntelligence.setContentDescription(Constants.ATTR_INT);
+        valueSetterWits.setListener(this);
+        valueSetterWits.setContentDescription(Constants.ATTR_WIT);
+        valueSetterResolve.setListener(this);
+        valueSetterResolve.setContentDescription(Constants.ATTR_RES);
+        valueSetterStrength.setListener(this);
+        valueSetterStrength.setContentDescription(Constants.ATTR_STR);
+        valueSetterDexterity.setListener(this);
+        valueSetterDexterity.setContentDescription(Constants.ATTR_DEX);
+        valueSetterStamina.setListener(this);
+        valueSetterStamina.setContentDescription(Constants.ATTR_STA);
+        valueSetterPresence.setListener(this);
+        valueSetterPresence.setContentDescription(Constants.ATTR_PRE);
+        valueSetterManipulation.setListener(this);
+        valueSetterManipulation.setContentDescription(Constants.ATTR_MAN);
+        valueSetterComposure.setListener(this);
+        valueSetterComposure.setContentDescription(Constants.ATTR_MAN);
+    }
+
+    @Override
+    public void onTraitChanged(Object caller, int value, String constant) {
+        ValueSetter widget = (ValueSetter) caller;
+
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            switch (widget.getTraitCategory()) {
+                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                    currentMentalPool = widget.changeValue(value, currentMentalPool);
+                    setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
+//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                    currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
+                    setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool,
+                        txtPoolPhysical);
+//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                    currentSocialPool = widget.changeValue(value, currentSocialPool);
+                    setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
+//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
+                    break;
+                }
+            }
+        } else {
+            switch (widget.getTraitCategory()) {
+                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                    widget.changeValue(value, currentMentalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                    widget.changeValue(value, currentPhysicalPool);
+                    break;
+                }
+                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                    widget.changeValue(value, currentSocialPool);
+                    break;
+                }
+            }
+        }
+
+//        characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
+    }
+
+    public boolean hasLeftoverPoints() {
+        return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && (currentMentalPool > 0 || currentPhysicalPool > 0 || currentSocialPool > 0);
+    }
+
+    @Override
+    public HashMap<String, Object> saveChoices() {
+        HashMap<String, Object> output = new HashMap<>();
+
+        int valueInt = valueSetterIntelligence.getCurrentValue();
+        int valueWit = valueSetterWits.getCurrentValue();
+        int valueRes = valueSetterResolve.getCurrentValue();
+        int valueStr = valueSetterStrength.getCurrentValue();
+        int valueDex = valueSetterDexterity.getCurrentValue();
+        int valueSta = valueSetterStamina.getCurrentValue();
+        int valuePre = valueSetterPresence.getCurrentValue();
+        int valueMan = valueSetterManipulation.getCurrentValue();
+        int valueCom = valueSetterComposure.getCurrentValue();
+
+        output.put(Constants.ATTR_INT, valueInt);
+        output.put(Constants.ATTR_WIT, valueWit);
+        output.put(Constants.ATTR_RES, valueRes);
+        output.put(Constants.ATTR_STR, valueStr);
+        output.put(Constants.ATTR_DEX, valueDex);
+        output.put(Constants.ATTR_STA, valueSta);
+        output.put(Constants.ATTR_PRE, valuePre);
+        output.put(Constants.ATTR_MAN, valueMan);
+        output.put(Constants.ATTR_COM, valueCom);
+
+        return output;
+    }
+
+    @Override
+    public int getLayout() {
+        return R.layout.step_attr_set;
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return Constants.TITLE_STEP_POINTS_SET;
+    }
+
+    public boolean checkCompletionConditions() {
+        return false;
+//        pagerMaster.checkStepIsComplete(!hasLeftoverPoints(), this);
+    }
+
+    public SharedPreferences getPreferences() {
+        if (preferences == null) {
+            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+        }
+        return preferences;
+    }
+}

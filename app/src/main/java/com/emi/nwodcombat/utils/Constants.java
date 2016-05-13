@@ -123,4 +123,7 @@ public class Constants {
     public static final String FIELD_TYPE_INTEGER = "Integer";
 
     public static final String FIELD_TRAIT_ORDINAL = "ordinal";
+
+    public static final String TITLE_STEP_PERSONAL_INFO = "Personal info";
+    public static final String TITLE_STEP_POINTS_SET = "Distribute points";
 }
