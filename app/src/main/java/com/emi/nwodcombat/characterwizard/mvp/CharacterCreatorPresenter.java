@@ -1,10 +1,10 @@
-package com.emi.nwodcombat.charactercreator.mvp;
+package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.FragmentManager;
 
 import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.charactercreator.mvp.CharacterCreatorView.WizardProgressEvent;
+import com.emi.nwodcombat.characterwizard.mvp.CharacterCreatorView.WizardProgressEvent;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;

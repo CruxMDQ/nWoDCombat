@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.charactercreator.mvp;
+package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
 import android.support.v4.view.ViewPager;
