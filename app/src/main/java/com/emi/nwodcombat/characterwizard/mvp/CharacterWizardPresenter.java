@@ -46,7 +46,6 @@ public class CharacterWizardPresenter {
         int lastPage = adapter.getCount() - 1;
 
         if (event.movesForward) {
-            // TODO find out how to tell if a step is complete before doing this
             if (event.currentItem < lastPage) {
                 moveToNextStep(event.currentItem);
             } else {

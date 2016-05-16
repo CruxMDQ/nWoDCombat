@@ -53,6 +53,8 @@ public class CharacterWizardView extends FragmentView {
 
     @OnClick(R.id.btnNext)
     void onBtnNextClicked() {
+        // TODO find out how to tell if a step is complete before doing this
+        // (Speculative: check for step completion before calling the event?)
         bus.post(new WizardProgressEvent(pager.getCurrentItem(), true));
     }
 
