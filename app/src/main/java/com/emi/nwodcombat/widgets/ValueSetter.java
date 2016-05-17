@@ -132,13 +132,17 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
     }
 
     public int increaseCurrentValue() {
-        currentValue++;
+        if (currentValue < maximumValue) {
+            currentValue++;
+        }
         refreshPointsPanel();
         return 1;
     }
 
     public int decreaseCurrentValue() {
-        currentValue--;
+        if (currentValue > defaultValue) {
+            currentValue--;
+        }
         refreshPointsPanel();
         return -1;
     }

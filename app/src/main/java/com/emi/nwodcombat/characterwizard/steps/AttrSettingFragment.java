@@ -10,27 +10,17 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardPresenter;
+import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
-
-import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by Emi on 3/1/16.
- */
 public class AttrSettingFragment extends PagerFragment implements OnTraitChangedListener {
 
     private SharedPreferences preferences;
-
-    private int mentalPoints;
-    private int currentMentalPool;
-    private int physicalPoints;
-    private int currentPhysicalPool;
-    private int socialPoints;
-    private int currentSocialPool;
 
     @Bind(R.id.valueSetterInt) ValueSetter valueSetterIntelligence;
     @Bind(R.id.valueSetterWits) ValueSetter valueSetterWits;
@@ -56,6 +46,10 @@ public class AttrSettingFragment extends PagerFragment implements OnTraitChanged
         View view = inflater.inflate(getLayout(), container, false);
 
         ButterKnife.bind(this, view);
+
+        bus = BusProvider.getInstance();
+
+        bus.post(new CharacterWizardPresenter.StepCompletionCheckEvent(false));
 
         return view;
     }
@@ -97,77 +91,110 @@ public class AttrSettingFragment extends PagerFragment implements OnTraitChanged
     public void onTraitChanged(Object caller, int value, String constant) {
         ValueSetter widget = (ValueSetter) caller;
 
-        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
-            switch (widget.getTraitCategory()) {
-                case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                    currentMentalPool = widget.changeValue(value, currentMentalPool);
-                    setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
-//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                    currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
-                    setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool,
-                        txtPoolPhysical);
-//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                    currentSocialPool = widget.changeValue(value, currentSocialPool);
-                    setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
-//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
-                    break;
-                }
+        switch (widget.getTraitCategory()) {
+            case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                int spent = getPointsSpentOnMental();
+
+                spent = changeWidgetValue(widget, spent, value);
+
+                setCategoryTitle(txtPoolMental, spent, getString(R.string.cat_mental));
+
+                break;
             }
-        } else {
-            switch (widget.getTraitCategory()) {
-                case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                    widget.changeValue(value, currentMentalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                    widget.changeValue(value, currentPhysicalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                    widget.changeValue(value, currentSocialPool);
-                    break;
-                }
+            case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                int spent = getPointsSpentOnPhysical();
+
+                spent = changeWidgetValue(widget, spent, value);
+
+                setCategoryTitle(txtPoolPhysical, spent, getString(R.string.cat_physical));
+
+                break;
+            }
+            case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                int spent = getPointsSpentOnSocial();
+
+                spent = changeWidgetValue(widget, spent, value);
+
+                setCategoryTitle(txtPoolSocial, spent, getString(R.string.cat_social));
+
+                break;
             }
         }
 
-//        characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
+        boolean isStepComplete = checkCompletionConditions();
+
+        bus.post(new CharacterWizardPresenter.StepCompletionCheckEvent(isStepComplete));
     }
 
-    public boolean hasLeftoverPoints() {
-        return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && (currentMentalPool > 0 || currentPhysicalPool > 0 || currentSocialPool > 0);
+    private int changeWidgetValue(ValueSetter widget, int spent, int value) {
+        // If point allocation is limited by category (usually during player creation), do this
+        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+            if (value > 0) {
+                if (spent < Constants.ATTR_PTS_PRIMARY) {
+                    widget.changeValue(value);
+                    spent += value;
+                    // TODO Write call to model to save value
+                }
+            } else {
+                if (spent > 0) {
+                    widget.changeValue(value);
+                    spent += value;
+                    // TODO Write call to model to save value
+                }
+            }
+        }
+        else    // If point allocation is not limited by category, do this instead
+        {
+            if (value > 0) {
+                widget.changeValue(value);
+                // TODO Write call to model to save value
+            } else {
+                widget.changeValue(value);
+                // TODO Write call to model to save value
+            }
+
+        }
+        return spent;
     }
 
-    @Override
-    public HashMap<String, Object> saveChoices() {
-        HashMap<String, Object> output = new HashMap<>();
+    private void setCategoryTitle(TextView textView, int spent, String category) {
+        switch (spent) {
+            case Constants.ATTR_PTS_PRIMARY:
+                textView.setText(
+                    String.format("%s (%s)", category, getString(R.string.cat_primary_suffix)));
+                break;
+            case Constants.ATTR_PTS_SECONDARY:
+                textView.setText(
+                    String.format("%s (%s)", category, getString(R.string.cat_secondary_suffix)));
+                break;
+            case Constants.ATTR_PTS_TERTIARY:
+                textView.setText(
+                    String.format("%s (%s)", category, getString(R.string.cat_tertiary_suffix)));
+                break;
+            default:
+                textView.setText(category);
+        }
+    }
 
-        int valueInt = valueSetterIntelligence.getCurrentValue();
-        int valueWit = valueSetterWits.getCurrentValue();
-        int valueRes = valueSetterResolve.getCurrentValue();
-        int valueStr = valueSetterStrength.getCurrentValue();
-        int valueDex = valueSetterDexterity.getCurrentValue();
-        int valueSta = valueSetterStamina.getCurrentValue();
-        int valuePre = valueSetterPresence.getCurrentValue();
-        int valueMan = valueSetterManipulation.getCurrentValue();
-        int valueCom = valueSetterComposure.getCurrentValue();
+    private int getPointsSpentOnSocial() {
+        return valueSetterPresence.getCurrentValue() +
+            valueSetterManipulation.getCurrentValue() +
+            valueSetterComposure.getCurrentValue() -
+            Constants.ATTR_PTS_TERTIARY;    // By default, each category has 3 points
+    }
 
-        output.put(Constants.ATTR_INT, valueInt);
-        output.put(Constants.ATTR_WIT, valueWit);
-        output.put(Constants.ATTR_RES, valueRes);
-        output.put(Constants.ATTR_STR, valueStr);
-        output.put(Constants.ATTR_DEX, valueDex);
-        output.put(Constants.ATTR_STA, valueSta);
-        output.put(Constants.ATTR_PRE, valuePre);
-        output.put(Constants.ATTR_MAN, valueMan);
-        output.put(Constants.ATTR_COM, valueCom);
+    private int getPointsSpentOnPhysical() {
+        return valueSetterStrength.getCurrentValue() +
+            valueSetterDexterity.getCurrentValue() +
+            valueSetterStamina.getCurrentValue() -
+            Constants.ATTR_PTS_TERTIARY;    // By default, each category has 3 points
+    }
 
-        return output;
+    private int getPointsSpentOnMental() {
+        return valueSetterIntelligence.getCurrentValue() +
+            valueSetterWits.getCurrentValue() +
+            valueSetterResolve.getCurrentValue() -
+            Constants.ATTR_PTS_TERTIARY;    // By default, each category has 3 points
     }
 
     @Override
@@ -181,8 +208,34 @@ public class AttrSettingFragment extends PagerFragment implements OnTraitChanged
     }
 
     public boolean checkCompletionConditions() {
-        return false;
-//        pagerMaster.checkStepIsComplete(!hasLeftoverPoints(), this);
+        return checkCategoriesAreAllDifferent();
+    }
+
+    private boolean checkCategoriesAreAllDifferent() {
+        int mental = getCategoryPriority(txtPoolMental.getText().toString());
+        int physical = getCategoryPriority(txtPoolPhysical.getText().toString());
+        int social = getCategoryPriority(txtPoolSocial.getText().toString());
+
+        if (mental != 0 && physical != 0 && social != 0) {
+            boolean mentalSocial = mental == social;
+            boolean mentalPhysical = mental == physical;
+            boolean physicalSocial = physical == social;
+
+            return !(mentalSocial || mentalPhysical || physicalSocial);
+        } else {
+            return false;
+        }
+    }
+    
+    private int getCategoryPriority(String title) {
+        if (title.toLowerCase().contains(getString(R.string.cat_primary_suffix).toLowerCase())) {
+            return 1;
+        } else if (title.toLowerCase().contains(getString(R.string.cat_secondary_suffix).toLowerCase())) {
+            return 2;
+        } else if (title.toLowerCase().contains(getString(R.string.cat_tertiary_suffix).toLowerCase())) {
+            return 3;
+        }
+        return 0;
     }
 
     public SharedPreferences getPreferences() {

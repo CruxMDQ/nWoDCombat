@@ -18,16 +18,16 @@ import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.dialogs.AddRecordDialog;
 import com.emi.nwodcombat.charactercreator.interfaces.AfterCreatingRecordListener;
+import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardPresenter;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.RealmHelper;
+import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
 import com.google.gson.Gson;
-
-import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +37,8 @@ import io.realm.RealmBaseAdapter;
  * Created by Crux on 3/11/2016.
  */
 public class PersonalInfoFragment extends PagerFragment implements AfterCreatingRecordListener {
+    private static final int NO_OPTION_SELECTED = -1;
+
     @Bind(R.id.editConcept) EditText editConcept;
     @Bind(R.id.editName) EditText editName;
     @Bind(R.id.editPlayer) EditText editPlayer;
@@ -53,18 +55,6 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
 
     private RealmHelper helper;
 
-    private Long idDemeanor;
-    private String demeanorName;
-
-    private Long idNature;
-    private String natureName;
-
-    private long idVice;
-    private String viceName;
-
-    private Long idVirtue;
-    private String virtueName;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +63,8 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
         ButterKnife.bind(this, view);
 
         helper = RealmHelper.getInstance(getActivity());
+
+        bus = BusProvider.getInstance();
 
         return view;
     }
@@ -101,7 +93,8 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
 
             @Override
             public void afterTextChanged(Editable s) {
-//                checkCompletionConditions();
+                bus.post(
+                    new CharacterWizardPresenter.StepCompletionCheckEvent(checkCompletionConditions()));
             }
         };
 
@@ -145,9 +138,13 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Demeanor demeanor = ((Demeanor) parent.getItemAtPosition(position));
-                    idDemeanor = demeanor.getId();
-                    demeanorName = demeanor.getName();
+//                    Demeanor demeanor = ((Demeanor) parent.getItemAtPosition(position));
+
+                    // TODO Write call to model to save value
+
+                    bus.post(
+                        new CharacterWizardPresenter.StepCompletionCheckEvent(
+                            checkCompletionConditions()));
                 }
 
                 @Override
@@ -160,9 +157,13 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Nature nature = ((Nature) parent.getItemAtPosition(position));
-                    idNature = nature.getId();
-                    natureName = nature.getName();
+//                    Nature nature = ((Nature) parent.getItemAtPosition(position));
+
+                    // TODO Write call to model to save value
+
+                    bus.post(
+                        new CharacterWizardPresenter.StepCompletionCheckEvent(
+                            checkCompletionConditions()));
                 }
 
                 @Override
@@ -173,9 +174,13 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Vice vice = ((Vice) parent.getItemAtPosition(position));
-                    idVice = vice.getId();
-                    viceName = vice.getName();
+//                    Vice vice = ((Vice) parent.getItemAtPosition(position));
+
+                    // TODO Write call to model to save value
+
+                    bus.post(
+                        new CharacterWizardPresenter.StepCompletionCheckEvent(
+                            checkCompletionConditions()));
                 }
 
                 @Override
@@ -188,9 +193,13 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Virtue virtue = ((Virtue) parent.getItemAtPosition(position));
-                    idVirtue = virtue.getId();
-                    virtueName = virtue.getName();
+//                    Virtue virtue = ((Virtue) parent.getItemAtPosition(position));
+
+                    // TODO Write call to model to save value
+
+                    bus.post(
+                        new CharacterWizardPresenter.StepCompletionCheckEvent(
+                            checkCompletionConditions()));
                 }
 
                 @Override
@@ -211,28 +220,13 @@ public class PersonalInfoFragment extends PagerFragment implements AfterCreating
         int selectedVice = spinnerVice.getSelectedItemPosition();
         int selectedVirtue = spinnerVirtue.getSelectedItemPosition();
 
-        return selectedDemeanor != -1 &&
-            selectedNature != -1 &&
-            selectedVice != -1 &&
-            selectedVirtue != -1 &&
+        return selectedDemeanor != NO_OPTION_SELECTED &&
+            selectedNature != NO_OPTION_SELECTED  &&
+            selectedVice != NO_OPTION_SELECTED  &&
+            selectedVirtue != NO_OPTION_SELECTED  &&
             !editConcept.getText().toString().equals("") &&
             !editName.getText().toString().equals("") &&
             !editPlayer.getText().toString().equals("");
-    }
-
-    @Override
-    public HashMap<String, Object> saveChoices() {
-        HashMap<String, Object> output = new HashMap<>();
-
-        output.put(Constants.CHARACTER_CONCEPT, editConcept.getText().toString());
-        output.put(Constants.CHARACTER_NAME, editName.getText().toString());
-        output.put(Constants.CHARACTER_PLAYER, editPlayer.getText().toString());
-        output.put(Constants.CHARACTER_VICE, idVice);
-        output.put(Constants.CHARACTER_VIRTUE, idVirtue);
-        output.put(Constants.CHARACTER_DEMEANOR, idDemeanor);
-        output.put(Constants.CHARACTER_NATURE, idNature);
-
-        return output;
     }
 
     @Override

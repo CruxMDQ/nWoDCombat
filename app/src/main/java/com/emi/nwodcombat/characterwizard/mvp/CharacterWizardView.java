@@ -58,6 +58,7 @@ public class CharacterWizardView extends FragmentView {
         bus.post(new WizardProgressEvent(pager.getCurrentItem(), true));
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void pagerGoForward() {
         pager.setCurrentItem(pager.getCurrentItem() + 1);
 
@@ -72,6 +73,7 @@ public class CharacterWizardView extends FragmentView {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void pagerGoBackwards() {
         // If this is not the first page, go back one step
         if (pager.getCurrentItem() != 0) {
@@ -86,11 +88,16 @@ public class CharacterWizardView extends FragmentView {
         pager.setAdapter(adapter);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void setToolbarTitle(String title) {
         TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView()
             .findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
+    }
+
+    public void toggleNextButton(boolean isStepComplete) {
+        btnNext.setEnabled(isStepComplete);
     }
 
     public static class WizardProgressEvent {

@@ -56,6 +56,10 @@
     <string name="attr_man">Manipulation</string>
     <string name="attr_com">Composure</string>
 
+    <string name="cat_primary_suffix">Primary</string>
+    <string name="cat_secondary_suffix">Secondary</string>
+    <string name="cat_tertiary_suffix">Tertiary</string>
+
     <!--Mental skills-->
     <string name="skill_academics">Academics</string>
     <string name="skill_computer">Computer</string>
