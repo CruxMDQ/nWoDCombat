@@ -17,6 +17,7 @@ import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
@@ -123,13 +124,13 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
     // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
     public void onExperienceAdded() {
-        bus.post(new ExperiencePoolChangeEvent(true));
+        bus.post(new Events.ExperiencePoolChanged(true));
     }
 
     // Triggered when experience increases via tapping of the 'minus' button on the view
     @OnClick(R.id.btnRemoveExp)
     public void onExperienceRemoved() {
-        bus.post(new ExperiencePoolChangeEvent(false));
+        bus.post(new Events.ExperiencePoolChanged(false));
     }
 
     /**
@@ -147,7 +148,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
             @Override
             public void onClick(View v) {
                 // Create event for character deletion, to be digested by model class
-                bus.post(new DeleteCharacterEvent(id));
+                bus.post(new Events.CharacterDeleted(id));
             }
         });
 
@@ -527,7 +528,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new DemeanorTraitChangedEvent(position));
+                bus.post(new Events.DemeanorTraitChanged(position));
             }
 
             @Override
@@ -547,7 +548,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new NatureTraitChangedEvent(position));
+                bus.post(new Events.NatureTraitChanged(position));
             }
 
             @Override
@@ -566,7 +567,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new ViceTraitChangedEvent(position));
+                bus.post(new Events.ViceTraitChanged(position));
             }
 
             @Override
@@ -585,7 +586,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new VirtueTraitChangedEvent(position));
+                bus.post(new Events.VirtueTraitChanged(position));
             }
 
             @Override
@@ -598,55 +599,4 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVirtue.setSelection(index);
     }
 
-    public static class DeleteCharacterEvent {
-
-        public long id;
-
-        DeleteCharacterEvent(long id) {
-            this.id = id;
-        }
-    }
-
-    public static class ExperiencePoolChangeEvent {
-        public boolean isIncrease;
-
-        ExperiencePoolChangeEvent(boolean isIncrease) {
-            this.isIncrease = isIncrease;
-        }
-    }
-
-    public static class DemeanorTraitChangedEvent {
-        public int position;
-
-        DemeanorTraitChangedEvent(int position) {
-            this.position = position;
-        }
-    }
-
-    public static class NatureTraitChangedEvent {
-
-        public int position;
-
-        public NatureTraitChangedEvent(int position) {
-            this.position = position;
-        }
-    }
-
-    public static class ViceTraitChangedEvent {
-
-        public int position;
-
-        public ViceTraitChangedEvent(int position) {
-            this.position = position;
-        }
-    }
-
-    public static class VirtueTraitChangedEvent {
-
-        public int position;
-
-        public VirtueTraitChangedEvent(int position) {
-            this.position = position;
-        }
-    }
 }

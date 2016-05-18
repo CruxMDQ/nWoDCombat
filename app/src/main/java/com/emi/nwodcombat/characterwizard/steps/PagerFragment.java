@@ -12,9 +12,9 @@ public abstract class PagerFragment extends Fragment {
 
     public PagerFragment() { }
 
-    protected abstract void setUpUI();
+//    protected abstract void setUpUI();
 
-    public abstract boolean checkCompletionConditions();
+//    public abstract boolean checkCompletionConditions();
 
     public abstract String getToolbarTitle();
 

@@ -6,7 +6,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.CharacterViewerFragment;
 import com.squareup.otto.Subscribe;
 
-import static com.emi.nwodcombat.characterlist.RealmCharacterAdapter.CharacterDetailEvent;
+import static com.emi.nwodcombat.utils.Events.CharacterDetail;
 import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.ErrorEvent;
 import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.FabPressedEvent;
 import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.NewCharacterEvent;
@@ -50,7 +50,7 @@ public class CharacterListPresenter {
     }
 
     @Subscribe
-    public void onCharacterDetailPressed(CharacterDetailEvent event) {
+    public void onCharacterDetailPressed(CharacterDetail event) {
         FragmentManager fragmentManager = view.getFragmentManager();
         if (fragmentManager == null) {
             return;

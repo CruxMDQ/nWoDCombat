@@ -1,11 +1,13 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
-import android.app.FragmentManager;
+import android.content.Context;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.CharacterWizardPagerAdapter;
 import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
+import com.emi.nwodcombat.utils.Events;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -15,16 +17,17 @@ import java.util.List;
  * Created by emiliano.desantis on 12/05/2016.
  */
 public class CharacterWizardPresenter {
+    private final Context context;
     private CharacterWizardView view;
     private CharacterWizardModel model;
     private CharacterWizardPagerAdapter adapter;
 
-    public CharacterWizardPresenter(FragmentManager fragmentManager,
-                                    CharacterWizardModel model, CharacterWizardView view) {
+    public CharacterWizardPresenter(CharacterWizardModel model, CharacterWizardView view) {
         this.model = model;
         this.view = view;
-
-        this.adapter = new CharacterWizardPagerAdapter(fragmentManager, getClassesList());
+        this.adapter = new CharacterWizardPagerAdapter(view.getChildFragmentManager(), getClassesList());
+        this.context = view.getContext();
+        view.setAdapter(adapter);
     }
 
     private List<Class<? extends PagerFragment>> getClassesList() {
@@ -36,12 +39,20 @@ public class CharacterWizardPresenter {
         return classes;
     }
 
-    public void setUpView() {
-        view.setAdapter(adapter);
-    }
-
     public void moveToNextStep(int currentItem) {
         // Move pager forward
+
+        // Get last page
+        int lastPage = adapter.getCount() - 1;
+
+        // Change button label depending on where on the wizard we are
+        if (currentItem == lastPage) {
+            view.setNextLabel(context.getString(R.string.button_finish));
+            return;
+        } else {
+            view.setNextLabel(context.getString(R.string.button_next));
+        }
+
         view.pagerGoForward();
 
         // Change title
@@ -71,7 +82,7 @@ public class CharacterWizardPresenter {
     }
 
     @Subscribe
-    public void onStepCompletionChecked(StepCompletionCheckEvent event) {
+    public void onStepCompletionChecked(Events.StepCompletionChecked event) {
         view.toggleNextButton(event.isStepComplete);
     }
 
@@ -90,11 +101,4 @@ public class CharacterWizardPresenter {
         }
     }
 
-    public static class StepCompletionCheckEvent {
-        final boolean isStepComplete;
-
-        public StepCompletionCheckEvent(boolean isStepComplete) {
-            this.isStepComplete = isStepComplete;
-        }
-    }
 }

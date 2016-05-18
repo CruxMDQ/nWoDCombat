@@ -37,6 +37,13 @@ public class FragmentView {
         return (activity != null) ? activity.getFragmentManager() : null;
     }
 
+    @Nullable
+    public FragmentManager getChildFragmentManager() {
+        Fragment f = fragmentRef.get();
+        return (f == null) ? null : f.getChildFragmentManager();
+    }
+
+
     public void unbind() {
         ButterKnife.unbind(fragmentRef.get());
     }

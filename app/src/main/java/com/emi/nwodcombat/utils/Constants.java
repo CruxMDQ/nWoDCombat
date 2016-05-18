@@ -109,6 +109,7 @@ public class Constants {
     public static final String TRAIT_DERIVED_SPEED = "Speed";
     public static final String TRAIT_DERIVED_WILLPOWER = "Willpower";
 
+    public static final int NO_OPTION_SELECTED = -1;
     public static final int TRAIT_MORALITY_DEFAULT = 7;
     public static final int TRAIT_SIZE_DEFAULT = 5;
 
@@ -126,4 +127,5 @@ public class Constants {
 
     public static final String TITLE_STEP_PERSONAL_INFO = "Personal info";
     public static final String TITLE_STEP_POINTS_SET = "Distribute points";
+
 }

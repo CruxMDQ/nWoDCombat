@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterwizard.CharacterWizardPagerAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.squareup.otto.Bus;
 
@@ -53,8 +53,6 @@ public class CharacterWizardView extends FragmentView {
 
     @OnClick(R.id.btnNext)
     void onBtnNextClicked() {
-        // TODO find out how to tell if a step is complete before doing this
-        // (Speculative: check for step completion before calling the event?)
         bus.post(new WizardProgressEvent(pager.getCurrentItem(), true));
     }
 
@@ -78,26 +76,31 @@ public class CharacterWizardView extends FragmentView {
         // If this is not the first page, go back one step
         if (pager.getCurrentItem() != 0) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
+            btnNext.setText(getActivity().getString(R.string.button_next));
         } else {
-        // If yes, then remove the fragment altogether from the view
+            // If yes, then remove the fragment altogether from the view
             getFragmentManager().popBackStack();
         }
     }
 
-    public void setAdapter(CharacterWizardPagerAdapter adapter) {
+    public void setAdapter(PagerAdapter adapter) {
         pager.setAdapter(adapter);
     }
 
     @SuppressWarnings("ConstantConditions")
     public void setToolbarTitle(String title) {
         TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView()
-            .findViewById(R.id.txtToolbarTitle);
+                .findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
     }
 
     public void toggleNextButton(boolean isStepComplete) {
         btnNext.setEnabled(isStepComplete);
+    }
+
+    public void setNextLabel(String label) {
+        btnNext.setText(label);
     }
 
     public static class WizardProgressEvent {

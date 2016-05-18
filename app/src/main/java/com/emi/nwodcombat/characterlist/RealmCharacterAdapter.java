@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.utils.Events;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;
@@ -49,7 +50,7 @@ public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Charact
         viewHolder.rowCharacterName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bus.post(new CharacterDetailEvent(id));
+                bus.post(new Events.CharacterDetail(id));
             }
         });
     }
@@ -68,11 +69,4 @@ public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Charact
         }
     }
 
-    public static class CharacterDetailEvent {
-        public Long id;
-
-        CharacterDetailEvent(Long id) {
-            this.id = id;
-        }
-    }
 }

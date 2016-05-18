@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
-import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardPresenter;
 import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 
 import butterknife.Bind;
@@ -49,7 +49,7 @@ public class AttrSettingFragment extends PagerFragment implements OnTraitChanged
 
         bus = BusProvider.getInstance();
 
-        bus.post(new CharacterWizardPresenter.StepCompletionCheckEvent(false));
+        bus.post(new Events.StepCompletionChecked(false));
 
         return view;
     }
@@ -123,7 +123,7 @@ public class AttrSettingFragment extends PagerFragment implements OnTraitChanged
 
         boolean isStepComplete = checkCompletionConditions();
 
-        bus.post(new CharacterWizardPresenter.StepCompletionCheckEvent(isStepComplete));
+        bus.post(new Events.StepCompletionChecked(isStepComplete));
     }
 
     private int changeWidgetValue(ValueSetter widget, int spent, int value) {
