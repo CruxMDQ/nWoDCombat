@@ -70,4 +70,17 @@ public class Events {
             this.id = id;
         }
     }
+
+    public static class TraitChanged {
+        public Object caller;
+        public Object[] categoryTitles;
+        public int value;
+        public String constant;
+
+        public TraitChanged(Object caller, Object[] categoryTitles, int value, String constant) {
+            this.caller = caller;
+            this.constant = constant;
+            this.value = value;
+        }
+    }
 }
