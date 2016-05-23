@@ -7,6 +7,7 @@ import com.emi.nwodcombat.characterwizard.CharacterWizardPagerAdapter;
 import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
+import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
 import com.emi.nwodcombat.utils.Events;
 import com.squareup.otto.Subscribe;
 
@@ -36,6 +37,7 @@ public class CharacterWizardPresenter {
 
         classes.add(PersonalInfoFragment.class);
         classes.add(AttrSettingFragment.class);
+        classes.add(SkillSettingFragment.class);
 
         return classes;
     }

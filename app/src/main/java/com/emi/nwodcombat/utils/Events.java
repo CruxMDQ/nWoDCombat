@@ -81,15 +81,28 @@ public class Events {
         }
     }
 
-    public static class NumericEntryChanged {
+    public static class AttributeChanged {
         public String key;
         public String category;
         public boolean isIncrease;
 
-        public NumericEntryChanged(boolean isIncrease, String key, String traitCategory) {
+        public AttributeChanged(boolean isIncrease, String key, String traitCategory) {
             this.isIncrease = isIncrease;
             this.key = key;
             this.category = traitCategory;
         }
     }
+
+    public static class SkillChanged {
+        public String key;
+        public String category;
+        public boolean isIncrease;
+
+        public SkillChanged(boolean isIncrease, String key, String traitCategory) {
+            this.isIncrease = isIncrease;
+            this.key = key;
+            this.category = traitCategory;
+        }
+    }
+
 }

@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by emiliano.desantis on 19/05/2016.
+ * View for second step of character creator wizard done in MVP.
  */
 public class AttrSettingView extends FragmentView implements OnTraitChangedListener {
 
@@ -85,7 +86,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     public void onTraitChanged(Object caller, int value, String constant) {
         String traitCategory = ((ValueSetter) caller).getTraitCategory();
 
-        bus.post(new Events.NumericEntryChanged((value > 0), constant, traitCategory));
+        bus.post(new Events.AttributeChanged((value > 0), constant, traitCategory));
     }
 
     void changeWidgetValue(String key, int value) {

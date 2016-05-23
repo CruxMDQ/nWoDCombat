@@ -12,12 +12,8 @@
 
         <TextView
             android:id="@+id/txtPoolMental"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:layout_gravity="center"
             android:text="@string/cat_mental"
-            android:textStyle="bold"/>
+            style="@style/style_text_card_title"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,12 +58,8 @@
 
         <TextView
             android:id="@+id/txtPoolPhysical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:layout_gravity="center"
             android:text="@string/cat_physical"
-            android:textStyle="bold"/>
+            style="@style/style_text_card_title"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -113,12 +105,8 @@
 
         <TextView
             android:id="@+id/txtPoolSocial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:layout_gravity="center"
             android:text="@string/cat_social"
-            android:textStyle="bold"/>
+            style="@style/style_text_card_title"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

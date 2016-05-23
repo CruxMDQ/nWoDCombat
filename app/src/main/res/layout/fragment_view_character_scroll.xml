@@ -14,11 +14,8 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:background="@android:color/darker_gray"
-            app:cardCornerRadius="@dimen/spacing_half">
+            app:cardCornerRadius="@dimen/spacing_half"
+            style="@style/style_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,11 +92,8 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:background="@android:color/darker_gray"
-            app:cardCornerRadius="@dimen/spacing_half">
+            app:cardCornerRadius="@dimen/spacing_half"
+            style="@style/style_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -233,11 +227,8 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:background="@android:color/darker_gray"
-            app:cardCornerRadius="@dimen/spacing_half">
+            app:cardCornerRadius="@dimen/spacing_half"
+            style="@style/style_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -246,12 +237,8 @@
 
                 <TextView
                     android:id="@+id/txtAttributes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_normal"
                     android:text="@string/title_attributes"
-                    android:textStyle="bold"/>
+                    style="@style/style_text_card_title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -265,12 +252,8 @@
 
                     <TextView
                         android:id="@+id/txtMentalAttrsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_normal"
                         android:text="@string/cat_mental"
-                        android:textStyle="bold"/>
+                        style="@style/style_text_card_title"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -319,12 +302,8 @@
 
                     <TextView
                         android:id="@+id/txtPhysicalAttrsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_normal"
                         android:text="@string/cat_physical"
-                        android:textStyle="bold"/>
+                        style="@style/style_text_card_title"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -373,12 +352,8 @@
 
                     <TextView
                         android:id="@+id/txtSocialAttrsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_normal"
                         android:text="@string/cat_social"
-                        android:textStyle="bold"/>
+                        style="@style/style_text_card_title"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -430,11 +405,8 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:background="@android:color/darker_gray"
-            app:cardCornerRadius="@dimen/spacing_half">
+            app:cardCornerRadius="@dimen/spacing_half"
+            style="@style/style_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -443,12 +415,8 @@
 
                 <TextView
                     android:id="@+id/txtSkills"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_normal"
                     android:text="@string/title_skills"
-                    android:textStyle="bold"/>
+                    style="@style/style_text_card_title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -463,12 +431,8 @@
 
                     <TextView
                         android:id="@+id/txtMentalSkillsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_normal"
                         android:text="@string/cat_mental"
-                        android:textStyle="bold"/>
+                        style="@style/style_text_card_title"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -570,12 +534,8 @@
 
                     <TextView
                         android:id="@+id/txtPhysicalSkillsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_normal"
                         android:text="@string/cat_physical"
-                        android:textStyle="bold"/>
+                        style="@style/style_text_card_title"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -676,12 +636,8 @@
 
                     <TextView
                         android:id="@+id/txtSocialSkillsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/spacing_normal"
                         android:text="@string/cat_social"
-                        android:textStyle="bold"/>
+                        style="@style/style_text_card_title"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -786,11 +742,8 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
-            android:background="@android:color/darker_gray"
-            app:cardCornerRadius="@dimen/spacing_half">
+            app:cardCornerRadius="@dimen/spacing_half"
+            style="@style/style_card_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -799,13 +752,9 @@
 
                 <TextView
                     android:id="@+id/txtDerivedTraits"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/spacing_normal"
                     android:text="@string/title_traits_derived"
                     android:textAllCaps="true"
-                    android:textStyle="bold"/>
+                    style="@style/style_text_card_title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
