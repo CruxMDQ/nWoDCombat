@@ -50,4 +50,9 @@ public class Entry extends RealmObject {
         this.type = type;
         return this;
     }
+
+    public Entry setValue(Integer integer) {
+        this.value = String.valueOf(integer);
+        return this;
+    }
 }

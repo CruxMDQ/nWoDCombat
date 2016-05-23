@@ -14,6 +14,7 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
 import com.squareup.otto.Bus;
@@ -43,7 +44,7 @@ public class PersonalInfoView extends FragmentView {
     }
 
     public void setUpTextWatcher() {
-        TextWatcher textWatcher = new TextWatcher() {
+        editConcept.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -52,14 +53,50 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(
-                    new Events.StepCompletionChecked(checkCompletionConditions()));
-            }
-        };
+                bus.post(new Events.EntryChanged(new Entry()
+                        .setKey(Constants.CHARACTER_CONCEPT)
+                        .setType(Constants.FIELD_TYPE_STRING)
+                        .setValue(editConcept.getText().toString())));
 
-        editConcept.addTextChangedListener(textWatcher);
-        editName.addTextChangedListener(textWatcher);
-        editPlayer.addTextChangedListener(textWatcher);
+                bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
+            }
+        });
+
+        editName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                bus.post(new Events.EntryChanged(new Entry()
+                        .setKey(Constants.CHARACTER_NAME)
+                        .setType(Constants.FIELD_TYPE_STRING)
+                        .setValue(editName.getText().toString())));
+
+                bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
+            }
+        });
+
+        editPlayer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                bus.post(new Events.EntryChanged(new Entry()
+                        .setKey(Constants.CHARACTER_PLAYER)
+                        .setType(Constants.FIELD_TYPE_STRING)
+                        .setValue(editPlayer.getText().toString())));
+
+                bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
+            }
+        });
     }
 
     public void setupTestData() {
@@ -71,34 +108,28 @@ public class PersonalInfoView extends FragmentView {
 
     public boolean checkCompletionConditions() {
         return spinnerDemeanor.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
-            spinnerNature.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED  &&
-            spinnerVice.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED  &&
-            spinnerVirtue.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
-            !editConcept.getText().toString().equals("") &&
-            !editName.getText().toString().equals("") &&
-            !editPlayer.getText().toString().equals("");
+                spinnerNature.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
+                spinnerVice.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
+                spinnerVirtue.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
+                !editConcept.getText().toString().equals("") &&
+                !editName.getText().toString().equals("") &&
+                !editPlayer.getText().toString().equals("");
     }
 
     public void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
         spinnerDemeanor.setAdapter(demeanors);
 
-        // Vanilla listener setting - could have been managed as a parameter, except for one of one
-        // of the variables requiring that it be final, don't recall which now
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    Demeanor demeanor = ((Demeanor) parent.getItemAtPosition(position));
+                bus.post(new Events.DemeanorTraitChanged(position));
 
-                    // TODO Write call to model to save value
-
-                    bus.post(
-                        new Events.StepCompletionChecked(
-                            checkCompletionConditions()));
+                bus.post(new Events.StepCompletionChecked(
+                        checkCompletionConditions()));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
     }
@@ -109,18 +140,14 @@ public class PersonalInfoView extends FragmentView {
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    Nature nature = ((Nature) parent.getItemAtPosition(position));
+                bus.post(new Events.NatureTraitChanged(position));
 
-                    // TODO Write call to model to save value
-
-                    bus.post(
-                        new Events.StepCompletionChecked(
-                            checkCompletionConditions()));
+                bus.post(new Events.StepCompletionChecked(
+                        checkCompletionConditions()));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
@@ -130,18 +157,14 @@ public class PersonalInfoView extends FragmentView {
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    Vice vice = ((Vice) parent.getItemAtPosition(position));
+                bus.post(new Events.ViceTraitChanged(position));
 
-                    // TODO Write call to model to save value
-
-                    bus.post(
-                        new Events.StepCompletionChecked(
-                            checkCompletionConditions()));
+                bus.post(new Events.StepCompletionChecked(
+                        checkCompletionConditions()));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
@@ -151,18 +174,15 @@ public class PersonalInfoView extends FragmentView {
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-////                    Virtue virtue = ((Virtue) parent.getItemAtPosition(position));
-//
-//                    // TODO Write call to model to save value
-//
-//                    bus.post(
-//                        new Events.StepCompletionChecked(
-//                            checkCompletionConditions()));
+                bus.post(new Events.VirtueTraitChanged(position));
+
+                bus.post(new Events.StepCompletionChecked(
+                        checkCompletionConditions()));
+
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 }

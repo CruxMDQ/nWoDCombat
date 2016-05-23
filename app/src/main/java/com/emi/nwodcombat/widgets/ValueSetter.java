@@ -268,4 +268,9 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
             btnValueDecrease.setVisibility(VISIBLE);
         }
     }
+
+    public void setValue(int value) {
+        currentValue = value;
+        refreshPointsPanel();
+    }
 }

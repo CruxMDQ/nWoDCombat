@@ -28,6 +28,7 @@ public class CharacterWizardPresenter {
         this.adapter = new CharacterWizardPagerAdapter(view.getChildFragmentManager(), getClassesList());
         this.context = view.getContext();
         view.setAdapter(adapter);
+        model.setupNewCharacter();
     }
 
     private List<Class<? extends PagerFragment>> getClassesList() {

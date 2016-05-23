@@ -1,5 +1,7 @@
 package com.emi.nwodcombat.utils;
 
+import com.emi.nwodcombat.model.realm.Entry;
+
 /**
  * Created by emiliano.desantis on 18/05/2016.
  */
@@ -71,16 +73,17 @@ public class Events {
         }
     }
 
-    public static class TraitChanged {
-        public Object caller;
-        public Object[] categoryTitles;
-        public int value;
-        public String constant;
+    public static class EntryChanged {
+        public Entry entry;
+        public String traitCategory;
 
-        public TraitChanged(Object caller, Object[] categoryTitles, int value, String constant) {
-            this.caller = caller;
-            this.constant = constant;
-            this.value = value;
+        public EntryChanged(Entry entry) {
+            this.entry = entry;
+        }
+
+        public EntryChanged(Entry entry, String traitCategory) {
+            this.entry = entry;
+            this.traitCategory = traitCategory;
         }
     }
 }

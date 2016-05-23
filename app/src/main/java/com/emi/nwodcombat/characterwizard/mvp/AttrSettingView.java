@@ -6,10 +6,13 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +37,8 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     @Bind(R.id.txtPoolMental) TextView txtPoolMental;
     @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
     @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
+
+    ArrayList<ValueSetter> valueSetters = new ArrayList<>();
 
     public AttrSettingView(Fragment fragment, Bus bus) {
         super(fragment);
@@ -65,32 +70,39 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         txtPoolMental.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
         txtPoolPhysical.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
         txtPoolSocial.setContentDescription(Constants.CONTENT_DESC_ATTR_SOCIAL);
+
+        valueSetters.add(valueSetterIntelligence);
+        valueSetters.add(valueSetterWits);
+        valueSetters.add(valueSetterResolve);
+        valueSetters.add(valueSetterStrength);
+        valueSetters.add(valueSetterDexterity);
+        valueSetters.add(valueSetterStamina);
+        valueSetters.add(valueSetterPresence);
+        valueSetters.add(valueSetterManipulation);
+        valueSetters.add(valueSetterComposure);
     }
 
     @Override
     public void onTraitChanged(Object caller, int value, String constant) {
-        bus.post(new Events.TraitChanged(caller, new Object[] { txtPoolMental, txtPoolPhysical, txtPoolSocial }, value, constant));
+        Entry entry = new Entry().setKey(constant)
+                .setType(Constants.FIELD_TYPE_INTEGER)
+                .setValue(String.valueOf(value));
+
+        String traitCategory = ((ValueSetter) caller).getTraitCategory();
+
+        bus.post(new Events.EntryChanged(entry, traitCategory));
+
+//        bus.post(new Events.TraitChanged(caller, value, constant));
     }
 
-    int getPointsSpentOnSocial() {
-        return valueSetterPresence.getCurrentValue() +
-            valueSetterManipulation.getCurrentValue() +
-            valueSetterComposure.getCurrentValue() -
-            Constants.ATTR_PTS_TERTIARY;    // By default, each category has 3 points
-    }
-
-    int getPointsSpentOnPhysical() {
-        return valueSetterStrength.getCurrentValue() +
-            valueSetterDexterity.getCurrentValue() +
-            valueSetterStamina.getCurrentValue() -
-            Constants.ATTR_PTS_TERTIARY;    // By default, each category has 3 points
-    }
-
-    int getPointsSpentOnMental() {
-        return valueSetterIntelligence.getCurrentValue() +
-            valueSetterWits.getCurrentValue() +
-            valueSetterResolve.getCurrentValue() -
-            Constants.ATTR_PTS_TERTIARY;    // By default, each category has 3 points
+    void changeWidgetValue(String key, int value) {
+        for (ValueSetter vs : valueSetters) {
+            if (vs.getContentDescription().equals(key)) {
+//                vs.changeValue(value);
+                vs.setValue(value);
+                break;
+            }
+        }
     }
 
     void changeWidgetValue(ValueSetter widget, int value) {

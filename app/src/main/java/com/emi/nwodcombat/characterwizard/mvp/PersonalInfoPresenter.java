@@ -7,9 +7,12 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
+import com.emi.nwodcombat.utils.Events;
+import com.squareup.otto.Subscribe;
 
 import io.realm.RealmResults;
 
@@ -78,4 +81,33 @@ public class PersonalInfoPresenter {
         view.setVirtuesSpinnerAdapter(virtuesAdapter);
     }
 
+    @Subscribe
+    public void onDemeanorTraitChangedEvent(Events.DemeanorTraitChanged event) {
+        // Pass the updating operation straight out to the model for handling
+
+        // Retrieve object based on spinner position
+        model.addOrUpdateDemeanorTrait(demeanorsAdapter.getItem(event.position));
+    }
+
+    @Subscribe
+    public void onNatureTraitChangedEvent(Events.NatureTraitChanged event) {
+        model.addOrUpdateNatureTrait(naturesAdapter.getItem(event.position));
+    }
+
+    @Subscribe
+    public void onViceTraitChangedEvent(Events.ViceTraitChanged event) {
+        model.addOrUpdateViceTrait(vicesAdapter.getItem(event.position));
+    }
+
+    @Subscribe
+    public void onVirtueTraitChangedEvent(Events.VirtueTraitChanged event) {
+        model.addOrUpdateVirtueTrait(virtuesAdapter.getItem(event.position));
+    }
+
+    @Subscribe
+    public void onEntryChanged(Events.EntryChanged event) {
+        Entry entry = event.entry;
+
+        model.addOrUpdateEntry(entry);
+    }
 }
