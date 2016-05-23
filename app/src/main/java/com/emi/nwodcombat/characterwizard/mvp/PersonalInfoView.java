@@ -53,7 +53,7 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.EntryChanged(new Entry()
+                bus.post(new Events.TextEntryChanged(new Entry()
                         .setKey(Constants.CHARACTER_CONCEPT)
                         .setType(Constants.FIELD_TYPE_STRING)
                         .setValue(editConcept.getText().toString())));
@@ -71,7 +71,7 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.EntryChanged(new Entry()
+                bus.post(new Events.TextEntryChanged(new Entry()
                         .setKey(Constants.CHARACTER_NAME)
                         .setType(Constants.FIELD_TYPE_STRING)
                         .setValue(editName.getText().toString())));
@@ -89,7 +89,7 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.EntryChanged(new Entry()
+                bus.post(new Events.TextEntryChanged(new Entry()
                         .setKey(Constants.CHARACTER_PLAYER)
                         .setType(Constants.FIELD_TYPE_STRING)
                         .setValue(editPlayer.getText().toString())));

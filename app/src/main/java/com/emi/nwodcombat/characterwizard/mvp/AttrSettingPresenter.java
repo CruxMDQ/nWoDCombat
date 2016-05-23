@@ -28,158 +28,76 @@ public class AttrSettingPresenter {
     }
 
     @Subscribe
-    public void onEntryChanged(Events.EntryChanged event) {
-        Entry entry = event.entry;
-        String traitCategory = event.traitCategory;
+    public void onEntryChanged(Events.NumericEntryChanged event) {
+        int spent = 0;
+        switch (event.category) {
+            case Constants.CONTENT_DESC_ATTR_MENTAL: {
+                spent = model.getPointsSpentOnMental();
 
-        if (entry.getType().equals(Constants.FIELD_TYPE_INTEGER)) {
-            switch (traitCategory) {
-                case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                    int spent = model.getPointsSpentOnMental();
-
-                    changeValue(entry, spent);
-
-//                spent = changeWidgetValue(entryKey, spent, entryValue, model.isCheating());
-
-//                view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
-
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                    int spent = model.getPointsSpentOnPhysical();
-
-                    changeValue(entry, spent);
-//                spent = changeWidgetValue(entryKey, spent, entryValue, model.isCheating());
-//
-//                view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
-
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                    int spent = model.getPointsSpentOnSocial();
-
-                    changeValue(entry, spent);
-
-//                spent = changeWidgetValue(entryKey, spent, entryValue, model.isCheating());
-//
-//                view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
-
-                    break;
-                }
-
+                break;
             }
-            view.checkCompletionConditions();
-        }
-//        entry.setValue(model.findEntryValue(entryKey, 0) + entry.getValue());
-//
-//        model.addOrUpdateEntry(entry);
+            case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+                spent = model.getPointsSpentOnPhysical();
 
+                break;
+            }
+            case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+                spent = model.getPointsSpentOnSocial();
+
+                break;
+            }
+        }
+
+        changeValue(event.isIncrease, event.key, event.category, spent);
+
+        view.checkCompletionConditions();
     }
 
-    private void changeValue(Entry entry, int spent) {
-        Integer value = Integer.valueOf(entry.getValue());
-        String key = entry.getKey();
+    private void changeValue(boolean isIncrease, String key, String category, int spent) {
+        Integer change = isIncrease ? 1 : -1;
 
         if (!model.isCheating()) {
 
             int modelEntryValue = model.findEntryValue(key, 1);
 
-            if (value > 0) {
-                if (spent < Constants.ATTR_PTS_PRIMARY) {
-                    entry.setValue(Integer.valueOf(modelEntryValue + value));
-                    view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
-                    spent += value;
+            if ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0)) {
+                change += modelEntryValue;
 
-                    view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
+                Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
 
-//                    entry.setValue(Integer.valueOf(model.findEntryValue(key, 1) + value));
+                view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
+                spent += isIncrease ? 1 : -1;
 
-//                    model.addOrUpdateEntry(entry);
-                }
-            } else {
-                if (spent > 0) {
-                    entry.setValue(Integer.valueOf(modelEntryValue + value));
-                    view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
-                    spent += value;
-
-                    view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
-//                    view.changeWidgetValue(key, value);
-//                    spent += value;
-//
-//                    view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
-//
-//                    entry.setValue(Integer.valueOf(model.findEntryValue(key, 1) + value));
-//
-//                    model.addOrUpdateEntry(entry);
-                }
+                setCategoryTitle(spent, category);
             }
         }
         else    // If point allocation is not limited by category, do this instead
         {
-            view.changeWidgetValue(key, value);
+            view.changeWidgetValue(key, change);
         }
     }
 
-//    @Subscribe
-//    public void onTraitChanged(Events.TraitChanged event) {
-//        ValueSetter widget = (ValueSetter) event.caller;
-//
-//        switch (widget.getTraitCategory()) {
-//            case Constants.CONTENT_DESC_ATTR_MENTAL: {
-//                int spent = model.getPointsSpentOnMental();
-//
-//                spent = changeWidgetValue(widget, spent, event.value, model.isCheating());
-//
-//                view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
-//
-//                break;
-//            }
-//            case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-//                int spent = model.getPointsSpentOnPhysical();
-//
-//                spent = changeWidgetValue(widget, spent, event.value, model.isCheating());
-//
-//                view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
-//
-//                break;
-//            }
-//            case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-//                int spent = model.getPointsSpentOnSocial();
-//
-//                spent = changeWidgetValue(widget, spent, event.value, model.isCheating());
-//
-//                view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
-//
-//                break;
-//            }
-//        }
-//
-//        view.checkCompletionConditions();
-//    }
+    private void setCategoryTitle(int spent, String category) {
+        switch (category) {
+            case Constants.CONTENT_DESC_ATTR_MENTAL: {
 
-//    private int changeWidgetValue(String key, int spent, int value, boolean cheating) {
-//        if (!cheating) {
-//            if (value > 0) {
-//                if (spent < Constants.ATTR_PTS_PRIMARY) {
-//                    view.changeWidgetValue(key, value);
-//                    spent += value;
-//                }
-//            } else {
-//                if (spent > 0) {
-//                    view.changeWidgetValue(key, value);
-//                    spent += value;
-//                }
-//            }
-//        }
-//        else    // If point allocation is not limited by category, do this instead
-//        {
-//            if (value > 0) {
-//                view.changeWidgetValue(key, value);
-//            } else {
-//                view.changeWidgetValue(key, value);
-//            }
-//        }
-//
-//        return spent;
-//    }
+                view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
+
+                break;
+            }
+            case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+
+                view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
+
+                break;
+            }
+            case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+
+                view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
+
+                break;
+            }
+        }
+    }
+
 }

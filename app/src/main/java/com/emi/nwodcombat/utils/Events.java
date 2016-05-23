@@ -73,17 +73,23 @@ public class Events {
         }
     }
 
-    public static class EntryChanged {
+    public static class TextEntryChanged {
         public Entry entry;
-        public String traitCategory;
 
-        public EntryChanged(Entry entry) {
+        public TextEntryChanged(Entry entry) {
             this.entry = entry;
         }
+    }
 
-        public EntryChanged(Entry entry, String traitCategory) {
-            this.entry = entry;
-            this.traitCategory = traitCategory;
+    public static class NumericEntryChanged {
+        public String key;
+        public String category;
+        public boolean isIncrease;
+
+        public NumericEntryChanged(boolean isIncrease, String key, String traitCategory) {
+            this.isIncrease = isIncrease;
+            this.key = key;
+            this.category = traitCategory;
         }
     }
 }

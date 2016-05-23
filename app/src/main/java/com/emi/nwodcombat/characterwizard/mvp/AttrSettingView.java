@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
-import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -65,7 +64,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         valueSetterManipulation.setListener(this);
         valueSetterManipulation.setContentDescription(Constants.ATTR_MAN);
         valueSetterComposure.setListener(this);
-        valueSetterComposure.setContentDescription(Constants.ATTR_MAN);
+        valueSetterComposure.setContentDescription(Constants.ATTR_COM);
 
         txtPoolMental.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
         txtPoolPhysical.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
@@ -84,15 +83,9 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
 
     @Override
     public void onTraitChanged(Object caller, int value, String constant) {
-        Entry entry = new Entry().setKey(constant)
-                .setType(Constants.FIELD_TYPE_INTEGER)
-                .setValue(String.valueOf(value));
-
         String traitCategory = ((ValueSetter) caller).getTraitCategory();
 
-        bus.post(new Events.EntryChanged(entry, traitCategory));
-
-//        bus.post(new Events.TraitChanged(caller, value, constant));
+        bus.post(new Events.NumericEntryChanged((value > 0), constant, traitCategory));
     }
 
     void changeWidgetValue(String key, int value) {
@@ -103,10 +96,6 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
                 break;
             }
         }
-    }
-
-    void changeWidgetValue(ValueSetter widget, int value) {
-        widget.changeValue(value);
     }
 
     void checkCompletionConditions() {
@@ -140,18 +129,6 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
             return 3;
         }
         return 0;
-    }
-
-    void setMentalCategoryTitle(String title) {
-        txtPoolMental.setText(title);
-    }
-
-    void setPhysicalCategoryTitle(String title) {
-        txtPoolPhysical.setText(title);
-    }
-
-    void setSocialCategoryTitle(String title) {
-        txtPoolSocial.setText(title);
     }
 
     void setMentalCategoryTitle(int spent, String category) {
