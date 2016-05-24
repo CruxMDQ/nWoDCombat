@@ -24,7 +24,8 @@
                 android:id="@+id/panelSkillsMental"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/step_skill_set_mental"
@@ -53,7 +54,8 @@
                 android:id="@+id/panelSkillsPhysical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/step_skill_set_physical"
@@ -82,7 +84,8 @@
                 android:id="@+id/panelSkillsSocial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/step_skill_set_social"

@@ -11,14 +11,7 @@
         android:text="@string/cat_physical"
         android:visibility="gone"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:background="@drawable/bkgd_cat_panel"
-        android:paddingBottom="@dimen/spacing_half"
-        android:paddingTop="@dimen/spacing_half">
+    <RelativeLayout style="@style/style_panel_skill_allocate">
 
         <view
             android:id="@+id/valueSetterAthletics"
