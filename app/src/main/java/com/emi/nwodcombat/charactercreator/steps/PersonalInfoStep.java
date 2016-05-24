@@ -151,7 +151,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
         });
 
         setUpSpinner(spinnerDemeanor,
-            new DemeanorsAdapter(getActivity(), helper.getList(Demeanor.class), true),
+            new DemeanorsAdapter(getActivity(), helper.getList(Demeanor.class)),
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -166,7 +166,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
             });
 
         setUpSpinner(spinnerNature, 
-            new NaturesAdapter(getActivity(), helper.getList(Nature.class), true),
+            new NaturesAdapter(getActivity(), helper.getList(Nature.class)),
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -179,7 +179,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                 public void onNothingSelected(AdapterView<?> parent) { }
             });
 
-        setUpSpinner(spinnerVice, new VicesAdapter(getActivity(), helper.getList(Vice.class), true),
+        setUpSpinner(spinnerVice, new VicesAdapter(getActivity(), helper.getList(Vice.class)),
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -192,7 +192,7 @@ public class PersonalInfoStep extends WizardStep implements AfterCreatingRecordL
                 public void onNothingSelected(AdapterView<?> parent) { }
             });
 
-        setUpSpinner(spinnerVirtue, new VirtuesAdapter(getActivity(), helper.getList(Virtue.class), true),
+        setUpSpinner(spinnerVirtue, new VirtuesAdapter(getActivity(), helper.getList(Virtue.class)),
             new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -153,10 +153,8 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant) {
-        String traitCategory = ((ValueSetter) caller).getTraitCategory();
-
-        bus.post(new Events.SkillChanged((value > 0), constant, traitCategory));
+    public void onTraitChanged(Object caller, int value, String constant, String category) {
+        bus.post(new Events.SkillChanged((value > 0), constant, category));
     }
     
     @OnClick(R.id.titleSkillsMental)

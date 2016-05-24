@@ -14,8 +14,8 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 07/04/2016.
  */
 public class VicesAdapter extends RealmBaseAdapter<Vice> {
-    public VicesAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
-        super(context, realmResults, automaticUpdate);
+    public VicesAdapter(Context context, RealmResults realmResults) {
+        super(context, realmResults);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class VicesAdapter extends RealmBaseAdapter<Vice> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Vice item = realmResults.get(position);
+        Vice item = adapterData.get(position);
         viewHolder.text.setText(item.getName());
 
         return convertView;

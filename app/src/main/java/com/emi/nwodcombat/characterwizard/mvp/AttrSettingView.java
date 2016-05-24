@@ -83,10 +83,8 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant) {
-        String traitCategory = ((ValueSetter) caller).getTraitCategory();
-
-        bus.post(new Events.AttributeChanged((value > 0), constant, traitCategory));
+    public void onTraitChanged(Object caller, int value, String constant, String category) {
+        bus.post(new Events.AttributeChanged((value > 0), constant, category));
     }
 
     void changeWidgetValue(String key, int value) {

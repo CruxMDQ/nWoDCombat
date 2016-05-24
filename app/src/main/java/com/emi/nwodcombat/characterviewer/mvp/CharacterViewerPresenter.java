@@ -154,7 +154,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant) {
+    public void onTraitChanged(Object caller, int value, String constant, String category) {
         // De-abstract object into widget
         ValueSetter widget = (ValueSetter) caller;
 
@@ -199,7 +199,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         // - a flag for automaticUpdate (don't yet know what 'automatic update' means in this context)
         RealmResults<Demeanor> demeanors = model.getDemeanors();
 
-        demeanorsAdapter = new DemeanorsAdapter(context, demeanors, true);
+        demeanorsAdapter = new DemeanorsAdapter(context, demeanors);
 
         // Associate the adapter to the spinner (well, duh)
         view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
@@ -229,7 +229,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setupNaturesSpinner() {
         RealmResults<Nature> natures = model.getNatures();
 
-        naturesAdapter = new NaturesAdapter(context, natures, true);
+        naturesAdapter = new NaturesAdapter(context, natures);
 
         view.setNaturesSpinnerAdapter(naturesAdapter);
 
@@ -255,7 +255,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setupVicesSpinner() {
         RealmResults<Vice> vices = model.getVices();
 
-        vicesAdapter = new VicesAdapter(context, vices, true);
+        vicesAdapter = new VicesAdapter(context, vices);
 
         view.setVicesSpinnerAdapter(vicesAdapter);
 
@@ -281,7 +281,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setupVirtuesSpinner() {
         RealmResults<Virtue> virtues = model.getVirtues();
 
-        virtuesAdapter = new VirtuesAdapter(context, virtues, true);
+        virtuesAdapter = new VirtuesAdapter(context, virtues);
 
         view.setVirtuesSpinnerAdapter(virtuesAdapter);
 

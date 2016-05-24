@@ -14,8 +14,8 @@ import io.realm.RealmResults;
  * Created by Crux on 4/10/2016.
  */
 public class VirtuesAdapter extends RealmBaseAdapter<Virtue> {
-    public VirtuesAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
-        super(context, realmResults, automaticUpdate);
+    public VirtuesAdapter(Context context, RealmResults realmResults) {
+        super(context, realmResults);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class VirtuesAdapter extends RealmBaseAdapter<Virtue> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Virtue item = realmResults.get(position);
+        Virtue item = adapterData.get(position);
         viewHolder.text.setText(item.getName());
 
         return convertView;

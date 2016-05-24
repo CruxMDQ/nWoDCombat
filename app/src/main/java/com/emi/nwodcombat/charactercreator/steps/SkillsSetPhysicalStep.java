@@ -101,7 +101,7 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant) {
+    public void onTraitChanged(Object caller, int value, String constant, String category) {
         ValueSetter widget = (ValueSetter) caller;
 
         if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {

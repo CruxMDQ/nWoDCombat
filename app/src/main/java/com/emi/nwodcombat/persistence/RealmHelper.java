@@ -137,7 +137,7 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public <T extends RealmObject> RealmResults<T> getList(Class<T> klass) {
-        return realm.allObjects(klass);
+        return realm.where(klass).findAll();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public int getCount(Class className) {
-        return realm.allObjects(className).size();
+        return getList(className).size();
     }
 
     @Override
@@ -169,7 +169,7 @@ public class RealmHelper implements PersistenceLayer {
 
         T target = realm.where(clazz).equalTo(Constants.FIELD_ID, id).findAll().first();
 
-        target.removeFromRealm();
+        target.deleteFromRealm();
 
         realm.commitTransaction();
     }

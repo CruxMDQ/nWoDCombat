@@ -52,7 +52,7 @@ public class PersonalInfoPresenter {
     public void setupDemeanorsSpinner() {
         RealmResults<Demeanor> demeanors = model.getDemeanors();
 
-        demeanorsAdapter = new DemeanorsAdapter(context, demeanors, true);
+        demeanorsAdapter = new DemeanorsAdapter(context, demeanors);
 
         view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
     }
@@ -60,7 +60,7 @@ public class PersonalInfoPresenter {
     public void setupNaturesSpinner() {
         RealmResults<Nature> natures = model.getNatures();
 
-        naturesAdapter = new NaturesAdapter(context, natures, true);
+        naturesAdapter = new NaturesAdapter(context, natures);
 
         view.setNaturesSpinnerAdapter(naturesAdapter);
     }
@@ -68,7 +68,7 @@ public class PersonalInfoPresenter {
     public void setupVicesSpinner() {
         RealmResults<Vice> vices = model.getVices();
 
-        vicesAdapter = new VicesAdapter(context, vices, true);
+        vicesAdapter = new VicesAdapter(context, vices);
 
         view.setVicesSpinnerAdapter(vicesAdapter);
     }
@@ -76,7 +76,7 @@ public class PersonalInfoPresenter {
     public void setupVirtuesSpinner() {
         RealmResults<Virtue> virtues = model.getVirtues();
 
-        virtuesAdapter = new VirtuesAdapter(context, virtues, true);
+        virtuesAdapter = new VirtuesAdapter(context, virtues);
 
         view.setVirtuesSpinnerAdapter(virtuesAdapter);
     }
