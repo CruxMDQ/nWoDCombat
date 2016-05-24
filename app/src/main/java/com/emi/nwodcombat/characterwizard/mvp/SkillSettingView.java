@@ -236,24 +236,39 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
 
     @SuppressWarnings("ConstantConditions")
     private void setCategoryTitle(TextView textView, int spent, String category) {
-        switch (spent) {
-            case Constants.SKILL_PTS_PRIMARY:
-                textView.setText(
+        if (spent == Constants.SKILL_PTS_PRIMARY || spent > Constants.SKILL_PTS_SECONDARY) {
+            textView.setText(
                     String.format("%s (%s)", category, getActivity()
-                        .getString(R.string.cat_primary_suffix)));
-                break;
-            case Constants.SKILL_PTS_SECONDARY:
-                textView.setText(
+                            .getString(R.string.cat_primary_suffix)));
+        } else if (spent == Constants.SKILL_PTS_SECONDARY || spent > Constants.SKILL_PTS_TERTIARY) {
+            textView.setText(
                     String.format("%s (%s)", category, getActivity().getString(
-                        R.string.cat_secondary_suffix)));
-                break;
-            case Constants.SKILL_PTS_TERTIARY:
-                textView.setText(
+                            R.string.cat_secondary_suffix)));
+        } else if (spent == Constants.SKILL_PTS_TERTIARY) {
+            textView.setText(
                     String.format("%s (%s)", category, getActivity()
-                        .getString(R.string.cat_tertiary_suffix)));
-                break;
-            default:
-                textView.setText(category);
+                            .getString(R.string.cat_tertiary_suffix)));
+        } else if (spent < Constants.SKILL_PTS_TERTIARY) {
+            textView.setText(category);
         }
+//        switch (spent) {
+//            case Constants.SKILL_PTS_PRIMARY:
+//                textView.setText(
+//                    String.format("%s (%s)", category, getActivity()
+//                        .getString(R.string.cat_primary_suffix)));
+//                break;
+//            case Constants.SKILL_PTS_SECONDARY:
+//                textView.setText(
+//                    String.format("%s (%s)", category, getActivity().getString(
+//                        R.string.cat_secondary_suffix)));
+//                break;
+//            case Constants.SKILL_PTS_TERTIARY:
+//                textView.setText(
+//                    String.format("%s (%s)", category, getActivity()
+//                        .getString(R.string.cat_tertiary_suffix)));
+//                break;
+//            default:
+//                textView.setText(category);
+//        }
     }
 }

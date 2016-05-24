@@ -33,17 +33,17 @@ public class AttrSettingPresenter {
         int spent = 0;
         switch (event.category) {
             case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                spent = model.getPointsSpentOnMental();
+                spent = model.getPointsSpentOnAttrMental();
 
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                spent = model.getPointsSpentOnPhysical();
+                spent = model.getPointsSpentOnAttrPhysical();
 
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                spent = model.getPointsSpentOnSocial();
+                spent = model.getPointsSpentOnAttrSocial();
 
                 break;
             }

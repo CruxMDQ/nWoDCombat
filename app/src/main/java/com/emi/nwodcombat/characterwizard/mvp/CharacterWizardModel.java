@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -146,7 +147,6 @@ public class CharacterWizardModel {
             if (t.getKey().equals(entry.getKey())) {
                 entry.setId(t.getId());
                 character.getEntries().set(character.getEntries().indexOf(t), entry);
-//                character.getEntries().remove(t);
                 return entry;
             }
         }
@@ -156,32 +156,44 @@ public class CharacterWizardModel {
         return entry;
     }
 
-    public int getPointsSpentOnMental() {
-        int intelligence = findEntryValue(Constants.ATTR_INT, 1);
-        int wits = findEntryValue(Constants.ATTR_WIT, 1);
-        int resolve = findEntryValue(Constants.ATTR_RES, 1);
-
-        int result = intelligence + wits + resolve - Constants.ATTR_PTS_TERTIARY;
-
-        return result;
+    private int getPointsSpentOnAttributes(int idArray) {
+        return getPointsSpent(idArray, Constants.ATTR_PTS_TERTIARY, 1);
     }
 
-    public int getPointsSpentOnPhysical() {
-        int strength = findEntryValue(Constants.ATTR_STR, 1);
-        int dexterity = findEntryValue(Constants.ATTR_DEX, 1);
-        int stamina = findEntryValue(Constants.ATTR_STA, 1);
-
-        int result = strength + dexterity + stamina - Constants.ATTR_PTS_TERTIARY;
-
-        return result;
+    public int getPointsSpentOnAttrMental() {
+        return getPointsSpentOnAttributes(R.array.attributes_mental);
     }
 
-    public int getPointsSpentOnSocial() {
-        int presence = findEntryValue(Constants.ATTR_PRE, 1);
-        int manipulation = findEntryValue(Constants.ATTR_MAN, 1);
-        int composure = findEntryValue(Constants.ATTR_COM, 1);
+    public int getPointsSpentOnAttrPhysical() {
+        return getPointsSpentOnAttributes(R.array.attributes_physical);
+    }
 
-        int result = presence + manipulation + composure - Constants.ATTR_PTS_TERTIARY;
+    public int getPointsSpentOnAttrSocial() {
+        return getPointsSpentOnAttributes(R.array.attributes_social);
+    }
+
+    private int getPointsSpentOnSkills(int idArray) {
+        return getPointsSpent(idArray, 0, 0);
+    }
+    
+    public int getPointsSpentOnMentalSkills() {
+        return getPointsSpentOnSkills(R.array.skills_mental);
+    }
+    
+    public int getPointsSpentOnPhysicalSkills() {
+        return getPointsSpentOnSkills(R.array.skills_physical);
+    }
+
+    public int getPointsSpentOnSocialSkills() {
+        return getPointsSpentOnSkills(R.array.skills_social);
+    }
+
+    private int getPointsSpent(int idArray, int takeawayValue, int defaultValue) {
+        int result = 0 - takeawayValue;
+
+        for (String skill : activity.getResources().getStringArray(idArray)) {
+            result += findEntryValue(skill, defaultValue);
+        }
 
         return result;
     }

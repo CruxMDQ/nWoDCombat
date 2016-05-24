@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="attributes_mental">
+        <item>@string/attr_int</item>
+        <item>@string/attr_wits</item>
+        <item>@string/attr_res</item>
+    </array>
+    <array name="attributes_physical">
+        <item>@string/attr_str</item>
+        <item>@string/attr_dex</item>
+        <item>@string/attr_sta</item>
+    </array>
+    <array name="attributes_social">
+        <item>@string/attr_pre</item>
+        <item>@string/attr_man</item>
+        <item>@string/attr_com</item>
+    </array>
+    <array name="skills_mental">
+        <item>@string/skill_academics</item>
+        <item>@string/skill_computer</item>
+        <item>@string/skill_crafts</item>
+        <item>@string/skill_investigation</item>
+        <item>@string/skill_medicine</item>
+        <item>@string/skill_occult</item>
+        <item>@string/skill_politics</item>
+        <item>@string/skill_science</item>
+    </array>
+    <array name="skills_physical">
+        <item>@string/skill_athletics</item>
+        <item>@string/skill_brawl</item>
+        <item>@string/skill_drive</item>
+        <item>@string/skill_firearms</item>
+        <item>@string/skill_larceny</item>
+        <item>@string/skill_stealth</item>
+        <item>@string/skill_survival</item>
+        <item>@string/skill_weaponry</item>
+    </array>
+    <array name="skills_social">
+        <item>@string/skill_animal_ken</item>
+        <item>@string/skill_empathy</item>
+        <item>@string/skill_expression</item>
+        <item>@string/skill_intimidation</item>
+        <item>@string/skill_persuasion</item>
+        <item>@string/skill_socialize</item>
+        <item>@string/skill_streetwise</item>
+        <item>@string/skill_subterfuge</item>
+    </array>
+</resources>

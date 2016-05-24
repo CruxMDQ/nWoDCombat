@@ -33,17 +33,17 @@ public class SkillSettingPresenter {
         int spent = 0;
         switch (event.category) {
             case Constants.CONTENT_DESC_SKILL_MENTAL: {
-                spent = model.getPointsSpentOnMental();
+                spent = model.getPointsSpentOnMentalSkills();
 
                 break;
             }
             case Constants.CONTENT_DESC_SKILL_PHYSICAL: {
-                spent = model.getPointsSpentOnPhysical();
+                spent = model.getPointsSpentOnPhysicalSkills();
 
                 break;
             }
             case Constants.CONTENT_DESC_SKILL_SOCIAL: {
-                spent = model.getPointsSpentOnSocial();
+                spent = model.getPointsSpentOnSocialSkills();
 
                 break;
             }
@@ -59,7 +59,7 @@ public class SkillSettingPresenter {
 
         if (!model.isCheating()) {
 
-            int modelEntryValue = model.findEntryValue(key, 1);
+            int modelEntryValue = model.findEntryValue(key, 0);
 
             if ((change > 0 && spent < Constants.SKILL_PTS_PRIMARY) || (change < 0 && spent > 0)) {
                 change += modelEntryValue;
