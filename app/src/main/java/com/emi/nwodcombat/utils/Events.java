@@ -1,7 +1,5 @@
 package com.emi.nwodcombat.utils;
 
-import com.emi.nwodcombat.model.realm.Entry;
-
 /**
  * Created by emiliano.desantis on 18/05/2016.
  */
@@ -74,10 +72,14 @@ public class Events {
     }
 
     public static class TextEntryChanged {
-        public Entry entry;
+        public String key;
+        public String type;
+        public String value;
 
-        public TextEntryChanged(Entry entry) {
-            this.entry = entry;
+        public TextEntryChanged(String key, String type, String value) {
+            this.key = key;
+            this.type = type;
+            this.value = value;
         }
     }
 
@@ -103,6 +105,14 @@ public class Events {
             this.key = key;
             this.category = traitCategory;
         }
+    }
+
+    public static class WizardComplete {
+        public WizardComplete() { }
+    }
+
+    public static class WizardClose {
+        public WizardClose() { }
     }
 
 }

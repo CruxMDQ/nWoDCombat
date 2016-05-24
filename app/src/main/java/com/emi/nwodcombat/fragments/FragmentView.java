@@ -5,6 +5,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
+
+import com.emi.nwodcombat.R;
 
 import java.lang.ref.WeakReference;
 
@@ -46,5 +49,13 @@ public class FragmentView {
 
     public void unbind() {
         ButterKnife.unbind(fragmentRef.get());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void setToolbarTitle(String title) {
+        TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView()
+                .findViewById(R.id.txtToolbarTitle);
+
+        txtToolbarTitle.setText(title);
     }
 }

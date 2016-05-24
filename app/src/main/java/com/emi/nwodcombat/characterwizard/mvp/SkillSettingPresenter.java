@@ -21,7 +21,7 @@ public class SkillSettingPresenter {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
-        setupWidgets();
+//        setupWidgets();
     }
 
     private void setupWidgets() {

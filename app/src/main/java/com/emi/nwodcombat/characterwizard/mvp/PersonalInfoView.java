@@ -14,7 +14,6 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
-import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
 import com.squareup.otto.Bus;
@@ -53,10 +52,8 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.TextEntryChanged(new Entry()
-                        .setKey(Constants.CHARACTER_CONCEPT)
-                        .setType(Constants.FIELD_TYPE_STRING)
-                        .setValue(editConcept.getText().toString())));
+                bus.post(new Events.TextEntryChanged(Constants.CHARACTER_CONCEPT,
+                    Constants.FIELD_TYPE_STRING, editConcept.getText().toString()));
 
                 bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
             }
@@ -71,10 +68,8 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.TextEntryChanged(new Entry()
-                        .setKey(Constants.CHARACTER_NAME)
-                        .setType(Constants.FIELD_TYPE_STRING)
-                        .setValue(editName.getText().toString())));
+                bus.post(new Events.TextEntryChanged(Constants.CHARACTER_NAME,
+                    Constants.FIELD_TYPE_STRING, editName.getText().toString()));
 
                 bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
             }
@@ -89,10 +84,8 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.TextEntryChanged(new Entry()
-                        .setKey(Constants.CHARACTER_PLAYER)
-                        .setType(Constants.FIELD_TYPE_STRING)
-                        .setValue(editPlayer.getText().toString())));
+                bus.post(new Events.TextEntryChanged(Constants.CHARACTER_PLAYER,
+                    Constants.FIELD_TYPE_STRING, editPlayer.getText().toString()));
 
                 bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
             }
@@ -103,6 +96,7 @@ public class PersonalInfoView extends FragmentView {
         if (Constants.MODE_TEST) {
             editName.setText(R.string.test_info_name);
             editConcept.setText(R.string.test_info_concept);
+            editPlayer.setText(R.string.default_step_personal_info_player);
         }
     }
 

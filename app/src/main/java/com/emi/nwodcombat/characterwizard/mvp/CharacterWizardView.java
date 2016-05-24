@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.fragments.FragmentView;
@@ -72,9 +71,9 @@ public class CharacterWizardView extends FragmentView {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public void pagerGoBackwards() {
+    public void pagerGoBackwards(int currentItem) {
         // If this is not the first page, go back one step
-        if (pager.getCurrentItem() != 0) {
+        if (currentItem != 0) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
             btnNext.setText(getActivity().getString(R.string.button_next));
         } else {
@@ -85,14 +84,6 @@ public class CharacterWizardView extends FragmentView {
 
     public void setAdapter(PagerAdapter adapter) {
         pager.setAdapter(adapter);
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public void setToolbarTitle(String title) {
-        TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView()
-                .findViewById(R.id.txtToolbarTitle);
-
-        txtToolbarTitle.setText(title);
     }
 
     public void toggleNextButton(boolean isStepComplete) {

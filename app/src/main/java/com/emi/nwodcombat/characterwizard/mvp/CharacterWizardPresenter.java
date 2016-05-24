@@ -8,7 +8,10 @@ import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
 import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
+import com.emi.nwodcombat.characterwizard.steps.SummaryFragment;
+import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Events;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -22,12 +25,18 @@ public class CharacterWizardPresenter {
     private CharacterWizardView view;
     private CharacterWizardModel model;
     private CharacterWizardPagerAdapter adapter;
+    private Bus bus;
 
     public CharacterWizardPresenter(CharacterWizardModel model, CharacterWizardView view) {
         this.model = model;
         this.view = view;
         this.adapter = new CharacterWizardPagerAdapter(view.getChildFragmentManager(), getClassesList());
         this.context = view.getContext();
+
+        this.changeTitle(R.string.title_character_create);
+
+        bus = BusProvider.getInstance();
+
         view.setAdapter(adapter);
         model.setupNewCharacter();
     }
@@ -38,6 +47,7 @@ public class CharacterWizardPresenter {
         classes.add(PersonalInfoFragment.class);
         classes.add(AttrSettingFragment.class);
         classes.add(SkillSettingFragment.class);
+        classes.add(SummaryFragment.class);
 
         return classes;
     }
@@ -57,31 +67,20 @@ public class CharacterWizardPresenter {
         }
 
         view.pagerGoForward();
-
-        // Change title
-        changeTitle(currentItem);
-
-        // After moving pager forward, if this is a child step, retrieve choices affecting how you distribute points
-//        if (fragmentList.get(pager.getCurrentItem()) instanceof PagerStep.ChildStep) {
-//            ((PagerStep.ChildStep) fragmentList.get(pager.getCurrentItem())).retrieveChoices();
-//        }
     }
 
     public void moveToPreviousStep(int currentItem) {
-        view.pagerGoBackwards();
-
-        if (currentItem >= 0) {
-            changeTitle(currentItem);
-        }
+        view.pagerGoBackwards(currentItem);
     }
 
-    private void changeTitle(int currentItem) {
-        view.setToolbarTitle(adapter.getItem(currentItem).getToolbarTitle());
+    private void changeTitle(int resId) {
+        view.setToolbarTitle(context.getString(resId));
     }
 
     private void finishWizard() {
-        // TODO Code wizard completion
-//        pagerFinisher.onPagerFinished();
+        model.save();
+
+        bus.post(new Events.WizardClose());
     }
 
     @Subscribe
@@ -96,6 +95,10 @@ public class CharacterWizardPresenter {
         if (event.movesForward) {
             if (event.currentItem < lastPage) {
                 moveToNextStep(event.currentItem);
+
+                if (event.currentItem + 1 == lastPage) {
+                    bus.post(new Events.WizardComplete());
+                }
             } else {
                 finishWizard();
             }

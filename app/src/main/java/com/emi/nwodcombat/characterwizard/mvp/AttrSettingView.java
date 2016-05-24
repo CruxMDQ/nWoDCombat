@@ -44,7 +44,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-        setUpUI();
+//        setUpUI();
     }
 
     protected void setUpUI() {

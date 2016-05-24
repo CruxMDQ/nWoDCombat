@@ -9,6 +9,7 @@
     <string name="button_ok">OK</string>
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
+    <string name="title_character_create">Create new character</string>
     <string name="title_attribute">Attribute</string>
     <string name="title_attributes">Attributes</string>
     <string name="title_skills">Skills</string>

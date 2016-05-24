@@ -7,7 +7,6 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.model.realm.Demeanor;
-import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
@@ -106,8 +105,6 @@ public class PersonalInfoPresenter {
 
     @Subscribe
     public void onEntryChanged(Events.TextEntryChanged event) {
-        Entry entry = event.entry;
-
-        model.addOrUpdateEntry(entry);
+        model.addOrUpdateEntry(event.key, event.type, event.value);
     }
 }

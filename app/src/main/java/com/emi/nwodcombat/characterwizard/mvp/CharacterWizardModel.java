@@ -19,6 +19,8 @@ import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import io.realm.RealmResults;
@@ -140,6 +142,27 @@ public class CharacterWizardModel {
         character.getVirtueTraits().add(virtueTrait);
     }
 
+    public Entry addOrUpdateEntry(String key, String type, String value) {
+        Entry entry = new Entry()
+            .setKey(key)
+            .setType(type)
+            .setValue(value);
+
+        entry.setId(character.getEntries().size());
+
+        for (Entry t : character.getEntries()) {
+            if (t.getKey().equals(entry.getKey())) {
+                entry.setId(t.getId());
+                character.getEntries().set(character.getEntries().indexOf(t), entry);
+                return entry;
+            }
+        }
+
+        character.getEntries().add(entry);
+
+        return entry;
+    }
+
     public Entry addOrUpdateEntry(Entry entry) {
         entry.setId(character.getEntries().size());
 
@@ -175,11 +198,11 @@ public class CharacterWizardModel {
     private int getPointsSpentOnSkills(int idArray) {
         return getPointsSpent(idArray, 0, 0);
     }
-    
+
     public int getPointsSpentOnMentalSkills() {
         return getPointsSpentOnSkills(R.array.skills_mental);
     }
-    
+
     public int getPointsSpentOnPhysicalSkills() {
         return getPointsSpentOnSkills(R.array.skills_physical);
     }
@@ -202,7 +225,7 @@ public class CharacterWizardModel {
         try {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
-            if (entry.getType().equals(Constants.FIELD_TYPE_INTEGER)) {
+            if (entry != null && entry.getType().equals(Constants.FIELD_TYPE_INTEGER)) {
                 int result = Integer.valueOf(entry.getValue());
 
                 return result;
@@ -211,5 +234,158 @@ public class CharacterWizardModel {
             return defaultValue;
         }
         return defaultValue;
+    }
+
+    public String getMentalAttrSummary() {
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        entries.add(character.getIntelligence());
+        entries.add(character.getWits());
+        entries.add(character.getResolve());
+
+        return getStatBlock(entries);
+    }
+
+    public String getPhysicalAttrSummary() {
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        entries.add(character.getStrength());
+        entries.add(character.getDexterity());
+        entries.add(character.getStamina());
+
+        return getStatBlock(entries);
+    }
+
+    public String getSocialAttrSummary() {
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        entries.add(character.getIntelligence());
+        entries.add(character.getWits());
+        entries.add(character.getResolve());
+
+        return getStatBlock(entries);
+    }
+
+    public String getMentalSkillsSummary() {
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        if (character.getAcademics() != null) {
+            entries.add(character.getAcademics());
+        }
+        if (character.getComputer() != null) {
+            entries.add(character.getComputer());
+        }
+        if (character.getCrafts() != null) {
+            entries.add(character.getCrafts());
+        }
+        if (character.getInvestigation() != null) {
+            entries.add(character.getInvestigation());
+        }
+        if (character.getMedicine() != null) {
+            entries.add(character.getMedicine());
+        }
+        if (character.getOccult() != null) {
+            entries.add(character.getOccult());
+        }
+        if (character.getPolitics() != null) {
+            entries.add(character.getPolitics());
+        }
+        if (character.getScience() != null) {
+            entries.add(character.getScience());
+        }
+
+        return getStatBlock(entries);
+    }
+
+    public String getPhysicalSkillsSummary() {
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        if (character.getAthletics() != null) {
+            entries.add(character.getAthletics());
+        }
+        if (character.getBrawl() != null) {
+            entries.add(character.getBrawl());
+        }
+        if (character.getDrive() != null) {
+            entries.add(character.getDrive());
+        }
+        if (character.getFirearms() != null) {
+            entries.add(character.getFirearms());
+        }
+        if (character.getLarceny() != null) {
+            entries.add(character.getLarceny());
+        }
+        if (character.getStealth() != null) {
+            entries.add(character.getStealth());
+        }
+        if (character.getSurvival() != null) {
+            entries.add(character.getSurvival());
+        }
+        if (character.getWeaponry() != null) {
+            entries.add(character.getWeaponry());
+        }
+
+        return getStatBlock(entries);
+    }
+
+    public String getSocialSkillsSummary() {
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        if (character.getAnimalKen() != null) {
+            entries.add(character.getAnimalKen());
+        }
+        if (character.getEmpathy() != null) {
+            entries.add(character.getEmpathy());
+        }
+        if (character.getExpression() != null) {
+            entries.add(character.getExpression());
+        }
+        if (character.getIntimidation() != null) {
+            entries.add(character.getIntimidation());
+        }
+        if (character.getPersuasion() != null) {
+            entries.add(character.getPersuasion());
+        }
+        if (character.getSocialize() != null) {
+            entries.add(character.getSocialize());
+        }
+        if (character.getStreetwise() != null) {
+            entries.add(character.getStreetwise());
+        }
+        if (character.getWeaponry() != null) {
+            entries.add(character.getWeaponry());
+        }
+
+        return getStatBlock(entries);
+    }
+
+    private String getStatBlock(ArrayList<Entry> stats) {
+        StringBuilder builder = new StringBuilder();
+
+        Iterator<Entry> iterator = stats.iterator();
+
+        while (iterator.hasNext()) {
+            Entry entry = iterator.next();
+
+            if (entry.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER) &&
+                Integer.valueOf(entry.getValue()) > 0) {
+                builder.append(entry.getKey());
+                builder.append(" ");
+                builder.append(String.valueOf(entry.getValue()));
+                if (iterator.hasNext()) {
+                    builder.append(", ");
+                }
+            }
+        }
+
+        return builder.toString();
+    }
+
+    public void save() {
+        character.setId(helper.getLastId(Character.class));
+
+        helper.save(character);
+
+        character = null;
     }
 }
