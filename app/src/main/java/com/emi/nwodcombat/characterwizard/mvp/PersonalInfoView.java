@@ -52,10 +52,7 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.TextEntryChanged(Constants.CHARACTER_CONCEPT,
-                    Constants.FIELD_TYPE_STRING, editConcept.getText().toString()));
-
-                bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
+                bus.post(new Events.StepCompletionChecked(performStepCompletionCycle()));
             }
         });
 
@@ -68,10 +65,7 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.TextEntryChanged(Constants.CHARACTER_NAME,
-                    Constants.FIELD_TYPE_STRING, editName.getText().toString()));
-
-                bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
+                bus.post(new Events.StepCompletionChecked(performStepCompletionCycle()));
             }
         });
 
@@ -84,10 +78,7 @@ public class PersonalInfoView extends FragmentView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bus.post(new Events.TextEntryChanged(Constants.CHARACTER_PLAYER,
-                    Constants.FIELD_TYPE_STRING, editPlayer.getText().toString()));
-
-                bus.post(new Events.StepCompletionChecked(checkCompletionConditions()));
+                bus.post(new Events.StepCompletionChecked(performStepCompletionCycle()));
             }
         });
     }
@@ -100,14 +91,43 @@ public class PersonalInfoView extends FragmentView {
         }
     }
 
-    public boolean checkCompletionConditions() {
+    public boolean performStepCompletionCycle() {
+        boolean complete = checkCompletionConditions();
+
+        if (complete) {
+            saveStepValues();
+        }
+
+        return complete;
+    }
+
+    private boolean checkCompletionConditions() {
         return spinnerDemeanor.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
-                spinnerNature.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
-                spinnerVice.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
-                spinnerVirtue.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
-                !editConcept.getText().toString().equals("") &&
-                !editName.getText().toString().equals("") &&
-                !editPlayer.getText().toString().equals("");
+                    spinnerNature.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
+                    spinnerVice.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
+                    spinnerVirtue.getSelectedItemPosition() != Constants.NO_OPTION_SELECTED &&
+                    !editConcept.getText().toString().equals("") &&
+                    !editName.getText().toString().equals("") &&
+                    !editPlayer.getText().toString().equals("");
+    }
+
+    private void saveStepValues() {
+        bus.post(new Events.TextEntryChanged(Constants.CHARACTER_CONCEPT,
+            Constants.FIELD_TYPE_STRING, editConcept.getText().toString()));
+
+        bus.post(new Events.TextEntryChanged(Constants.CHARACTER_NAME,
+            Constants.FIELD_TYPE_STRING, editName.getText().toString()));
+
+        bus.post(new Events.TextEntryChanged(Constants.CHARACTER_PLAYER,
+            Constants.FIELD_TYPE_STRING, editPlayer.getText().toString()));
+
+        bus.post(new Events.DemeanorTraitChanged(spinnerDemeanor.getSelectedItemPosition()));
+
+        bus.post(new Events.NatureTraitChanged(spinnerNature.getSelectedItemPosition()));
+
+        bus.post(new Events.ViceTraitChanged(spinnerVice.getSelectedItemPosition()));
+
+        bus.post(new Events.VirtueTraitChanged(spinnerVirtue.getSelectedItemPosition()));
     }
 
     public void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
@@ -116,10 +136,10 @@ public class PersonalInfoView extends FragmentView {
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.DemeanorTraitChanged(position));
+//                bus.post(new Events.DemeanorTraitChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
-                        checkCompletionConditions()));
+                        performStepCompletionCycle()));
             }
 
             @Override
@@ -134,10 +154,10 @@ public class PersonalInfoView extends FragmentView {
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.NatureTraitChanged(position));
+//                bus.post(new Events.NatureTraitChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
-                        checkCompletionConditions()));
+                        performStepCompletionCycle()));
             }
 
             @Override
@@ -151,10 +171,10 @@ public class PersonalInfoView extends FragmentView {
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.ViceTraitChanged(position));
+//                bus.post(new Events.ViceTraitChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
-                        checkCompletionConditions()));
+                        performStepCompletionCycle()));
             }
 
             @Override
@@ -168,10 +188,10 @@ public class PersonalInfoView extends FragmentView {
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.VirtueTraitChanged(position));
+//                bus.post(new Events.VirtueTraitChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
-                        checkCompletionConditions()));
+                        performStepCompletionCycle()));
 
             }
 
