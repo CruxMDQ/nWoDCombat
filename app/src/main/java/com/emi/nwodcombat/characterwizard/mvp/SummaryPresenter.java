@@ -33,6 +33,13 @@ public class SummaryPresenter {
         view.setSkillSummaryMental(model.getMentalSkillsSummary());
         view.setSkillSummaryPhysical(model.getPhysicalSkillsSummary());
         view.setSkillSummarySocial(model.getSocialSkillsSummary());
+
+        view.setDefense(model.calculateDefense());
+        view.setHealth(model.calculateHealth());
+        view.setInitiative(model.calculateInitiative());
+        view.setMorality(model.calculateMorality());
+        view.setSpeed(model.calculateSpeed());
+        view.setWillpower(model.calculateWillpower());
     }
 
     private void setupWidgets() {

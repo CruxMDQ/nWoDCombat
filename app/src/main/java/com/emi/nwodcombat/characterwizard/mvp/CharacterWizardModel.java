@@ -73,7 +73,7 @@ public class CharacterWizardModel {
     }
 
     public void setupNewCharacter() {
-        character.setId(helper.getLastId(Character.class));
+        character = new Character();
     }
 
     public void addOrUpdateDemeanorTrait(Demeanor demeanor) {
@@ -90,9 +90,13 @@ public class CharacterWizardModel {
 
         for (DemeanorTrait trait : character.getDemeanorTraits()) {
             if (trait.getOrdinal().equals(demeanorTrait.getOrdinal())) {
-                character.getDemeanorTraits().remove(trait);
+                demeanorTrait.setId(demeanor.getId());
+                character.getDemeanorTraits().set(character.getDemeanorTraits().indexOf(trait), demeanorTrait);
+                return;
             }
         }
+
+        demeanorTrait.setId(helper.getCount(DemeanorTrait.class) + character.getDemeanorTraits().size());
 
         character.getDemeanorTraits().add(demeanorTrait);
     }
@@ -105,9 +109,13 @@ public class CharacterWizardModel {
 
         for (NatureTrait trait : character.getNatureTraits()) {
             if (trait.getOrdinal().equals(natureTrait.getOrdinal())) {
-                character.getNatureTraits().remove(trait);
+                natureTrait.setId(nature.getId());
+                character.getNatureTraits().set(character.getNatureTraits().indexOf(trait), natureTrait);
+                return;
             }
         }
+
+        natureTrait.setId(helper.getCount(NatureTrait.class) + character.getNatureTraits().size());
 
         character.getNatureTraits().add(natureTrait);
     }
@@ -120,24 +128,33 @@ public class CharacterWizardModel {
 
         for (ViceTrait trait : character.getViceTraits()) {
             if (trait.getOrdinal().equals(viceTrait.getOrdinal())) {
-                character.getViceTraits().remove(trait);
+                viceTrait.setId(vice.getId());
+                character.getViceTraits().set(character.getViceTraits().indexOf(trait), viceTrait);
+                return;
             }
         }
+
+        viceTrait.setId(helper.getCount(ViceTrait.class) + character.getViceTraits().size());
 
         character.getViceTraits().add(viceTrait);
     }
 
     public void addOrUpdateVirtueTrait(Virtue virtue) {
         VirtueTrait virtueTrait = new VirtueTrait();
+        
         virtueTrait.setType(Constants.CHARACTER_VIRTUE);
         virtueTrait.setVirtue(virtue);
         virtueTrait.setOrdinal(0L);
 
         for (VirtueTrait trait : character.getVirtueTraits()) {
             if (trait.getOrdinal().equals(virtueTrait.getOrdinal())) {
-                character.getVirtueTraits().remove(trait);
+                virtueTrait.setId(trait.getId());
+                character.getVirtueTraits().set(character.getVirtueTraits().indexOf(trait), virtueTrait);
+                return;
             }
         }
+
+        virtueTrait.setId(helper.getCount(VirtueTrait.class) + character.getVirtueTraits().size());
 
         character.getVirtueTraits().add(virtueTrait);
     }
@@ -148,7 +165,7 @@ public class CharacterWizardModel {
             .setType(type)
             .setValue(value);
 
-        entry.setId(character.getEntries().size());
+        entry.setId(helper.getCount(Entry.class) + character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -382,10 +399,39 @@ public class CharacterWizardModel {
     }
 
     public void save() {
-        character.setId(helper.getLastId(Character.class));
+        character.setId((long) helper.getCount(Character.class));
 
         helper.save(character);
 
-        character = null;
+        setupNewCharacter();
+    }
+
+    public int calculateDefense() {
+        return Math.min(Integer.valueOf(character.getDexterity().getValue()),
+            Integer.valueOf(character.getWits().getValue()));
+    }
+
+    public int calculateMorality() {
+        return Constants.TRAIT_MORALITY_DEFAULT;
+    }
+
+    public int calculateHealth() {
+        return Integer.valueOf(character.getStamina().getValue()) +
+            Constants.TRAIT_SIZE_DEFAULT;
+    }
+
+    public int calculateInitiative() {
+        return Integer.valueOf(character.getComposure().getValue()) +
+            Integer.valueOf(character.getDexterity().getValue());
+    }
+
+    public int calculateSpeed() {
+        return Integer.valueOf(character.getStrength().getValue()) +
+            Integer.valueOf(character.getDexterity().getValue());
+    }
+
+    public int calculateWillpower() {
+        return Integer.valueOf(character.getResolve().getValue()) +
+            Integer.valueOf(character.getComposure().getValue());
     }
 }

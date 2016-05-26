@@ -94,7 +94,7 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public <T extends RealmObject> long save(T item) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(item);
+        realm.copyToRealm(item);
         realm.commitTransaction();
         return 0;
     }

@@ -3,6 +3,7 @@ package com.emi.nwodcombat.model.realm.wrappers;
 import com.emi.nwodcombat.model.realm.Virtue;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Crux on 9/6/2016.
@@ -10,6 +11,9 @@ import io.realm.RealmObject;
  * RealmObject instead failed.
  */
 public class VirtueTrait extends RealmObject {
+    @PrimaryKey
+    private long id;
+
     private Long ordinal;
     private String type;
     private Virtue virtue;
@@ -36,5 +40,13 @@ public class VirtueTrait extends RealmObject {
 
     public void setVirtue(Virtue demeanor) {
         this.virtue = demeanor;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
