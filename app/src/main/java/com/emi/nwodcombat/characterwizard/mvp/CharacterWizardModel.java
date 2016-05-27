@@ -96,7 +96,7 @@ public class CharacterWizardModel {
             }
         }
 
-        demeanorTrait.setId(helper.getCount(DemeanorTrait.class) + character.getDemeanorTraits().size());
+        demeanorTrait.setId(helper.getLastId(DemeanorTrait.class) + character.getDemeanorTraits().size());
 
         character.getDemeanorTraits().add(demeanorTrait);
     }
@@ -115,7 +115,7 @@ public class CharacterWizardModel {
             }
         }
 
-        natureTrait.setId(helper.getCount(NatureTrait.class) + character.getNatureTraits().size());
+        natureTrait.setId(helper.getLastId(NatureTrait.class) + character.getNatureTraits().size());
 
         character.getNatureTraits().add(natureTrait);
     }
@@ -134,7 +134,7 @@ public class CharacterWizardModel {
             }
         }
 
-        viceTrait.setId(helper.getCount(ViceTrait.class) + character.getViceTraits().size());
+        viceTrait.setId(helper.getLastId(ViceTrait.class) + character.getViceTraits().size());
 
         character.getViceTraits().add(viceTrait);
     }
@@ -154,7 +154,7 @@ public class CharacterWizardModel {
             }
         }
 
-        virtueTrait.setId(helper.getCount(VirtueTrait.class) + character.getVirtueTraits().size());
+        virtueTrait.setId(helper.getLastId(VirtueTrait.class) + character.getVirtueTraits().size());
 
         character.getVirtueTraits().add(virtueTrait);
     }
@@ -165,7 +165,7 @@ public class CharacterWizardModel {
             .setType(type)
             .setValue(value);
 
-        entry.setId(helper.getCount(Entry.class) + character.getEntries().size());
+        entry.setId(helper.getLastId(Entry.class) + character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -181,7 +181,7 @@ public class CharacterWizardModel {
     }
 
     public Entry addOrUpdateEntry(Entry entry) {
-        entry.setId(character.getEntries().size());
+        entry.setId(helper.getLastId(Entry.class) + character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -369,8 +369,8 @@ public class CharacterWizardModel {
         if (character.getStreetwise() != null) {
             entries.add(character.getStreetwise());
         }
-        if (character.getWeaponry() != null) {
-            entries.add(character.getWeaponry());
+        if (character.getSubterfuge() != null) {
+            entries.add(character.getSubterfuge());
         }
 
         return getStatBlock(entries);
@@ -399,7 +399,7 @@ public class CharacterWizardModel {
     }
 
     public void save() {
-        character.setId((long) helper.getCount(Character.class));
+        character.setId(helper.getLastId(Character.class));
 
         helper.save(character);
 
