@@ -81,7 +81,7 @@ public class PersonalInfoPresenter {
     }
 
     @Subscribe
-    public void onDemeanorTraitChangedEvent(Events.DemeanorTraitChanged event) {
+    public void onDemeanorTraitChangedEvent(Events.DemeanorChanged event) {
         // Pass the updating operation straight out to the model for handling
 
         // Retrieve object based on spinner position
@@ -89,17 +89,17 @@ public class PersonalInfoPresenter {
     }
 
     @Subscribe
-    public void onNatureTraitChangedEvent(Events.NatureTraitChanged event) {
+    public void onNatureTraitChangedEvent(Events.NatureChanged event) {
         model.addOrUpdateNatureTrait(naturesAdapter.getItem(event.position));
     }
 
     @Subscribe
-    public void onViceTraitChangedEvent(Events.ViceTraitChanged event) {
+    public void onViceTraitChangedEvent(Events.ViceChanged event) {
         model.addOrUpdateViceTrait(vicesAdapter.getItem(event.position));
     }
 
     @Subscribe
-    public void onVirtueTraitChangedEvent(Events.VirtueTraitChanged event) {
+    public void onVirtueTraitChangedEvent(Events.VirtueChanged event) {
         model.addOrUpdateVirtueTrait(virtuesAdapter.getItem(event.position));
     }
 

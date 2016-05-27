@@ -71,56 +71,32 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     protected void setUpUI() {
-        valueSetterAcademics.setListener(this);
-        valueSetterAcademics.setContentDescription(Constants.SKILL_ACADEMICS);
-        valueSetterComputer.setListener(this);
-        valueSetterComputer.setContentDescription(Constants.SKILL_COMPUTER);
-        valueSetterCrafts.setListener(this);
-        valueSetterCrafts.setContentDescription(Constants.SKILL_CRAFTS);
-        valueSetterInvestigation.setListener(this);
-        valueSetterInvestigation.setContentDescription(Constants.SKILL_INVESTIGATION);
-        valueSetterMedicine.setListener(this);
-        valueSetterMedicine.setContentDescription(Constants.SKILL_MEDICINE);
-        valueSetterOccult.setListener(this);
-        valueSetterOccult.setContentDescription(Constants.SKILL_OCCULT);
-        valueSetterPolitics.setListener(this);
-        valueSetterPolitics.setContentDescription(Constants.SKILL_POLITICS);
-        valueSetterScience.setListener(this);
-        valueSetterScience.setContentDescription(Constants.SKILL_SCIENCE);
+        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, Constants.CONTENT_DESC_SKILL_MENTAL);
 
-        valueSetterAthletics.setListener(this);
-        valueSetterAthletics.setContentDescription(Constants.SKILL_ATHLETICS);
-        valueSetterBrawl.setListener(this);
-        valueSetterBrawl.setContentDescription(Constants.SKILL_BRAWL);
-        valueSetterDrive.setListener(this);
-        valueSetterDrive.setContentDescription(Constants.SKILL_DRIVE);
-        valueSetterFirearms.setListener(this);
-        valueSetterFirearms.setContentDescription(Constants.SKILL_FIREARMS);
-        valueSetterLarceny.setListener(this);
-        valueSetterLarceny.setContentDescription(Constants.SKILL_LARCENY);
-        valueSetterStealth.setListener(this);
-        valueSetterStealth.setContentDescription(Constants.SKILL_STEALTH);
-        valueSetterSurvival.setListener(this);
-        valueSetterSurvival.setContentDescription(Constants.SKILL_SURVIVAL);
-        valueSetterWeaponry.setListener(this);
-        valueSetterWeaponry.setContentDescription(Constants.SKILL_WEAPONRY);
+        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, Constants.CONTENT_DESC_SKILL_PHYSICAL);
 
-        valueSetterAnimalKen.setListener(this);
-        valueSetterAnimalKen.setContentDescription(Constants.SKILL_ANIMAL_KEN);
-        valueSetterEmpathy.setListener(this);
-        valueSetterEmpathy.setContentDescription(Constants.SKILL_EMPATHY);
-        valueSetterExpression.setListener(this);
-        valueSetterExpression.setContentDescription(Constants.SKILL_EXPRESSION);
-        valueSetterIntimidation.setListener(this);
-        valueSetterIntimidation.setContentDescription(Constants.SKILL_INTIMIDATION);
-        valueSetterPersuasion.setListener(this);
-        valueSetterPersuasion.setContentDescription(Constants.SKILL_PERSUASION);
-        valueSetterSocialize.setListener(this);
-        valueSetterSocialize.setContentDescription(Constants.SKILL_SOCIALIZE);
-        valueSetterStreetwise.setListener(this);
-        valueSetterStreetwise.setContentDescription(Constants.SKILL_STREETWISE);
-        valueSetterSubterfuge.setListener(this);
-        valueSetterSubterfuge.setContentDescription(Constants.SKILL_SUBTERFUGE);
+        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, Constants.CONTENT_DESC_SKILL_SOCIAL);
 
         titleSkillsMental.setContentDescription(Constants.CONTENT_DESC_SKILL_MENTAL);
         titleSkillsPhysical.setContentDescription(Constants.CONTENT_DESC_SKILL_PHYSICAL);
@@ -153,7 +129,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant, String category) {
+    public void onTraitChanged(int value, String constant, String category) {
         bus.post(new Events.SkillChanged((value > 0), constant, category));
     }
     
@@ -249,24 +225,12 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         } else if (spent < Constants.SKILL_PTS_TERTIARY) {
             textView.setText(category);
         }
-//        switch (spent) {
-//            case Constants.SKILL_PTS_PRIMARY:
-//                textView.setText(
-//                    String.format("%s (%s)", category, getActivity()
-//                        .getString(R.string.cat_primary_suffix)));
-//                break;
-//            case Constants.SKILL_PTS_SECONDARY:
-//                textView.setText(
-//                    String.format("%s (%s)", category, getActivity().getString(
-//                        R.string.cat_secondary_suffix)));
-//                break;
-//            case Constants.SKILL_PTS_TERTIARY:
-//                textView.setText(
-//                    String.format("%s (%s)", category, getActivity()
-//                        .getString(R.string.cat_tertiary_suffix)));
-//                break;
-//            default:
-//                textView.setText(category);
-//        }
     }
+
+    private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory) {
+        setter.setListener(this);
+        setter.setContentDescription(skillName);
+        setter.setTraitCategory(skillCategory);
+    }
+
 }

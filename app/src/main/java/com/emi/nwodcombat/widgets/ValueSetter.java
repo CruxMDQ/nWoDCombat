@@ -75,7 +75,7 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
                 @Override
                 public void onClick(View v) {
                     if (currentValue > defaultValue) {
-                        listener.onTraitChanged(ValueSetter.this, -1,
+                        listener.onTraitChanged(-1,
                             ValueSetter.this.getContentDescription().toString(),
                             ValueSetter.this.getTraitCategory());
                     }
@@ -85,7 +85,7 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
                 @Override
                 public void onClick(View v) {
                     if (currentValue < maximumValue) {
-                        listener.onTraitChanged(ValueSetter.this, 1,
+                        listener.onTraitChanged(1,
                             ValueSetter.this.getContentDescription().toString(),
                             ValueSetter.this.getTraitCategory());
                     }

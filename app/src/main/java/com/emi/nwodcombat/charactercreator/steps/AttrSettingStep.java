@@ -115,50 +115,50 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant, String category) {
-        ValueSetter widget = (ValueSetter) caller;
-
-        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
-            switch (widget.getTraitCategory()) {
-                case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                    currentMentalPool = widget.changeValue(value, currentMentalPool);
-                    setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
-                    characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                    currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
-                    setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
-                    characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                    currentSocialPool = widget.changeValue(value, currentSocialPool);
-                    setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
-                    characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
-                    break;
-                }
-            }
-        } else {
-            switch (widget.getTraitCategory()) {
-                case Constants.CONTENT_DESC_ATTR_MENTAL: {
-                    widget.changeValue(value, currentMentalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-                    widget.changeValue(value, currentPhysicalPool);
-                    break;
-                }
-                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-                    widget.changeValue(value, currentSocialPool);
-                    break;
-                }
-            }
-        }
-
-        characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
-
-        checkCompletionConditions();
+    public void onTraitChanged(int value, String constant, String category) {
+//        ValueSetter widget = (ValueSetter) caller;
+//
+//        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+//            switch (widget.getTraitCategory()) {
+//                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+//                    currentMentalPool = widget.changeValue(value, currentMentalPool);
+//                    setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtPoolMental);
+//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_MENTAL, currentMentalPool);
+//                    break;
+//                }
+//                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+//                    currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
+//                    setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPoolPhysical);
+//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_PHYSICAL, currentPhysicalPool);
+//                    break;
+//                }
+//                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+//                    currentSocialPool = widget.changeValue(value, currentSocialPool);
+//                    setPoolTitle(getString(R.string.cat_social), currentSocialPool, txtPoolSocial);
+//                    characterCreatorHelper.putInt(Constants.POOL_ATTR_SOCIAL, currentSocialPool);
+//                    break;
+//                }
+//            }
+//        } else {
+//            switch (widget.getTraitCategory()) {
+//                case Constants.CONTENT_DESC_ATTR_MENTAL: {
+//                    widget.changeValue(value, currentMentalPool);
+//                    break;
+//                }
+//                case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+//                    widget.changeValue(value, currentPhysicalPool);
+//                    break;
+//                }
+//                case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+//                    widget.changeValue(value, currentSocialPool);
+//                    break;
+//                }
+//            }
+//        }
+//
+//        characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
+//
+//        checkCompletionConditions();
     }
 
     public boolean hasLeftoverPoints() {

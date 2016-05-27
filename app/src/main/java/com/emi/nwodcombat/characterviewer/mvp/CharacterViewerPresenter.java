@@ -7,13 +7,6 @@ import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
-import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
-import com.emi.nwodcombat.utils.Events.DemeanorTraitChanged;
-import com.emi.nwodcombat.utils.Events.ExperiencePoolChanged;
-import com.emi.nwodcombat.utils.Events.NatureTraitChanged;
-import com.emi.nwodcombat.utils.Events.ViceTraitChanged;
-import com.emi.nwodcombat.utils.Events.VirtueTraitChanged;
-import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -21,20 +14,23 @@ import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.widgets.ValueSetter;
+import com.emi.nwodcombat.utils.Events.DemeanorChanged;
+import com.emi.nwodcombat.utils.Events.ExperiencePoolChanged;
+import com.emi.nwodcombat.utils.Events.NatureChanged;
+import com.emi.nwodcombat.utils.Events.ViceChanged;
+import com.emi.nwodcombat.utils.Events.VirtueChanged;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
 
 import io.realm.RealmResults;
 
 import static com.emi.nwodcombat.utils.Events.CharacterDeleted;
+import static com.emi.nwodcombat.utils.Events.ValueChanged;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
-public class CharacterViewerPresenter implements OnTraitChangedListener {
-
+public class CharacterViewerPresenter  //implements OnTraitChangedListener {
+{
     private Context context;
     private CharacterViewerView view;
     private CharacterViewerModel model;
@@ -49,8 +45,6 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     private int experiencePool = 0;
 
     // This stores all the components that will increase or decrease the experience score
-    private ArrayList<ExperienceSpender> experienceSpenders = new ArrayList<>();
-
     private DemeanorsAdapter demeanorsAdapter;
 
     private VicesAdapter vicesAdapter;
@@ -64,11 +58,11 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         this.context = view.getContext();
         this.model = model;
         this.view = view;
-        setupWidgets();
+        setupView(model.getQueriedCharacter());
     }
 
-    private void setupWidgets() {
-        queriedCharacter = model.getQueriedCharacter();
+    private void setupView(Character character) {
+        queriedCharacter = character;
 
         experiencePool = model.getExperience();
 
@@ -77,65 +71,66 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         setupVicesSpinner();
         setupVirtuesSpinner();
 
-        // Populate personal info cardview
         view.setCharacterName(queriedCharacter.getName());
         view.setCharacterConcept(queriedCharacter.getConcept());
         view.setCharacterPlayer(queriedCharacter.getPlayer());
         view.setupExperienceSpendingWidget(queriedCharacter.getExperience());
 
-        setupStatWidgets();
+        view.setUpUI();
+
+        view.setValues(queriedCharacter.getEntries());
     }
 
-    public void setupStatWidgets() {
-        experienceSpenders.add(
-                view.setUpWidgetIntelligence(this, queriedCharacter.getIntelligence()));
-        experienceSpenders.add(view.setUpWidgetWits(this, queriedCharacter.getWits()));
-        experienceSpenders.add(view.setUpWidgetResolve(this, queriedCharacter.getResolve()));
-        experienceSpenders.add(view.setUpWidgetStrength(this, queriedCharacter.getStrength()));
-        experienceSpenders.add(view.setUpWidgetDexterity(this, queriedCharacter.getDexterity()));
-        experienceSpenders.add(view.setUpWidgetStamina(this, queriedCharacter.getStamina()));
-        experienceSpenders.add(view.setUpWidgetPresence(this, queriedCharacter.getPresence()));
-        experienceSpenders.add(
-                view.setUpWidgetManipulation(this, queriedCharacter.getManipulation()));
-        experienceSpenders.add(view.setUpWidgetComposure(this, queriedCharacter.getComposure()));
-
-        experienceSpenders.add(view.setUpWidgetAcademics(this, queriedCharacter.getAcademics()));
-        experienceSpenders.add(view.setUpWidgetComputer(this, queriedCharacter.getComputer()));
-        experienceSpenders.add(view.setUpWidgetCrafts(this, queriedCharacter.getCrafts()));
-        experienceSpenders.add(
-                view.setUpWidgetInvestigation(this, queriedCharacter.getInvestigation()));
-        experienceSpenders.add(view.setUpWidgetMedicine(this, queriedCharacter.getMedicine()));
-        experienceSpenders.add(view.setUpWidgetOccult(this, queriedCharacter.getOccult()));
-        experienceSpenders.add(view.setUpWidgetPolitics(this, queriedCharacter.getPolitics()));
-        experienceSpenders.add(view.setUpWidgetScience(this, queriedCharacter.getScience()));
-
-        experienceSpenders.add(view.setUpWidgetAthletics(this, queriedCharacter.getAthletics()));
-        experienceSpenders.add(view.setUpWidgetBrawl(this, queriedCharacter.getBrawl()));
-        experienceSpenders.add(view.setUpWidgetDrive(this, queriedCharacter.getDrive()));
-        experienceSpenders.add(view.setUpWidgetFirearms(this, queriedCharacter.getFirearms()));
-        experienceSpenders.add(view.setUpWidgetLarceny(this, queriedCharacter.getLarceny()));
-        experienceSpenders.add(view.setUpWidgetStealth(this, queriedCharacter.getStealth()));
-        experienceSpenders.add(view.setUpWidgetSurvival(this, queriedCharacter.getSurvival()));
-        experienceSpenders.add(view.setUpWidgetWeaponry(this, queriedCharacter.getWeaponry()));
-
-        experienceSpenders.add(view.setUpWidgetAnimalKen(this, queriedCharacter.getAnimalKen()));
-        experienceSpenders.add(view.setUpWidgetEmpathy(this, queriedCharacter.getEmpathy()));
-        experienceSpenders.add(view.setUpWidgetExpression(this, queriedCharacter.getExpression()));
-        experienceSpenders.add(view.setUpWidgetIntimidation(this,
-                queriedCharacter.getIntimidation()));
-        experienceSpenders.add(view.setUpWidgetPersuasion(this, queriedCharacter.getPersuasion()));
-        experienceSpenders.add(view.setUpWidgetSocialize(this, queriedCharacter.getSocialize()));
-        experienceSpenders.add(view.setUpWidgetStreetwise(this, queriedCharacter.getStreetwise()));
-        experienceSpenders.add(view.setUpWidgetSubterfuge(this, queriedCharacter.getSubterfuge()));
-
-        experienceSpenders.add(view.setUpWidgetMorality(this, queriedCharacter.getMorality()));
-        experienceSpenders.add(view.setUpWidgetWillpower(this, queriedCharacter.getWillpower()));
-
-        view.setUpWidgetDefense(this, queriedCharacter.getDefense());
-        view.setUpWidgetHealth(this, queriedCharacter.getHealth());
-        view.setUpWidgetInitiative(this, queriedCharacter.getInitiative());
-        view.setUpWidgetSpeed(this, queriedCharacter.getSpeed());
-    }
+//    public void setupStatWidgets() {
+//        experienceSpenders.add(
+//                view.setUpWidgetIntelligence(this, queriedCharacter.getIntelligence()));
+//        experienceSpenders.add(view.setUpWidgetWits(this, queriedCharacter.getWits()));
+//        experienceSpenders.add(view.setUpWidgetResolve(this, queriedCharacter.getResolve()));
+//        experienceSpenders.add(view.setUpWidgetStrength(this, queriedCharacter.getStrength()));
+//        experienceSpenders.add(view.setUpWidgetDexterity(this, queriedCharacter.getDexterity()));
+//        experienceSpenders.add(view.setUpWidgetStamina(this, queriedCharacter.getStamina()));
+//        experienceSpenders.add(view.setUpWidgetPresence(this, queriedCharacter.getPresence()));
+//        experienceSpenders.add(
+//                view.setUpWidgetManipulation(this, queriedCharacter.getManipulation()));
+//        experienceSpenders.add(view.setUpWidgetComposure(this, queriedCharacter.getComposure()));
+//
+//        experienceSpenders.add(view.setUpWidgetAcademics(this, queriedCharacter.getAcademics()));
+//        experienceSpenders.add(view.setUpWidgetComputer(this, queriedCharacter.getComputer()));
+//        experienceSpenders.add(view.setUpWidgetCrafts(this, queriedCharacter.getCrafts()));
+//        experienceSpenders.add(
+//                view.setUpWidgetInvestigation(this, queriedCharacter.getInvestigation()));
+//        experienceSpenders.add(view.setUpWidgetMedicine(this, queriedCharacter.getMedicine()));
+//        experienceSpenders.add(view.setUpWidgetOccult(this, queriedCharacter.getOccult()));
+//        experienceSpenders.add(view.setUpWidgetPolitics(this, queriedCharacter.getPolitics()));
+//        experienceSpenders.add(view.setUpWidgetScience(this, queriedCharacter.getScience()));
+//
+//        experienceSpenders.add(view.setUpWidgetAthletics(this, queriedCharacter.getAthletics()));
+//        experienceSpenders.add(view.setUpWidgetBrawl(this, queriedCharacter.getBrawl()));
+//        experienceSpenders.add(view.setUpWidgetDrive(this, queriedCharacter.getDrive()));
+//        experienceSpenders.add(view.setUpWidgetFirearms(this, queriedCharacter.getFirearms()));
+//        experienceSpenders.add(view.setUpWidgetLarceny(this, queriedCharacter.getLarceny()));
+//        experienceSpenders.add(view.setUpWidgetStealth(this, queriedCharacter.getStealth()));
+//        experienceSpenders.add(view.setUpWidgetSurvival(this, queriedCharacter.getSurvival()));
+//        experienceSpenders.add(view.setUpWidgetWeaponry(this, queriedCharacter.getWeaponry()));
+//
+//        experienceSpenders.add(view.setUpWidgetAnimalKen(this, queriedCharacter.getAnimalKen()));
+//        experienceSpenders.add(view.setUpWidgetEmpathy(this, queriedCharacter.getEmpathy()));
+//        experienceSpenders.add(view.setUpWidgetExpression(this, queriedCharacter.getExpression()));
+//        experienceSpenders.add(view.setUpWidgetIntimidation(this,
+//                queriedCharacter.getIntimidation()));
+//        experienceSpenders.add(view.setUpWidgetPersuasion(this, queriedCharacter.getPersuasion()));
+//        experienceSpenders.add(view.setUpWidgetSocialize(this, queriedCharacter.getSocialize()));
+//        experienceSpenders.add(view.setUpWidgetStreetwise(this, queriedCharacter.getStreetwise()));
+//        experienceSpenders.add(view.setUpWidgetSubterfuge(this, queriedCharacter.getSubterfuge()));
+//
+//        experienceSpenders.add(view.setUpWidgetMorality(this, queriedCharacter.getMorality()));
+//        experienceSpenders.add(view.setUpWidgetWillpower(this, queriedCharacter.getWillpower()));
+//
+//        view.setUpWidgetDefense(this, queriedCharacter.getDefense());
+//        view.setUpWidgetHealth(this, queriedCharacter.getHealth());
+//        view.setUpWidgetInitiative(this, queriedCharacter.getInitiative());
+//        view.setUpWidgetSpeed(this, queriedCharacter.getSpeed());
+//    }
 
     // Sends menu option selection event to the view for processing
     public void onCharacterDelete() {
@@ -153,42 +148,31 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         model.updateEntry(queriedCharacter.getId(), template.getId(), experiencePool);
     }
 
-    @Override
-    public void onTraitChanged(Object caller, int value, String constant, String category) {
-        // De-abstract object into widget
-        ValueSetter widget = (ValueSetter) caller;
-
-        // Retrieve entry associated with widget as tag
-        Entry template = (Entry) widget.getTag();
-
-        // Spend experience, if not cheating
-        if (model.isCheating()) {
-            view.cheatingWidgetValue(constant, value);
-        } else {
-            experiencePool = view.changeWidgetValue(constant, value, experiencePool);
-        }
-
-        // Have the model update the data about the entry on the spot
-        model.updateEntry(queriedCharacter.getId(), template.getId(), widget.getCurrentValue());
-
-        // Notifies all widgets registered as experience spenders and disables/enables
-        // increasing/decreasing buttons as necessary
-        notifyExperienceSpenders();
-
-        // Updates remaining experience, if any
-        saveExperience();
-    }
-
-    /**
-     * Method for triggering actions on all objects on the experienceSpenders watch list
-     */
-    private void notifyExperienceSpenders() {
-        for (ExperienceSpender experienceSpender : experienceSpenders) {
-            // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
-            // I code this on an interface as opposed to simply adding a method to the widget?)
-            experienceSpender.onCharacterExperienceChanged(experiencePool);
-        }
-    }
+//    @Override
+//    public void onTraitChanged(int value, String constant, String category) {
+//        // De-abstract object into widget
+//        ValueSetter widget = (ValueSetter) caller;
+//
+//        // Retrieve entry associated with widget as tag
+//        Entry template = (Entry) widget.getTag();
+//
+//        // Spend experience, if not cheating
+//        if (model.isCheating()) {
+//            view.cheatingWidgetValue(constant, value);
+//        } else {
+//            experiencePool = view.changeWidgetValue(constant, value, experiencePool);
+//        }
+//
+//        // Have the model update the data about the entry on the spot
+//        model.updateEntry(queriedCharacter.getId(), template.getId(), widget.getCurrentValue());
+//
+//        // Notifies all widgets registered as experience spenders and disables/enables
+//        // increasing/decreasing buttons as necessary
+//        notifyExperienceSpenders();
+//
+//        // Updates remaining experience, if any
+//        saveExperience();
+//    }
 
     // Separate method for setting up a spinner; I've been trying to generify this but without
     // success so far - read below why
@@ -326,14 +310,14 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
 
         // Notifies all widgets registered as experience spenders and disables/enables
         // increasing/decreasing buttons as necessary
-        notifyExperienceSpenders();
+        view.notifyExperienceSpenders(experiencePool);
 
         // Updates remaining experience, if any
         saveExperience();
     }
 
     @Subscribe
-    public void onDemeanorTraitChangedEvent(DemeanorTraitChanged event) {
+    public void onDemeanorTraitChangedEvent(DemeanorChanged event) {
         // Pass the updating operation straight out to the model for handling
 
         // Retrieve object based on spinner position
@@ -341,17 +325,66 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Subscribe
-    public void onNatureTraitChangedEvent(NatureTraitChanged event) {
+    public void onNatureTraitChangedEvent(NatureChanged event) {
         model.updateNatureTrait(queriedCharacter.getId(), naturesAdapter.getItem(event.position));
     }
 
     @Subscribe
-    public void onViceTraitChangedEvent(ViceTraitChanged event) {
+    public void onViceTraitChangedEvent(ViceChanged event) {
         model.updateViceTrait(queriedCharacter.getId(), vicesAdapter.getItem(event.position));
     }
 
     @Subscribe
-    public void onVirtueTraitChangedEvent(VirtueTraitChanged event) {
+    public void onVirtueTraitChangedEvent(VirtueChanged event) {
         model.updateVirtueTrait(queriedCharacter.getId(), virtuesAdapter.getItem(event.position));
     }
+
+    @Subscribe
+    public void onValueChanged(ValueChanged event) {
+        changeValue(event.isIncrease, event.key, event.category);
+    }
+
+    private void changeValue(boolean isIncrease, String key, String category) {
+        // Determine whether it's an increase or a decrease
+        Integer change = isIncrease ? 1 : -1;
+
+        // Determine experience cost for raising this value
+        Integer experienceCost = model.getExperienceCost(category);
+
+        // Get character experience
+        Integer experiencePool = model.getExperience();
+
+//        if (!model.isCheating()) {
+
+        int existingScore = model.findEntryValue(key, category);
+
+        int newScore;
+
+        newScore = change + existingScore;
+
+        if (change > 0 && model.checkIfCharacterHasEnoughXP(category)) {
+
+            experiencePool -= experienceCost;
+
+            doUpdate(key, experiencePool, newScore, model.isCheating());
+        } else if (change < 0 && existingScore > 0) {
+            experiencePool += experienceCost;
+
+            doUpdate(key, experiencePool, newScore, model.isCheating());
+        }
+//        }
+    }
+
+    private void doUpdate(String key, Integer experiencePool, int newScore, boolean isCheating) {
+        model.addOrUpdateEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(newScore));
+
+        if (!isCheating) {
+            model.addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(experiencePool));
+        }
+
+        view.changeWidgetValue(key, newScore, experiencePool);
+    }
+
+
 }
