@@ -96,7 +96,7 @@ public class CharacterWizardModel {
             }
         }
 
-        demeanorTrait.setId(helper.getLastId(DemeanorTrait.class) + character.getDemeanorTraits().size());
+        demeanorTrait.setId(helper.getLastId(DemeanorTrait.class), character.getDemeanorTraits().size());
 
         character.getDemeanorTraits().add(demeanorTrait);
     }
@@ -115,7 +115,7 @@ public class CharacterWizardModel {
             }
         }
 
-        natureTrait.setId(helper.getLastId(NatureTrait.class) + character.getNatureTraits().size());
+        natureTrait.setId(helper.getLastId(NatureTrait.class), character.getNatureTraits().size());
 
         character.getNatureTraits().add(natureTrait);
     }
@@ -134,7 +134,7 @@ public class CharacterWizardModel {
             }
         }
 
-        viceTrait.setId(helper.getLastId(ViceTrait.class) + character.getViceTraits().size());
+        viceTrait.setId(helper.getLastId(ViceTrait.class), character.getViceTraits().size());
 
         character.getViceTraits().add(viceTrait);
     }
@@ -154,7 +154,7 @@ public class CharacterWizardModel {
             }
         }
 
-        virtueTrait.setId(helper.getLastId(VirtueTrait.class) + character.getVirtueTraits().size());
+        virtueTrait.setId(helper.getLastId(VirtueTrait.class), character.getVirtueTraits().size());
 
         character.getVirtueTraits().add(virtueTrait);
     }
@@ -165,7 +165,7 @@ public class CharacterWizardModel {
             .setType(type)
             .setValue(value);
 
-        entry.setId(helper.getLastId(Entry.class) + character.getEntries().size());
+        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -181,7 +181,7 @@ public class CharacterWizardModel {
     }
 
     public Entry addOrUpdateEntry(Entry entry) {
-        entry.setId(helper.getLastId(Entry.class) + character.getEntries().size());
+        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -399,6 +399,9 @@ public class CharacterWizardModel {
     }
 
     public void save() {
+        // FIXME Added to prevent a crash on the character viewer. May, no, WILL be axed later.
+        addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER, String.valueOf(0));
+
         character.setId(helper.getLastId(Character.class));
 
         helper.save(character);

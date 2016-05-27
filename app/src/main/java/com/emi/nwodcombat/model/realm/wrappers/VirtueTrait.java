@@ -49,4 +49,8 @@ public class VirtueTrait extends RealmObject {
     public void setId(long id) {
         this.id = id;
     }
+
+    public void setId(long lastRecordedId, long addition) {
+        this.id = lastRecordedId + addition;
+    }
 }

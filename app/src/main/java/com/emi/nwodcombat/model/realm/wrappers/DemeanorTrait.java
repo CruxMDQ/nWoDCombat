@@ -46,6 +46,10 @@ public class DemeanorTrait extends RealmObject {
         this.id = id;
     }
 
+    public void setId(long lastRecordedId, long addition) {
+        this.id = lastRecordedId + addition;
+    }
+
     public long getId() {
         return id;
     }
