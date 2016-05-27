@@ -38,8 +38,8 @@ public class AddRecordDialog<T> extends DialogFragment {
 
     AlertDialog dialog;
 
-    public static AddRecordDialog newInstance (
-        Class klass,
+    public static <T> AddRecordDialog newInstance (
+        Class<T> klass,
         String title,
         String hint,
         String[] varArgs
@@ -54,8 +54,8 @@ public class AddRecordDialog<T> extends DialogFragment {
         return fragment;
     }
 
-    public static AddRecordDialog newInstance (
-        Class klass,
+    public static <T> AddRecordDialog newInstance (
+        Class<T> klass,
         String title,
         String hint
     ) {
@@ -74,7 +74,7 @@ public class AddRecordDialog<T> extends DialogFragment {
         ButterKnife.bind(this, root);
 
         final Bundle args = getArguments();
-        this.klass = (Class) args.getSerializable(Constants.ARG_CLASS);
+        this.klass = (Class<T>) args.getSerializable(Constants.ARG_CLASS);
         this.title = args.getString(Constants.ARG_TITLE);
         this.hint = args.getString(Constants.ARG_HINT);
 

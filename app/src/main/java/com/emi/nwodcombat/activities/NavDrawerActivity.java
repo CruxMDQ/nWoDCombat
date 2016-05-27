@@ -24,9 +24,14 @@ import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
 import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
 import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
 import com.emi.nwodcombat.characterlist.CharacterListFragment;
+import com.emi.nwodcombat.characterwizard.CharacterWizardFragment;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
 import com.emi.nwodcombat.fragments.SettingsFragment;
+import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.utils.Events;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +49,17 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle toggle;
 
+    private Bus bus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
         ButterKnife.bind(this);
+
+        bus = BusProvider.getInstance();
+        bus.register(this);
 
         setSupportActionBar(toolbar);
 
@@ -99,7 +109,7 @@ public class NavDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_camera:
-                loadNewCharacterWizard();
+                loadNewCharacterCreator();
                 break;
             case R.id.nav_gallery:
                 loadCharacterList();
@@ -108,7 +118,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 loadCombatFragment();
                 break;
             case R.id.nav_manage:
-
+                loadNewCharacterWizard();
                 break;
             case R.id.nav_share:
 
@@ -137,7 +147,7 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     //VSM this is memory consuming, use a better approach. Maybe a ViewPager is the best option.
-    private void loadNewCharacterWizard() {
+    private void loadNewCharacterCreator() {
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterCreatorPagerFragment) {
             return;
@@ -177,6 +187,18 @@ public class NavDrawerActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
     }
 
+    private void loadNewCharacterWizard() {
+        CharacterWizardFragment fragment = new CharacterWizardFragment();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterWizardFragment) {
+            return;
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(
+            Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
+    }
+
     private void loadSettingsFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new SettingsFragment())
@@ -184,16 +206,7 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     public void onCharacterCreatorFinish() {
-//        clearBackStack();
         loadCharacterList();
-    }
-
-    private void clearBackStack() {
-        FragmentManager manager = getFragmentManager();
-        if (manager.getBackStackEntryCount() > 0) {
-            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
-            manager.popBackStackImmediate(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
     }
 
     public String getToolbarTitle() {
@@ -203,5 +216,10 @@ public class NavDrawerActivity extends AppCompatActivity
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Subscribe
+    public void onCharacterCreatorWizardClosing(Events.WizardClose event) {
+        loadCharacterList();
     }
 }

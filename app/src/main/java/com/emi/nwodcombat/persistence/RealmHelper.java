@@ -94,7 +94,7 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public <T extends RealmObject> long save(T item) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(item);
+        realm.copyToRealm(item);
         realm.commitTransaction();
         return 0;
     }
@@ -137,7 +137,7 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public <T extends RealmObject> RealmResults<T> getList(Class<T> klass) {
-        return realm.allObjects(klass);
+        return realm.where(klass).findAll();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class RealmHelper implements PersistenceLayer {
 
     @Override
     public int getCount(Class className) {
-        return realm.allObjects(className).size();
+        return getList(className).size();
     }
 
     @Override
@@ -169,7 +169,7 @@ public class RealmHelper implements PersistenceLayer {
 
         T target = realm.where(clazz).equalTo(Constants.FIELD_ID, id).findAll().first();
 
-        target.removeFromRealm();
+        target.deleteFromRealm();
 
         realm.commitTransaction();
     }
@@ -237,16 +237,17 @@ public class RealmHelper implements PersistenceLayer {
         Long ordinal = natureTrait.getOrdinal();
         Nature nature = natureTrait.getNature();
 
-        realm.beginTransaction();
-
         for (NatureTrait trait : characterToUpdate.getNatureTraits()) {
             if (trait.getOrdinal().equals(ordinal)) {
+                realm.beginTransaction();
+
                 trait.setNature(nature);
+
+                realm.commitTransaction();
+
                 break;
             }
         }
-
-        realm.commitTransaction();
     }
 
     public void updateViceTrait(Long characterId, ViceTrait ViceTrait) {
@@ -255,16 +256,17 @@ public class RealmHelper implements PersistenceLayer {
         Long ordinal = ViceTrait.getOrdinal();
         Vice Vice = ViceTrait.getVice();
 
-        realm.beginTransaction();
-
         for (ViceTrait trait : characterToUpdate.getViceTraits()) {
             if (trait.getOrdinal().equals(ordinal)) {
+                realm.beginTransaction();
+
                 trait.setVice(Vice);
+
+                realm.commitTransaction();
+
                 break;
             }
         }
-
-        realm.commitTransaction();
     }
 
     public void updateVirtueTrait(Long characterId, VirtueTrait VirtueTrait) {
@@ -273,15 +275,16 @@ public class RealmHelper implements PersistenceLayer {
         Long ordinal = VirtueTrait.getOrdinal();
         Virtue Virtue = VirtueTrait.getVirtue();
 
-        realm.beginTransaction();
-
         for (VirtueTrait trait : characterToUpdate.getVirtueTraits()) {
             if (trait.getOrdinal().equals(ordinal)) {
+                realm.beginTransaction();
+
                 trait.setVirtue(Virtue);
+
+                realm.commitTransaction();
+
                 break;
             }
         }
-
-        realm.commitTransaction();
     }
 }

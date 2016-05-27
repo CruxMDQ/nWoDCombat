@@ -24,6 +24,10 @@ public class Entry extends RealmObject {
         return this;
     }
 
+    public void setId(long lastRecordedId, long addition) {
+        this.id = lastRecordedId + addition;
+    }
+
     public String getKey() {
         return key;
     }
@@ -48,6 +52,11 @@ public class Entry extends RealmObject {
 
     public Entry setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    public Entry setValue(Integer integer) {
+        this.value = String.valueOf(integer);
         return this;
     }
 }

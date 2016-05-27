@@ -36,6 +36,7 @@ dependencies {
     compile "uk.co.chrisjenx:calligraphy:$rootProject.ext.calligraphyVersion"
     compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
+    compile "io.realm:android-adapters:$rootProject.ext.realmAdaptersVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

@@ -9,6 +9,7 @@
     <string name="button_ok">OK</string>
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
+    <string name="title_character_create">Create new character</string>
     <string name="title_attribute">Attribute</string>
     <string name="title_attributes">Attributes</string>
     <string name="title_skills">Skills</string>
@@ -55,6 +56,10 @@
     <string name="attr_pre">Presence</string>
     <string name="attr_man">Manipulation</string>
     <string name="attr_com">Composure</string>
+
+    <string name="cat_primary_suffix">Primary</string>
+    <string name="cat_secondary_suffix">Secondary</string>
+    <string name="cat_tertiary_suffix">Tertiary</string>
 
     <!--Mental skills-->
     <string name="skill_academics">Academics</string>

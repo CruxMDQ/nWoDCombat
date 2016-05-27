@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * Created by Emi on 3/3/16.
  */
 public class CharacterCreatorPagerFragment extends Fragment implements PagerMaster {
-    CharacterCreatorStatePagerAdapter adapter;
+    CharacterCreatorPagerAdapter adapter;
     List<PagerStep> fragmentList;
     CharacterCreatorHelper characterCreatorHelper;
     PagerFinisher pagerFinisher;
@@ -44,7 +44,7 @@ public class CharacterCreatorPagerFragment extends Fragment implements PagerMast
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        this.adapter = new CharacterCreatorStatePagerAdapter(getChildFragmentManager(), fragmentList);
+        this.adapter = new CharacterCreatorPagerAdapter(getChildFragmentManager(), fragmentList);
     }
 
     @Override

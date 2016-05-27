@@ -27,26 +27,6 @@ public class Character extends RealmObject {
     private RealmList<ViceTrait> viceTraits = new RealmList<>();
     private RealmList<VirtueTrait> virtueTraits = new RealmList<>();
     private RealmList<Entry> entries = new RealmList<>();
-    private RealmList<Nature> natures = new RealmList<>();
-    private RealmList<Demeanor> demeanors = new RealmList<>();
-    private RealmList<Vice> vices = new RealmList<>();
-    private RealmList<Virtue> virtues = new RealmList<>();
-
-    public RealmList<Nature> getNatures() {
-        return natures;
-    }
-
-    public void setNatures(RealmList<Nature> natures) {
-        this.natures = natures;
-    }
-
-    public RealmList<Demeanor> getDemeanors() {
-        return demeanors;
-    }
-
-    public void setDemeanors(RealmList<Demeanor> demeanors) {
-        this.demeanors = demeanors;
-    }
 
     public Long getId() {
         return id;
@@ -54,22 +34,6 @@ public class Character extends RealmObject {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public RealmList<Vice> getVices() {
-        return vices;
-    }
-
-    public void setVices(RealmList<Vice> vices) {
-        this.vices = vices;
-    }
-
-    public RealmList<Virtue> getVirtues() {
-        return virtues;
-    }
-
-    public void setVirtues(RealmList<Virtue> virtues) {
-        this.virtues = virtues;
     }
 
     public RealmList<Entry> getEntries() {
@@ -97,24 +61,8 @@ public class Character extends RealmObject {
         return null;
     }
 
-    public Entry getEntry(@NonNull String code) {
+    private Entry getEntry(@NonNull String code) {
         return ArrayHelper.findEntry(entries, code);
-    }
-
-    public String getFirstDemeanor() {
-        return getDemeanorTraits().first().getDemeanor().getName();
-    }
-
-    public String getFirstNature() {
-        return getNatureTraits().first().getNature().getName();
-    }
-
-    public String getFirstVice() {
-        return getViceTraits().first().getVice().getName();
-    }
-
-    public String getFirstVirtue() {
-        return getVirtueTraits().first().getVirtue().getName();
     }
 
     public String getName() {
@@ -130,163 +78,163 @@ public class Character extends RealmObject {
     }
 
     public Entry getExperience() {
-        return ArrayHelper.findEntry(entries, Constants.CHARACTER_EXPERIENCE);
+        return getEntry(Constants.CHARACTER_EXPERIENCE);
     }
 
     public Entry getIntelligence() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_INT);
+        return getEntry(Constants.ATTR_INT);
     }
 
     public Entry getWits() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_WIT);
+        return getEntry(Constants.ATTR_WIT);
     }
 
     public Entry getResolve() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_RES);
+        return getEntry(Constants.ATTR_RES);
     }
 
     public Entry getStrength() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_STR);
+        return getEntry(Constants.ATTR_STR);
     }
 
     public Entry getDexterity() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_DEX);
+        return getEntry(Constants.ATTR_DEX);
     }
 
     public Entry getStamina() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_STA);
+        return getEntry(Constants.ATTR_STA);
     }
 
     public Entry getPresence() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_PRE);
+        return getEntry(Constants.ATTR_PRE);
     }
 
     public Entry getManipulation() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_MAN);
+        return getEntry(Constants.ATTR_MAN);
     }
 
     public Entry getComposure() {
-        return ArrayHelper.findEntry(entries, Constants.ATTR_COM);
+        return getEntry(Constants.ATTR_COM);
     }
 
     public Entry getAcademics() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_ACADEMICS);
+        return getEntry(Constants.SKILL_ACADEMICS);
     }
 
     public Entry getComputer() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_COMPUTER);
+        return getEntry(Constants.SKILL_COMPUTER);
     }
 
     public Entry getCrafts() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_CRAFTS);
+        return getEntry(Constants.SKILL_CRAFTS);
     }
 
     public Entry getInvestigation() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_INVESTIGATION);
+        return getEntry(Constants.SKILL_INVESTIGATION);
     }
 
     public Entry getMedicine() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_MEDICINE);
+        return getEntry(Constants.SKILL_MEDICINE);
     }
 
     public Entry getOccult() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_OCCULT);
+        return getEntry(Constants.SKILL_OCCULT);
     }
 
     public Entry getPolitics() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_POLITICS);
+        return getEntry(Constants.SKILL_POLITICS);
     }
 
     public Entry getScience() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_SCIENCE);
+        return getEntry(Constants.SKILL_SCIENCE);
     }
 
     public Entry getAthletics() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_ATHLETICS);
+        return getEntry(Constants.SKILL_ATHLETICS);
     }
 
     public Entry getBrawl() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_BRAWL);
+        return getEntry(Constants.SKILL_BRAWL);
     }
 
     public Entry getDrive() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_DRIVE);
+        return getEntry(Constants.SKILL_DRIVE);
     }
 
     public Entry getFirearms() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_FIREARMS);
+        return getEntry(Constants.SKILL_FIREARMS);
     }
 
     public Entry getLarceny() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_LARCENY);
+        return getEntry(Constants.SKILL_LARCENY);
     }
 
     public Entry getStealth() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_STEALTH);
+        return getEntry(Constants.SKILL_STEALTH);
     }
 
     public Entry getSurvival() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_SURVIVAL);
+        return getEntry(Constants.SKILL_SURVIVAL);
     }
 
     public Entry getWeaponry() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_WEAPONRY);
+        return getEntry(Constants.SKILL_WEAPONRY);
     }
 
     public Entry getAnimalKen() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_ANIMAL_KEN);
+        return getEntry(Constants.SKILL_ANIMAL_KEN);
     }
 
     public Entry getEmpathy() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_EMPATHY);
+        return getEntry(Constants.SKILL_EMPATHY);
     }
 
     public Entry getExpression() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_EXPRESSION);
+        return getEntry(Constants.SKILL_EXPRESSION);
     }
 
     public Entry getIntimidation() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_INTIMIDATION);
+        return getEntry(Constants.SKILL_INTIMIDATION);
     }
 
     public Entry getPersuasion() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_PERSUASION);
+        return getEntry(Constants.SKILL_PERSUASION);
     }
 
     public Entry getSocialize() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_SOCIALIZE);
+        return getEntry(Constants.SKILL_SOCIALIZE);
     }
 
     public Entry getStreetwise() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_STREETWISE);
+        return getEntry(Constants.SKILL_STREETWISE);
     }
 
     public Entry getSubterfuge() {
-        return ArrayHelper.findEntry(entries, Constants.SKILL_SUBTERFUGE);
+        return getEntry(Constants.SKILL_SUBTERFUGE);
     }
 
     public Entry getDefense() {
-        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_DEFENSE);
+        return getEntry(Constants.TRAIT_DERIVED_DEFENSE);
     }
 
     public Entry getHealth() {
-        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_HEALTH);
+        return getEntry(Constants.TRAIT_DERIVED_HEALTH);
     }
 
     public Entry getInitiative() {
-        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_INITIATIVE);
+        return getEntry(Constants.TRAIT_DERIVED_INITIATIVE);
     }
 
     public Entry getMorality() {
-        return ArrayHelper.findEntry(entries, Constants.TRAIT_MORALITY);
+        return getEntry(Constants.TRAIT_MORALITY);
     }
 
     public Entry getSpeed() {
-        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_SPEED);
+        return getEntry(Constants.TRAIT_DERIVED_SPEED);
     }
 
     public Entry getWillpower() {
-        return ArrayHelper.findEntry(entries, Constants.TRAIT_DERIVED_WILLPOWER);
+        return getEntry(Constants.TRAIT_DERIVED_WILLPOWER);
     }
 
     public RealmList<DemeanorTrait> getDemeanorTraits() {

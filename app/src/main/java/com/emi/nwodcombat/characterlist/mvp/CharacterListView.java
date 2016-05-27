@@ -71,7 +71,11 @@ public class CharacterListView extends FragmentView {
     }
 
     public void updateRV(RealmResults<Character> characters) {
-        realmCharacterAdapter.updateRealmResults(characters);
+        try {
+            realmCharacterAdapter.updateRealmResults(characters);
+        } catch (NoSuchMethodError e) {
+            e.printStackTrace();
+        }
     }
 
     public static class FabPressedEvent {

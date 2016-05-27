@@ -3,6 +3,7 @@ package com.emi.nwodcombat.model.realm.wrappers;
 import com.emi.nwodcombat.model.realm.Vice;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Crux on 9/6/2016.
@@ -10,6 +11,9 @@ import io.realm.RealmObject;
  * RealmObject instead failed.
  */
 public class ViceTrait extends RealmObject {
+    @PrimaryKey
+    private long id;
+
     private Long ordinal;
     private String type;
     private Vice vice;
@@ -36,5 +40,17 @@ public class ViceTrait extends RealmObject {
 
     public void setVice(Vice demeanor) {
         this.vice = demeanor;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setId(long lastRecordedId, long addition) {
+        this.id = lastRecordedId + addition;
     }
 }

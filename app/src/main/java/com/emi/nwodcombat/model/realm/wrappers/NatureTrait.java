@@ -3,6 +3,7 @@ package com.emi.nwodcombat.model.realm.wrappers;
 import com.emi.nwodcombat.model.realm.Nature;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Crux on 9/6/2016.
@@ -10,6 +11,9 @@ import io.realm.RealmObject;
  * RealmObject instead failed.
  */
 public class NatureTrait extends RealmObject {
+    @PrimaryKey
+    private long id;
+
     private Long ordinal;
     private String type;
     private Nature nature;
@@ -36,5 +40,17 @@ public class NatureTrait extends RealmObject {
 
     public void setNature(Nature demeanor) {
         this.nature = demeanor;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setId(long lastRecordedId, long addition) {
+        this.id = lastRecordedId + addition;
+    }
+
+    public long getId() {
+        return id;
     }
 }

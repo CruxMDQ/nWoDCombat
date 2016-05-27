@@ -76,7 +76,8 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
                 public void onClick(View v) {
                     if (currentValue > defaultValue) {
                         listener.onTraitChanged(ValueSetter.this, -1,
-                            ValueSetter.this.getContentDescription().toString());
+                            ValueSetter.this.getContentDescription().toString(),
+                            ValueSetter.this.getTraitCategory());
                     }
                 }
             });
@@ -85,7 +86,8 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
                 public void onClick(View v) {
                     if (currentValue < maximumValue) {
                         listener.onTraitChanged(ValueSetter.this, 1,
-                            ValueSetter.this.getContentDescription().toString());
+                            ValueSetter.this.getContentDescription().toString(),
+                            ValueSetter.this.getTraitCategory());
                     }
                 }
             });
@@ -132,13 +134,17 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
     }
 
     public int increaseCurrentValue() {
-        currentValue++;
+        if (currentValue < maximumValue) {
+            currentValue++;
+        }
         refreshPointsPanel();
         return 1;
     }
 
     public int decreaseCurrentValue() {
-        currentValue--;
+        if (currentValue > defaultValue) {
+            currentValue--;
+        }
         refreshPointsPanel();
         return -1;
     }
@@ -263,5 +269,10 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
         } else {
             btnValueDecrease.setVisibility(VISIBLE);
         }
+    }
+
+    public void setValue(int value) {
+        currentValue = value;
+        refreshPointsPanel();
     }
 }

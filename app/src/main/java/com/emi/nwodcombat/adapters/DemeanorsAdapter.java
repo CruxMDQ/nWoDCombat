@@ -14,8 +14,8 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 07/04/2016.
  */
 public class DemeanorsAdapter extends RealmBaseAdapter<Demeanor> {
-    public DemeanorsAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
-        super(context, realmResults, automaticUpdate);
+    public DemeanorsAdapter(Context context, RealmResults realmResults) {
+        super(context, realmResults);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DemeanorsAdapter extends RealmBaseAdapter<Demeanor> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Demeanor item = realmResults.get(position);
+        Demeanor item = adapterData.get(position);
         viewHolder.text.setText(item.getName());
 
         return convertView;

@@ -8,11 +8,11 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
-import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.DemeanorTraitChangedEvent;
-import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.ExperiencePoolChangeEvent;
-import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.NatureTraitChangedEvent;
-import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.ViceTraitChangedEvent;
-import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.VirtueTraitChangedEvent;
+import com.emi.nwodcombat.utils.Events.DemeanorTraitChanged;
+import com.emi.nwodcombat.utils.Events.ExperiencePoolChanged;
+import com.emi.nwodcombat.utils.Events.NatureTraitChanged;
+import com.emi.nwodcombat.utils.Events.ViceTraitChanged;
+import com.emi.nwodcombat.utils.Events.VirtueTraitChanged;
 import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import io.realm.RealmResults;
 
-import static com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView.DeleteCharacterEvent;
+import static com.emi.nwodcombat.utils.Events.CharacterDeleted;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
@@ -154,7 +154,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant) {
+    public void onTraitChanged(Object caller, int value, String constant, String category) {
         // De-abstract object into widget
         ValueSetter widget = (ValueSetter) caller;
 
@@ -199,7 +199,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
         // - a flag for automaticUpdate (don't yet know what 'automatic update' means in this context)
         RealmResults<Demeanor> demeanors = model.getDemeanors();
 
-        demeanorsAdapter = new DemeanorsAdapter(context, demeanors, true);
+        demeanorsAdapter = new DemeanorsAdapter(context, demeanors);
 
         // Associate the adapter to the spinner (well, duh)
         view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
@@ -229,7 +229,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setupNaturesSpinner() {
         RealmResults<Nature> natures = model.getNatures();
 
-        naturesAdapter = new NaturesAdapter(context, natures, true);
+        naturesAdapter = new NaturesAdapter(context, natures);
 
         view.setNaturesSpinnerAdapter(naturesAdapter);
 
@@ -255,7 +255,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setupVicesSpinner() {
         RealmResults<Vice> vices = model.getVices();
 
-        vicesAdapter = new VicesAdapter(context, vices, true);
+        vicesAdapter = new VicesAdapter(context, vices);
 
         view.setVicesSpinnerAdapter(vicesAdapter);
 
@@ -281,7 +281,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     public void setupVirtuesSpinner() {
         RealmResults<Virtue> virtues = model.getVirtues();
 
-        virtuesAdapter = new VirtuesAdapter(context, virtues, true);
+        virtuesAdapter = new VirtuesAdapter(context, virtues);
 
         view.setVirtuesSpinnerAdapter(virtuesAdapter);
 
@@ -305,7 +305,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Subscribe
-    public void onDeleteCharacterEvent(DeleteCharacterEvent event) {
+    public void onDeleteCharacterEvent(CharacterDeleted event) {
         model.deleteCharacter(event.id);
         // Pop back stack and remove this fragment
         FragmentManager fm = view.getFragmentManager();
@@ -316,7 +316,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Subscribe
-    public void onExperiencePoolChange(ExperiencePoolChangeEvent event) {
+    public void onExperiencePoolChange(ExperiencePoolChanged event) {
         experiencePool = experiencePool + (event.isIncrease ? 1 : experiencePool == 0 ? 0 : -1);
 
         // Changes amount of experience in the pool
@@ -333,7 +333,7 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Subscribe
-    public void onDemeanorTraitChangedEvent(DemeanorTraitChangedEvent event) {
+    public void onDemeanorTraitChangedEvent(DemeanorTraitChanged event) {
         // Pass the updating operation straight out to the model for handling
 
         // Retrieve object based on spinner position
@@ -341,17 +341,17 @@ public class CharacterViewerPresenter implements OnTraitChangedListener {
     }
 
     @Subscribe
-    public void onNatureTraitChangedEvent(NatureTraitChangedEvent event) {
+    public void onNatureTraitChangedEvent(NatureTraitChanged event) {
         model.updateNatureTrait(queriedCharacter.getId(), naturesAdapter.getItem(event.position));
     }
 
     @Subscribe
-    public void onViceTraitChangedEvent(ViceTraitChangedEvent event) {
+    public void onViceTraitChangedEvent(ViceTraitChanged event) {
         model.updateViceTrait(queriedCharacter.getId(), vicesAdapter.getItem(event.position));
     }
 
     @Subscribe
-    public void onVirtueTraitChangedEvent(VirtueTraitChangedEvent event) {
+    public void onVirtueTraitChangedEvent(VirtueTraitChanged event) {
         model.updateVirtueTrait(queriedCharacter.getId(), virtuesAdapter.getItem(event.position));
     }
 }

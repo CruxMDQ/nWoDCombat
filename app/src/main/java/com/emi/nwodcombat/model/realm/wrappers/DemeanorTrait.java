@@ -3,6 +3,7 @@ package com.emi.nwodcombat.model.realm.wrappers;
 import com.emi.nwodcombat.model.realm.Demeanor;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Crux on 5/6/2016.
@@ -10,6 +11,9 @@ import io.realm.RealmObject;
  * RealmObject instead failed.
  */
 public class DemeanorTrait extends RealmObject {
+    @PrimaryKey
+    private long id;
+
     private Long ordinal;
     private String type;
     private Demeanor demeanor;
@@ -36,5 +40,17 @@ public class DemeanorTrait extends RealmObject {
 
     public void setDemeanor(Demeanor demeanor) {
         this.demeanor = demeanor;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setId(long lastRecordedId, long addition) {
+        this.id = lastRecordedId + addition;
+    }
+
+    public long getId() {
+        return id;
     }
 }

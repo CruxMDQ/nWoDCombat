@@ -14,8 +14,8 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 07/04/2016.
  */
 public class NaturesAdapter extends RealmBaseAdapter<Nature> {
-    public NaturesAdapter(Context context, RealmResults realmResults, boolean automaticUpdate) {
-        super(context, realmResults, automaticUpdate);
+    public NaturesAdapter(Context context, RealmResults realmResults) {
+        super(context, realmResults);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NaturesAdapter extends RealmBaseAdapter<Nature> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Nature item = realmResults.get(position);
+        Nature item = adapterData.get(position);
         viewHolder.text.setText(item.getName());
 
         return convertView;
