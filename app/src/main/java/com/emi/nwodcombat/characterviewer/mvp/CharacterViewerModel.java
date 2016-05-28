@@ -32,13 +32,13 @@ public class CharacterViewerModel {
     private long id;
     private RealmHelper helper;
     private SharedPreferences preferences;
-    private Character character;
+    private static Character character;
 
     public CharacterViewerModel(Activity activity, long id) {
         this.mContext = activity;
         this.id = id;
         helper = RealmHelper.getInstance(mContext);
-        this.character = getQueriedCharacter();
+        character = getQueriedCharacter();
     }
 
     public Character getQueriedCharacter() {
@@ -121,7 +121,7 @@ public class CharacterViewerModel {
     }
 
     public void updateEntry(Long characterId, Long entryId, int value) {
-        helper.updateEntry(characterId, entryId, value);
+        helper.updateEntry(characterId, entryId, String.valueOf(value));
     }
 
     public int getExperience() {
@@ -183,19 +183,17 @@ public class CharacterViewerModel {
             .setType(type)
             .setValue(value);
 
+        entry.setId(helper.getCount(Entry.class), character.getEntries().size());
+
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
                 entry.setId(t.getId());
-
-                helper.updateEntry(getQueriedCharacter().getId(), entry.getId(), Integer.valueOf(value));
-
-                return entry;
             }
         }
 
-        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
-
-        helper.save(entry);
+        if (!helper.updateEntry(character.getId(), entry.getId(), value)) {
+            helper.addEntry(character.getId(), key, type, value);
+        }
 
         return entry;
     }

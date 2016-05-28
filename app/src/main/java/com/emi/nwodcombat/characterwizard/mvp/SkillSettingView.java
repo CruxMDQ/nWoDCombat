@@ -101,31 +101,6 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         titleSkillsMental.setContentDescription(Constants.CONTENT_DESC_SKILL_MENTAL);
         titleSkillsPhysical.setContentDescription(Constants.CONTENT_DESC_SKILL_PHYSICAL);
         titleSkillsSocial.setContentDescription(Constants.CONTENT_DESC_SKILL_SOCIAL);
-
-        valueSetters.add(valueSetterAcademics);
-        valueSetters.add(valueSetterAnimalKen);
-        valueSetters.add(valueSetterAthletics);
-        valueSetters.add(valueSetterBrawl);
-        valueSetters.add(valueSetterComputer);
-        valueSetters.add(valueSetterCrafts);
-        valueSetters.add(valueSetterDrive);
-        valueSetters.add(valueSetterEmpathy);
-        valueSetters.add(valueSetterExpression);
-        valueSetters.add(valueSetterFirearms);
-        valueSetters.add(valueSetterIntimidation);
-        valueSetters.add(valueSetterInvestigation);
-        valueSetters.add(valueSetterLarceny);
-        valueSetters.add(valueSetterMedicine);
-        valueSetters.add(valueSetterOccult);
-        valueSetters.add(valueSetterPersuasion);
-        valueSetters.add(valueSetterPolitics);
-        valueSetters.add(valueSetterScience);
-        valueSetters.add(valueSetterSocialize);
-        valueSetters.add(valueSetterStealth);
-        valueSetters.add(valueSetterStreetwise);
-        valueSetters.add(valueSetterSubterfuge);
-        valueSetters.add(valueSetterSurvival);
-        valueSetters.add(valueSetterWeaponry);
     }
 
     @Override
@@ -231,6 +206,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         setter.setListener(this);
         setter.setContentDescription(skillName);
         setter.setTraitCategory(skillCategory);
+        valueSetters.add(setter);
     }
 
 }

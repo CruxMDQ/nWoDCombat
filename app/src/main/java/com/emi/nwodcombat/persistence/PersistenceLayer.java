@@ -27,5 +27,5 @@ public interface PersistenceLayer {
 
     long getLastId(Class className);
 
-    void updateEntry(Long characterId, Long entryId, int value);
+    boolean updateEntry(Long characterId, Long entryId, String value);
 }

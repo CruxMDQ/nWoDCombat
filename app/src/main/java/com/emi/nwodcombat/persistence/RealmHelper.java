@@ -180,7 +180,7 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     @Override
-    public void updateEntry(Long characterId, Long entryId, int value) {
+    public boolean updateEntry(Long characterId, Long entryId, String value) {
         Character characterToUpdate = get(Character.class, characterId);
 
         for (Entry cycledEntry : characterToUpdate.getEntries()) {
@@ -191,9 +191,22 @@ public class RealmHelper implements PersistenceLayer {
 
                 realm.commitTransaction();
 
-                break;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public void addEntry(Long characterId, String key, String type, String value) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        Entry entry = new Entry().setKey(key).setType(type).setValue(value);
+        entry.setId(getLastId(Entry.class));
+
+        realm.beginTransaction();
+        characterToUpdate.getEntries().add(entry);
+        realm.commitTransaction();
     }
 
     public int getDemeanorTraitCount() {

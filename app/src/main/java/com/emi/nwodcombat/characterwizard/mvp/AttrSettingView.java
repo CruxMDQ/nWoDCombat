@@ -44,7 +44,6 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-//        setUpUI();
     }
 
     protected void setUpUI() {
@@ -63,16 +62,6 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         txtPoolMental.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
         txtPoolPhysical.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
         txtPoolSocial.setContentDescription(Constants.CONTENT_DESC_ATTR_SOCIAL);
-
-        valueSetters.add(valueSetterIntelligence);
-        valueSetters.add(valueSetterWits);
-        valueSetters.add(valueSetterResolve);
-        valueSetters.add(valueSetterStrength);
-        valueSetters.add(valueSetterDexterity);
-        valueSetters.add(valueSetterStamina);
-        valueSetters.add(valueSetterPresence);
-        valueSetters.add(valueSetterManipulation);
-        valueSetters.add(valueSetterComposure);
     }
 
     @Override
@@ -162,6 +151,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         setter.setListener(this);
         setter.setContentDescription(name);
         setter.setTraitCategory(category);
+        valueSetters.add(setter);
     }
 
 }

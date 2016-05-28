@@ -53,7 +53,6 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
 
     private VirtuesAdapter virtuesAdapter;
 
-
     public CharacterViewerPresenter(CharacterViewerModel model, CharacterViewerView view) {
         this.context = view.getContext();
         this.model = model;
@@ -79,58 +78,9 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
         view.setUpUI();
 
         view.setValues(queriedCharacter.getEntries());
-    }
 
-//    public void setupStatWidgets() {
-//        experienceSpenders.add(
-//                view.setUpWidgetIntelligence(this, queriedCharacter.getIntelligence()));
-//        experienceSpenders.add(view.setUpWidgetWits(this, queriedCharacter.getWits()));
-//        experienceSpenders.add(view.setUpWidgetResolve(this, queriedCharacter.getResolve()));
-//        experienceSpenders.add(view.setUpWidgetStrength(this, queriedCharacter.getStrength()));
-//        experienceSpenders.add(view.setUpWidgetDexterity(this, queriedCharacter.getDexterity()));
-//        experienceSpenders.add(view.setUpWidgetStamina(this, queriedCharacter.getStamina()));
-//        experienceSpenders.add(view.setUpWidgetPresence(this, queriedCharacter.getPresence()));
-//        experienceSpenders.add(
-//                view.setUpWidgetManipulation(this, queriedCharacter.getManipulation()));
-//        experienceSpenders.add(view.setUpWidgetComposure(this, queriedCharacter.getComposure()));
-//
-//        experienceSpenders.add(view.setUpWidgetAcademics(this, queriedCharacter.getAcademics()));
-//        experienceSpenders.add(view.setUpWidgetComputer(this, queriedCharacter.getComputer()));
-//        experienceSpenders.add(view.setUpWidgetCrafts(this, queriedCharacter.getCrafts()));
-//        experienceSpenders.add(
-//                view.setUpWidgetInvestigation(this, queriedCharacter.getInvestigation()));
-//        experienceSpenders.add(view.setUpWidgetMedicine(this, queriedCharacter.getMedicine()));
-//        experienceSpenders.add(view.setUpWidgetOccult(this, queriedCharacter.getOccult()));
-//        experienceSpenders.add(view.setUpWidgetPolitics(this, queriedCharacter.getPolitics()));
-//        experienceSpenders.add(view.setUpWidgetScience(this, queriedCharacter.getScience()));
-//
-//        experienceSpenders.add(view.setUpWidgetAthletics(this, queriedCharacter.getAthletics()));
-//        experienceSpenders.add(view.setUpWidgetBrawl(this, queriedCharacter.getBrawl()));
-//        experienceSpenders.add(view.setUpWidgetDrive(this, queriedCharacter.getDrive()));
-//        experienceSpenders.add(view.setUpWidgetFirearms(this, queriedCharacter.getFirearms()));
-//        experienceSpenders.add(view.setUpWidgetLarceny(this, queriedCharacter.getLarceny()));
-//        experienceSpenders.add(view.setUpWidgetStealth(this, queriedCharacter.getStealth()));
-//        experienceSpenders.add(view.setUpWidgetSurvival(this, queriedCharacter.getSurvival()));
-//        experienceSpenders.add(view.setUpWidgetWeaponry(this, queriedCharacter.getWeaponry()));
-//
-//        experienceSpenders.add(view.setUpWidgetAnimalKen(this, queriedCharacter.getAnimalKen()));
-//        experienceSpenders.add(view.setUpWidgetEmpathy(this, queriedCharacter.getEmpathy()));
-//        experienceSpenders.add(view.setUpWidgetExpression(this, queriedCharacter.getExpression()));
-//        experienceSpenders.add(view.setUpWidgetIntimidation(this,
-//                queriedCharacter.getIntimidation()));
-//        experienceSpenders.add(view.setUpWidgetPersuasion(this, queriedCharacter.getPersuasion()));
-//        experienceSpenders.add(view.setUpWidgetSocialize(this, queriedCharacter.getSocialize()));
-//        experienceSpenders.add(view.setUpWidgetStreetwise(this, queriedCharacter.getStreetwise()));
-//        experienceSpenders.add(view.setUpWidgetSubterfuge(this, queriedCharacter.getSubterfuge()));
-//
-//        experienceSpenders.add(view.setUpWidgetMorality(this, queriedCharacter.getMorality()));
-//        experienceSpenders.add(view.setUpWidgetWillpower(this, queriedCharacter.getWillpower()));
-//
-//        view.setUpWidgetDefense(this, queriedCharacter.getDefense());
-//        view.setUpWidgetHealth(this, queriedCharacter.getHealth());
-//        view.setUpWidgetInitiative(this, queriedCharacter.getInitiative());
-//        view.setUpWidgetSpeed(this, queriedCharacter.getSpeed());
-//    }
+        view.notifyExperienceSpenders(experiencePool);
+    }
 
     // Sends menu option selection event to the view for processing
     public void onCharacterDelete() {
@@ -147,32 +97,6 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
         // Have the model update the data about remaining experience on the spot
         model.updateEntry(queriedCharacter.getId(), template.getId(), experiencePool);
     }
-
-//    @Override
-//    public void onTraitChanged(int value, String constant, String category) {
-//        // De-abstract object into widget
-//        ValueSetter widget = (ValueSetter) caller;
-//
-//        // Retrieve entry associated with widget as tag
-//        Entry template = (Entry) widget.getTag();
-//
-//        // Spend experience, if not cheating
-//        if (model.isCheating()) {
-//            view.cheatingWidgetValue(constant, value);
-//        } else {
-//            experiencePool = view.changeWidgetValue(constant, value, experiencePool);
-//        }
-//
-//        // Have the model update the data about the entry on the spot
-//        model.updateEntry(queriedCharacter.getId(), template.getId(), widget.getCurrentValue());
-//
-//        // Notifies all widgets registered as experience spenders and disables/enables
-//        // increasing/decreasing buttons as necessary
-//        notifyExperienceSpenders();
-//
-//        // Updates remaining experience, if any
-//        saveExperience();
-//    }
 
     // Separate method for setting up a spinner; I've been trying to generify this but without
     // success so far - read below why
@@ -372,7 +296,6 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
 
             doUpdate(key, experiencePool, newScore, model.isCheating());
         }
-//        }
     }
 
     private void doUpdate(String key, Integer experiencePool, int newScore, boolean isCheating) {
@@ -385,6 +308,4 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
 
         view.changeWidgetValue(key, newScore, experiencePool);
     }
-
-
 }

@@ -124,86 +124,51 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     }
 
     protected void setUpUI() {
-        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL);
-        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL);
-        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL);
+        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL, true);
+        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL, true);
+        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL, true);
 
-        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, Constants.CONTENT_DESC_ATTR_PHYSICAL);
-        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, Constants.CONTENT_DESC_ATTR_PHYSICAL);
-        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, Constants.CONTENT_DESC_ATTR_PHYSICAL);
+        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
+        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
+        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
 
-        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, Constants.CONTENT_DESC_ATTR_SOCIAL);
-        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, Constants.CONTENT_DESC_ATTR_SOCIAL);
-        setUpValueSetter(valueSetterComposure, Constants.ATTR_COM, Constants.CONTENT_DESC_ATTR_SOCIAL);
+        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
+        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
+        setUpValueSetter(valueSetterComposure, Constants.ATTR_COM, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
 
-        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, Constants.CONTENT_DESC_SKILL_MENTAL);
+        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, Constants.CONTENT_DESC_SKILL_MENTAL, true);
 
-        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
 
-        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
 
-        valueSetters.add(valueSetterIntelligence);
-        valueSetters.add(valueSetterWits);
-        valueSetters.add(valueSetterResolve);
-        valueSetters.add(valueSetterStrength);
-        valueSetters.add(valueSetterDexterity);
-        valueSetters.add(valueSetterStamina);
-        valueSetters.add(valueSetterPresence);
-        valueSetters.add(valueSetterManipulation);
-        valueSetters.add(valueSetterComposure);
-
-        valueSetters.add(valueSetterAcademics);
-        valueSetters.add(valueSetterAnimalKen);
-        valueSetters.add(valueSetterAthletics);
-        valueSetters.add(valueSetterBrawl);
-        valueSetters.add(valueSetterComputer);
-        valueSetters.add(valueSetterCrafts);
-        valueSetters.add(valueSetterDrive);
-        valueSetters.add(valueSetterEmpathy);
-        valueSetters.add(valueSetterExpression);
-        valueSetters.add(valueSetterFirearms);
-        valueSetters.add(valueSetterIntimidation);
-        valueSetters.add(valueSetterInvestigation);
-        valueSetters.add(valueSetterLarceny);
-        valueSetters.add(valueSetterMedicine);
-        valueSetters.add(valueSetterOccult);
-        valueSetters.add(valueSetterPersuasion);
-        valueSetters.add(valueSetterPolitics);
-        valueSetters.add(valueSetterScience);
-        valueSetters.add(valueSetterSocialize);
-        valueSetters.add(valueSetterStealth);
-        valueSetters.add(valueSetterStreetwise);
-        valueSetters.add(valueSetterSubterfuge);
-        valueSetters.add(valueSetterSurvival);
-        valueSetters.add(valueSetterWeaponry);
-
-        valueSetters.add(valueSetterDefense);
-        valueSetters.add(valueSetterHealth);
-        valueSetters.add(valueSetterInitiative);
-        valueSetters.add(valueSetterMorality);
-        valueSetters.add(valueSetterSpeed);
-        valueSetters.add(valueSetterWillpower);
+        setUpValueSetter(valueSetterDefense, Constants.TRAIT_DERIVED_DEFENSE, Constants.TRAIT_DERIVED_DEFENSE, false);
+        setUpValueSetter(valueSetterHealth, Constants.TRAIT_DERIVED_HEALTH, Constants.TRAIT_DERIVED_HEALTH, false);
+        setUpValueSetter(valueSetterInitiative, Constants.TRAIT_DERIVED_INITIATIVE, Constants.TRAIT_DERIVED_INITIATIVE, false);
+        setUpValueSetter(valueSetterMorality, Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY, true);
+        setUpValueSetter(valueSetterSpeed, Constants.TRAIT_DERIVED_SPEED, Constants.TRAIT_DERIVED_SPEED, false);
+        setUpValueSetter(valueSetterWillpower, Constants.TRAIT_DERIVED_WILLPOWER, Constants.TRAIT_DERIVED_WILLPOWER, true);
     }
 
     @Override
@@ -274,7 +239,6 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     void changeWidgetValue(String key, int value, int xpPool) {
         for (ValueSetter vs : valueSetters) {
             if (vs.getContentDescription().equals(key)) {
-//                vs.changeValue(value);
                 vs.setValue(value);
 
                 txtExperience.setText(String.valueOf(xpPool));
@@ -391,9 +355,12 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
     }
 
-    private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory) {
-        setter.setListener(this);
+    private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory, boolean addListener) {
+        if (addListener) {
+            setter.setListener(this);
+        }
         setter.setContentDescription(skillName);
         setter.setTraitCategory(skillCategory);
+        valueSetters.add(setter);
     }
 }
