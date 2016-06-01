@@ -29,7 +29,7 @@ import static com.emi.nwodcombat.utils.Events.ValueChanged;
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
-public class CharacterViewerPresenter  //implements OnTraitChangedListener {
+public class CharacterViewerPresenter // implements OnSettingChangedListener  //implements OnTraitChangedListener {
 {
     private Context context;
     private CharacterViewerView view;
@@ -79,7 +79,9 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
 
         view.setValues(queriedCharacter.getEntries());
 
-        view.notifyExperienceSpenders(experiencePool);
+        if (!model.isCheating()) {
+            view.notifyExperienceSpenders(experiencePool);
+        }
     }
 
     // Sends menu option selection event to the view for processing
@@ -234,7 +236,9 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
 
         // Notifies all widgets registered as experience spenders and disables/enables
         // increasing/decreasing buttons as necessary
-        view.notifyExperienceSpenders(experiencePool);
+        if (!model.isCheating()) {
+            view.notifyExperienceSpenders(experiencePool);
+        }
 
         // Updates remaining experience, if any
         saveExperience();
@@ -286,26 +290,39 @@ public class CharacterViewerPresenter  //implements OnTraitChangedListener {
 
         newScore = change + existingScore;
 
-        if (change > 0 && model.checkIfCharacterHasEnoughXP(category)) {
+        if (!model.isCheating()) {
+            if (change > 0 && model.checkIfCharacterHasEnoughXP(category)) {
 
-            experiencePool -= experienceCost;
+                experiencePool -= experienceCost;
 
-            doUpdate(key, experiencePool, newScore, model.isCheating());
-        } else if (change < 0 && existingScore > 0) {
-            experiencePool += experienceCost;
+                doUpdate(key, experiencePool, newScore);
+            } else if (change < 0 && existingScore > 0) {
+                experiencePool += experienceCost;
 
-            doUpdate(key, experiencePool, newScore, model.isCheating());
+                doUpdate(key, experiencePool, newScore);
+            }
+        } else {
+            doUpdate(key, newScore);
         }
     }
 
-    private void doUpdate(String key, Integer experiencePool, int newScore, boolean isCheating) {
+    private void doUpdate(String key, int newScore) {
         model.addOrUpdateEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(newScore));
 
-        if (!isCheating) {
-            model.addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(experiencePool));
-        }
+        view.changeWidgetValue(key, newScore);
+    }
+
+
+    private void doUpdate(String key, Integer experiencePool, int newScore) {
+        model.addOrUpdateEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(newScore));
+
+        model.addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(experiencePool));
 
         view.changeWidgetValue(key, newScore, experiencePool);
+    }
+
+    public void checkSettings() {
+        view.toggleEditionPanel(model.isCheating());
     }
 }

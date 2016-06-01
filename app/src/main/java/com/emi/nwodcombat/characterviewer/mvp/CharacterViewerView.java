@@ -236,6 +236,16 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         txtExperience.setText(experience);
     }
 
+    void changeWidgetValue(String key, int value) {
+        for (ValueSetter vs : valueSetters) {
+            if (vs.getContentDescription().equals(key)) {
+                vs.setValue(value);
+
+                break;
+            }
+        }
+    }
+
     void changeWidgetValue(String key, int value, int xpPool) {
         for (ValueSetter vs : valueSetters) {
             if (vs.getContentDescription().equals(key)) {
@@ -362,5 +372,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         setter.setContentDescription(skillName);
         setter.setTraitCategory(skillCategory);
         valueSetters.add(setter);
+    }
+
+    public void toggleEditionPanel(boolean isActive) {
+        for (ValueSetter setter : valueSetters) {
+            setter.toggleEditionPanel(isActive);
+        }
     }
 }

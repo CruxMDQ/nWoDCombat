@@ -75,6 +75,7 @@ public class CharacterViewerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         BusProvider.register(presenter);
+        presenter.checkSettings();
     }
 
     @Override
