@@ -32,6 +32,7 @@ public class SkillSettingFragment extends PagerFragment {
     public void onResume() {
         super.onResume();
         BusProvider.register(presenter);
+        presenter.checkSettings();
     }
 
     @Override

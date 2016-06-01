@@ -12,7 +12,8 @@ import com.squareup.otto.Subscribe;
  * Created by emiliano.desantis on 19/05/2016.
  * Presenter for second step of character creator done in MVP.
  */
-public class AttrSettingPresenter {
+public class AttrSettingPresenter //implements OnSettingChangedListener {
+{
     private final Context context;
     private AttrSettingView view;
     private CharacterWizardModel model;
@@ -51,18 +52,19 @@ public class AttrSettingPresenter {
 
         changeValue(event.isIncrease, event.key, event.category, spent);
 
-        view.checkCompletionConditions();
+        view.checkCompletionConditions(model.isCheating());
     }
 
     private void changeValue(boolean isIncrease, String key, String category, int spent) {
         Integer change = isIncrease ? 1 : -1;
 
+        int modelEntryValue = model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_ATTR);
+
+        change += modelEntryValue;
+
         if (!model.isCheating()) {
 
-            int modelEntryValue = model.findEntryValue(key, 1);
-
             if ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0)) {
-                change += modelEntryValue;
 
                 Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
 
@@ -74,7 +76,9 @@ public class AttrSettingPresenter {
         }
         else    // If point allocation is not limited by category, do this instead
         {
-            view.changeWidgetValue(key, change);
+            Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
+
+            view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
         }
     }
 
@@ -101,4 +105,7 @@ public class AttrSettingPresenter {
         }
     }
 
+    public void checkSettings() {
+        view.toggleEditionPanel(model.isCheating());
+    }
 }

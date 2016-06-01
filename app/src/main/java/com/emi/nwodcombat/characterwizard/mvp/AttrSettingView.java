@@ -79,8 +79,8 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         }
     }
 
-    void checkCompletionConditions() {
-        bus.post(new Events.StepCompletionChecked(checkCategoriesAreAllDifferent()));
+    void checkCompletionConditions(boolean cheating) {
+        bus.post(new Events.StepCompletionChecked(cheating || checkCategoriesAreAllDifferent()));
     }
 
     private boolean checkCategoriesAreAllDifferent() {
@@ -154,4 +154,9 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         valueSetters.add(setter);
     }
 
+    public void toggleEditionPanel(boolean isActive) {
+        for (ValueSetter setter : valueSetters) {
+            setter.toggleEditionPanel(isActive);
+        }
+    }
 }
