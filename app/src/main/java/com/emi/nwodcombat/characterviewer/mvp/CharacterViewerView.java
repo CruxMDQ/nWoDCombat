@@ -376,7 +376,9 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     public void toggleEditionPanel(boolean isActive) {
         for (ValueSetter setter : valueSetters) {
-            setter.toggleEditionPanel(isActive);
+            if (setter.getListener() != null) {
+                setter.toggleEditionPanel(isActive);
+            }
         }
     }
 }
