@@ -44,46 +44,28 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-//        setUpUI();
     }
 
     protected void setUpUI() {
-        valueSetterIntelligence.setListener(this);
-        valueSetterIntelligence.setContentDescription(Constants.ATTR_INT);
-        valueSetterWits.setListener(this);
-        valueSetterWits.setContentDescription(Constants.ATTR_WIT);
-        valueSetterResolve.setListener(this);
-        valueSetterResolve.setContentDescription(Constants.ATTR_RES);
-        valueSetterStrength.setListener(this);
-        valueSetterStrength.setContentDescription(Constants.ATTR_STR);
-        valueSetterDexterity.setListener(this);
-        valueSetterDexterity.setContentDescription(Constants.ATTR_DEX);
-        valueSetterStamina.setListener(this);
-        valueSetterStamina.setContentDescription(Constants.ATTR_STA);
-        valueSetterPresence.setListener(this);
-        valueSetterPresence.setContentDescription(Constants.ATTR_PRE);
-        valueSetterManipulation.setListener(this);
-        valueSetterManipulation.setContentDescription(Constants.ATTR_MAN);
-        valueSetterComposure.setListener(this);
-        valueSetterComposure.setContentDescription(Constants.ATTR_COM);
+        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL);
+        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL);
+        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL);
+
+        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, Constants.CONTENT_DESC_ATTR_PHYSICAL);
+        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, Constants.CONTENT_DESC_ATTR_PHYSICAL);
+        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, Constants.CONTENT_DESC_ATTR_PHYSICAL);
+
+        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, Constants.CONTENT_DESC_ATTR_SOCIAL);
+        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, Constants.CONTENT_DESC_ATTR_SOCIAL);
+        setUpValueSetter(valueSetterComposure, Constants.ATTR_COM, Constants.CONTENT_DESC_ATTR_SOCIAL);
 
         txtPoolMental.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
         txtPoolPhysical.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
         txtPoolSocial.setContentDescription(Constants.CONTENT_DESC_ATTR_SOCIAL);
-
-        valueSetters.add(valueSetterIntelligence);
-        valueSetters.add(valueSetterWits);
-        valueSetters.add(valueSetterResolve);
-        valueSetters.add(valueSetterStrength);
-        valueSetters.add(valueSetterDexterity);
-        valueSetters.add(valueSetterStamina);
-        valueSetters.add(valueSetterPresence);
-        valueSetters.add(valueSetterManipulation);
-        valueSetters.add(valueSetterComposure);
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant, String category) {
+    public void onTraitChanged(int value, String constant, String category) {
         bus.post(new Events.AttributeChanged((value > 0), constant, category));
     }
 
@@ -97,8 +79,8 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         }
     }
 
-    void checkCompletionConditions() {
-        bus.post(new Events.StepCompletionChecked(checkCategoriesAreAllDifferent()));
+    void checkCompletionConditions(boolean cheating) {
+        bus.post(new Events.StepCompletionChecked(cheating || checkCategoriesAreAllDifferent()));
     }
 
     private boolean checkCategoriesAreAllDifferent() {
@@ -162,6 +144,19 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
                 break;
             default:
                 textView.setText(category);
+        }
+    }
+
+    private void setUpValueSetter(ValueSetter setter, String name, String category) {
+        setter.setListener(this);
+        setter.setContentDescription(name);
+        setter.setTraitCategory(category);
+        valueSetters.add(setter);
+    }
+
+    public void toggleEditionPanel(boolean isActive) {
+        for (ValueSetter setter : valueSetters) {
+            setter.toggleEditionPanel(isActive);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ScrollView;
@@ -15,8 +16,8 @@ import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
-import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
@@ -36,7 +38,7 @@ import butterknife.OnClick;
  * - Any 'new' operation done within a method is not testable
  * - Only public, package or protected methods are testable
  */
-public class CharacterViewerView extends FragmentView //implements OnTraitChangedListener {
+public class CharacterViewerView extends FragmentView implements OnTraitChangedListener
 {
     // Otto bus is used to forward actions to the model
     private final Bus bus;
@@ -121,6 +123,59 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         ButterKnife.bind(this, fragment.getView());
     }
 
+    protected void setUpUI() {
+        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL, true);
+        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL, true);
+        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL, true);
+
+        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
+        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
+        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
+
+        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
+        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
+        setUpValueSetter(valueSetterComposure, Constants.ATTR_COM, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
+
+        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, Constants.CONTENT_DESC_SKILL_MENTAL, true);
+
+        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
+
+        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
+
+        setUpValueSetter(valueSetterDefense, Constants.TRAIT_DERIVED_DEFENSE, Constants.TRAIT_DERIVED_DEFENSE, false);
+        setUpValueSetter(valueSetterHealth, Constants.TRAIT_DERIVED_HEALTH, Constants.TRAIT_DERIVED_HEALTH, false);
+        setUpValueSetter(valueSetterInitiative, Constants.TRAIT_DERIVED_INITIATIVE, Constants.TRAIT_DERIVED_INITIATIVE, false);
+        setUpValueSetter(valueSetterMorality, Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY, true);
+        setUpValueSetter(valueSetterSpeed, Constants.TRAIT_DERIVED_SPEED, Constants.TRAIT_DERIVED_SPEED, false);
+        setUpValueSetter(valueSetterWillpower, Constants.TRAIT_DERIVED_WILLPOWER, Constants.TRAIT_DERIVED_WILLPOWER, true);
+    }
+
+    @Override
+    public void onTraitChanged(int value, String constant, String category) {
+        bus.post(new Events.ValueChanged((value > 0), constant, category));
+    }
+
     // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
     public void onExperienceAdded() {
@@ -155,318 +210,6 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         snackbar.show();
     }
 
-    public ExperienceSpender setUpWidgetIntelligence(OnTraitChangedListener listener, Entry entry) {
-        valueSetterIntelligence.setListener(listener);
-        valueSetterIntelligence.setContentDescription(entry.getKey());
-        valueSetterIntelligence.setCurrentValue(entry);
-        valueSetters.add(valueSetterIntelligence);
-        return valueSetterIntelligence;
-    }
-
-    public ExperienceSpender setUpWidgetWits(OnTraitChangedListener listener, Entry entry) {
-        valueSetterWits.setListener(listener);
-        valueSetterWits.setContentDescription(entry.getKey());
-        valueSetterWits.setCurrentValue(entry);
-        valueSetters.add(valueSetterWits);
-        return valueSetterWits;
-    }
-
-    public ExperienceSpender setUpWidgetResolve(OnTraitChangedListener listener, Entry entry) {
-        valueSetterResolve.setListener(listener);
-        valueSetterResolve.setContentDescription(entry.getKey());
-        valueSetterResolve.setCurrentValue(entry);
-        valueSetters.add(valueSetterResolve);
-        return valueSetterResolve;
-    }
-
-    public ExperienceSpender setUpWidgetStrength(OnTraitChangedListener listener, Entry entry) {
-        valueSetterStrength.setListener(listener);
-        valueSetterStrength.setContentDescription(entry.getKey());
-        valueSetterStrength.setCurrentValue(entry);
-        valueSetters.add(valueSetterStrength);
-        return valueSetterStrength;
-    }
-
-    public ExperienceSpender setUpWidgetDexterity(OnTraitChangedListener listener, Entry entry) {
-        valueSetterDexterity.setListener(listener);
-        valueSetterDexterity.setContentDescription(entry.getKey());
-        valueSetterDexterity.setCurrentValue(entry);
-        valueSetters.add(valueSetterDexterity);
-        return valueSetterDexterity;
-    }
-
-    public ExperienceSpender setUpWidgetStamina(OnTraitChangedListener listener, Entry entry) {
-        valueSetterStamina.setListener(listener);
-        valueSetterStamina.setContentDescription(entry.getKey());
-        valueSetterStamina.setCurrentValue(entry);
-        valueSetters.add(valueSetterStamina);
-        return valueSetterStamina;
-    }
-
-    public ExperienceSpender setUpWidgetPresence(OnTraitChangedListener listener, Entry entry) {
-        valueSetterPresence.setListener(listener);
-        valueSetterPresence.setContentDescription(entry.getKey());
-        valueSetterPresence.setCurrentValue(entry);
-        valueSetters.add(valueSetterPresence);
-        return valueSetterPresence;
-    }
-
-    public ExperienceSpender setUpWidgetManipulation(OnTraitChangedListener listener, Entry entry) {
-        valueSetterManipulation.setListener(listener);
-        valueSetterManipulation.setContentDescription(entry.getKey());
-        valueSetterManipulation.setCurrentValue(entry);
-        valueSetters.add(valueSetterManipulation);
-        return valueSetterManipulation;
-    }
-
-    public ExperienceSpender setUpWidgetComposure(OnTraitChangedListener listener, Entry entry) {
-        valueSetterComposure.setListener(listener);
-        valueSetterComposure.setContentDescription(entry.getKey());
-        valueSetterComposure.setCurrentValue(entry);
-        valueSetters.add(valueSetterComposure);
-        return valueSetterComposure;
-    }
-
-    public ExperienceSpender setUpWidgetAcademics(OnTraitChangedListener listener, Entry entry) {
-        valueSetterAcademics.setListener(listener);
-        valueSetterAcademics.setContentDescription(entry.getKey());
-        valueSetterAcademics.setCurrentValue(entry);
-        valueSetters.add(valueSetterAcademics);
-        return valueSetterAcademics;
-    }
-
-    public ExperienceSpender setUpWidgetComputer(OnTraitChangedListener listener, Entry entry) {
-        valueSetterComputer.setListener(listener);
-        valueSetterComputer.setContentDescription(entry.getKey());
-        valueSetterComputer.setCurrentValue(entry);
-        valueSetters.add(valueSetterComputer);
-        return valueSetterComputer;
-    }
-
-    public ExperienceSpender setUpWidgetCrafts(OnTraitChangedListener listener, Entry entry) {
-        valueSetterCrafts.setListener(listener);
-        valueSetterCrafts.setContentDescription(entry.getKey());
-        valueSetterCrafts.setCurrentValue(entry);
-        valueSetters.add(valueSetterCrafts);
-        return valueSetterCrafts;
-    }
-
-    public ExperienceSpender setUpWidgetInvestigation(OnTraitChangedListener listener, Entry entry) {
-        valueSetterInvestigation.setListener(listener);
-        valueSetterInvestigation.setContentDescription(entry.getKey());
-        valueSetterInvestigation.setCurrentValue(entry);
-        valueSetters.add(valueSetterInvestigation);
-        return valueSetterInvestigation;
-    }
-
-    public ExperienceSpender setUpWidgetMedicine(OnTraitChangedListener listener, Entry entry) {
-        valueSetterMedicine.setListener(listener);
-        valueSetterMedicine.setContentDescription(entry.getKey());
-        valueSetterMedicine.setCurrentValue(entry);
-        valueSetters.add(valueSetterMedicine);
-        return valueSetterMedicine;
-    }
-
-    public ExperienceSpender setUpWidgetOccult(OnTraitChangedListener listener, Entry entry) {
-        valueSetterOccult.setListener(listener);
-        valueSetterOccult.setContentDescription(entry.getKey());
-        valueSetterOccult.setCurrentValue(entry);
-        valueSetters.add(valueSetterOccult);
-        return valueSetterOccult;
-    }
-
-    public ExperienceSpender setUpWidgetPolitics(OnTraitChangedListener listener, Entry entry) {
-        valueSetterPolitics.setListener(listener);
-        valueSetterPolitics.setContentDescription(entry.getKey());
-        valueSetterPolitics.setCurrentValue(entry);
-        valueSetters.add(valueSetterPolitics);
-        return valueSetterPolitics;
-    }
-
-    public ExperienceSpender setUpWidgetScience(OnTraitChangedListener listener, Entry entry) {
-        valueSetterScience.setListener(listener);
-        valueSetterScience.setContentDescription(entry.getKey());
-        valueSetterScience.setCurrentValue(entry);
-        valueSetters.add(valueSetterScience);
-        return valueSetterScience;
-    }
-
-    public ExperienceSpender setUpWidgetAthletics(OnTraitChangedListener listener, Entry entry) {
-        valueSetterAthletics.setListener(listener);
-        valueSetterAthletics.setContentDescription(entry.getKey());
-        valueSetterAthletics.setCurrentValue(entry);
-        valueSetters.add(valueSetterAthletics);
-        return valueSetterAthletics;
-    }
-
-    public ExperienceSpender setUpWidgetBrawl(OnTraitChangedListener listener, Entry entry) {
-        valueSetterBrawl.setListener(listener);
-        valueSetterBrawl.setContentDescription(entry.getKey());
-        valueSetterBrawl.setCurrentValue(entry);
-        valueSetters.add(valueSetterBrawl);
-        return valueSetterBrawl;
-    }
-
-    public ExperienceSpender setUpWidgetDrive(OnTraitChangedListener listener, Entry entry) {
-        valueSetterDrive.setListener(listener);
-        valueSetterDrive.setContentDescription(entry.getKey());
-        valueSetterDrive.setCurrentValue(entry);
-        valueSetters.add(valueSetterDrive);
-        return valueSetterDrive;
-    }
-
-    public ExperienceSpender setUpWidgetFirearms(OnTraitChangedListener listener, Entry entry) {
-        valueSetterFirearms.setListener(listener);
-        valueSetterFirearms.setContentDescription(entry.getKey());
-        valueSetterFirearms.setCurrentValue(entry);
-        valueSetters.add(valueSetterFirearms);
-        return valueSetterFirearms;
-    }
-
-    public ExperienceSpender setUpWidgetLarceny(OnTraitChangedListener listener, Entry entry) {
-        valueSetterLarceny.setListener(listener);
-        valueSetterLarceny.setContentDescription(entry.getKey());
-        valueSetterLarceny.setCurrentValue(entry);
-        valueSetters.add(valueSetterLarceny);
-        return valueSetterLarceny;
-    }
-
-    public ExperienceSpender setUpWidgetStealth(OnTraitChangedListener listener, Entry entry) {
-        valueSetterStealth.setListener(listener);
-        valueSetterStealth.setContentDescription(entry.getKey());
-        valueSetterStealth.setCurrentValue(entry);
-        valueSetters.add(valueSetterStealth);
-        return valueSetterStealth;
-    }
-
-    public ExperienceSpender setUpWidgetSurvival(OnTraitChangedListener listener, Entry entry) {
-        valueSetterSurvival.setListener(listener);
-        valueSetterSurvival.setContentDescription(entry.getKey());
-        valueSetterSurvival.setCurrentValue(entry);
-        valueSetters.add(valueSetterSurvival);
-        return valueSetterSurvival;
-    }
-
-    public ExperienceSpender setUpWidgetWeaponry(OnTraitChangedListener listener, Entry entry) {
-        valueSetterWeaponry.setListener(listener);
-        valueSetterWeaponry.setContentDescription(entry.getKey());
-        valueSetterWeaponry.setCurrentValue(entry);
-        valueSetters.add(valueSetterWeaponry);
-        return valueSetterWeaponry;
-    }
-
-    public ExperienceSpender setUpWidgetAnimalKen(OnTraitChangedListener listener, Entry entry) {
-        valueSetterAnimalKen.setListener(listener);
-        valueSetterAnimalKen.setContentDescription(entry.getKey());
-        valueSetterAnimalKen.setCurrentValue(entry);
-        valueSetters.add(valueSetterAnimalKen);
-        return valueSetterAnimalKen;
-    }
-
-    public ExperienceSpender setUpWidgetEmpathy(OnTraitChangedListener listener, Entry entry) {
-        valueSetterEmpathy.setListener(listener);
-        valueSetterEmpathy.setContentDescription(entry.getKey());
-        valueSetterEmpathy.setCurrentValue(entry);
-        valueSetters.add(valueSetterEmpathy);
-        return valueSetterEmpathy;
-    }
-
-    public ExperienceSpender setUpWidgetExpression(OnTraitChangedListener listener, Entry entry) {
-        valueSetterExpression.setListener(listener);
-        valueSetterExpression.setContentDescription(entry.getKey());
-        valueSetterExpression.setCurrentValue(entry);
-        valueSetters.add(valueSetterExpression);
-        return valueSetterExpression;
-    }
-
-    public ExperienceSpender setUpWidgetIntimidation(OnTraitChangedListener listener, Entry entry) {
-        valueSetterIntimidation.setListener(listener);
-        valueSetterIntimidation.setContentDescription(entry.getKey());
-        valueSetterIntimidation.setCurrentValue(entry);
-        valueSetters.add(valueSetterIntimidation);
-        return valueSetterIntimidation;
-    }
-
-    public ExperienceSpender setUpWidgetPersuasion(OnTraitChangedListener listener, Entry entry) {
-        valueSetterPersuasion.setListener(listener);
-        valueSetterPersuasion.setContentDescription(entry.getKey());
-        valueSetterPersuasion.setCurrentValue(entry);
-        valueSetters.add(valueSetterPersuasion);
-        return valueSetterPersuasion;
-    }
-
-    public ExperienceSpender setUpWidgetSocialize(OnTraitChangedListener listener, Entry entry) {
-        valueSetterSocialize.setListener(listener);
-        valueSetterSocialize.setContentDescription(entry.getKey());
-        valueSetterSocialize.setCurrentValue(entry);
-        valueSetters.add(valueSetterSocialize);
-        return valueSetterSocialize;
-    }
-
-    public ExperienceSpender setUpWidgetStreetwise(OnTraitChangedListener listener, Entry entry) {
-        valueSetterStreetwise.setListener(listener);
-        valueSetterStreetwise.setContentDescription(entry.getKey());
-        valueSetterStreetwise.setCurrentValue(entry);
-        valueSetters.add(valueSetterStreetwise);
-        return valueSetterStreetwise;
-    }
-
-    public ExperienceSpender setUpWidgetSubterfuge(OnTraitChangedListener listener, Entry entry) {
-        valueSetterSubterfuge.setListener(listener);
-        valueSetterSubterfuge.setContentDescription(entry.getKey());
-        valueSetterSubterfuge.setCurrentValue(entry);
-        valueSetters.add(valueSetterSubterfuge);
-        return valueSetterSubterfuge;
-    }
-
-    public void setUpWidgetDefense(OnTraitChangedListener listener, Entry entry) {
-        valueSetterDefense.setListener(listener);
-        valueSetterDefense.setContentDescription(entry.getKey());
-        valueSetterDefense.setCurrentValue(entry);
-//        valueSetters.add(valueSetterDefense);
-//        return valueSetterDefense;
-    }
-
-    public void setUpWidgetHealth(OnTraitChangedListener listener, Entry entry) {
-        valueSetterHealth.setListener(listener);
-        valueSetterHealth.setContentDescription(entry.getKey());
-        valueSetterHealth.setCurrentValue(entry);
-//        valueSetters.add(valueSetterHealth);
-//        return valueSetterHealth;
-    }
-
-    public void setUpWidgetInitiative(OnTraitChangedListener listener, Entry entry) {
-        valueSetterInitiative.setListener(listener);
-        valueSetterInitiative.setContentDescription(entry.getKey());
-        valueSetterInitiative.setCurrentValue(entry);
-//        valueSetters.add(valueSetterInitiative);
-//        return valueSetterInitiative;
-    }
-
-    public ExperienceSpender setUpWidgetMorality(OnTraitChangedListener listener, Entry entry) {
-        valueSetterMorality.setListener(listener);
-        valueSetterMorality.setContentDescription(entry.getKey());
-        valueSetterMorality.setCurrentValue(entry);
-        valueSetters.add(valueSetterMorality);
-        return valueSetterMorality;
-    }
-
-    public void setUpWidgetSpeed(OnTraitChangedListener listener, Entry entry) {
-        valueSetterSpeed.setListener(listener);
-        valueSetterSpeed.setContentDescription(entry.getKey());
-        valueSetterSpeed.setCurrentValue(entry);
-//        valueSetters.add(valueSetterSpeed);
-//        return valueSetterSpeed;
-    }
-
-    public ExperienceSpender setUpWidgetWillpower(OnTraitChangedListener listener, Entry entry) {
-        valueSetterWillpower.setListener(listener);
-        valueSetterWillpower.setContentDescription(entry.getKey());
-        valueSetterWillpower.setCurrentValue(entry);
-        valueSetters.add(valueSetterWillpower);
-        return valueSetterWillpower;
-    }
-
     public void setCharacterName(String characterName) {
         txtCharacterName.setText(characterName);
     }
@@ -493,29 +236,26 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         txtExperience.setText(experience);
     }
 
-    // TODO VSM too much complex for a view.
-    public int changeWidgetValue(String constant, int value, int experiencePool) {
-        for (ValueSetter widget : valueSetters) {
-            if (widget.getContentDescription().equals(constant)) {
-                // Experience pool becomes whatever results from trying to spend experience; whether this
-                // succeeds or fails is processed inside changeValue()
-                // This is rather convoluted, but I cannot think of a better way
-                // TODO VSM move this logic to the presenter
-                int experience = widget.changeValue(value, experiencePool, widget.getPointCost());
+    void changeWidgetValue(String key, int value) {
+        for (ValueSetter vs : valueSetters) {
+            if (vs.getContentDescription().equals(key)) {
+                vs.setValue(value);
 
-                // Refresh text on the experience textView
-                setExperience(String.valueOf(experience));
-
-                return experience;
+                break;
             }
         }
-        return experiencePool;
     }
 
-    public void cheatingWidgetValue(String constant, int value) {
-        for (ValueSetter widget : valueSetters) {
-            if (widget.getContentDescription().equals(constant)) {
-                widget.setCurrentValue(value);
+    void changeWidgetValue(String key, int value, int xpPool) {
+        for (ValueSetter vs : valueSetters) {
+            if (vs.getContentDescription().equals(key)) {
+                vs.setValue(value);
+
+                txtExperience.setText(String.valueOf(xpPool));
+
+                notifyExperienceSpenders(xpPool);
+
+                break;
             }
         }
     }
@@ -528,7 +268,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.DemeanorTraitChanged(position));
+                bus.post(new Events.DemeanorChanged(position));
             }
 
             @Override
@@ -548,7 +288,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.NatureTraitChanged(position));
+                bus.post(new Events.NatureChanged(position));
             }
 
             @Override
@@ -567,7 +307,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.ViceTraitChanged(position));
+                bus.post(new Events.ViceChanged(position));
             }
 
             @Override
@@ -586,7 +326,7 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.VirtueTraitChanged(position));
+                bus.post(new Events.VirtueChanged(position));
             }
 
             @Override
@@ -599,4 +339,46 @@ public class CharacterViewerView extends FragmentView //implements OnTraitChange
         spinnerVirtue.setSelection(index);
     }
 
+    /**
+     * Method for triggering actions on all objects on the experienceSpenders watch list
+     */
+    public void notifyExperienceSpenders(int experiencePool) {
+        for (ValueSetter experienceSpender : valueSetters) {
+            // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
+            // I code this on an interface as opposed to simply adding a method to the widget?)
+            experienceSpender.onCharacterExperienceChanged(experiencePool);
+        }
+    }
+
+    public void setValues(RealmList<Entry> entries) {
+        for (Entry entry : entries) {
+            for (ValueSetter setter : valueSetters) {
+                try {
+                    if (entry.getKey()
+                        .equalsIgnoreCase(setter.getContentDescription().toString())) {
+                        setter.setCurrentValue(entry);
+                    }
+                } catch (NullPointerException e) {
+                    Log.e(this.getClass().toString(), "" + e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory, boolean addListener) {
+        if (addListener) {
+            setter.setListener(this);
+        }
+        setter.setContentDescription(skillName);
+        setter.setTraitCategory(skillCategory);
+        valueSetters.add(setter);
+    }
+
+    public void toggleEditionPanel(boolean isActive) {
+        for (ValueSetter setter : valueSetters) {
+            if (setter.getListener() != null) {
+                setter.toggleEditionPanel(isActive);
+            }
+        }
+    }
 }

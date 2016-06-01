@@ -410,31 +410,59 @@ public class CharacterWizardModel {
     }
 
     public int calculateDefense() {
-        return Math.min(Integer.valueOf(character.getDexterity().getValue()),
-            Integer.valueOf(character.getWits().getValue()));
+        int defense = Math.min(Integer.valueOf(character.getDexterity().getValue()),
+                Integer.valueOf(character.getWits().getValue()));
+
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_DEFENSE, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(defense));
+
+        return defense;
     }
 
     public int calculateMorality() {
+        addOrUpdateEntry(Constants.TRAIT_MORALITY, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(Constants.TRAIT_MORALITY_DEFAULT));
+
         return Constants.TRAIT_MORALITY_DEFAULT;
     }
 
     public int calculateHealth() {
-        return Integer.valueOf(character.getStamina().getValue()) +
-            Constants.TRAIT_SIZE_DEFAULT;
+        int health = Integer.valueOf(character.getStamina().getValue()) +
+                Constants.TRAIT_SIZE_DEFAULT;
+
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_HEALTH, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(health));
+
+        return health;
     }
 
     public int calculateInitiative() {
-        return Integer.valueOf(character.getComposure().getValue()) +
-            Integer.valueOf(character.getDexterity().getValue());
+        int initiative = Integer.valueOf(character.getComposure().getValue()) +
+                Integer.valueOf(character.getDexterity().getValue());
+
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_INITIATIVE, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(initiative));
+
+        return initiative;
     }
 
     public int calculateSpeed() {
-        return Integer.valueOf(character.getStrength().getValue()) +
-            Integer.valueOf(character.getDexterity().getValue());
+        int speed = Integer.valueOf(character.getStrength().getValue()) +
+                Integer.valueOf(character.getDexterity().getValue());
+
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_SPEED, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(speed));
+
+        return speed;
     }
 
     public int calculateWillpower() {
-        return Integer.valueOf(character.getResolve().getValue()) +
-            Integer.valueOf(character.getComposure().getValue());
+        int willpower = Integer.valueOf(character.getResolve().getValue()) +
+                Integer.valueOf(character.getComposure().getValue());
+
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_WILLPOWER, Constants.FIELD_TYPE_INTEGER,
+                String.valueOf(willpower));
+
+        return willpower;
     }
 }

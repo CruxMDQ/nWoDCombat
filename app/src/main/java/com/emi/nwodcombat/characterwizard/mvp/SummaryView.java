@@ -35,13 +35,8 @@ public class SummaryView extends FragmentView {
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-        setUpUI();
     }
 
-    protected void setUpUI() {
-
-    }
-    
     public void setAttrSummaryMental(String text) {
         txtSummaryAttrMental.setText(text);        
     }

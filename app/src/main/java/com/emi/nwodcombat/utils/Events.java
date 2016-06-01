@@ -20,37 +20,37 @@ public class Events {
         }
     }
 
-    public static class DemeanorTraitChanged {
+    public static class DemeanorChanged {
         public int position;
 
-        public DemeanorTraitChanged(int position) {
+        public DemeanorChanged(int position) {
             this.position = position;
         }
     }
 
-    public static class NatureTraitChanged {
+    public static class NatureChanged {
 
         public int position;
 
-        public NatureTraitChanged(int position) {
+        public NatureChanged(int position) {
             this.position = position;
         }
     }
 
-    public static class ViceTraitChanged {
+    public static class ViceChanged {
 
         public int position;
 
-        public ViceTraitChanged(int position) {
+        public ViceChanged(int position) {
             this.position = position;
         }
     }
 
-    public static class VirtueTraitChanged {
+    public static class VirtueChanged {
 
         public int position;
 
-        public VirtueTraitChanged(int position) {
+        public VirtueChanged(int position) {
             this.position = position;
         }
     }
@@ -101,6 +101,18 @@ public class Events {
         public boolean isIncrease;
 
         public SkillChanged(boolean isIncrease, String key, String traitCategory) {
+            this.isIncrease = isIncrease;
+            this.key = key;
+            this.category = traitCategory;
+        }
+    }
+
+    public static class ValueChanged {
+        public String key;
+        public String category;
+        public boolean isIncrease;
+
+        public ValueChanged(boolean isIncrease, String key, String traitCategory) {
             this.isIncrease = isIncrease;
             this.key = key;
             this.category = traitCategory;

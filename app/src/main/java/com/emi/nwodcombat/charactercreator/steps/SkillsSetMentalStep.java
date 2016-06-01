@@ -160,18 +160,18 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant, String category) {
-        ValueSetter widget = (ValueSetter) caller;
-
-        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
-            currentMentalPool = widget.changeValue(value, currentMentalPool);
-            setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtMentalSkillsTitle);
-            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentMentalPool);
-        } else {
-            widget.changeValue(value, currentMentalPool);
-        }
-
-        checkCompletionConditions();
+    public void onTraitChanged(int value, String constant, String category) {
+//        ValueSetter widget = (ValueSetter) caller;
+//
+//        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+//            currentMentalPool = widget.changeValue(value, currentMentalPool);
+//            setPoolTitle(getString(R.string.cat_mental), currentMentalPool, txtMentalSkillsTitle);
+//            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentMentalPool);
+//        } else {
+//            widget.changeValue(value, currentMentalPool);
+//        }
+//
+//        checkCompletionConditions();
     }
 
     public boolean hasLeftoverPoints() {

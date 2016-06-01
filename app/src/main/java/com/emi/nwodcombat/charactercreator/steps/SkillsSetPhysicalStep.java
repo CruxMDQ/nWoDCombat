@@ -101,18 +101,18 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     }
 
     @Override
-    public void onTraitChanged(Object caller, int value, String constant, String category) {
-        ValueSetter widget = (ValueSetter) caller;
-
-        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
-            currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
-            setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPhysicalSkillsTitle);
-            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentPhysicalPool);
-        } else {
-            widget.changeValue(value, currentPhysicalPool);
-        }
-
-        checkCompletionConditions();
+    public void onTraitChanged(int value, String constant, String category) {
+//        ValueSetter widget = (ValueSetter) caller;
+//
+//        if (!getPreferences().getBoolean(Constants.SETTING_CHEAT, false)) {
+//            currentPhysicalPool = widget.changeValue(value, currentPhysicalPool);
+//            setPoolTitle(getString(R.string.cat_physical), currentPhysicalPool, txtPhysicalSkillsTitle);
+//            characterCreatorHelper.putInt(Constants.POOL_SKILL_MENTAL, currentPhysicalPool);
+//        } else {
+//            widget.changeValue(value, currentPhysicalPool);
+//        }
+//
+//        checkCompletionConditions();
 
     }
 
@@ -182,7 +182,7 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
 
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = getContext().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
+            preferences = getActivity().getSharedPreferences(Constants.TAG_SHARED_PREFS, Context.MODE_PRIVATE);
         }
         return preferences;
     }

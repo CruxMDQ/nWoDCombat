@@ -41,8 +41,4 @@ public class SummaryPresenter {
         view.setSpeed(model.calculateSpeed());
         view.setWillpower(model.calculateWillpower());
     }
-
-    private void setupWidgets() {
-        view.setUpUI();
-    }
 }

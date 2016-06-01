@@ -271,7 +271,7 @@
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/attribute_mental"
                             app:valueDefault="1"
                             app:valueName="@string/attr_int"/>
 
@@ -283,7 +283,7 @@
                             android:layout_below="@id/valueSetterInt"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/attribute_mental"
                             app:valueDefault="1"
                             app:valueName="@string/attr_wits"/>
 
@@ -295,7 +295,7 @@
                             android:layout_below="@id/valueSetterWits"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/attribute_mental"
                             app:valueDefault="1"
                             app:valueName="@string/attr_res"/>
                     </RelativeLayout>
@@ -321,7 +321,7 @@
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/attribute_physical"
                             app:valueDefault="1"
                             app:valueName="@string/attr_str"/>
 
@@ -333,7 +333,7 @@
                             android:layout_below="@id/valueSetterStr"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/attribute_physical"
                             app:valueDefault="1"
                             app:valueName="@string/attr_dex"/>
 
@@ -345,7 +345,7 @@
                             android:layout_below="@id/valueSetterDex"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/attribute_physical"
                             app:valueDefault="1"
                             app:valueName="@string/attr_sta"/>
                     </RelativeLayout>
@@ -372,7 +372,7 @@
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/attribute_social"
                             app:valueDefault="1"
                             app:valueName="@string/attr_pre"/>
 
@@ -384,7 +384,7 @@
                             android:layout_below="@id/valueSetterPre"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/attribute_social"
                             app:valueDefault="1"
                             app:valueName="@string/attr_man"/>
 
@@ -396,7 +396,7 @@
                             android:layout_below="@id/valueSetterMan"
                             app:pointCost="@integer/cost_attributes"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/attribute_social"
                             app:valueDefault="1"
                             app:valueName="@string/attr_com"/>
                     </RelativeLayout>
@@ -450,7 +450,7 @@
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_academics"/>
 
                         <view
@@ -461,7 +461,7 @@
                             android:layout_below="@id/valueSetterAcademics"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_computer"/>
 
                         <view
@@ -472,7 +472,7 @@
                             android:layout_below="@id/valueSetterComputer"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_crafts"/>
 
                         <view
@@ -483,7 +483,7 @@
                             android:layout_below="@id/valueSetterCrafts"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_investigation"/>
 
                         <view
@@ -494,7 +494,7 @@
                             android:layout_below="@id/valueSetterInvestigation"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_medicine"/>
 
                         <view
@@ -505,7 +505,7 @@
                             android:layout_below="@id/valueSetterMedicine"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_occult"/>
 
                         <view
@@ -516,7 +516,7 @@
                             android:layout_below="@id/valueSetterOccult"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_politics"/>
 
                         <view
@@ -527,7 +527,7 @@
                             android:layout_below="@id/valueSetterPolitics"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_mental"
+                            app:traitCategory="@string/skill_mental"
                             app:valueName="@string/skill_science"/>
 
                     </RelativeLayout>
@@ -553,7 +553,7 @@
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_athletics"/>
 
                         <view
@@ -564,7 +564,7 @@
                             android:layout_below="@id/valueSetterAthletics"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_brawl"/>
 
                         <view
@@ -575,7 +575,7 @@
                             android:layout_below="@id/valueSetterBrawl"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_drive"/>
 
                         <view
@@ -586,7 +586,7 @@
                             android:layout_below="@id/valueSetterDrive"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_firearms"/>
 
                         <view
@@ -597,7 +597,7 @@
                             android:layout_below="@id/valueSetterFirearms"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_larceny"/>
 
                         <view
@@ -608,7 +608,7 @@
                             android:layout_below="@id/valueSetterLarceny"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_stealth"/>
 
                         <view
@@ -619,7 +619,7 @@
                             android:layout_below="@id/valueSetterStealth"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_survival"/>
 
                         <view
@@ -630,7 +630,7 @@
                             android:layout_below="@id/valueSetterSurvival"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_physical"
+                            app:traitCategory="@string/skill_physical"
                             app:valueName="@string/skill_weaponry"/>
                     </RelativeLayout>
 
@@ -656,7 +656,7 @@
                             android:layout_height="wrap_content"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_animal_ken"/>
 
                         <view
@@ -667,7 +667,7 @@
                             android:layout_below="@id/valueSetterAnimalKen"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_empathy"/>
 
                         <view
@@ -678,7 +678,7 @@
                             android:layout_below="@id/valueSetterEmpathy"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_expression"/>
 
                         <view
@@ -689,7 +689,7 @@
                             android:layout_below="@id/valueSetterExpression"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_intimidation"/>
 
                         <view
@@ -700,7 +700,7 @@
                             android:layout_below="@id/valueSetterIntimidation"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_persuasion"/>
 
                         <view
@@ -711,7 +711,7 @@
                             android:layout_below="@id/valueSetterPersuasion"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_socialize"/>
 
                         <view
@@ -722,7 +722,7 @@
                             android:layout_below="@id/valueSetterSocialize"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_streetwise"/>
 
                         <view
@@ -733,7 +733,7 @@
                             android:layout_below="@id/valueSetterStreetwise"
                             app:pointCost="@integer/cost_skills"
                             app:showEditionPanel="false"
-                            app:traitCategory="@string/cat_social"
+                            app:traitCategory="@string/skill_social"
                             app:valueName="@string/skill_subterfuge"/>
 
                     </RelativeLayout>

@@ -136,7 +136,7 @@ public class PersonalInfoView extends FragmentView {
         spinnerDemeanor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.DemeanorTraitChanged(position));
+                bus.post(new Events.DemeanorChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
                         performStepCompletionCycle()));
@@ -154,7 +154,7 @@ public class PersonalInfoView extends FragmentView {
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.NatureTraitChanged(position));
+                bus.post(new Events.NatureChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
                         performStepCompletionCycle()));
@@ -171,7 +171,7 @@ public class PersonalInfoView extends FragmentView {
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.ViceTraitChanged(position));
+                bus.post(new Events.ViceChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
                         performStepCompletionCycle()));
@@ -188,7 +188,7 @@ public class PersonalInfoView extends FragmentView {
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bus.post(new Events.VirtueTraitChanged(position));
+                bus.post(new Events.VirtueChanged(position));
 
                 bus.post(new Events.StepCompletionChecked(
                         performStepCompletionCycle()));

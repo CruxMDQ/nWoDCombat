@@ -29,12 +29,12 @@ public class Constants {
 
     public static final String CONTENT_DESC_NBPK_BTN_MINUS = "Dice decrease for: ";
     public static final String CONTENT_DESC_NBPK_BTN_PLUS = "Dice increase for: ";
-    public static final String CONTENT_DESC_ATTR_MENTAL = "Mental";
-    public static final String CONTENT_DESC_ATTR_PHYSICAL = "Physical";
-    public static final String CONTENT_DESC_ATTR_SOCIAL = "Social";
-    public static final String CONTENT_DESC_SKILL_MENTAL = "Mental";
-    public static final String CONTENT_DESC_SKILL_PHYSICAL = "Physical";
-    public static final String CONTENT_DESC_SKILL_SOCIAL = "Social";
+    public static final String CONTENT_DESC_ATTR_MENTAL = "Mental attribute";
+    public static final String CONTENT_DESC_ATTR_PHYSICAL = "Physical attribute";
+    public static final String CONTENT_DESC_ATTR_SOCIAL = "Social attribute";
+    public static final String CONTENT_DESC_SKILL_MENTAL = "Mental skill";
+    public static final String CONTENT_DESC_SKILL_PHYSICAL = "Physical skill";
+    public static final String CONTENT_DESC_SKILL_SOCIAL = "Social skill";
 
     public static final String POOL_ATTR_MENTAL = "poolMentalAttrs";
     public static final String POOL_ATTR_PHYSICAL = "poolPhysicalAttrs";
@@ -54,6 +54,9 @@ public class Constants {
     public static final int SKILL_PTS_PRIMARY = 11;
     public static final int SKILL_PTS_SECONDARY = 7;
     public static final int SKILL_PTS_TERTIARY = 4;
+
+    public static final int ABSOLUTE_MINIMUM_ATTR = 1;
+    public static final int ABSOLUTE_MINIMUM_SKILL = 0;
 
     public static final String CHARACTER_NAME = "Name";
     public static final String CHARACTER_CONCEPT = "Concept";

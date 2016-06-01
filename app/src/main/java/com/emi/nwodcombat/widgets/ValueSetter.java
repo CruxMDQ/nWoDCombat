@@ -74,21 +74,21 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
             btnValueDecrease.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentValue > defaultValue) {
-                        listener.onTraitChanged(ValueSetter.this, -1,
-                            ValueSetter.this.getContentDescription().toString(),
-                            ValueSetter.this.getTraitCategory());
-                    }
+                    int change = -1;
+
+                    boolean condition = currentValue > defaultValue;
+
+                    sendValueChange(change, condition);
                 }
             });
             btnValueIncrease.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentValue < maximumValue) {
-                        listener.onTraitChanged(ValueSetter.this, 1,
-                            ValueSetter.this.getContentDescription().toString(),
-                            ValueSetter.this.getTraitCategory());
-                    }
+                    int change = 1;
+
+                    boolean condition = currentValue < maximumValue;
+
+                    sendValueChange(change, condition);
                 }
             });
 
@@ -99,6 +99,14 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
             }
         } else {
             inflateLayout();
+        }
+    }
+
+    private void sendValueChange(int change, boolean condition) {
+        if (condition) {
+            listener.onTraitChanged(change,
+                ValueSetter.this.getContentDescription().toString(),
+                ValueSetter.this.getTraitCategory());
         }
     }
 
@@ -133,22 +141,6 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
         this.listener = listener;
     }
 
-    public int increaseCurrentValue() {
-        if (currentValue < maximumValue) {
-            currentValue++;
-        }
-        refreshPointsPanel();
-        return 1;
-    }
-
-    public int decreaseCurrentValue() {
-        if (currentValue > defaultValue) {
-            currentValue--;
-        }
-        refreshPointsPanel();
-        return -1;
-    }
-
     public void refreshPointsPanel() {
         panelValue.removeAllViews();
 
@@ -170,14 +162,6 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
 
     public void setTraitCategory(String traitCategory) {
         this.traitCategory = traitCategory;
-    }
-
-    public void setBtnValueDecreaseEnabled(boolean isEnabled) {
-        btnValueDecrease.setEnabled(isEnabled);
-    }
-
-    public void setBtnValueIncreaseEnabled(boolean isEnabled) {
-        btnValueIncrease.setEnabled(isEnabled);
     }
 
     public void setMaximumValue(int maximumValue) {
@@ -203,44 +187,6 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
         return currentValue;
     }
 
-    public void changeValue(int value) {
-        if (value > 0) {
-            increaseCurrentValue();
-        } else {
-            decreaseCurrentValue();
-        }
-    }
-
-    public int changeValue(int value, int pool) {
-        if (value > 0) {
-            if (pool > 0) {
-                pool -= increaseCurrentValue();
-            }
-        } else {
-            pool -= decreaseCurrentValue();
-        }
-        return pool;
-    }
-
-    public int changeValue(int value, int pool, int cost) {
-        int result = pool;
-
-        if (value > 0) {
-            if (result >= cost) {
-                increaseCurrentValue();
-                result -= cost;
-            }
-        } else {
-            decreaseCurrentValue();
-            result += cost;
-        }
-        return result;
-    }
-
-    public int getPointCost() {
-        return pointCost;
-    }
-
     public void setPointCost(int pointCost) {
         this.pointCost = pointCost;
     }
@@ -251,6 +197,18 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
 
     public void showEditionPanel() {
         panelEdition.setVisibility(VISIBLE);
+    }
+
+    public void toggleEditionPanel(boolean isVisible) {
+        if (isVisible) {
+            showEditionPanel();
+            btnValueDecrease.setVisibility(VISIBLE);
+            btnValueIncrease.setVisibility(VISIBLE);
+        } else {
+            hideEditionPanel();
+            btnValueDecrease.setVisibility(INVISIBLE);
+            btnValueIncrease.setVisibility(INVISIBLE);
+        }
     }
 
     @Override

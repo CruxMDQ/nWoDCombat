@@ -37,7 +37,7 @@ ext {
     gsonVersion = '2.6.2'
     realmVersion = '0.91.0'
     realmAdaptersVersion = '1.2.1'
-    realmRecyclerViewVersion = '0.9.14'
+    realmRecyclerViewVersion = '0.9.16'
     calligraphyVersion = '2.2.0'
     guavaVersion = '19.0'
 
