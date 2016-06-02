@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
-import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterlist.RealmCharacterAdapter;
@@ -30,7 +28,6 @@ public class CharacterListView extends FragmentView {
 
     @Bind(R.id.rvCharacters) RealmRecyclerView rvCharacters;
     @Bind(R.id.fabNewCharacter) FloatingActionButton fab;
-    @Bind(R.id.empty_characters) TextView empty;
 
     public CharacterListView(Fragment fragment, Bus bus) {
         super(fragment);
@@ -60,14 +57,6 @@ public class CharacterListView extends FragmentView {
     @OnClick(R.id.fabNewCharacter)
     public void fabPressed() {
         bus.post(new FabPressedEvent());
-    }
-
-    public void showNoCharacters() {
-        empty.setVisibility(View.VISIBLE);
-    }
-
-    public void hideNoCharacters() {
-        empty.setVisibility(View.GONE);
     }
 
     public void updateRV(RealmResults<Character> characters) {
