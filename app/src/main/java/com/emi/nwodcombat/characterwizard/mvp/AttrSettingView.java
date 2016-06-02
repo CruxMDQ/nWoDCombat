@@ -155,8 +155,10 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     }
 
     public void toggleEditionPanel(boolean isActive) {
-        for (ValueSetter setter : valueSetters) {
-            setter.toggleEditionPanel(isActive);
+        if (isActive) {
+            for (ValueSetter setter : valueSetters) {
+                setter.toggleEditionPanel(isActive);
+            }
         }
     }
 }
