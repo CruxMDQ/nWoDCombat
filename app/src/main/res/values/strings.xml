@@ -14,6 +14,7 @@
     <string name="title_attributes">Attributes</string>
     <string name="title_skills">Skills</string>
     <string name="title_traits_derived">Derived traits</string>
+    <string name="title_merits">Merits</string>
 
     <string name="dialog_attacker_pool">Attacker\'s dice pool is %s.</string>
     <string name="dialog_attacker_pool_rerolls" formatted="false">Attacker\'s dice pool is %s, rerolling all %ss or better.</string>
@@ -276,7 +277,8 @@
     <string name="personality_regain_one_visionary">Help someone by sharing your vision with them.</string>
     <string name="personality_regain_all_visionary">Put yourself at risk to show a group the power of your vision.</string>
     <string name="alert_title">Alert</string>
-    <string name="no_characters">No characters have been yet created.\nUse the character creator wizard to build one.</string>
+    <string name="rv_characters_notice_empty">No characters have been yet created.\n\nUse the character creator wizard to build one.</string>
+    <string name="rv_merits_notice_empty">No merits\n\nTap to choose</string>
 
     <string name="label_experience">Experience</string>
 

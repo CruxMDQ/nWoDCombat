@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/no_characters"/>
+        android:text="@string/rv_characters_notice_empty"/>
 </FrameLayout>

@@ -18,7 +18,7 @@
             android:layout_weight="1"
             app:rrvIsRefreshable="false"
             app:rrvLayoutType="LinearLayout"
-            app:rrvEmptyLayoutId="@layout/fragment_list_empty"
+            app:rrvEmptyLayoutId="@layout/rv_characters_list_empty"
             />
     </LinearLayout>
 
