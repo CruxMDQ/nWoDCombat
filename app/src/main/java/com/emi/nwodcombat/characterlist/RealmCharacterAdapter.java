@@ -55,11 +55,6 @@ public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Charact
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return realmResults.size();
-    }
-
     public static class CharacterViewHolder extends RealmViewHolder {
         @Bind(R.id.rowCharacterName) TextView rowCharacterName;
 
