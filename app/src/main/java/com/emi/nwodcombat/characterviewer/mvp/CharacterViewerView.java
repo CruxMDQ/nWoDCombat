@@ -176,6 +176,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         bus.post(new Events.ValueChanged((value > 0), constant, category));
     }
 
+    @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+
+    }
+
     // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
     public void onExperienceAdded() {

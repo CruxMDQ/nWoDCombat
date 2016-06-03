@@ -69,6 +69,9 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         bus.post(new Events.AttributeChanged((value > 0), constant, category));
     }
 
+    @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) { }
+
     void changeWidgetValue(String key, int value) {
         for (ValueSetter vs : valueSetters) {
             if (vs.getContentDescription().equals(key)) {

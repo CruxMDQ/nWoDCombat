@@ -174,6 +174,11 @@ public class SkillsSetMentalStep extends WizardStep implements PagerStep.ChildSt
 //        checkCompletionConditions();
     }
 
+    @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+
+    }
+
     public boolean hasLeftoverPoints() {
         return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && currentMentalPool > 0;
     }

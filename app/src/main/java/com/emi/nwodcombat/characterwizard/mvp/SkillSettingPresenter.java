@@ -54,18 +54,66 @@ public class SkillSettingPresenter {
         view.checkCompletionConditions(model.isCheating());
     }
 
+    @Subscribe
+    public void onSpecialtyChecked(Events.SpecialtyChecked event) {
+        int specialtyCount = model.countSpecialties();
+
+        if (event.isChecked) {
+            /**
+             * Pseudocode for adding a specialty:
+             * - count how many specialties the character has already picked
+             * - if they are less than 3
+             * ---> add the entry on the model
+             * ---> check the checkbox on the view
+             * ---> set specialty name on view
+             * ---> increase specialty count by 1
+             * ---> if specialty count is now 3, disable all unchecked checkboxes on view
+             */
+            if (specialtyCount < 3) {
+
+                model.addSpecialty(event.key, event.specialtyName);
+
+                specialtyCount++;
+
+                view.setSkillText(event.key, event.specialtyName);
+
+                if (specialtyCount == 3) {
+                    view.toggleSpecialties(false);
+                } else if (specialtyCount < 3) {
+                    view.toggleSpecialties(true);
+                }
+            } else {
+                view.checkSpecialty(event.key, false);
+            }
+        } else {
+            /**
+             * Pseudocode for removing a specialty:
+             * - uncheck the checkbox on the view
+             * - remove the entry on the model (funny thing, that)
+             * - decrease specialty count by 1
+             */
+            model.removeSpecialty(event.key);
+
+            view.toggleSpecialties(true);
+
+            view.checkSpecialty(event.key, false);
+
+            view.setSkillText(event.key, null);
+        }
+    }
+
     private void changeValue(boolean isIncrease, String key, String category, int spent) {
         Integer change = isIncrease ? 1 : -1;
 
         int modelEntryValue = model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_SKILL);
 
-        change += modelEntryValue;
+        int newValue = change + modelEntryValue;
 
         if (!model.isCheating()) {
 
-            if ((change > 0 && spent < Constants.SKILL_PTS_PRIMARY) || (change < 0 && spent > 0)) {
+            if ((newValue >= 0 && spent < Constants.SKILL_PTS_PRIMARY) || (newValue < 0 && spent > 0)) {
 
-                Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
+                Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(newValue);
 
                 view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
                 spent += isIncrease ? 1 : -1;
@@ -75,9 +123,16 @@ public class SkillSettingPresenter {
         }
         else    // If point allocation is not limited by category, do this instead
         {
-            Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
+            Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(newValue);
 
             view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
+        }
+
+        if (newValue > 0) {
+            view.toggleSpecialty(key, true);
+        }
+        else {
+            view.toggleSpecialty(key, false);
         }
     }
 

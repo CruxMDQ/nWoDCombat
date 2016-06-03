@@ -3,7 +3,7 @@ package com.emi.nwodcombat.characterwizard.mvp;
 import android.content.Context;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.characterwizard.CharacterWizardPagerAdapter;
+import com.emi.nwodcombat.characterwizard.adapters.CharacterWizardPagerAdapter;
 import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;

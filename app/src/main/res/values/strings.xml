@@ -110,6 +110,7 @@
     <string name="hint_tap_to_select">Tap to select</string>
     <string name="hint_step_personal_info_name">Name</string>
     <string name="hint_step_personal_info_player">Player</string>
+    <string name="hint_type_specialty_name">Type specialty name here</string>
     <string name="default_step_personal_info_player">Storyteller</string>
     <string name="hint_step_personal_info_concept">Concept</string>
     <string name="label_step_personal_info_virtue">Virtue:</string>
@@ -279,6 +280,7 @@
     <string name="alert_title">Alert</string>
     <string name="rv_characters_notice_empty">No characters have been yet created.\n\nUse the character creator wizard to build one.</string>
     <string name="rv_merits_notice_empty">No merits\n\nTap to choose</string>
+    <string name="rv_specialties_notice_empty">No specialties</string>
 
     <string name="label_experience">Experience</string>
 

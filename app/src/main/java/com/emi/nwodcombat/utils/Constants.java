@@ -131,4 +131,5 @@ public class Constants {
     public static final String TITLE_STEP_PERSONAL_INFO = "Personal info";
     public static final String TITLE_STEP_POINTS_SET = "Distribute points";
 
+    public static final String SKILL_SPECIALTY = "Skill specialty";
 }

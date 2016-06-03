@@ -117,6 +117,11 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     }
 
     @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+
+    }
+
+    @Override
     protected void setUpUI() {
         valueSetterAthletics.setListener(this);
         valueSetterAthletics.setContentDescription(Constants.SKILL_ATHLETICS);

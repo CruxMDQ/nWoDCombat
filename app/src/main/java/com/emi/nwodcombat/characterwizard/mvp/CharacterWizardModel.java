@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -464,5 +465,59 @@ public class CharacterWizardModel {
                 String.valueOf(willpower));
 
         return willpower;
+    }
+
+    public int countSpecialties() {
+        int result = 0;
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getSecondaryData() != null &&
+                entry.getSecondaryData().getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
+    public Entry  addSpecialty(String key, String specialtyName) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry specialty = new Entry();
+                specialty.setId(helper.getLastId(Entry.class), character.getEntries().size());
+                specialty.setKey(Constants.SKILL_SPECIALTY);
+                specialty.setType(Constants.FIELD_TYPE_STRING);
+                specialty.setValue(specialtyName);
+
+                entry.setSecondaryData(specialty);
+
+                return specialty;
+            }
+        }
+        return null;
+    }
+
+    public void removeSpecialty(String key) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                entry.setSecondaryData(null);
+                break;
+            }
+        }
+    }
+
+    public RealmList<Entry> getSpecialties(String key) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                return entry.getExtras();
+            }
+        }
+        return null;
     }
 }

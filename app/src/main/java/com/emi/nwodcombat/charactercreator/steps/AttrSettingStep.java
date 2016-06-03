@@ -161,6 +161,11 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 //        checkCompletionConditions();
     }
 
+    @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+
+    }
+
     public boolean hasLeftoverPoints() {
         return !getPreferences().getBoolean(Constants.SETTING_CHEAT, false) && (currentMentalPool > 0 || currentPhysicalPool > 0 || currentSocialPool > 0);
     }

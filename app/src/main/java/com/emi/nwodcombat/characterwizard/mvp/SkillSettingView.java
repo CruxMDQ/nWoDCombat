@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -107,7 +108,15 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     public void onTraitChanged(int value, String constant, String category) {
         bus.post(new Events.SkillChanged((value > 0), constant, category));
     }
-    
+
+    @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+        // TODO Code dialog for capturing specialty name here
+        String specialtyName = "some name";
+
+        bus.post(new Events.SpecialtyChecked(isChecked, constant, category, specialtyName));
+    }
+
     @OnClick(R.id.titleSkillsMental)
     public void onTitleClickedMental() {
         panelSkillsMental.setVisibility(View.VISIBLE);
@@ -203,6 +212,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory) {
+//        setter.enableSpecialtyCheckbox(true);
         setter.setListener(this);
         setter.setContentDescription(skillName);
         setter.setTraitCategory(skillCategory);
@@ -212,7 +222,54 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     public void toggleEditionPanel(boolean isActive) {
         if (isActive) {
             for (ValueSetter setter : valueSetters) {
-                setter.toggleEditionPanel(isActive);
+                setter.toggleEditionPanel(true);
+            }
+        }
+    }
+
+    public void setSkillText(String key, @Nullable String specialtyName) {
+        for (ValueSetter setter : valueSetters) {
+            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+                if (specialtyName != null) {
+                    setter.setLabel(key + "\n(" + specialtyName + ")");
+                } else {
+                    setter.setLabel(key);
+                }
+
+                break;
+            }
+        }
+    }
+
+    public void toggleSpecialty(String key, boolean activate) {
+        for (ValueSetter setter : valueSetters) {
+            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+                setter.enableSpecialtyCheckbox(activate);
+                break;
+            }
+        }
+    }
+
+    public void toggleSpecialties(boolean activate) {
+        for (ValueSetter setter : valueSetters) {
+            if (!activate &&
+                setter.isSpecialtyEnabled() &&
+                !setter.isSpecialtyChecked()) {
+                setter.enableSpecialtyCheckbox(false);
+            }
+            else if (activate) {
+                if (setter.getCurrentValue() > 0) {
+                    setter.enableSpecialtyCheckbox(true);
+                }
+            }
+        }
+    }
+
+    public void checkSpecialty(String key, boolean isChecked) {
+        for (ValueSetter setter : valueSetters) {
+            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+                setter.setSpecialtyChecked(isChecked);
+                break;
             }
         }
     }

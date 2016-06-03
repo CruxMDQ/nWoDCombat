@@ -121,6 +121,11 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
     }
 
     @Override
+    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+
+    }
+
+    @Override
     protected void setUpUI() {
         valueSetterAnimalKen.setListener(this);
         valueSetterAnimalKen.setContentDescription(Constants.SKILL_ANIMAL_KEN);
