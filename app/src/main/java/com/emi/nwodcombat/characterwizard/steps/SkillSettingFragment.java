@@ -1,9 +1,6 @@
 package com.emi.nwodcombat.characterwizard.steps;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
@@ -25,7 +22,7 @@ public class SkillSettingFragment extends PagerFragment {
 
     private void createPresenter() {
         presenter = new SkillSettingPresenter(new CharacterWizardModel(getActivity()),
-            new SkillSettingView(this, BusProvider.getInstance()));
+                new SkillSettingView(this, BusProvider.getInstance()));
     }
 
     @Override
@@ -42,10 +39,6 @@ public class SkillSettingFragment extends PagerFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(getLayout(), container, false);
-    }    @Override
-
     public String getToolbarTitle() {
         return null;
     }

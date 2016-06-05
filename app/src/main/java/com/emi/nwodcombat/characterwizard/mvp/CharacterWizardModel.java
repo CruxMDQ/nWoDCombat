@@ -1,6 +1,5 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -29,15 +28,15 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 12/05/2016.
  */
 public class CharacterWizardModel {
-    private Activity activity;
+    private Context context;
     private RealmHelper helper;
     private SharedPreferences preferences;
 
     public static Character character = new Character();
 
-    public CharacterWizardModel(Activity activity) {
-        this.activity = activity;
-        helper = RealmHelper.getInstance(this.activity);
+    public CharacterWizardModel(Context context) {
+        this.context = context;
+        helper = RealmHelper.getInstance(this.context);
     }
 
     public RealmResults<Virtue> getVirtues() {
@@ -66,7 +65,7 @@ public class CharacterWizardModel {
      */
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = activity.getSharedPreferences(Constants.TAG_SHARED_PREFS,
+            preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS,
                 Context.MODE_PRIVATE);
         }
         return preferences;
@@ -180,7 +179,9 @@ public class CharacterWizardModel {
         return entry;
     }
 
-    public Entry addOrUpdateEntry(Entry entry) {
+    public Entry addOrUpdateEntry(String key, Integer change) {
+        Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
+
         entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
@@ -231,7 +232,7 @@ public class CharacterWizardModel {
     private int getPointsSpent(int idArray, int takeawayValue, int defaultValue) {
         int result = 0 - takeawayValue;
 
-        for (String skill : activity.getResources().getStringArray(idArray)) {
+        for (String skill : context.getResources().getStringArray(idArray)) {
             result += findEntryValue(skill, defaultValue);
         }
 
@@ -384,8 +385,8 @@ public class CharacterWizardModel {
         while (iterator.hasNext()) {
             Entry entry = iterator.next();
 
-            if (entry.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER) &&
-                Integer.valueOf(entry.getValue()) > 0) {
+            if (entry != null && entry.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER)
+                    && Integer.valueOf(entry.getValue()) > 0) {
                 builder.append(entry.getKey());
                 builder.append(" ");
                 builder.append(String.valueOf(entry.getValue()));

@@ -22,11 +22,6 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
-        setupWidgets();
-    }
-
-    private void setupWidgets() {
-        view.setUpUI();
     }
 
     @Subscribe
@@ -56,50 +51,29 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
     }
 
     private void changeValue(boolean isIncrease, String key, String category, int spent) {
-        Integer change = isIncrease ? 1 : -1;
+        int delta = isIncrease ? 1 : -1;
+        Integer change = delta + model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_ATTR);
 
-        int modelEntryValue = model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_ATTR);
+        view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(key, change).getValue()));
 
-        change += modelEntryValue;
-
-        if (!model.isCheating()) {
-
-            if ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0)) {
-
-                Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
-
-                view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
-                spent += isIncrease ? 1 : -1;
-
-                setCategoryTitle(spent, category);
-            }
-        }
-        else    // If point allocation is not limited by category, do this instead
-        {
-            Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
-
-            view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
+        // If point allocation is not limited by category, do this instead
+        if (!model.isCheating() && ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0))) {
+            setCategoryTitle(spent + delta, category);
         }
     }
 
     private void setCategoryTitle(int spent, String category) {
         switch (category) {
             case Constants.CONTENT_DESC_ATTR_MENTAL: {
-
                 view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
-
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-
                 view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
-
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-
                 view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
-
                 break;
             }
         }

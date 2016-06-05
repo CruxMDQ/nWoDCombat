@@ -12,6 +12,8 @@ import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,15 +40,16 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
     @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
 
-    ArrayList<ValueSetter> valueSetters = new ArrayList<>();
+    Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public AttrSettingView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
+        setupWidgets();
     }
 
-    protected void setUpUI() {
+    private void setupWidgets() {
         setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL);
         setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL);
         setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL);
@@ -70,19 +73,15 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     }
 
     void changeWidgetValue(String key, int value) {
-        for (ValueSetter vs : valueSetters) {
-            if (vs.getContentDescription().equals(key)) {
-//                vs.changeValue(value);
-                vs.setValue(value);
-                break;
-            }
-        }
+        valueSetters.get(key).setValue(value);
     }
 
+    //TODO move to presenter take a look SkillSettingView and SkillSettingPresenter
     void checkCompletionConditions(boolean cheating) {
         bus.post(new Events.StepCompletionChecked(cheating || checkCategoriesAreAllDifferent()));
     }
 
+    //TODO move to presenter take a look SkillSettingView and SkillSettingPresenter
     private boolean checkCategoriesAreAllDifferent() {
         int mental = getCategoryPriority(txtPoolMental.getText().toString());
         int physical = getCategoryPriority(txtPoolPhysical.getText().toString());
@@ -99,6 +98,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         }
     }
 
+    //TODO move to presenter take a look SkillSettingView and SkillSettingPresenter
     @SuppressWarnings("ConstantConditions")
     private int getCategoryPriority(String title) {
         if (title.toLowerCase().contains(getActivity().getString(R.string.cat_primary_suffix).toLowerCase())) {
@@ -151,11 +151,11 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         setter.setListener(this);
         setter.setContentDescription(name);
         setter.setTraitCategory(category);
-        valueSetters.add(setter);
+        valueSetters.put(name, setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             setter.toggleEditionPanel(isActive);
         }
     }
