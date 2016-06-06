@@ -11,7 +11,8 @@ import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,15 +39,16 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
     @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
 
-    ArrayList<ValueSetter> valueSetters = new ArrayList<>();
+    Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public AttrSettingView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
+        setupWidgets();
     }
 
-    protected void setUpUI() {
+    private void setupWidgets() {
         setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL);
         setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL);
         setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL);
@@ -73,46 +75,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     public void onSpecialtyChecked(boolean isChecked, String constant, String category) { }
 
     void changeWidgetValue(String key, int value) {
-        for (ValueSetter vs : valueSetters) {
-            if (vs.getContentDescription().equals(key)) {
-//                vs.changeValue(value);
-                vs.setValue(value);
-                break;
-            }
-        }
-    }
-
-    void checkCompletionConditions(boolean cheating) {
-        bus.post(new Events.StepCompletionChecked(cheating || checkCategoriesAreAllDifferent()));
-    }
-
-    private boolean checkCategoriesAreAllDifferent() {
-        int mental = getCategoryPriority(txtPoolMental.getText().toString());
-        int physical = getCategoryPriority(txtPoolPhysical.getText().toString());
-        int social = getCategoryPriority(txtPoolSocial.getText().toString());
-
-        if (mental != 0 && physical != 0 && social != 0) {
-            boolean mentalSocial = mental == social;
-            boolean mentalPhysical = mental == physical;
-            boolean physicalSocial = physical == social;
-
-            return !(mentalSocial || mentalPhysical || physicalSocial);
-        } else {
-            return false;
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    private int getCategoryPriority(String title) {
-        if (title.toLowerCase().contains(getActivity().getString(R.string.cat_primary_suffix).toLowerCase())) {
-            return 1;
-        } else if (title.toLowerCase().contains(getActivity().getString(
-            R.string.cat_secondary_suffix).toLowerCase())) {
-            return 2;
-        } else if (title.toLowerCase().contains(getActivity().getString(R.string.cat_tertiary_suffix).toLowerCase())) {
-            return 3;
-        }
-        return 0;
+        valueSetters.get(key).setValue(value);
     }
 
     void setMentalCategoryTitle(int spent, String category) {
@@ -154,14 +117,26 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         setter.setListener(this);
         setter.setContentDescription(name);
         setter.setTraitCategory(category);
-        valueSetters.add(setter);
+        valueSetters.put(name, setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
         if (isActive) {
-            for (ValueSetter setter : valueSetters) {
-                setter.toggleEditionPanel(isActive);
+            for (ValueSetter setter : valueSetters.values()) {
+                setter.toggleEditionPanel(true);
             }
         }
+    }
+
+    public String getAttrsMental() {
+        return txtPoolMental.getText().toString();
+    }
+
+    public String getAttrsPhysical() {
+        return txtPoolPhysical.getText().toString();
+    }
+
+    public String getAttrsSocial() {
+        return txtPoolSocial.getText().toString();
     }
 }

@@ -33,11 +33,11 @@ public class CharacterWizardPresenter {
         this.adapter = new CharacterWizardPagerAdapter(view.getChildFragmentManager(), getClassesList());
         this.context = view.getContext();
 
-        this.changeTitle(R.string.title_character_create);
+        setTitle(R.string.title_character_create);
 
         bus = BusProvider.getInstance();
-
         view.setAdapter(adapter);
+        view.setPreviousLabel(context.getString(R.string.button_cancel));
         model.setupNewCharacter();
     }
 
@@ -52,34 +52,20 @@ public class CharacterWizardPresenter {
         return classes;
     }
 
-    public void moveToNextStep(int currentItem) {
-        // Move pager forward
-
-        // Get last page
-        int lastPage = adapter.getCount() - 1;
-
-        // Change button label depending on where on the wizard we are
-        if (currentItem == lastPage) {
-            view.setNextLabel(context.getString(R.string.button_finish));
-            return;
-        } else {
-            view.setNextLabel(context.getString(R.string.button_next));
-        }
-
+    private void moveToNextStep() {
         view.pagerGoForward();
     }
 
-    public void moveToPreviousStep(int currentItem) {
-        view.pagerGoBackwards(currentItem);
+    private void moveToPreviousStep() {
+        view.pagerGoBackwards();
     }
 
-    private void changeTitle(int resId) {
+    private void setTitle(int resId) {
         view.setToolbarTitle(context.getString(resId));
     }
 
     private void finishWizard() {
         model.save();
-
         bus.post(new Events.WizardClose());
     }
 
@@ -91,19 +77,31 @@ public class CharacterWizardPresenter {
     @Subscribe
     public void onWizardProgressEvent(CharacterWizardView.WizardProgressEvent event) {
         int lastPage = adapter.getCount() - 1;
+        int nextPage = event.movesForward ? event.currentItem + 1 : event.currentItem - 1;
+
+        if (nextPage < 0) {
+            // If yes, then remove the fragment altogether from the view
+            view.getActivity().getFragmentManager().popBackStack();
+            return;
+        }
+
+        if (nextPage > lastPage) {
+            finishWizard();
+            return;
+        } else if (event.movesForward && nextPage == lastPage) {
+            bus.post(new Events.WizardComplete());
+        }
+
+        view.setNextLabel(nextPage == lastPage ? context.getString(R.string.button_finish)
+                : context.getString(R.string.button_next));
+
+        view.setPreviousLabel(nextPage == 0 ? context.getString(R.string.button_cancel)
+                : context.getString(R.string.button_previous));
 
         if (event.movesForward) {
-            if (event.currentItem < lastPage) {
-                moveToNextStep(event.currentItem);
-
-                if (event.currentItem + 1 == lastPage) {
-                    bus.post(new Events.WizardComplete());
-                }
-            } else {
-                finishWizard();
-            }
+            moveToNextStep();
         } else {
-            moveToPreviousStep(event.currentItem);
+            moveToPreviousStep();
         }
     }
 

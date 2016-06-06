@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.widgets.ValueSetter;
-import com.squareup.otto.Bus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,8 +14,6 @@ import butterknife.ButterKnife;
  * Created by emiliano.desantis on 24/05/2016.
  */
 public class SummaryView extends FragmentView {
-    private Bus bus;
-
     @Bind(R.id.txtSummaryAttrMental) TextView txtSummaryAttrMental;
     @Bind(R.id.txtSummaryAttrPhysical) TextView txtSummaryAttrPhysical;
     @Bind(R.id.txtSummaryAttrSocial) TextView txtSummaryAttrSocial;
@@ -31,9 +28,8 @@ public class SummaryView extends FragmentView {
     @Bind(R.id.valueSetterSpeed) ValueSetter valueSetterSpeed;
     @Bind(R.id.valueSetterWillpower) ValueSetter valueSetterWillpower;
 
-    public SummaryView(Fragment fragment, Bus bus) {
+    public SummaryView(Fragment fragment) {
         super(fragment);
-        this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
     }
 

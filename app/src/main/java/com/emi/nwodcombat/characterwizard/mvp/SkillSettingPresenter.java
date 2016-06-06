@@ -1,11 +1,13 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -14,6 +16,7 @@ import com.squareup.otto.Subscribe;
  */
 public class SkillSettingPresenter {
     private final Context context;
+    private final Bus bus;
     private SkillSettingView view;
     private CharacterWizardModel model;
 
@@ -21,11 +24,7 @@ public class SkillSettingPresenter {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
-//        setupWidgets();
-    }
-
-    private void setupWidgets() {
-        view.setUpUI();
+        this.bus = BusProvider.getInstance();
     }
 
     @Subscribe
@@ -51,8 +50,43 @@ public class SkillSettingPresenter {
 
         changeValue(event.isIncrease, event.key, event.category, spent);
 
-        view.checkCompletionConditions(model.isCheating());
+        bus.post(new Events.StepCompletionChecked(model.isCheating() || checkCategoriesAreAllDifferent()));
     }
+
+    private boolean checkCategoriesAreAllDifferent() {
+        int mental = getCategoryPriority(view.getSkillsMental());
+        int physical = getCategoryPriority(view.getSkillsPhysical());
+        int social = getCategoryPriority(view.getSkillsSocial());
+
+        if (mental != 0 && physical != 0 && social != 0) {
+            boolean mentalSocial = mental == social;
+            boolean mentalPhysical = mental == physical;
+            boolean physicalSocial = physical == social;
+
+            return !(mentalSocial || mentalPhysical || physicalSocial);
+        } else {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private int getCategoryPriority(String title) {
+        Activity activity = view.getActivity();
+        if (activity == null) {
+            return 0;
+        }
+
+        if (title.toLowerCase().contains(activity.getString(R.string.cat_primary_suffix).toLowerCase())) {
+            return 1;
+        } else if (title.toLowerCase().contains(activity.getString(
+                R.string.cat_secondary_suffix).toLowerCase())) {
+            return 2;
+        } else if (title.toLowerCase().contains(activity.getString(R.string.cat_tertiary_suffix).toLowerCase())) {
+            return 3;
+        }
+        return 0;
+    }
+
 
     @Subscribe
     public void onSpecialtyChecked(Events.SpecialtyChecked event) {
@@ -112,10 +146,7 @@ public class SkillSettingPresenter {
         if (!model.isCheating()) {
 
             if ((newValue >= 0 && spent < Constants.SKILL_PTS_PRIMARY) || (newValue < 0 && spent > 0)) {
-
-                Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(newValue);
-
-                view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
+                view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(key, newValue).getValue()));
                 spent += isIncrease ? 1 : -1;
 
                 setCategoryTitle(spent, category);
@@ -123,9 +154,7 @@ public class SkillSettingPresenter {
         }
         else    // If point allocation is not limited by category, do this instead
         {
-            Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(newValue);
-
-            view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
+            view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(key, newValue).getValue()));
         }
 
         if (newValue > 0) {
@@ -140,19 +169,19 @@ public class SkillSettingPresenter {
         switch (category) {
             case Constants.CONTENT_DESC_SKILL_MENTAL: {
 
-                view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
+                view.setSkillsMental(spent, context.getString(R.string.cat_mental));
 
                 break;
             }
             case Constants.CONTENT_DESC_SKILL_PHYSICAL: {
 
-                view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
+                view.setSkillsPhysical(spent, context.getString(R.string.cat_physical));
 
                 break;
             }
             case Constants.CONTENT_DESC_SKILL_SOCIAL: {
 
-                view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
+                view.setSkillsSocial(spent, context.getString(R.string.cat_social));
 
                 break;
             }

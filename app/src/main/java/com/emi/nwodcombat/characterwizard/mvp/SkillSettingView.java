@@ -14,7 +14,8 @@ import com.emi.nwodcombat.utils.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,16 +63,16 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     @Bind(R.id.valueSetterStreetwise) ValueSetter valueSetterStreetwise;
     @Bind(R.id.valueSetterSubterfuge) ValueSetter valueSetterSubterfuge;
 
-    ArrayList<ValueSetter> valueSetters = new ArrayList<>();
+    Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public SkillSettingView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
         ButterKnife.bind(this, fragment.getView());
-        setUpUI();
+        setupWidgets();
     }
 
-    protected void setUpUI() {
+    private void setupWidgets() {
         setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL);
         setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL);
         setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL);
@@ -139,59 +140,34 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     void changeWidgetValue(String key, int value) {
-        for (ValueSetter vs : valueSetters) {
-            if (vs.getContentDescription().equals(key)) {
-                vs.setValue(value);
-                break;
-            }
-        }
+        valueSetters.get(key).setValue(value);
     }
 
-    void checkCompletionConditions(boolean cheating) {
-        bus.post(new Events.StepCompletionChecked(cheating || checkCategoriesAreAllDifferent()));
+    public String getSkillsMental() {
+        return titleSkillsMental.getText().toString();
     }
 
-    private boolean checkCategoriesAreAllDifferent() {
-        int mental = getCategoryPriority(titleSkillsMental.getText().toString());
-        int physical = getCategoryPriority(titleSkillsPhysical.getText().toString());
-        int social = getCategoryPriority(titleSkillsSocial.getText().toString());
-
-        if (mental != 0 && physical != 0 && social != 0) {
-            boolean mentalSocial = mental == social;
-            boolean mentalPhysical = mental == physical;
-            boolean physicalSocial = physical == social;
-
-            return !(mentalSocial || mentalPhysical || physicalSocial);
-        } else {
-            return false;
-        }
+    public String getSkillsPhysical() {
+        return titleSkillsPhysical.getText().toString();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private int getCategoryPriority(String title) {
-        if (title.toLowerCase().contains(getActivity().getString(R.string.cat_primary_suffix).toLowerCase())) {
-            return 1;
-        } else if (title.toLowerCase().contains(getActivity().getString(
-            R.string.cat_secondary_suffix).toLowerCase())) {
-            return 2;
-        } else if (title.toLowerCase().contains(getActivity().getString(R.string.cat_tertiary_suffix).toLowerCase())) {
-            return 3;
-        }
-        return 0;
+    public String getSkillsSocial() {
+        return titleSkillsSocial.getText().toString();
     }
 
-    void setMentalCategoryTitle(int spent, String category) {
+    void setSkillsMental(int spent, String category) {
         setCategoryTitle(titleSkillsMental, spent, category);
     }
 
-    void setPhysicalCategoryTitle(int spent, String category) {
+    void setSkillsPhysical(int spent, String category) {
         setCategoryTitle(titleSkillsPhysical, spent, category);
     }
 
-    void setSocialCategoryTitle(int spent, String category) {
+    void setSkillsSocial(int spent, String category) {
         setCategoryTitle(titleSkillsSocial, spent, category);
     }
 
+    //TODO VSM move this to the presenter and model, too much logic for a view.
     @SuppressWarnings("ConstantConditions")
     private void setCategoryTitle(TextView textView, int spent, String category) {
         if (spent == Constants.SKILL_PTS_PRIMARY || spent > Constants.SKILL_PTS_SECONDARY) {
@@ -216,19 +192,19 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         setter.setListener(this);
         setter.setContentDescription(skillName);
         setter.setTraitCategory(skillCategory);
-        valueSetters.add(setter);
+        valueSetters.put(skillName, setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
         if (isActive) {
-            for (ValueSetter setter : valueSetters) {
-                setter.toggleEditionPanel(true);
+            for (ValueSetter setter : valueSetters.values()) {
+                setter.toggleEditionPanel(isActive);
             }
         }
     }
 
     public void setSkillText(String key, @Nullable String specialtyName) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
                 if (specialtyName != null) {
                     setter.setLabel(key + "\n(" + specialtyName + ")");
@@ -242,7 +218,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     public void toggleSpecialty(String key, boolean activate) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
                 setter.enableSpecialtyCheckbox(activate);
                 break;
@@ -251,7 +227,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     public void toggleSpecialties(boolean activate) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             if (!activate &&
                 setter.isSpecialtyEnabled() &&
                 !setter.isSpecialtyChecked()) {
@@ -266,7 +242,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     public void checkSpecialty(String key, boolean isChecked) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
                 setter.setSpecialtyChecked(isChecked);
                 break;

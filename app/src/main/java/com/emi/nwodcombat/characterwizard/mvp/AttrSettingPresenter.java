@@ -1,11 +1,12 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -17,16 +18,13 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
     private final Context context;
     private AttrSettingView view;
     private CharacterWizardModel model;
+    private Bus bus;
 
-    public AttrSettingPresenter(CharacterWizardModel model, AttrSettingView view) {
+    public AttrSettingPresenter(CharacterWizardModel model, AttrSettingView view, Bus bus) {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
-        setupWidgets();
-    }
-
-    private void setupWidgets() {
-        view.setUpUI();
+        this.bus = bus;
     }
 
     @Subscribe
@@ -52,54 +50,33 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
 
         changeValue(event.isIncrease, event.key, event.category, spent);
 
-        view.checkCompletionConditions(model.isCheating());
+        bus.post(new Events.StepCompletionChecked(model.isCheating() || checkCategoriesAreAllDifferent()));
     }
 
     private void changeValue(boolean isIncrease, String key, String category, int spent) {
-        Integer change = isIncrease ? 1 : -1;
+        int delta = isIncrease ? 1 : -1;
+        Integer change = delta + model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_ATTR);
 
-        int modelEntryValue = model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_ATTR);
+        view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(key, change).getValue()));
 
-        change += modelEntryValue;
-
-        if (!model.isCheating()) {
-
-            if ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0)) {
-
-                Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
-
-                view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
-                spent += isIncrease ? 1 : -1;
-
-                setCategoryTitle(spent, category);
-            }
-        }
-        else    // If point allocation is not limited by category, do this instead
-        {
-            Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
-
-            view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(entry).getValue()));
+        // If point allocation is not limited by category, do this instead
+        if (!model.isCheating() && ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0))) {
+            setCategoryTitle(spent + delta, category);
         }
     }
 
     private void setCategoryTitle(int spent, String category) {
         switch (category) {
             case Constants.CONTENT_DESC_ATTR_MENTAL: {
-
                 view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
-
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
-
                 view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
-
                 break;
             }
             case Constants.CONTENT_DESC_ATTR_SOCIAL: {
-
                 view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
-
                 break;
             }
         }
@@ -107,5 +84,36 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
 
     public void checkSettings() {
         view.toggleEditionPanel(model.isCheating());
+    }
+
+    //TODO move to presenter take a look SkillSettingView and SkillSettingPresenter
+    private boolean checkCategoriesAreAllDifferent() {
+        int mental = getCategoryPriority(view.getAttrsMental());
+        int physical = getCategoryPriority(view.getAttrsPhysical());
+        int social = getCategoryPriority(view.getAttrsSocial());
+
+        if (mental != 0 && physical != 0 && social != 0) {
+            boolean mentalSocial = mental == social;
+            boolean mentalPhysical = mental == physical;
+            boolean physicalSocial = physical == social;
+
+            return !(mentalSocial || mentalPhysical || physicalSocial);
+        } else {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private int getCategoryPriority(String title) {
+        Activity activity = view.getActivity();
+        if (title.toLowerCase().contains(activity.getString(R.string.cat_primary_suffix).toLowerCase())) {
+            return 1;
+        } else if (title.toLowerCase().contains(activity.getString(
+            R.string.cat_secondary_suffix).toLowerCase())) {
+            return 2;
+        } else if (title.toLowerCase().contains(activity.getString(R.string.cat_tertiary_suffix).toLowerCase())) {
+            return 3;
+        }
+        return 0;
     }
 }

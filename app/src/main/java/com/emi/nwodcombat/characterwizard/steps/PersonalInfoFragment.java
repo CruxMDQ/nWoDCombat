@@ -1,9 +1,6 @@
 package com.emi.nwodcombat.characterwizard.steps;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
@@ -12,8 +9,7 @@ import com.emi.nwodcombat.characterwizard.mvp.PersonalInfoView;
 import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
 
-public class PersonalInfoFragment extends PagerFragment
-{
+public class PersonalInfoFragment extends PagerFragment {
     private PersonalInfoPresenter presenter;
 
     @Override
@@ -23,9 +19,10 @@ public class PersonalInfoFragment extends PagerFragment
     }
 
     private void createPresenter() {
-        presenter = new PersonalInfoPresenter(getActivity(),
-            new CharacterWizardModel(getActivity()),
-            new PersonalInfoView(this, BusProvider.getInstance()));
+        presenter = new PersonalInfoPresenter(
+                new CharacterWizardModel(getActivity()),
+                new PersonalInfoView(this, BusProvider.getInstance())
+        );
     }
 
     @Override
@@ -38,11 +35,6 @@ public class PersonalInfoFragment extends PagerFragment
     public void onPause() {
         BusProvider.unregister(presenter);
         super.onPause();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(getLayout(), container, false);
     }
 
     @Override

@@ -294,4 +294,5 @@
     <string name="skill_mental">Mental skill</string>
     <string name="skill_physical">Physical skill</string>
     <string name="skill_social">Social skill</string>
+    <string name="button_cancel">Cancel</string>
 </resources>

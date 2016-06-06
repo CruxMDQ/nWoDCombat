@@ -17,8 +17,7 @@ public class SummaryPresenter {
         this.model = model;
         this.view = view;
         this.context = this.view.getContext();
-//        setupWidgets();
-//        populateView();
+        populateView();
     }
 
     @Subscribe
