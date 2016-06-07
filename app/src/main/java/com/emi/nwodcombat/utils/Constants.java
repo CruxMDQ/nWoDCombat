@@ -113,6 +113,7 @@ public class Constants {
     public static final String TRAIT_DERIVED_WILLPOWER = "Willpower";
 
     public static final int NO_OPTION_SELECTED = -1;
+    public static final int SKILL_SPECIALTIES_STARTING = 3;
     public static final int TRAIT_MORALITY_DEFAULT = 7;
     public static final int TRAIT_SIZE_DEFAULT = 5;
 
