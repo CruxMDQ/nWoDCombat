@@ -9,7 +9,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterlist.RealmCharacterAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.realm.Character;
-import com.emi.nwodcombat.utils.BusProvider;
+import com.emi.nwodcombat.tools.BusProvider;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;

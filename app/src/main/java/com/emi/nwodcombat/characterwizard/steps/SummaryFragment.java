@@ -6,7 +6,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.characterwizard.mvp.SummaryPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.SummaryView;
-import com.emi.nwodcombat.utils.BusProvider;
+import com.emi.nwodcombat.tools.BusProvider;
 
 public class SummaryFragment extends PagerFragment {
     private SummaryPresenter presenter;

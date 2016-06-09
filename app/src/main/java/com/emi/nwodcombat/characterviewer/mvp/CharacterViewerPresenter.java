@@ -13,18 +13,18 @@ import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events.DemeanorChanged;
-import com.emi.nwodcombat.utils.Events.ExperiencePoolChanged;
-import com.emi.nwodcombat.utils.Events.NatureChanged;
-import com.emi.nwodcombat.utils.Events.ViceChanged;
-import com.emi.nwodcombat.utils.Events.VirtueChanged;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events.DemeanorChanged;
+import com.emi.nwodcombat.tools.Events.ExperiencePoolChanged;
+import com.emi.nwodcombat.tools.Events.NatureChanged;
+import com.emi.nwodcombat.tools.Events.ViceChanged;
+import com.emi.nwodcombat.tools.Events.VirtueChanged;
 import com.squareup.otto.Subscribe;
 
 import io.realm.RealmResults;
 
-import static com.emi.nwodcombat.utils.Events.CharacterDeleted;
-import static com.emi.nwodcombat.utils.Events.ValueChanged;
+import static com.emi.nwodcombat.tools.Events.CharacterDeleted;
+import static com.emi.nwodcombat.tools.Events.ValueChanged;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.

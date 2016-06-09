@@ -17,8 +17,8 @@ import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 

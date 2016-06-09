@@ -9,8 +9,8 @@ import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
 import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.SummaryFragment;
-import com.emi.nwodcombat.utils.BusProvider;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.BusProvider;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 

@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Character;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;

@@ -2,7 +2,7 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.content.Context;
 
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Subscribe;
 
 /**

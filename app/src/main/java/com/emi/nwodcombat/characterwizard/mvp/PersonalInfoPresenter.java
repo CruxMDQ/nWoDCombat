@@ -1,6 +1,5 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.emi.nwodcombat.R;
@@ -12,8 +11,8 @@ import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Subscribe;
 
 import io.realm.RealmResults;

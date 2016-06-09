@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.utils;
+package com.emi.nwodcombat.tools;
 
 import com.squareup.otto.Bus;
 

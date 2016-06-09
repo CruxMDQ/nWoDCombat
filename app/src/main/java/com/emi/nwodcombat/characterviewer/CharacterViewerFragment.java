@@ -13,8 +13,8 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerModel;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerPresenter;
 import com.emi.nwodcombat.characterviewer.mvp.CharacterViewerView;
-import com.emi.nwodcombat.utils.BusProvider;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.BusProvider;
+import com.emi.nwodcombat.tools.Constants;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.

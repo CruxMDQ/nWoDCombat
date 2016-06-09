@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 

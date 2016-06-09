@@ -6,8 +6,8 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.characterwizard.mvp.PersonalInfoPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.PersonalInfoView;
-import com.emi.nwodcombat.utils.BusProvider;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.BusProvider;
+import com.emi.nwodcombat.tools.Constants;
 
 public class PersonalInfoFragment extends PagerFragment {
     private PersonalInfoPresenter presenter;

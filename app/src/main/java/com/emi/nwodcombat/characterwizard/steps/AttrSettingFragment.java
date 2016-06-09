@@ -6,8 +6,8 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.AttrSettingPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.AttrSettingView;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
-import com.emi.nwodcombat.utils.BusProvider;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.BusProvider;
+import com.emi.nwodcombat.tools.Constants;
 import com.squareup.otto.Bus;
 
 public class AttrSettingFragment extends PagerFragment {

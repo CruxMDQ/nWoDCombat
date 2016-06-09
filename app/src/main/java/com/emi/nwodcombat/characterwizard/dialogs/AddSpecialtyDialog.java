@@ -19,7 +19,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.adapters.SpecialtyAdapter;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.utils.BusProvider;
+import com.emi.nwodcombat.tools.BusProvider;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,8 +34,6 @@ public class AddSpecialtyDialog extends DialogFragment {
 
     private String title;
     private String key;
-
-    private RealmList<Entry> specialties;
 
     private CharacterWizardModel model;
 
@@ -60,7 +58,7 @@ public class AddSpecialtyDialog extends DialogFragment {
         lm.setAutoMeasureEnabled(true);
         rvDialogSpecialties.setLayoutManager(lm);
 
-        specialties = model.getSpecialties(key);
+        RealmList<Entry> specialties = model.getSpecialties(key);
 
         specialtyAdapter = new SpecialtyAdapter(specialties, getActivity(), R.layout.row_specialty,
             BusProvider.getInstance());
@@ -72,9 +70,6 @@ public class AddSpecialtyDialog extends DialogFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // TODO Introduce check to avoid repeated values
-
-                    System.out.println("actionId= "+ actionId);
-
                     addSpecialty();
 
                     return false;

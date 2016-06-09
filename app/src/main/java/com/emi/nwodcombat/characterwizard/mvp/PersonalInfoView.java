@@ -14,8 +14,8 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;

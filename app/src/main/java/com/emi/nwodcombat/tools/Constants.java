@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.utils;
+package com.emi.nwodcombat.tools;
 
 /**
  * Created by Emi on 2/18/16.

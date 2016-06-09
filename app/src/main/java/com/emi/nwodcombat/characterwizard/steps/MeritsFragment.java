@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.characterwizard.mvp.MeritsPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.MeritsView;
-import com.emi.nwodcombat.utils.BusProvider;
+import com.emi.nwodcombat.tools.BusProvider;
 
 /**
  * Created by emiliano.desantis on 02/06/2016.

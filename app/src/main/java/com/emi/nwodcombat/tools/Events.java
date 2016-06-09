@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.utils;
+package com.emi.nwodcombat.tools;
 
 /**
  * Created by emiliano.desantis on 18/05/2016.

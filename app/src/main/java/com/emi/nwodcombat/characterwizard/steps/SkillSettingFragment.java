@@ -6,7 +6,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.characterwizard.mvp.SkillSettingPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.SkillSettingView;
-import com.emi.nwodcombat.utils.BusProvider;
+import com.emi.nwodcombat.tools.BusProvider;
 
 /**
  * Created by emiliano.desantis on 23/05/2016.

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
