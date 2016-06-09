@@ -25,6 +25,7 @@
 
     <!-- Error messages -->
     <string name="error_message_context_null" translatable="false">Context is null!</string>
+    <string name="error_specialty_exists">A specialty with this name already exists for this skill!</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -295,4 +296,6 @@
     <string name="skill_physical">Physical skill</string>
     <string name="skill_social">Social skill</string>
     <string name="button_cancel">Cancel</string>
+    <string name="dialog_specialty_title">Add new specialty</string>
+    <string name="error_specialty_limit_reached">Character already has 3 specialties!</string>
 </resources>

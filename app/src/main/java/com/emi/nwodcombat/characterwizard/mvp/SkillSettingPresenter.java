@@ -5,11 +5,16 @@ import android.content.Context;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.dialogs.AddSpecialtyDialog;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.BusProvider;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.Iterator;
+
+import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 23/05/2016.
@@ -90,11 +95,9 @@ public class SkillSettingPresenter {
 
 
     @Subscribe
-    public void onSpecialtyChecked(Events.SpecialtyChecked event) {
-        int specialtyCount = model.countSpecialties();
-
-        // TODO Spawn popup here?
-        AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance("Add new specialty", event.key, model);
+    public void onSpecialtyTapped(Events.SpecialtyTapped event) {
+        AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance(
+            context.getString(R.string.dialog_specialty_title), event.key, model);
         dialog.show(view.getFragmentManager(), dialog.getClass().toString());
 
 //        if (event.isChecked) {
@@ -140,6 +143,28 @@ public class SkillSettingPresenter {
 //
 //            view.setSkillText(event.key, null);
 //        }
+    }
+
+    @Subscribe
+    public void onSpecialtyDialogClosing(Events.SpecialtyDialogClosing event) {
+        RealmList<Entry> specialties = model.getSpecialties(event.key);
+
+        StringBuilder builder = new StringBuilder();
+
+        Iterator iterator = specialties.iterator();
+
+        while (iterator.hasNext()) {
+            Entry specialty = (Entry) iterator.next();
+
+            builder.append(specialty.getValue());
+
+            if (iterator.hasNext()) {
+                builder.append(", ");
+            }
+        }
+
+        view.setSkillText(event.key, builder.toString());
+        view.updateStarButton(event.key, specialties.size() > 0);
     }
 
     private void changeValue(boolean isIncrease, String key, String category, int spent) {

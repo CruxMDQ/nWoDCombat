@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import com.emi.nwodcombat.characterwizard.adapters.SpecialtyAdapter;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.BusProvider;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,6 +34,7 @@ import io.realm.RealmList;
 public class AddSpecialtyDialog extends DialogFragment {
     @Bind(R.id.editSpecialtyName) EditText editSpecialtyName;
     @Bind(R.id.rvDialogSpecialties) RecyclerView rvDialogSpecialties;
+    @Bind(R.id.txtSpecError) TextView txtSpecError;
 
     private String title;
     private String key;
@@ -58,7 +62,7 @@ public class AddSpecialtyDialog extends DialogFragment {
         lm.setAutoMeasureEnabled(true);
         rvDialogSpecialties.setLayoutManager(lm);
 
-        RealmList<Entry> specialties = model.getSpecialties(key);
+        final RealmList<Entry> specialties = model.getSpecialties(key);
 
         specialtyAdapter = new SpecialtyAdapter(specialties, getActivity(), R.layout.row_specialty,
             BusProvider.getInstance());
@@ -69,8 +73,30 @@ public class AddSpecialtyDialog extends DialogFragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    // TODO Introduce check to avoid repeated values
-                    addSpecialty();
+                    String specialtyName = editSpecialtyName.getText().toString();
+
+                    // TODO Create override for cheating here
+                    if (model.getSpecialties(key).size() < Constants.SKILL_SPECIALTIES_STARTING) {
+                        for (Entry specialty : model.getSpecialties(key)) {
+                            if (specialty.getValue().equalsIgnoreCase(specialtyName)) {
+                                txtSpecError.setText(getActivity().getText(R.string.error_specialty_exists));
+                                txtSpecError.setVisibility(View.VISIBLE);
+                                return false;
+                            }
+                        }
+                    } else {
+                        txtSpecError.setText(R.string.error_specialty_limit_reached);
+                        txtSpecError.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+
+                    txtSpecError.setVisibility(View.GONE);
+
+                    addSpecialty(specialtyName);
+
+                    if (specialtyAdapter.getItemCount() > 0) {
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    }
 
                     return false;
                 }
@@ -85,6 +111,7 @@ public class AddSpecialtyDialog extends DialogFragment {
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                performDialogClosing();
                 dismiss();
             }
         });
@@ -104,9 +131,13 @@ public class AddSpecialtyDialog extends DialogFragment {
         return dialog;
     }
 
-    private void addSpecialty() {
-        String specialtyName = editSpecialtyName.getText().toString();
+    private void performDialogClosing() {
+        BusProvider.getInstance().post(new Events.SpecialtyDialogClosing(key));
 
+        dismiss();
+    }
+
+    private void addSpecialty(String specialtyName) {
         model.addSpecialty(key, specialtyName);
 
         specialtyAdapter.notifyDataSetChanged();

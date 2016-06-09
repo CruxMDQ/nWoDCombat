@@ -115,7 +115,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         // TODO Code dialog for capturing specialty name here
         String specialtyName = "some name";
 
-        bus.post(new Events.SpecialtyChecked(isChecked, constant, category, specialtyName));
+        bus.post(new Events.SpecialtyTapped(isChecked, constant, category, specialtyName));
     }
 
     @OnClick(R.id.titleSkillsMental)
@@ -198,7 +198,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     public void toggleEditionPanel(boolean isActive) {
         if (isActive) {
             for (ValueSetter setter : valueSetters.values()) {
-                setter.toggleEditionPanel(isActive);
+                setter.toggleEditionPanel(true);
             }
         }
     }
@@ -220,26 +220,8 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     public void toggleSpecialty(String key, boolean activate) {
         for (ValueSetter setter : valueSetters.values()) {
             if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
-//                setter.enableSpecialtyCheckbox(activate);
                 setter.enableSpecialtyButton(activate);
                 break;
-            }
-        }
-    }
-
-    public void toggleSpecialties(boolean activate) {
-        for (ValueSetter setter : valueSetters.values()) {
-            if (!activate                               // I want to deactivate it
-                && setter.isSpecialtyEnabled()          // It is active
-                && !setter.hasSpecialtiesLoaded())      // It has no specialties loaded
-            {
-//                setter.enableSpecialtyCheckbox(false);
-                setter.enableSpecialtyButton(false);
-            }
-            else if (activate                           // I want to turn it on
-                && setter.getCurrentValue() > 0) {      // Setter actually has any points on it
-//                setter.enableSpecialtyCheckbox(true);
-                setter.enableSpecialtyButton(true);
             }
         }
     }
@@ -252,7 +234,6 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
                 } else {
                     setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
                 }
-//                setter.setSpecialtyChecked(isChecked);
                 break;
             }
         }

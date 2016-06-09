@@ -8,10 +8,21 @@
         android:id="@+id/editSpecialtyName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginLeft="@dimen/spacing_large"
+        android:layout_marginRight="@dimen/spacing_large"
         android:hint="@string/hint_type_specialty_name"
         android:inputType="text"
         android:imeOptions="actionDone"/>
+
+    <TextView
+        android:id="@+id/txtSpecError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal"
+        android:text="@string/error_specialty_exists"
+        android:textColor="@color/fab_reject_background"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvDialogSpecialties"
