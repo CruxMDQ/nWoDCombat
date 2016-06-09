@@ -72,15 +72,12 @@ public class AddSpecialtyDialog extends DialogFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // TODO Introduce check to avoid repeated values
-                    String specialtyName = editSpecialtyName.getText().toString();
 
-                    Entry entry = model.addSpecialty(key, specialtyName);
+                    System.out.println("actionId= "+ actionId);
 
-                    specialties.add(entry);
+                    addSpecialty();
 
-                    refreshAdapter();
-
-                    return true;
+                    return false;
                 }
                 return true;
             }
@@ -112,7 +109,11 @@ public class AddSpecialtyDialog extends DialogFragment {
         return dialog;
     }
 
-    private void refreshAdapter() {
+    private void addSpecialty() {
+        String specialtyName = editSpecialtyName.getText().toString();
+
+        model.addSpecialty(key, specialtyName);
+
         specialtyAdapter.notifyDataSetChanged();
     }
 
