@@ -14,6 +14,14 @@
         android:layout_weight="12"
         android:text="Value\nValue"/>
 
+    <!-- TODO Implement this instead of the checkbox in the future -->
+    <Button
+        android:id="@+id/btnSpecialty"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/star_outline"
+        android:visibility="gone"/>
+
     <CheckBox
         android:id="@+id/chkSpecialty"
         android:layout_width="wrap_content"

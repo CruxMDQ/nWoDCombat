@@ -481,7 +481,7 @@ public class CharacterWizardModel {
         return result;
     }
 
-    public Entry  addSpecialty(String key, String specialtyName) {
+    public Entry addSpecialty(String key, String specialtyName) {
         for (Entry entry : character.getEntries()) {
             if (entry.getKey() != null &&
                 entry.getKey().equalsIgnoreCase(key)) {
@@ -492,7 +492,12 @@ public class CharacterWizardModel {
                 specialty.setType(Constants.FIELD_TYPE_STRING);
                 specialty.setValue(specialtyName);
 
-                entry.setSecondaryData(specialty);
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
+
+                entry.getExtras().add(specialty);
+//                entry.setSecondaryData(specialty);
 
                 return specialty;
             }
@@ -511,10 +516,38 @@ public class CharacterWizardModel {
         }
     }
 
+    public void removeSpecialty(String key, String specialty) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry entryToRemove = null;
+
+                for (Entry extra : entry.getExtras()) {
+                    if (extra.getKey() != null
+                        && extra.getKey().equalsIgnoreCase(specialty)) {
+                        entryToRemove = extra;
+                        break;
+                    }
+                }
+
+                if (entryToRemove != null) {
+                    entry.getExtras().remove(entryToRemove);
+                }
+
+                break;
+            }
+        }
+    }
+
     public RealmList<Entry> getSpecialties(String key) {
         for (Entry entry : character.getEntries()) {
             if (entry.getKey() != null &&
                 entry.getKey().equalsIgnoreCase(key)) {
+
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
 
                 return entry.getExtras();
             }

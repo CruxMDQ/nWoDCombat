@@ -117,7 +117,7 @@ public class SkillsSetPhysicalStep extends WizardStep implements PagerStep.Child
     }
 
     @Override
-    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
 
     }
 

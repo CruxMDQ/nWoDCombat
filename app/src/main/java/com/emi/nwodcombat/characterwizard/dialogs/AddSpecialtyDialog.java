@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ public class AddSpecialtyDialog extends DialogFragment {
     private CharacterWizardModel model;
 
     AlertDialog dialog;
-    private SpecialtyAdapter specialtyAdapter;
+    public SpecialtyAdapter specialtyAdapter;
 
     public static AddSpecialtyDialog newInstance(String title, String key, CharacterWizardModel model) {
         AddSpecialtyDialog fragment = new AddSpecialtyDialog();
@@ -54,6 +55,11 @@ public class AddSpecialtyDialog extends DialogFragment {
         LinearLayout root = (LinearLayout) inflater.inflate(getLayout(), null);
         ButterKnife.bind(this, root);
 
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+        lm.setOrientation(LinearLayoutManager.VERTICAL);
+        lm.setAutoMeasureEnabled(true);
+        rvDialogSpecialties.setLayoutManager(lm);
+
         specialties = model.getSpecialties(key);
 
         specialtyAdapter = new SpecialtyAdapter(specialties, getActivity(), R.layout.row_specialty,
@@ -65,13 +71,18 @@ public class AddSpecialtyDialog extends DialogFragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    specialties.add(model.addSpecialty(key, editSpecialtyName.getText().toString()));
+                    // TODO Introduce check to avoid repeated values
+                    String specialtyName = editSpecialtyName.getText().toString();
 
-                    specialtyAdapter.notifyDataSetChanged();
+                    Entry entry = model.addSpecialty(key, specialtyName);
+
+                    specialties.add(entry);
+
+                    refreshAdapter();
 
                     return true;
                 }
-                return false;
+                return true;
             }
         });
 
@@ -99,6 +110,10 @@ public class AddSpecialtyDialog extends DialogFragment {
         });
 
         return dialog;
+    }
+
+    private void refreshAdapter() {
+        specialtyAdapter.notifyDataSetChanged();
     }
 
     @Override

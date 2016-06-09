@@ -133,4 +133,6 @@ public class Constants {
     public static final String TITLE_STEP_POINTS_SET = "Distribute points";
 
     public static final String SKILL_SPECIALTY = "Skill specialty";
+    public static final String SKILL_SPECIALTY_EMPTY = "has no specialties";
+    public static final String SKILL_SPECIALTY_LOADED = "has specialties";
 }

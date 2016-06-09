@@ -72,7 +72,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     }
 
     @Override
-    public void onSpecialtyChecked(boolean isChecked, String constant, String category) { }
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) { }
 
     void changeWidgetValue(String key, int value) {
         valueSetters.get(key).setValue(value);

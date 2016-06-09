@@ -162,7 +162,7 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
     }
 
     @Override
-    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
 
     }
 

@@ -19,6 +19,7 @@ import com.emi.nwodcombat.utils.Constants;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 /**
  * Created by Emi on 3/1/16.
@@ -33,6 +34,7 @@ public class ValueSetter extends LinearLayout {
     @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
     @Bind(R.id.btnValueIncrease) Button btnValueIncrease;
 
+    @Bind(R.id.btnSpecialty) Button btnSpecialty;
     @Bind(R.id.chkSpecialty) CheckBox chkSpecialty;
     @Bind(R.id.chkTemplateSpecial) CheckBox chkTemplateSpecial;
 
@@ -245,7 +247,7 @@ public class ValueSetter extends LinearLayout {
 
     @OnCheckedChanged(R.id.chkSpecialty)
     void onSpecialtyChecked() {
-        listener.onSpecialtyChecked(chkSpecialty.isChecked(),
+        listener.onSpecialtyTapped(chkSpecialty.isChecked(),
             ValueSetter.this.getContentDescription().toString(),
             ValueSetter.this.getTraitCategory());
     }
@@ -259,14 +261,41 @@ public class ValueSetter extends LinearLayout {
     }
 
     public boolean isSpecialtyEnabled() {
-        return chkSpecialty.isEnabled();
+        return btnSpecialty.isEnabled();
+//        return chkSpecialty.isEnabled();
     }
 
-    public boolean isSpecialtyChecked() {
-        return chkSpecialty.isChecked();
+    public boolean hasSpecialtiesLoaded() {
+        return btnSpecialty.getContentDescription().toString().equalsIgnoreCase(
+            Constants.SKILL_SPECIALTY_LOADED);
+//        return chkSpecialty.isChecked();
     }
 
     public void setSpecialtyChecked(boolean isChecked) {
         chkSpecialty.setChecked(isChecked);
+    }
+
+    @OnClick(R.id.btnSpecialty)
+    void onSpecialtyClicked() {
+        listener.onSpecialtyTapped(buttonHasSpecialties(),
+            ValueSetter.this.getContentDescription().toString(),
+            ValueSetter.this.getTraitCategory());
+    }
+
+    private boolean buttonHasSpecialties() {
+        return btnSpecialty.getContentDescription() != null && btnSpecialty.getContentDescription().equals(
+            Constants.SKILL_SPECIALTY_LOADED);
+    }
+
+    public void enableSpecialtyButton(boolean isEnabled) {
+        if (isEnabled) {
+            btnSpecialty.setVisibility(VISIBLE);
+        } else {
+            btnSpecialty.setVisibility(GONE);
+        }
+    }
+
+    public void changeSpecialtyButtonBackground(int resId, String contentDescription) {
+        btnSpecialty.setBackgroundResource(resId);
     }
 }

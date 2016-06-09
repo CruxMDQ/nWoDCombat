@@ -177,7 +177,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     }
 
     @Override
-    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
 
     }
 

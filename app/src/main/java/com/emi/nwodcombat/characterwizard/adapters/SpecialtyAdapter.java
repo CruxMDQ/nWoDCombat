@@ -50,7 +50,7 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.View
 
     @Override
     public int getItemCount() {
-        return 0;
+        return specialties.size();
     }
 
     public class ViewHolder extends RealmViewHolder {

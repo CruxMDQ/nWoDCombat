@@ -121,7 +121,7 @@ public class SkillsSetSocialStep extends WizardStep implements PagerStep.ChildSt
     }
 
     @Override
-    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
 
     }
 

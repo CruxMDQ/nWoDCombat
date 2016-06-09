@@ -111,7 +111,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     @Override
-    public void onSpecialtyChecked(boolean isChecked, String constant, String category) {
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
         // TODO Code dialog for capturing specialty name here
         String specialtyName = "some name";
 
@@ -220,7 +220,8 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     public void toggleSpecialty(String key, boolean activate) {
         for (ValueSetter setter : valueSetters.values()) {
             if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
-                setter.enableSpecialtyCheckbox(activate);
+//                setter.enableSpecialtyCheckbox(activate);
+                setter.enableSpecialtyButton(activate);
                 break;
             }
         }
@@ -228,23 +229,30 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
 
     public void toggleSpecialties(boolean activate) {
         for (ValueSetter setter : valueSetters.values()) {
-            if (!activate &&
-                setter.isSpecialtyEnabled() &&
-                !setter.isSpecialtyChecked()) {
-                setter.enableSpecialtyCheckbox(false);
+            if (!activate                               // I want to deactivate it
+                && setter.isSpecialtyEnabled()          // It is active
+                && !setter.hasSpecialtiesLoaded())      // It has no specialties loaded
+            {
+//                setter.enableSpecialtyCheckbox(false);
+                setter.enableSpecialtyButton(false);
             }
-            else if (activate) {
-                if (setter.getCurrentValue() > 0) {
-                    setter.enableSpecialtyCheckbox(true);
-                }
+            else if (activate                           // I want to turn it on
+                && setter.getCurrentValue() > 0) {      // Setter actually has any points on it
+//                setter.enableSpecialtyCheckbox(true);
+                setter.enableSpecialtyButton(true);
             }
         }
     }
 
-    public void checkSpecialty(String key, boolean isChecked) {
+    public void updateStarButton(String key, boolean isChecked) {
         for (ValueSetter setter : valueSetters.values()) {
             if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
-                setter.setSpecialtyChecked(isChecked);
+                if (isChecked) {
+                    setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
+                } else {
+                    setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
+                }
+//                setter.setSpecialtyChecked(isChecked);
                 break;
             }
         }

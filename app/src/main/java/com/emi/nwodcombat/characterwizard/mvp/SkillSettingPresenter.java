@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.characterwizard.dialogs.AddSpecialtyDialog;
 import com.emi.nwodcombat.utils.BusProvider;
 import com.emi.nwodcombat.utils.Constants;
 import com.emi.nwodcombat.utils.Events;
@@ -92,48 +93,53 @@ public class SkillSettingPresenter {
     public void onSpecialtyChecked(Events.SpecialtyChecked event) {
         int specialtyCount = model.countSpecialties();
 
-        if (event.isChecked) {
-            /**
-             * Pseudocode for adding a specialty:
-             * - count how many specialties the character has already picked
-             * - if they are less than 3
-             * ---> add the entry on the model
-             * ---> check the checkbox on the view
-             * ---> set specialty name on view
-             * ---> increase specialty count by 1
-             * ---> if specialty count is now 3, disable all unchecked checkboxes on view
-             */
-            if (specialtyCount < 3) {
+        // TODO Spawn popup here?
+        AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance("Add new specialty", event.key, model);
+        dialog.show(view.getFragmentManager(), dialog.getClass().toString());
 
-                model.addSpecialty(event.key, event.specialtyName);
-
-                specialtyCount++;
-
-                view.setSkillText(event.key, event.specialtyName);
-
-                if (specialtyCount == 3) {
-                    view.toggleSpecialties(false);
-                } else if (specialtyCount < 3) {
-                    view.toggleSpecialties(true);
-                }
-            } else {
-                view.checkSpecialty(event.key, false);
-            }
-        } else {
-            /**
-             * Pseudocode for removing a specialty:
-             * - uncheck the checkbox on the view
-             * - remove the entry on the model (funny thing, that)
-             * - decrease specialty count by 1
-             */
-            model.removeSpecialty(event.key);
-
-            view.toggleSpecialties(true);
-
-            view.checkSpecialty(event.key, false);
-
-            view.setSkillText(event.key, null);
-        }
+//        if (event.isChecked) {
+//            /**
+//             * Pseudocode for adding a specialty:
+//             * - count how many specialties the character has already picked
+//             * - if they are less than 3
+//             * ---> add the entry on the model
+//             * ---> check the checkbox on the view
+//             * ---> set specialty name on view
+//             * ---> increase specialty count by 1
+//             * ---> if specialty count is now 3, disable all unchecked checkboxes on view
+//             */
+//            if (specialtyCount < Constants.SKILL_SPECIALTIES_STARTING) {
+//
+//                model.addSpecialty(event.key, event.specialtyName);
+//
+//                specialtyCount++;
+//
+//                view.setSkillText(event.key, event.specialtyName);
+//
+//                if (specialtyCount == Constants.SKILL_SPECIALTIES_STARTING) {
+//                    view.toggleSpecialties(false);
+//                } else if (specialtyCount < Constants.SKILL_SPECIALTIES_STARTING) {
+//                    view.toggleSpecialties(true);
+//                }
+//            } else {
+//                view.updateStarButton(event.key, false);
+//            }
+//        } else {
+//            /**
+//             * Pseudocode for removing a specialty:
+//             * - uncheck the checkbox on the view
+//             * - remove the entry on the model (funny thing, that)
+//             * - decrease specialty count by 1
+//             */
+////            model.removeSpecialty(event.key);
+//            model.removeSpecialty(event.key, event.specialtyName);
+//
+//            view.toggleSpecialties(true);
+//
+//            view.updateStarButton(event.key, false);
+//
+//            view.setSkillText(event.key, null);
+//        }
     }
 
     private void changeValue(boolean isIncrease, String key, String category, int spent) {
