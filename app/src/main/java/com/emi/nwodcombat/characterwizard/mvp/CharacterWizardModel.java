@@ -468,19 +468,6 @@ public class CharacterWizardModel {
         return willpower;
     }
 
-    public int countSpecialties() {
-        int result = 0;
-
-        for (Entry entry : character.getEntries()) {
-            if (entry.getSecondaryData() != null &&
-                entry.getSecondaryData().getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
-                result++;
-            }
-        }
-
-        return result;
-    }
-
     public Entry addSpecialty(String key, String specialtyName) {
         for (Entry entry : character.getEntries()) {
             if (entry.getKey() != null &&
@@ -543,4 +530,30 @@ public class CharacterWizardModel {
         }
         return null;
     }
+
+    public int countSpecialties() {
+        int result = 0;
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null) {
+                if (entry.getExtras() != null) {
+                    for (Entry extra : entry.getExtras()) {
+                        if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+                            result++;
+                        }
+                    }
+                }
+            }
+        }
+
+//        for (Entry entry : character.getEntries()) {
+//            if (entry.getSecondaryData() != null &&
+//                entry.getSecondaryData().getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+//                result++;
+//            }
+//        }
+
+        return result;
+    }
+
 }

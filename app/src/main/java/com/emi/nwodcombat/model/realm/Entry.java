@@ -15,7 +15,6 @@ public class Entry extends RealmObject {
     private String key;
     private String value;
     private String type;
-    private Entry secondaryData;
     private RealmList<Entry> extras;
 
     public long getId() {
@@ -60,15 +59,6 @@ public class Entry extends RealmObject {
 
     public Entry setValue(Integer integer) {
         this.value = String.valueOf(integer);
-        return this;
-    }
-
-    public Entry getSecondaryData() {
-        return secondaryData;
-    }
-
-    public Entry setSecondaryData(Entry secondaryData) {
-        this.secondaryData = secondaryData;
         return this;
     }
 

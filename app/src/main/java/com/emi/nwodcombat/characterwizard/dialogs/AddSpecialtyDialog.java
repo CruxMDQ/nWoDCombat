@@ -76,7 +76,7 @@ public class AddSpecialtyDialog extends DialogFragment {
                     String specialtyName = editSpecialtyName.getText().toString().trim();
 
                     // TODO Create override for cheating here
-                    if (model.getSpecialties(key).size() < Constants.SKILL_SPECIALTIES_STARTING) {
+                    if (model.countSpecialties() < Constants.SKILL_SPECIALTIES_STARTING) {
                         for (Entry specialty : model.getSpecialties(key)) {
                             if (specialty.getValue().equalsIgnoreCase(specialtyName)) {
                                 txtSpecError.setText(getActivity().getText(R.string.error_specialty_exists));
