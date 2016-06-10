@@ -20,6 +20,7 @@ public class SummaryView extends FragmentView {
     @Bind(R.id.txtSummarySkillsMental) TextView txtSummarySkillsMental;
     @Bind(R.id.txtSummarySkillsPhysical) TextView txtSummarySkillsPhysical;
     @Bind(R.id.txtSummarySkillsSocial) TextView txtSummarySkillsSocial;
+    @Bind(R.id.txtSummarySpecialties) TextView txtSummarySpecialties;
 
     @Bind(R.id.valueSetterDefense) ValueSetter valueSetterDefense;
     @Bind(R.id.valueSetterHealth) ValueSetter valueSetterHealth;
@@ -55,6 +56,10 @@ public class SummaryView extends FragmentView {
 
     public void setSkillSummarySocial(String text) {
         txtSummarySkillsSocial.setText(text);
+    }
+
+    public void setSkillSummarySpecialties(String text) {
+        txtSummarySpecialties.setText(text);
     }
     
     public void setDefense(int value) {

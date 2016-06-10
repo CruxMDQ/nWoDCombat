@@ -63,6 +63,8 @@
     <string name="cat_secondary_suffix">Secondary</string>
     <string name="cat_tertiary_suffix">Tertiary</string>
 
+    <string name="cat_specialties">Specialties</string>
+
     <!--Mental skills-->
     <string name="skill_academics">Academics</string>
     <string name="skill_computer">Computer</string>

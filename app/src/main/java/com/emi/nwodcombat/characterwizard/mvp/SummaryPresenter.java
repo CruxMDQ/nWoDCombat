@@ -32,6 +32,7 @@ public class SummaryPresenter {
         view.setSkillSummaryMental(model.getMentalSkillsSummary());
         view.setSkillSummaryPhysical(model.getPhysicalSkillsSummary());
         view.setSkillSummarySocial(model.getSocialSkillsSummary());
+        view.setSkillSummarySpecialties(model.getSpecialtiesSummary());
 
         view.setDefense(model.calculateDefense());
         view.setHealth(model.calculateHealth());

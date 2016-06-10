@@ -202,6 +202,34 @@
                     android:maxLines="5"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/panelSummarySpecialties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/panelSummarySkillsSocial"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:text="@string/cat_specialties"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtSummarySpecialties"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_half"
+                    android:layout_marginEnd="@dimen/spacing_half"
+                    android:maxLines="5"/>
+
+            </LinearLayout>
         </RelativeLayout>
 
         <TextView

@@ -378,6 +378,38 @@ public class CharacterWizardModel {
         return getStatBlock(entries);
     }
 
+    public String getSpecialtiesSummary() {
+        StringBuilder builder = new StringBuilder();
+        /**
+         * Pseudocode:
+         * - Iterate through skills
+         * - If skill has a specialty:
+         * ---> If there was an entry already on the string builder, add a comma
+         * ---> Add skill name
+         * ---> Add skill specialty between parenthesis
+         */
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getExtras() != null) {
+                for (Entry extra : entry.getExtras()) {
+                    // If skill has specialties
+                    if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+
+                        // If there was an entry already on the string builder, add a comma
+                        if (builder.length() != 0) {
+                            builder.append(", ");
+                        }
+
+                        // Add skill name and specialty between parentheses
+                        builder.append(String.format("%s (%s)", entry.getKey(), extra.getValue()));
+                    }
+                }
+            }
+        }
+
+        return builder.toString();
+    }
+
     private String getStatBlock(ArrayList<Entry> stats) {
         StringBuilder builder = new StringBuilder();
 
