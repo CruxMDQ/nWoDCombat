@@ -127,13 +127,13 @@ public class Events {
         public WizardClose() { }
     }
 
-    public static class SpecialtyTapped {
+    public static class SpecialtyClicked {
         public boolean isChecked;
         public String key;
         public String category;
         public String specialtyName;
 
-        public SpecialtyTapped(boolean isChecked, String key, String category, String specialtyName) {
+        public SpecialtyClicked(boolean isChecked, String key, String category, String specialtyName) {
             this.category = category;
             this.isChecked = isChecked;
             this.key = key;
@@ -146,6 +146,16 @@ public class Events {
 
         public SpecialtyDialogClosing(String key) {
             this.key = key;
+        }
+    }
+
+    public static class SpecialtyTapped {
+        public String key;
+        public String value;
+
+        public SpecialtyTapped(String key, String value) {
+            this.key = key;
+            this.value = value;
         }
     }
 }

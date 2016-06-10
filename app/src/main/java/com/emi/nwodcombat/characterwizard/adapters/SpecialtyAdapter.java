@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.realm.Entry;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;
@@ -27,7 +29,6 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.View
     private RealmList<Entry> specialties;
 
     public SpecialtyAdapter(RealmList<Entry> specialties, Activity activity, int idLayout, Bus bus) {
-//        super (activity, specialties, automaticUpdate, animateIdType);
         this.specialties = specialties;
         this.activity = activity;
         this.idLayout = idLayout;
@@ -42,10 +43,17 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Entry specialty = specialties.get(position);
-//        final Long id = specialty.getId();
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        final Entry specialty = specialties.get(position);
+
         viewHolder.rowSpecialtyName.setText(specialty.getValue());
+
+        viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bus.post(new Events.SpecialtyTapped(specialty.getKey(), specialty.getValue()));
+            }
+        });
     }
 
     @Override
@@ -55,6 +63,7 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.View
 
     public class ViewHolder extends RealmViewHolder {
         @Bind(R.id.rowSpecialtyName) TextView rowSpecialtyName;
+        @Bind(R.id.btnDelete) ImageButton btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);

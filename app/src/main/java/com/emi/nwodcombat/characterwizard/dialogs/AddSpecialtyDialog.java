@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.BusProvider;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
+import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,7 +73,7 @@ public class AddSpecialtyDialog extends DialogFragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    String specialtyName = editSpecialtyName.getText().toString();
+                    String specialtyName = editSpecialtyName.getText().toString().trim();
 
                     // TODO Create override for cheating here
                     if (model.getSpecialties(key).size() < Constants.SKILL_SPECIALTIES_STARTING) {
@@ -94,9 +94,7 @@ public class AddSpecialtyDialog extends DialogFragment {
 
                     addSpecialty(specialtyName);
 
-                    if (specialtyAdapter.getItemCount() > 0) {
-                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-                    }
+                    toggleRV();
 
                     return false;
                 }
@@ -108,7 +106,7 @@ public class AddSpecialtyDialog extends DialogFragment {
 
         alertDialogBuilder.setView(root);
 
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 performDialogClosing();
@@ -120,15 +118,25 @@ public class AddSpecialtyDialog extends DialogFragment {
 
         dialog = alertDialogBuilder.create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                positive.setEnabled(false);
-            }
-        });
+//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialogInterface) {
+//                Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//                positive.setEnabled(false);
+//            }
+//        });
+
+        toggleRV();
 
         return dialog;
+    }
+
+    private void toggleRV() {
+        if (specialtyAdapter.getItemCount() > 0) {
+            rvDialogSpecialties.setVisibility(View.VISIBLE);
+        } else {
+            rvDialogSpecialties.setVisibility(View.GONE);
+        }
     }
 
     private void performDialogClosing() {
@@ -153,4 +161,24 @@ public class AddSpecialtyDialog extends DialogFragment {
         return R.layout.dialog_new_specialty;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        BusProvider.unregister(this);
+        super.onPause();
+    }
+
+    @Subscribe
+    public void onSpecialtyTapped(Events.SpecialtyTapped event) {
+        model.removeSpecialty(key, event.value);
+
+        toggleRV();
+
+        specialtyAdapter.notifyDataSetChanged();
+    }
 }

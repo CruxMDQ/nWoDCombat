@@ -115,7 +115,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         // TODO Code dialog for capturing specialty name here
         String specialtyName = "some name";
 
-        bus.post(new Events.SpecialtyTapped(isChecked, constant, category, specialtyName));
+        bus.post(new Events.SpecialtyClicked(isChecked, constant, category, specialtyName));
     }
 
     @OnClick(R.id.titleSkillsMental)

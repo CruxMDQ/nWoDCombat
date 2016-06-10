@@ -10,8 +10,17 @@
         android:text="Name:"
         android:layout_marginRight="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
         android:gravity="center"/>
 
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:background="@android:color/white"
+        android:id="@+id/btnDelete"
+        android:src="@drawable/delete_small"
+        android:tint="@android:color/darker_gray" />
 </LinearLayout>

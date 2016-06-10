@@ -505,17 +505,6 @@ public class CharacterWizardModel {
         return null;
     }
 
-    public void removeSpecialty(String key) {
-        for (Entry entry : character.getEntries()) {
-            if (entry.getKey() != null &&
-                entry.getKey().equalsIgnoreCase(key)) {
-
-                entry.setSecondaryData(null);
-                break;
-            }
-        }
-    }
-
     public void removeSpecialty(String key, String specialty) {
         for (Entry entry : character.getEntries()) {
             if (entry.getKey() != null &&
@@ -524,8 +513,8 @@ public class CharacterWizardModel {
                 Entry entryToRemove = null;
 
                 for (Entry extra : entry.getExtras()) {
-                    if (extra.getKey() != null
-                        && extra.getKey().equalsIgnoreCase(specialty)) {
+                    if (extra.getValue() != null
+                        && extra.getValue().equalsIgnoreCase(specialty)) {
                         entryToRemove = extra;
                         break;
                     }

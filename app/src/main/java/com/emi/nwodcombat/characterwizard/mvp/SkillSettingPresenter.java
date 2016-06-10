@@ -95,7 +95,7 @@ public class SkillSettingPresenter {
 
 
     @Subscribe
-    public void onSpecialtyTapped(Events.SpecialtyTapped event) {
+    public void onSpecialtyTapped(Events.SpecialtyClicked event) {
         AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance(
             context.getString(R.string.dialog_specialty_title), event.key, model);
         dialog.show(view.getFragmentManager(), dialog.getClass().toString());
