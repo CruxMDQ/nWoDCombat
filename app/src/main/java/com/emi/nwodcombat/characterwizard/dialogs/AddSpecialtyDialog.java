@@ -94,7 +94,7 @@ public class AddSpecialtyDialog extends DialogFragment {
 
                     addSpecialty(specialtyName);
 
-                    toggleRV();
+                    performDialogClosing();
 
                     return false;
                 }

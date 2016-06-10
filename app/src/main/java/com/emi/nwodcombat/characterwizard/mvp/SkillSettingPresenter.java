@@ -93,7 +93,6 @@ public class SkillSettingPresenter {
         return 0;
     }
 
-
     @Subscribe
     public void onSpecialtyTapped(Events.SpecialtyClicked event) {
         AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance(
@@ -149,21 +148,25 @@ public class SkillSettingPresenter {
     public void onSpecialtyDialogClosing(Events.SpecialtyDialogClosing event) {
         RealmList<Entry> specialties = model.getSpecialties(event.key);
 
-        StringBuilder builder = new StringBuilder();
+        if (specialties.size() > 0) {
+            StringBuilder builder = new StringBuilder();
 
-        Iterator iterator = specialties.iterator();
+            Iterator iterator = specialties.iterator();
 
-        while (iterator.hasNext()) {
-            Entry specialty = (Entry) iterator.next();
+            while (iterator.hasNext()) {
+                Entry specialty = (Entry) iterator.next();
 
-            builder.append(specialty.getValue());
+                builder.append(specialty.getValue());
 
-            if (iterator.hasNext()) {
-                builder.append(", ");
+                if (iterator.hasNext()) {
+                    builder.append(", ");
+                }
             }
-        }
 
-        view.setSkillText(event.key, builder.toString());
+            view.setSkillText(event.key, builder.toString());
+        } else {
+            view.setSkillText(event.key, null);
+        }
         view.updateStarButton(event.key, specialties.size() > 0);
     }
 
