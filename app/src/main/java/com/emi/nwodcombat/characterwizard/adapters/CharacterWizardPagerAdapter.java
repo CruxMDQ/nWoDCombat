@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.characterwizard;
+package com.emi.nwodcombat.characterwizard.adapters;
 
 
 import android.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.utils;
+package com.emi.nwodcombat.tools;
 
 /**
  * Created by Emi on 2/18/16.
@@ -113,6 +113,7 @@ public class Constants {
     public static final String TRAIT_DERIVED_WILLPOWER = "Willpower";
 
     public static final int NO_OPTION_SELECTED = -1;
+    public static final int SKILL_SPECIALTIES_STARTING = 3;
     public static final int TRAIT_MORALITY_DEFAULT = 7;
     public static final int TRAIT_SIZE_DEFAULT = 5;
 
@@ -131,4 +132,7 @@ public class Constants {
     public static final String TITLE_STEP_PERSONAL_INFO = "Personal info";
     public static final String TITLE_STEP_POINTS_SET = "Distribute points";
 
+    public static final String SKILL_SPECIALTY = "Skill specialty";
+    public static final String SKILL_SPECIALTY_EMPTY = "has no specialties";
+    public static final String SKILL_SPECIALTY_LOADED = "has specialties";
 }

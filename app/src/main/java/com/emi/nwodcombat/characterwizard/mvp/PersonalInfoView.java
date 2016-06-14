@@ -14,8 +14,8 @@ import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;
@@ -40,9 +40,10 @@ public class PersonalInfoView extends FragmentView {
         super(fragment);
         this.bus = instance;
         ButterKnife.bind(this, fragment.getView());
+        setUpTextWatcher();
     }
 
-    public void setUpTextWatcher() {
+    private void setUpTextWatcher() {
         editConcept.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -83,14 +84,19 @@ public class PersonalInfoView extends FragmentView {
         });
     }
 
-    public void setupTestData() {
-        if (Constants.MODE_TEST) {
-            editName.setText(R.string.test_info_name);
-            editConcept.setText(R.string.test_info_concept);
-            editPlayer.setText(R.string.default_step_personal_info_player);
-        }
+    public void setName(String name)  {
+        editName.setText(name);
     }
 
+    public void setConcept(String concept)  {
+        editConcept.setText(concept);
+    }
+
+    public void setPlayer(String player)  {
+        editPlayer.setText(player);
+    }
+
+    // TODO model is the one who knows if steps are complete
     public boolean performStepCompletionCycle() {
         boolean complete = checkCompletionConditions();
 
@@ -112,6 +118,7 @@ public class PersonalInfoView extends FragmentView {
     }
 
     private void saveStepValues() {
+        //TODO this looks very odd to me, why three post instead of just one?
         bus.post(new Events.TextEntryChanged(Constants.CHARACTER_CONCEPT,
             Constants.FIELD_TYPE_STRING, editConcept.getText().toString()));
 

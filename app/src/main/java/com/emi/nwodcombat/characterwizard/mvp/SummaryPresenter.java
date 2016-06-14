@@ -2,7 +2,7 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.content.Context;
 
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -17,8 +17,7 @@ public class SummaryPresenter {
         this.model = model;
         this.view = view;
         this.context = this.view.getContext();
-//        setupWidgets();
-//        populateView();
+        populateView();
     }
 
     @Subscribe
@@ -33,6 +32,7 @@ public class SummaryPresenter {
         view.setSkillSummaryMental(model.getMentalSkillsSummary());
         view.setSkillSummaryPhysical(model.getPhysicalSkillsSummary());
         view.setSkillSummarySocial(model.getSocialSkillsSummary());
+        view.setSkillSummarySpecialties(model.getSpecialtiesSummary());
 
         view.setDefense(model.calculateDefense());
         view.setHealth(model.calculateHealth());

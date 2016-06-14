@@ -1,8 +1,6 @@
 package com.emi.nwodcombat.characterlist;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,7 @@ import com.emi.nwodcombat.characterlist.mvp.CharacterListModel;
 import com.emi.nwodcombat.characterlist.mvp.CharacterListPresenter;
 import com.emi.nwodcombat.characterlist.mvp.CharacterListView;
 import com.emi.nwodcombat.persistence.RealmHelper;
-import com.emi.nwodcombat.utils.BusProvider;
+import com.emi.nwodcombat.tools.BusProvider;
 
 /**
  * Created by emiliano.desantis on 28/03/2016.

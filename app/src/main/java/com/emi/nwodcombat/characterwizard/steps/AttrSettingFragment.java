@@ -1,19 +1,16 @@
 package com.emi.nwodcombat.characterwizard.steps;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.AttrSettingPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.AttrSettingView;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
-import com.emi.nwodcombat.utils.BusProvider;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.BusProvider;
+import com.emi.nwodcombat.tools.Constants;
+import com.squareup.otto.Bus;
 
-public class AttrSettingFragment extends PagerFragment
-{
+public class AttrSettingFragment extends PagerFragment {
     private AttrSettingPresenter presenter;
 
     @Override
@@ -23,8 +20,9 @@ public class AttrSettingFragment extends PagerFragment
     }
 
     private void createPresenter() {
+        Bus bus = BusProvider.getInstance();
         presenter = new AttrSettingPresenter(new CharacterWizardModel(getActivity()),
-            new AttrSettingView(this, BusProvider.getInstance()));
+                new AttrSettingView(this, bus), bus);
     }
 
     @Override
@@ -38,11 +36,6 @@ public class AttrSettingFragment extends PagerFragment
     public void onPause() {
         BusProvider.unregister(presenter);
         super.onPause();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(getLayout(), container, false);
     }
 
     @Override

@@ -29,9 +29,7 @@ public class CharacterWizardView extends FragmentView {
         super(fragment);
         this.bus = instance;
         ButterKnife.bind(this, fragment.getView());
-
         disablePagerSwitchOnSwiping();
-
         btnPrevious.setEnabled(true);
     }
 
@@ -58,28 +56,11 @@ public class CharacterWizardView extends FragmentView {
     @SuppressWarnings("ConstantConditions")
     public void pagerGoForward() {
         pager.setCurrentItem(pager.getCurrentItem() + 1);
-
-        // Get last page
-        int lastPage = pager.getAdapter().getCount() - 1;
-
-        // Change button label depending on where on the wizard we are
-        if (pager.getCurrentItem() == lastPage) {
-            btnNext.setText(getActivity().getString(R.string.button_finish));
-        } else {
-            btnNext.setText(getActivity().getString(R.string.button_next));
-        }
     }
 
     @SuppressWarnings("ConstantConditions")
-    public void pagerGoBackwards(int currentItem) {
-        // If this is not the first page, go back one step
-        if (currentItem != 0) {
-            pager.setCurrentItem(pager.getCurrentItem() - 1);
-            btnNext.setText(getActivity().getString(R.string.button_next));
-        } else {
-            // If yes, then remove the fragment altogether from the view
-            getFragmentManager().popBackStack();
-        }
+    public void pagerGoBackwards() {
+        pager.setCurrentItem(pager.getCurrentItem() - 1);
     }
 
     public void setAdapter(PagerAdapter adapter) {
@@ -92,6 +73,10 @@ public class CharacterWizardView extends FragmentView {
 
     public void setNextLabel(String label) {
         btnNext.setText(label);
+    }
+
+    public void setPreviousLabel(String label) {
+        btnPrevious.setText(label);
     }
 
     public static class WizardProgressEvent {

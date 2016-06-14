@@ -14,7 +14,7 @@ import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.model.pojos.Rule;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;

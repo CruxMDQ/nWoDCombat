@@ -21,6 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/spring.handlers'
+        exclude 'META-INF/spring.schemas'
+        exclude 'META-INF/spring.tooling'
+    }
 }
 
 dependencies {
@@ -37,6 +45,7 @@ dependencies {
     compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
     compile "io.realm:android-adapters:$rootProject.ext.realmAdaptersVersion"
+    compile "org.easyrules:easyrules-spring:$rootProject.ext.easyRulesVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

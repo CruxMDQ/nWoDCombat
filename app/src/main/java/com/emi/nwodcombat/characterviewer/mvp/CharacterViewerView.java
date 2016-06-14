@@ -17,8 +17,8 @@ import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.utils.Constants;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
@@ -174,6 +174,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     @Override
     public void onTraitChanged(int value, String constant, String category) {
         bus.post(new Events.ValueChanged((value > 0), constant, category));
+    }
+
+    @Override
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
+
     }
 
     // Triggered when experience increases via tapping of the 'plus' button on the view

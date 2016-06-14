@@ -5,4 +5,5 @@ package com.emi.nwodcombat.charactercreator.interfaces;
  */
 public interface OnTraitChangedListener {
     void onTraitChanged(int value, String constant, String category);
+    void onSpecialtyTapped(boolean isChecked, String constant, String category);
 }

@@ -16,7 +16,7 @@ import com.emi.nwodcombat.combat.adapters.RadioAdapter;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.interfaces.OnChoicePickedListener;
 import com.emi.nwodcombat.model.pojos.Rule;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 

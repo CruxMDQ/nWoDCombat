@@ -25,7 +25,7 @@ import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 import com.google.gson.Gson;
 
 import java.util.HashMap;

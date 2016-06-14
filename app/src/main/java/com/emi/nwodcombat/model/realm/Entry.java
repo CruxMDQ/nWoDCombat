@@ -1,5 +1,6 @@
 package com.emi.nwodcombat.model.realm;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -8,12 +9,18 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Entry extends RealmObject {
+
     @PrimaryKey
     private long id;
 
     private String key;
     private String value;
     private String type;
+    private RealmList<Entry> extras;
+
+    public static Entry newInstance() {
+        return new Entry();
+    }
 
     public long getId() {
         return id;
@@ -59,4 +66,13 @@ public class Entry extends RealmObject {
         this.value = String.valueOf(integer);
         return this;
     }
+
+    public RealmList<Entry> getExtras() {
+        return extras;
+    }
+
+    public void setExtras(RealmList<Entry> extras) {
+        this.extras = extras;
+    }
+
 }

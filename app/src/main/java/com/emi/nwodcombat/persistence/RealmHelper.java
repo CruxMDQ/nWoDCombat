@@ -14,7 +14,7 @@ import com.emi.nwodcombat.model.realm.wrappers.DemeanorTrait;
 import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 
 import java.util.List;
 
@@ -201,7 +201,11 @@ public class RealmHelper implements PersistenceLayer {
     public void addEntry(Long characterId, String key, String type, String value) {
         Character characterToUpdate = get(Character.class, characterId);
 
-        Entry entry = new Entry().setKey(key).setType(type).setValue(value);
+        Entry entry = Entry.newInstance()
+            .setKey(key)
+            .setType(type)
+            .setValue(value);
+
         entry.setId(getLastId(Entry.class));
 
         realm.beginTransaction();

@@ -12,7 +12,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerMaster;
 import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.HashMap;
@@ -159,6 +159,11 @@ public class AttrSettingStep extends WizardStep implements OnTraitChangedListene
 //        characterCreatorHelper.putInt(widget.getContentDescription().toString(), widget.getCurrentValue());
 //
 //        checkCompletionConditions();
+    }
+
+    @Override
+    public void onSpecialtyTapped(boolean isChecked, String constant, String category) {
+
     }
 
     public boolean hasLeftoverPoints() {

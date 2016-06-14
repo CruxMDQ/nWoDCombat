@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.utils;
+package com.emi.nwodcombat.tools;
 
 /**
  * Created by emiliano.desantis on 18/05/2016.
@@ -127,4 +127,35 @@ public class Events {
         public WizardClose() { }
     }
 
+    public static class SpecialtyClicked {
+        public boolean isChecked;
+        public String key;
+        public String category;
+        public String specialtyName;
+
+        public SpecialtyClicked(boolean isChecked, String key, String category, String specialtyName) {
+            this.category = category;
+            this.isChecked = isChecked;
+            this.key = key;
+            this.specialtyName = specialtyName;
+        }
+    }
+
+    public static class SpecialtyDialogClosing {
+        public String key;
+
+        public SpecialtyDialogClosing(String key) {
+            this.key = key;
+        }
+    }
+
+    public static class SpecialtyTapped {
+        public String key;
+        public String value;
+
+        public SpecialtyTapped(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
 }

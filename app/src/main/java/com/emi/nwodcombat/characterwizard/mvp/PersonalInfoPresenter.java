@@ -2,6 +2,7 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.content.Context;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
@@ -10,7 +11,8 @@ import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
-import com.emi.nwodcombat.utils.Events;
+import com.emi.nwodcombat.tools.Constants;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Subscribe;
 
 import io.realm.RealmResults;
@@ -31,7 +33,7 @@ public class PersonalInfoPresenter {
 
     private VirtuesAdapter virtuesAdapter;
 
-    public PersonalInfoPresenter(Context context, CharacterWizardModel model, PersonalInfoView view) {
+    public PersonalInfoPresenter(CharacterWizardModel model, PersonalInfoView view) {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
@@ -44,8 +46,15 @@ public class PersonalInfoPresenter {
         setupVicesSpinner();
         setupVirtuesSpinner();
 
-        view.setUpTextWatcher();
-        view.setupTestData();
+        setupTestData();
+    }
+
+    public void setupTestData() {
+        if (Constants.MODE_TEST) {
+            view.setName(context.getString(R.string.test_info_name));
+            view.setConcept(context.getString(R.string.test_info_concept));
+            view.setPlayer(context.getString(R.string.default_step_personal_info_player));
+        }
     }
 
     public void setupDemeanorsSpinner() {

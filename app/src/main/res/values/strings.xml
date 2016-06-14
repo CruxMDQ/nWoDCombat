@@ -14,6 +14,7 @@
     <string name="title_attributes">Attributes</string>
     <string name="title_skills">Skills</string>
     <string name="title_traits_derived">Derived traits</string>
+    <string name="title_merits">Merits</string>
 
     <string name="dialog_attacker_pool">Attacker\'s dice pool is %s.</string>
     <string name="dialog_attacker_pool_rerolls" formatted="false">Attacker\'s dice pool is %s, rerolling all %ss or better.</string>
@@ -24,6 +25,7 @@
 
     <!-- Error messages -->
     <string name="error_message_context_null" translatable="false">Context is null!</string>
+    <string name="error_specialty_exists">A specialty with this name already exists for this skill!</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -60,6 +62,8 @@
     <string name="cat_primary_suffix">Primary</string>
     <string name="cat_secondary_suffix">Secondary</string>
     <string name="cat_tertiary_suffix">Tertiary</string>
+
+    <string name="cat_specialties">Specialties</string>
 
     <!--Mental skills-->
     <string name="skill_academics">Academics</string>
@@ -109,6 +113,7 @@
     <string name="hint_tap_to_select">Tap to select</string>
     <string name="hint_step_personal_info_name">Name</string>
     <string name="hint_step_personal_info_player">Player</string>
+    <string name="hint_type_specialty_name">Type specialty name here</string>
     <string name="default_step_personal_info_player">Storyteller</string>
     <string name="hint_step_personal_info_concept">Concept</string>
     <string name="label_step_personal_info_virtue">Virtue:</string>
@@ -276,7 +281,9 @@
     <string name="personality_regain_one_visionary">Help someone by sharing your vision with them.</string>
     <string name="personality_regain_all_visionary">Put yourself at risk to show a group the power of your vision.</string>
     <string name="alert_title">Alert</string>
-    <string name="no_characters">No Characters</string>
+    <string name="rv_characters_notice_empty">No characters have been yet created.\n\nUse the character creator wizard to build one.</string>
+    <string name="rv_merits_notice_empty">No merits\n\nTap to choose</string>
+    <string name="rv_specialties_notice_empty">No specialties</string>
 
     <string name="label_experience">Experience</string>
 
@@ -290,4 +297,7 @@
     <string name="skill_mental">Mental skill</string>
     <string name="skill_physical">Physical skill</string>
     <string name="skill_social">Social skill</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="dialog_specialty_title">Add new specialty</string>
+    <string name="error_specialty_limit_reached">Character already has 3 specialties!</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -17,27 +16,28 @@ import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.tools.ArrayHelper;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 12/05/2016.
  */
 public class CharacterWizardModel {
-    private Activity activity;
+    private Context context;
     private RealmHelper helper;
     private SharedPreferences preferences;
 
     public static Character character = new Character();
 
-    public CharacterWizardModel(Activity activity) {
-        this.activity = activity;
-        helper = RealmHelper.getInstance(this.activity);
+    public CharacterWizardModel(Context context) {
+        this.context = context;
+        helper = RealmHelper.getInstance(this.context);
     }
 
     public RealmResults<Virtue> getVirtues() {
@@ -66,7 +66,7 @@ public class CharacterWizardModel {
      */
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = activity.getSharedPreferences(Constants.TAG_SHARED_PREFS,
+            preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS,
                 Context.MODE_PRIVATE);
         }
         return preferences;
@@ -160,12 +160,10 @@ public class CharacterWizardModel {
     }
 
     public Entry addOrUpdateEntry(String key, String type, String value) {
-        Entry entry = new Entry()
+        Entry entry = Entry.newInstance()
             .setKey(key)
             .setType(type)
             .setValue(value);
-
-        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -180,8 +178,11 @@ public class CharacterWizardModel {
         return entry;
     }
 
-    public Entry addOrUpdateEntry(Entry entry) {
-        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
+    public Entry addOrUpdateEntry(String key, Integer change) {
+        Entry entry = Entry.newInstance()
+            .setKey(key)
+            .setType(Constants.FIELD_TYPE_INTEGER)
+            .setValue(change);
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -231,7 +232,7 @@ public class CharacterWizardModel {
     private int getPointsSpent(int idArray, int takeawayValue, int defaultValue) {
         int result = 0 - takeawayValue;
 
-        for (String skill : activity.getResources().getStringArray(idArray)) {
+        for (String skill : context.getResources().getStringArray(idArray)) {
             result += findEntryValue(skill, defaultValue);
         }
 
@@ -376,6 +377,38 @@ public class CharacterWizardModel {
         return getStatBlock(entries);
     }
 
+    public String getSpecialtiesSummary() {
+        StringBuilder builder = new StringBuilder();
+        /**
+         * Pseudocode:
+         * - Iterate through skills
+         * - If skill has a specialty:
+         * ---> If there was an entry already on the string builder, add a comma
+         * ---> Add skill name
+         * ---> Add skill specialty between parenthesis
+         */
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getExtras() != null) {
+                for (Entry extra : entry.getExtras()) {
+                    // If skill has specialties
+                    if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+
+                        // If there was an entry already on the string builder, add a comma
+                        if (builder.length() != 0) {
+                            builder.append(", ");
+                        }
+
+                        // Add skill name and specialty between parentheses
+                        builder.append(String.format("%s (%s)", entry.getKey(), extra.getValue()));
+                    }
+                }
+            }
+        }
+
+        return builder.toString();
+    }
+
     private String getStatBlock(ArrayList<Entry> stats) {
         StringBuilder builder = new StringBuilder();
 
@@ -384,8 +417,8 @@ public class CharacterWizardModel {
         while (iterator.hasNext()) {
             Entry entry = iterator.next();
 
-            if (entry.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER) &&
-                Integer.valueOf(entry.getValue()) > 0) {
+            if (entry != null && entry.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER)
+                    && Integer.valueOf(entry.getValue()) > 0) {
                 builder.append(entry.getKey());
                 builder.append(" ");
                 builder.append(String.valueOf(entry.getValue()));
@@ -403,6 +436,8 @@ public class CharacterWizardModel {
         addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER, String.valueOf(0));
 
         character.setId(helper.getLastId(Character.class));
+
+        setEntryIDs();
 
         helper.save(character);
 
@@ -464,5 +499,128 @@ public class CharacterWizardModel {
                 String.valueOf(willpower));
 
         return willpower;
+    }
+
+    public Entry addSpecialty(String key, String specialtyName) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry specialty = Entry.newInstance();
+                specialty.setKey(Constants.SKILL_SPECIALTY);
+                specialty.setType(Constants.FIELD_TYPE_STRING);
+                specialty.setValue(specialtyName);
+
+                // Specialty ID fields are only set when the character is saved
+//                specialty.setId(helper.getLastId(Entry.class), character.getEntries().size());
+
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
+
+                entry.getExtras().add(specialty);
+//                entry.setSecondaryData(specialty);
+
+                return specialty;
+            }
+        }
+        return null;
+    }
+
+    public void removeSpecialty(String key, String specialty) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry entryToRemove = null;
+
+                for (Entry extra : entry.getExtras()) {
+                    if (extra.getValue() != null
+                        && extra.getValue().equalsIgnoreCase(specialty)) {
+                        entryToRemove = extra;
+                        break;
+                    }
+                }
+
+                if (entryToRemove != null) {
+                    entry.getExtras().remove(entryToRemove);
+                }
+
+                break;
+            }
+        }
+    }
+
+    public RealmList<Entry> getAllSpecialties() {
+        RealmList<Entry> specialties = new RealmList<>();
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getExtras() != null) {
+                for (Entry extra : entry.getExtras()) {
+                    // If skill has specialties
+                    if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+                        specialties.add(extra);
+                    }
+                }
+            }
+        }
+
+        return specialties;
+    }
+
+    public RealmList<Entry> getSpecialties(String key) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
+
+                return entry.getExtras();
+            }
+        }
+        return null;
+    }
+
+    public int countSpecialties() {
+        int result = 0;
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null) {
+                if (entry.getExtras() != null) {
+                    for (Entry extra : entry.getExtras()) {
+                        if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+                            result++;
+                        }
+                    }
+                }
+            }
+        }
+
+//        for (Entry entry : character.getEntries()) {
+//            if (entry.getSecondaryData() != null &&
+//                entry.getSecondaryData().getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+//                result++;
+//            }
+//        }
+
+        return result;
+    }
+
+    private void setEntryIDs() {
+        RealmList<Entry> entries = new RealmList<>();
+
+        entries.addAll(character.getEntries());
+
+        entries.addAll(getAllSpecialties());
+
+        long lastId = helper.getLastId(Entry.class);
+
+        for (int i = 0; i < entries.size(); i++) {
+            Entry entry = entries.get(i);
+
+            entry.setId(i + lastId);
+        }
     }
 }

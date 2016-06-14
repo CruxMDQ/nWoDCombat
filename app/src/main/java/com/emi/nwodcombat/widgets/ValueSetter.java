@@ -6,23 +6,25 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
-import com.emi.nwodcombat.interfaces.ExperienceSpender;
 import com.emi.nwodcombat.model.realm.Entry;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 /**
  * Created by Emi on 3/1/16.
  */
-public class ValueSetter extends LinearLayout implements ExperienceSpender {
+public class ValueSetter extends LinearLayout {
     private static SharedPreferences preferences;
     private boolean showEditionPanel;
 
@@ -31,6 +33,10 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
     @Bind(R.id.panelEdition) LinearLayout panelEdition;
     @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
     @Bind(R.id.btnValueIncrease) Button btnValueIncrease;
+
+    @Bind(R.id.btnSpecialty) Button btnSpecialty;
+    @Bind(R.id.chkSpecialty) CheckBox chkSpecialty;
+    @Bind(R.id.chkTemplateSpecial) CheckBox chkTemplateSpecial;
 
     private String valueName;
     private String traitCategory;
@@ -81,6 +87,7 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
                     sendValueChange(change, condition);
                 }
             });
+
             btnValueIncrease.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,6 +134,11 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
 
     public void setValueName(String valueName) {
         this.valueName = valueName;
+    }
+
+    public void setLabel(String label) {
+        this.valueName = label;
+        lblValue.setText(label);
     }
 
     public String getValueName() {
@@ -211,7 +223,6 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
         }
     }
 
-    @Override
     public void onCharacterExperienceChanged(int experiencePool) {
         showEditionPanel();
         if (experiencePool >= pointCost) {
@@ -232,5 +243,59 @@ public class ValueSetter extends LinearLayout implements ExperienceSpender {
     public void setValue(int value) {
         currentValue = value;
         refreshPointsPanel();
+    }
+
+    @OnCheckedChanged(R.id.chkSpecialty)
+    void onSpecialtyChecked() {
+        listener.onSpecialtyTapped(chkSpecialty.isChecked(),
+            ValueSetter.this.getContentDescription().toString(),
+            ValueSetter.this.getTraitCategory());
+    }
+
+    public void enableSpecialtyCheckbox(boolean isEnabled) {
+        if (isEnabled) {
+            chkSpecialty.setVisibility(VISIBLE);
+        } else {
+            chkSpecialty.setVisibility(GONE);
+        }
+    }
+
+    public boolean isSpecialtyEnabled() {
+        return btnSpecialty.isEnabled();
+//        return chkSpecialty.isEnabled();
+    }
+
+    public boolean hasSpecialtiesLoaded() {
+        return btnSpecialty.getContentDescription().toString().equalsIgnoreCase(
+            Constants.SKILL_SPECIALTY_LOADED);
+//        return chkSpecialty.isChecked();
+    }
+
+    public void setSpecialtyChecked(boolean isChecked) {
+        chkSpecialty.setChecked(isChecked);
+    }
+
+    @OnClick(R.id.btnSpecialty)
+    void onSpecialtyClicked() {
+        listener.onSpecialtyTapped(buttonHasSpecialties(),
+            ValueSetter.this.getContentDescription().toString(),
+            ValueSetter.this.getTraitCategory());
+    }
+
+    private boolean buttonHasSpecialties() {
+        return btnSpecialty.getContentDescription() != null && btnSpecialty.getContentDescription().equals(
+            Constants.SKILL_SPECIALTY_LOADED);
+    }
+
+    public void enableSpecialtyButton(boolean isEnabled) {
+        if (isEnabled) {
+            btnSpecialty.setVisibility(VISIBLE);
+        } else {
+            btnSpecialty.setVisibility(GONE);
+        }
+    }
+
+    public void changeSpecialtyButtonBackground(int resId, String contentDescription) {
+        btnSpecialty.setBackgroundResource(resId);
     }
 }

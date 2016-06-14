@@ -11,14 +11,34 @@
         android:id="@+id/lblValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="7"
-        android:text="Value"/>
+        android:layout_weight="12"
+        android:text="Value\nValue"/>
+
+    <!-- TODO Implement this instead of the checkbox in the future -->
+    <Button
+        android:id="@+id/btnSpecialty"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/star_outline"
+        android:visibility="gone"/>
+
+    <CheckBox
+        android:id="@+id/chkSpecialty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <CheckBox
+        android:id="@+id/chkTemplateSpecial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/panelValue"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_weight="14"
         android:gravity="center_vertical"
         android:orientation="horizontal">
     </LinearLayout>

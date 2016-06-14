@@ -17,7 +17,7 @@ import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.RealmHelper;
 import com.emi.nwodcombat.tools.ArrayHelper;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 
 import java.util.NoSuchElementException;
 
@@ -79,7 +79,6 @@ public class CharacterViewerModel {
 
     public void updateDemeanorTrait(Long characterId, Demeanor demeanor) {
 
-        // This object will be posted for handling by the model
         DemeanorTrait demeanorTrait = new DemeanorTrait();
 
         demeanorTrait.setType(Constants.CHARACTER_DEMEANOR);
@@ -178,12 +177,10 @@ public class CharacterViewerModel {
     }
 
     public Entry addOrUpdateEntry(String key, String type, String value) {
-        Entry entry = new Entry()
+        Entry entry = Entry.newInstance()
             .setKey(key)
             .setType(type)
             .setValue(value);
-
-        entry.setId(helper.getCount(Entry.class), character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {

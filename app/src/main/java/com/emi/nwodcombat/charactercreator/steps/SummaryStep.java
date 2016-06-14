@@ -21,7 +21,7 @@ import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.RealmHelper;
-import com.emi.nwodcombat.utils.Constants;
+import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.widgets.ValueSetter;
 
 import java.util.ArrayList;
