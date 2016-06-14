@@ -160,12 +160,10 @@ public class CharacterWizardModel {
     }
 
     public Entry addOrUpdateEntry(String key, String type, String value) {
-        Entry entry = new Entry()
+        Entry entry = Entry.newInstance()
             .setKey(key)
             .setType(type)
             .setValue(value);
-
-        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -181,9 +179,10 @@ public class CharacterWizardModel {
     }
 
     public Entry addOrUpdateEntry(String key, Integer change) {
-        Entry entry = new Entry().setKey(key).setType(Constants.FIELD_TYPE_INTEGER).setValue(change);
-
-        entry.setId(helper.getLastId(Entry.class), character.getEntries().size());
+        Entry entry = Entry.newInstance()
+            .setKey(key)
+            .setType(Constants.FIELD_TYPE_INTEGER)
+            .setValue(change);
 
         for (Entry t : character.getEntries()) {
             if (t.getKey().equals(entry.getKey())) {
@@ -438,6 +437,8 @@ public class CharacterWizardModel {
 
         character.setId(helper.getLastId(Character.class));
 
+        setEntryIDs();
+
         helper.save(character);
 
         setupNewCharacter();
@@ -505,11 +506,13 @@ public class CharacterWizardModel {
             if (entry.getKey() != null &&
                 entry.getKey().equalsIgnoreCase(key)) {
 
-                Entry specialty = new Entry();
-                specialty.setId(helper.getLastId(Entry.class), character.getEntries().size());
+                Entry specialty = Entry.newInstance();
                 specialty.setKey(Constants.SKILL_SPECIALTY);
                 specialty.setType(Constants.FIELD_TYPE_STRING);
                 specialty.setValue(specialtyName);
+
+                // Specialty ID fields are only set when the character is saved
+//                specialty.setId(helper.getLastId(Entry.class), character.getEntries().size());
 
                 if (entry.getExtras() == null) {
                     entry.setExtras(new RealmList<Entry>());
@@ -546,6 +549,23 @@ public class CharacterWizardModel {
                 break;
             }
         }
+    }
+
+    public RealmList<Entry> getAllSpecialties() {
+        RealmList<Entry> specialties = new RealmList<>();
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getExtras() != null) {
+                for (Entry extra : entry.getExtras()) {
+                    // If skill has specialties
+                    if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+                        specialties.add(extra);
+                    }
+                }
+            }
+        }
+
+        return specialties;
     }
 
     public RealmList<Entry> getSpecialties(String key) {
@@ -588,4 +608,19 @@ public class CharacterWizardModel {
         return result;
     }
 
+    private void setEntryIDs() {
+        RealmList<Entry> entries = new RealmList<>();
+
+        entries.addAll(character.getEntries());
+
+        entries.addAll(getAllSpecialties());
+
+        long lastId = helper.getLastId(Entry.class);
+
+        for (int i = 0; i < entries.size(); i++) {
+            Entry entry = entries.get(i);
+
+            entry.setId(i + lastId);
+        }
+    }
 }

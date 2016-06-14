@@ -201,7 +201,11 @@ public class RealmHelper implements PersistenceLayer {
     public void addEntry(Long characterId, String key, String type, String value) {
         Character characterToUpdate = get(Character.class, characterId);
 
-        Entry entry = new Entry().setKey(key).setType(type).setValue(value);
+        Entry entry = Entry.newInstance()
+            .setKey(key)
+            .setType(type)
+            .setValue(value);
+
         entry.setId(getLastId(Entry.class));
 
         realm.beginTransaction();

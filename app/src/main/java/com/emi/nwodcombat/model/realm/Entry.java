@@ -9,7 +9,6 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Entry extends RealmObject {
-    private static long lastId = 0;
 
     @PrimaryKey
     private long id;
@@ -20,10 +19,7 @@ public class Entry extends RealmObject {
     private RealmList<Entry> extras;
 
     public static Entry newInstance() {
-        Entry entry = new Entry();
-        entry.setId(lastId);
-        lastId++;
-        return entry;
+        return new Entry();
     }
 
     public long getId() {
@@ -79,7 +75,4 @@ public class Entry extends RealmObject {
         this.extras = extras;
     }
 
-    public static void setLastId(long lastId) {
-        Entry.lastId = lastId;
-    }
 }
