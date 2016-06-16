@@ -21,6 +21,9 @@ import com.emi.nwodcombat.tools.Events.ViceChanged;
 import com.emi.nwodcombat.tools.Events.VirtueChanged;
 import com.squareup.otto.Subscribe;
 
+import java.util.Iterator;
+
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 import static com.emi.nwodcombat.tools.Events.CharacterDeleted;
@@ -79,8 +82,40 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
         view.setValues(queriedCharacter.getEntries());
 
+        setSpecialties();
+
         if (!model.isCheating()) {
             view.notifyExperienceSpenders(experiencePool);
+        }
+    }
+
+    private void setSpecialties() {
+        RealmList<Entry> skillsWithSpecialties = model.getAllSpecialties();
+
+        for (int i = 0; i < skillsWithSpecialties.size(); i++) {
+            Entry entry = skillsWithSpecialties.get(i);
+
+            if (skillsWithSpecialties.size() > 0) {
+                StringBuilder builder = new StringBuilder();
+
+                Iterator iterator = entry.getExtras().iterator();
+
+                while (iterator.hasNext()) {
+                    Entry specialty = (Entry) iterator.next();
+
+                    builder.append(specialty.getValue());
+
+                    if (iterator.hasNext()) {
+                        builder.append(", ");
+                    }
+                }
+
+                view.setValueLabel(entry.getKey(), builder.toString());
+
+                view.updateStarButton(entry.getKey(), skillsWithSpecialties.size() > 0);
+            } else {
+                view.setValueLabel(entry.getKey(), null);
+            }
         }
     }
 
@@ -121,10 +156,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         // Cycle through the list of objects and if the name matches that of the first item on the
         // corresponding list for the character, set it as the selection for the spinner
         Demeanor currentDemeanor = queriedCharacter.getDemeanorTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getDemeanor();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getDemeanor();
 
         for (int i = 0; i < model.getDemeanors().size(); i++) {
             Demeanor cycledDemeanor = demeanors.get(i);
@@ -148,10 +183,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     private void setNaturesSpinnerSelection(RealmResults<Nature> natures) {
         Nature currentNature = queriedCharacter.getNatureTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getNature();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getNature();
 
         for (int i = 0; i < model.getNatures().size(); i++) {
             Nature cycledNature = natures.get(i);
@@ -174,10 +209,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     private void setVicesSpinnerSelection(RealmResults<Vice> vices) {
         Vice currentVice = queriedCharacter.getViceTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getVice();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getVice();
 
         for (int i = 0; i < model.getVices().size(); i++) {
             Vice cycledVice = vices.get(i);
@@ -200,10 +235,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     private void setVirtuesSpinnerSelection(RealmResults<Virtue> virtues) {
         Virtue currentVirtue = queriedCharacter.getVirtueTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getVirtue();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getVirtue();
 
         for (int i = 0; i < virtues.size(); i++) {
             Virtue cycledVirtue = virtues.get(i);
@@ -249,7 +284,8 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         // Pass the updating operation straight out to the model for handling
 
         // Retrieve object based on spinner position
-        model.updateDemeanorTrait(queriedCharacter.getId(), demeanorsAdapter.getItem(event.position));
+        model.updateDemeanorTrait(queriedCharacter.getId(),
+            demeanorsAdapter.getItem(event.position));
     }
 
     @Subscribe

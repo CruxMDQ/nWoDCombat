@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,8 @@ import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +46,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     private final Bus bus;
 
     // This stores all the components that will increase or decrease the experience score
-    private ArrayList<ValueSetter> valueSetters = new ArrayList<>();
+    private Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;
@@ -242,7 +244,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     }
 
     void changeWidgetValue(String key, int value) {
-        for (ValueSetter vs : valueSetters) {
+        for (ValueSetter vs : valueSetters.values()) {
             if (vs.getContentDescription().equals(key)) {
                 vs.setValue(value);
 
@@ -252,7 +254,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     }
 
     void changeWidgetValue(String key, int value, int xpPool) {
-        for (ValueSetter vs : valueSetters) {
+        for (ValueSetter vs : valueSetters.values()) {
             if (vs.getContentDescription().equals(key)) {
                 vs.setValue(value);
 
@@ -348,7 +350,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
      * Method for triggering actions on all objects on the experienceSpenders watch list
      */
     public void notifyExperienceSpenders(int experiencePool) {
-        for (ValueSetter experienceSpender : valueSetters) {
+        for (ValueSetter experienceSpender : valueSetters.values()) {
             // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
             // I code this on an interface as opposed to simply adding a method to the widget?)
             experienceSpender.onCharacterExperienceChanged(experiencePool);
@@ -357,7 +359,10 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     public void setValues(RealmList<Entry> entries) {
         for (Entry entry : entries) {
-            for (ValueSetter setter : valueSetters) {
+//            ValueSetter setter = valueSetters.get(entry.getKey());
+//            setter.setCurrentValue(entry);
+
+            for (ValueSetter setter : valueSetters.values()) {
                 try {
                     if (entry.getKey()
                         .equalsIgnoreCase(setter.getContentDescription().toString())) {
@@ -376,14 +381,45 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
         setter.setContentDescription(skillName);
         setter.setTraitCategory(skillCategory);
-        valueSetters.add(setter);
+        valueSetters.put(skillName, setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             if (setter.getListener() != null) {
                 setter.toggleEditionPanel(isActive);
             }
         }
+    }
+
+    public void setValueLabel(String key, @Nullable String specialtyName) {
+        ValueSetter setter = valueSetters.get(key);
+
+        if (specialtyName != null) {
+            setter.setLabel(key + "\n(" + specialtyName + ")");
+        } else {
+            setter.setLabel(key);
+        }
+    }
+
+    public void updateStarButton(String key, boolean isChecked) {
+        ValueSetter setter = valueSetters.get(key);
+
+        if (isChecked) {
+            setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
+        } else {
+            setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
+        }
+
+//        for (ValueSetter setter : valueSetters.values()) {
+//            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+//                if (isChecked) {
+//                    setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
+//                } else {
+//                    setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
+//                }
+//                break;
+//            }
+//        }
     }
 }

@@ -21,6 +21,7 @@ import com.emi.nwodcombat.tools.Constants;
 
 import java.util.NoSuchElementException;
 
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -201,5 +202,17 @@ public class CharacterViewerModel {
         Integer experiencePool = getExperience();
 
         return experiencePool >= experienceCost;
+    }
+
+    public RealmList<Entry> getAllSpecialties() {
+        RealmList<Entry> skillsWithSpecialties = new RealmList<>();
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getExtras() != null && entry.getExtras().size() > 0) {
+                skillsWithSpecialties.add(entry);
+            }
+        }
+
+        return skillsWithSpecialties;
     }
 }
