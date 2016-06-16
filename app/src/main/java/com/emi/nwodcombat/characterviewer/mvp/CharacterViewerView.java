@@ -405,6 +405,8 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     public void updateStarButton(String key, boolean isChecked) {
         ValueSetter setter = valueSetters.get(key);
 
+        setter.enableSpecialtyButton(isChecked);
+
         if (isChecked) {
             setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
         } else {
