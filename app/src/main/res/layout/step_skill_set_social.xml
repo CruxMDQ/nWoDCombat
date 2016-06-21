@@ -19,7 +19,8 @@
             class="com.emi.nwodcombat.widgets.ValueSetter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_animal_ken"
             />
 
@@ -29,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterAnimalKen"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_empathy"
             />
 
@@ -39,7 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterEmpathy"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_expression"
             />
 
@@ -49,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterExpression"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_intimidation"
             />
 
@@ -59,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterIntimidation"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_persuasion"
             />
 
@@ -69,7 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterPersuasion"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_socialize"
             />
 
@@ -79,7 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterSocialize"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_streetwise"
             />
 
@@ -89,7 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterStreetwise"
-            app:traitCategory="@string/cat_social"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_social"
             app:valueName="@string/skill_subterfuge"
             />
 

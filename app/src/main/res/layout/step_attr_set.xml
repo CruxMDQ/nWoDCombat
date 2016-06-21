@@ -30,7 +30,9 @@
                 android:layout_height="wrap_content"
                 app:valueName="@string/attr_int"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_mental"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_mental"
+                app:traitCategory2="@string/cat_power"
                 />
 
             <view
@@ -41,7 +43,9 @@
                 android:layout_below="@id/valueSetterInt"
                 app:valueName="@string/attr_wits"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_mental"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_mental"
+                app:traitCategory2="@string/cat_finesse"
                 />
 
             <view
@@ -52,7 +56,9 @@
                 android:layout_below="@id/valueSetterWits"
                 app:valueName="@string/attr_res"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_mental"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_mental"
+                app:traitCategory2="@string/cat_resistance"
                 />
         </RelativeLayout>
 
@@ -77,7 +83,9 @@
                 android:layout_height="wrap_content"
                 app:valueName="@string/attr_str"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_physical"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_physical"
+                app:traitCategory2="@string/cat_power"
                 />
 
             <view
@@ -88,7 +96,9 @@
                 android:layout_below="@id/valueSetterStr"
                 app:valueName="@string/attr_dex"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_physical"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_physical"
+                app:traitCategory2="@string/cat_finesse"
                 />
 
             <view
@@ -99,7 +109,9 @@
                 android:layout_below="@id/valueSetterDex"
                 app:valueName="@string/attr_sta"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_physical"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_physical"
+                app:traitCategory2="@string/cat_resistance"
                 />
         </RelativeLayout>
 
@@ -124,7 +136,9 @@
                 android:layout_height="wrap_content"
                 app:valueName="@string/attr_pre"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_social"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_social"
+                app:traitCategory2="@string/cat_power"
                 />
 
             <view
@@ -135,7 +149,9 @@
                 android:layout_below="@id/valueSetterPre"
                 app:valueName="@string/attr_man"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_social"
+                app:traitKind="@string/cat_finesse"
+                app:traitCategory1="@string/cat_social"
+                app:traitCategory2="@string/cat_finesse"
                 />
 
             <view
@@ -146,7 +162,9 @@
                 android:layout_below="@id/valueSetterMan"
                 app:valueName="@string/attr_com"
                 app:valueDefault="1"
-                app:traitCategory="@string/cat_social"
+                app:traitKind="@string/kind_attr"
+                app:traitCategory1="@string/cat_social"
+                app:traitCategory2="@string/cat_resistance"
                 />
         </RelativeLayout>
     </LinearLayout>

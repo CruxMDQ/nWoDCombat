@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -303,5 +304,25 @@ public class RealmHelper implements PersistenceLayer {
                 break;
             }
         }
+    }
+
+    public boolean updateEntry(Long characterId, Entry entry) {
+        Character characterToUpdate = get(Character.class, characterId);
+
+        RealmList<Entry> entries = characterToUpdate.getEntries();
+
+        for (Entry cycledEntry : entries) {
+            if (cycledEntry.getId() == entry.getId()) {
+                realm.beginTransaction();
+
+                entries.set(entries.indexOf(cycledEntry), entry);
+
+                realm.commitTransaction();
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

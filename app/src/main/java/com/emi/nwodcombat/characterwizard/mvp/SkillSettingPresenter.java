@@ -98,50 +98,6 @@ public class SkillSettingPresenter {
         AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance(
             context.getString(R.string.dialog_specialty_title), event.key, model);
         dialog.show(view.getFragmentManager(), dialog.getClass().toString());
-
-//        if (event.isChecked) {
-//            /**
-//             * Pseudocode for adding a specialty:
-//             * - count how many specialties the character has already picked
-//             * - if they are less than 3
-//             * ---> add the entry on the model
-//             * ---> check the checkbox on the view
-//             * ---> set specialty name on view
-//             * ---> increase specialty count by 1
-//             * ---> if specialty count is now 3, disable all unchecked checkboxes on view
-//             */
-//            if (specialtyCount < Constants.SKILL_SPECIALTIES_STARTING) {
-//
-//                model.addSpecialty(event.key, event.specialtyName);
-//
-//                specialtyCount++;
-//
-//                view.setSkillText(event.key, event.specialtyName);
-//
-//                if (specialtyCount == Constants.SKILL_SPECIALTIES_STARTING) {
-//                    view.toggleSpecialties(false);
-//                } else if (specialtyCount < Constants.SKILL_SPECIALTIES_STARTING) {
-//                    view.toggleSpecialties(true);
-//                }
-//            } else {
-//                view.updateStarButton(event.key, false);
-//            }
-//        } else {
-//            /**
-//             * Pseudocode for removing a specialty:
-//             * - uncheck the checkbox on the view
-//             * - remove the entry on the model (funny thing, that)
-//             * - decrease specialty count by 1
-//             */
-////            model.removeSpecialty(event.key);
-//            model.removeSpecialty(event.key, event.specialtyName);
-//
-//            view.toggleSpecialties(true);
-//
-//            view.updateStarButton(event.key, false);
-//
-//            view.setSkillText(event.key, null);
-//        }
     }
 
     @Subscribe

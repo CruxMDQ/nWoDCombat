@@ -135,4 +135,14 @@ public class Constants {
     public static final String SKILL_SPECIALTY = "Skill specialty";
     public static final String SKILL_SPECIALTY_EMPTY = "has no specialties";
     public static final String SKILL_SPECIALTY_LOADED = "has specialties";
+
+    public static final String ATTRIBUTE = "Attribute";
+    public static final String SKILL = "Skill";
+    public static final String MENTAL = "Mental";
+    public static final String PHYSICAL = "Physical";
+    public static final String SOCIAL = "Social";
+    public static final String POWER = "Power";
+    public static final String FINESSE = "Finesse";
+    public static final String RESISTANCE = "Resistance";
+
 }

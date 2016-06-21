@@ -18,7 +18,8 @@
             class="com.emi.nwodcombat.widgets.ValueSetter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_athletics"
             />
 
@@ -28,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterAthletics"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_brawl"
             />
 
@@ -38,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterBrawl"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_drive"
             />
 
@@ -48,7 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterDrive"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_firearms"
             />
 
@@ -58,7 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterFirearms"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_larceny"
             />
 
@@ -68,7 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterLarceny"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_stealth"
             />
 
@@ -78,7 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterStealth"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_survival"
             />
 
@@ -88,7 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterSurvival"
-            app:traitCategory="@string/cat_physical"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_physical"
             app:valueName="@string/skill_weaponry"
             />
     </RelativeLayout>

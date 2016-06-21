@@ -19,7 +19,8 @@
             class="com.emi.nwodcombat.widgets.ValueSetter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_academics"
             />
 
@@ -29,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterAcademics"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_computer"
             />
 
@@ -39,7 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterComputer"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_crafts"
             />
 
@@ -49,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterCrafts"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_investigation"
             />
 
@@ -59,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterInvestigation"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_medicine"
             />
 
@@ -69,7 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterMedicine"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_occult"
             />
 
@@ -79,7 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterOccult"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_politics"
             />
 
@@ -89,7 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/valueSetterPolitics"
-            app:traitCategory="@string/cat_mental"
+            app:traitKind="@string/kind_skill"
+            app:traitCategory1="@string/cat_mental"
             app:valueName="@string/skill_science"
             />
 

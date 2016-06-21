@@ -412,16 +412,5 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         } else {
             setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
         }
-
-//        for (ValueSetter setter : valueSetters.values()) {
-//            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
-//                if (isChecked) {
-//                    setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
-//                } else {
-//                    setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
-//                }
-//                break;
-//            }
-//        }
     }
 }

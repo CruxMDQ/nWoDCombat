@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.interfaces.SpecialtiesModel;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -27,7 +28,7 @@ import io.realm.RealmResults;
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
-public class CharacterViewerModel {
+public class CharacterViewerModel implements SpecialtiesModel {
 
     private Context mContext;
     private long id;
@@ -214,5 +215,63 @@ public class CharacterViewerModel {
         }
 
         return skillsWithSpecialties;
+    }
+
+    @Override
+    public Entry addSpecialty(String key, String specialtyName) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry specialty = Entry.newInstance();
+                specialty.setKey(Constants.SKILL_SPECIALTY);
+                specialty.setType(Constants.FIELD_TYPE_STRING);
+                specialty.setValue(specialtyName);
+
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
+
+                entry.getExtras().add(specialty);
+
+                // DONE Code step similar to skill saving here - remember that this has to be encapsulated within Realm transactions
+                helper.updateEntry(character.getId(), entry);
+
+                return specialty;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void removeSpecialty(String key, String specialty) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry entryToRemove = null;
+
+                for (Entry extra : entry.getExtras()) {
+                    if (extra.getValue() != null
+                        && extra.getValue().equalsIgnoreCase(specialty)) {
+                        entryToRemove = extra;
+                        break;
+                    }
+                }
+
+                if (entryToRemove != null) {
+                    entry.getExtras().remove(entryToRemove);
+                }
+
+                helper.updateEntry(character.getId(), entry);
+
+                break;
+            }
+        }
+    }
+
+    @Override
+    public int countSpecialties() {
+        return getAllSpecialties().size();
     }
 }
