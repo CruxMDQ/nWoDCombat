@@ -19,7 +19,7 @@ import butterknife.OnClick;
  * Created by emiliano.desantis on 12/05/2016.
  */
 public class CharacterWizardView extends FragmentView {
-    private Bus bus;
+    private final Bus bus;
 
     @Bind(R.id.viewPager) ViewPager pager;
     @Bind(R.id.btnPrevious) Button btnPrevious;
@@ -33,7 +33,7 @@ public class CharacterWizardView extends FragmentView {
         btnPrevious.setEnabled(true);
     }
 
-    public void disablePagerSwitchOnSwiping() {
+    private void disablePagerSwitchOnSwiping() {
         pager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

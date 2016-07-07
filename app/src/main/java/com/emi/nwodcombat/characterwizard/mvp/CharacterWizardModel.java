@@ -30,11 +30,11 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 12/05/2016.
  */
 public class CharacterWizardModel implements SpecialtiesModel {
-    private Context context;
-    private RealmHelper helper;
+    private final Context context;
+    private final RealmHelper helper;
     private SharedPreferences preferences;
 
-    public static Character character = new Character();
+    private static Character character = new Character();
 
     public CharacterWizardModel(Context context) {
         this.context = context;
@@ -65,7 +65,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
      * Method for returning singleton instance of SharedPreferences
      * @return Preferences object containing app settings
      */
-    public SharedPreferences getPreferences() {
+    private SharedPreferences getPreferences() {
         if (preferences == null) {
             preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS,
                 Context.MODE_PRIVATE);
@@ -245,9 +245,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
             if (entry != null && entry.getType().equals(Constants.FIELD_TYPE_INTEGER)) {
-                int result = Integer.valueOf(entry.getValue());
-
-                return result;
+                return Integer.valueOf(entry.getValue());
             }
         } catch (NoSuchElementException e) {
             return defaultValue;
@@ -554,7 +552,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         }
     }
 
-    public RealmList<Entry> getAllSpecialties() {
+    private RealmList<Entry> getAllSpecialties() {
         RealmList<Entry> specialties = new RealmList<>();
 
         for (Entry entry : character.getEntries()) {

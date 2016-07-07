@@ -13,16 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.CharacterCreatorPagerFragment;
-import com.emi.nwodcombat.charactercreator.interfaces.PagerStep;
-import com.emi.nwodcombat.charactercreator.steps.AttrCategoriesStep;
-import com.emi.nwodcombat.charactercreator.steps.AttrSettingStep;
-import com.emi.nwodcombat.charactercreator.steps.PersonalInfoStep;
-import com.emi.nwodcombat.charactercreator.steps.SkillCategoriesStep;
-import com.emi.nwodcombat.charactercreator.steps.SkillsSetMentalStep;
-import com.emi.nwodcombat.charactercreator.steps.SkillsSetPhysicalStep;
-import com.emi.nwodcombat.charactercreator.steps.SkillsSetSocialStep;
-import com.emi.nwodcombat.charactercreator.steps.SummaryStep;
 import com.emi.nwodcombat.characterlist.CharacterListFragment;
 import com.emi.nwodcombat.characterwizard.CharacterWizardFragment;
 import com.emi.nwodcombat.combat.DynamicCombatFragment;
@@ -32,9 +22,6 @@ import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,10 +34,6 @@ public class NavDrawerActivity extends AppCompatActivity
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
     @Bind(R.id.nav_view) NavigationView navigationView;
 
-    private ActionBarDrawerToggle toggle;
-
-    private Bus bus;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +41,16 @@ public class NavDrawerActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        bus = BusProvider.getInstance();
+        // Converted from field to local variable
+        Bus bus = BusProvider.getInstance();
         bus.register(this);
 
         setSupportActionBar(toolbar);
 
-        toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        // Converted from field to local variable
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+            this, drawer, toolbar, R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -109,7 +95,7 @@ public class NavDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_camera:
-                loadNewCharacterCreator();
+                loadNewCharacterWizard();
                 break;
             case R.id.nav_gallery:
                 loadCharacterList();
@@ -118,7 +104,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 loadCombatFragment();
                 break;
             case R.id.nav_manage:
-                loadNewCharacterWizard();
+
                 break;
             case R.id.nav_share:
 
@@ -146,47 +132,6 @@ public class NavDrawerActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.flContent, DynamicCombatFragment.newInstance()).addToBackStack(null).commit();
     }
 
-    //VSM this is memory consuming, use a better approach. Maybe a ViewPager is the best option.
-    private void loadNewCharacterCreator() {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager.findFragmentById(R.id.flContent) instanceof CharacterCreatorPagerFragment) {
-            return;
-        }
-
-        List<PagerStep> fragmentList = new ArrayList<>();
-
-        PersonalInfoStep personalInfoStep = new PersonalInfoStep();
-        AttrCategoriesStep attrCategoriesStep = new AttrCategoriesStep();
-        AttrSettingStep attrSettingStep = new AttrSettingStep();
-        SkillCategoriesStep skillCategoriesStep = new SkillCategoriesStep();
-        SkillsSetMentalStep mentalSkillsStep = new SkillsSetMentalStep();
-        SkillsSetPhysicalStep physicalSkillsStep = new SkillsSetPhysicalStep();
-        SkillsSetSocialStep socialSkillsStep = new SkillsSetSocialStep();
-        SummaryStep summaryStep = new SummaryStep();
-
-        final CharacterCreatorPagerFragment characterCreatorPagerFragment = CharacterCreatorPagerFragment.newInstance(fragmentList, summaryStep);
-
-        personalInfoStep.setPagerMaster(characterCreatorPagerFragment);
-        attrCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
-        attrSettingStep.setPagerMaster(characterCreatorPagerFragment);
-        skillCategoriesStep.setPagerMaster(characterCreatorPagerFragment);
-        mentalSkillsStep.setPagerMaster(characterCreatorPagerFragment);
-        physicalSkillsStep.setPagerMaster(characterCreatorPagerFragment);
-        socialSkillsStep.setPagerMaster(characterCreatorPagerFragment);
-        summaryStep.setPagerMaster(characterCreatorPagerFragment);
-
-        fragmentList.add(personalInfoStep);
-        fragmentList.add(attrCategoriesStep);
-        fragmentList.add(attrSettingStep);
-        fragmentList.add(skillCategoriesStep);
-        fragmentList.add(mentalSkillsStep);
-        fragmentList.add(physicalSkillsStep);
-        fragmentList.add(socialSkillsStep);
-        fragmentList.add(summaryStep);
-
-        fragmentManager.beginTransaction().replace(R.id.flContent, characterCreatorPagerFragment).addToBackStack(Constants.TAG_FRAG_CHARACTER_CREATOR_PAGER).commit();
-    }
-
     private void loadNewCharacterWizard() {
         CharacterWizardFragment fragment = new CharacterWizardFragment();
 
@@ -205,13 +150,13 @@ public class NavDrawerActivity extends AppCompatActivity
                 .addToBackStack(Constants.TAG_FRAG_SETTINGS).commit();
     }
 
-    public void onCharacterCreatorFinish() {
-        loadCharacterList();
-    }
+//    public void onCharacterCreatorFinish() {
+//        loadCharacterList();
+//    }
 
-    public String getToolbarTitle() {
-        return getString(R.string.app_name);
-    }
+//    public String getToolbarTitle() {
+//        return getString(R.string.app_name);
+//    }
 
     @Override
     protected void attachBaseContext(Context newBase) {

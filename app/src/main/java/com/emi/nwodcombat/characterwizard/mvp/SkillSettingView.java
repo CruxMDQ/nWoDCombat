@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.tools.Constants;
@@ -65,7 +65,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     @Bind(R.id.valueSetterStreetwise) ValueSetter valueSetterStreetwise;
     @Bind(R.id.valueSetterSubterfuge) ValueSetter valueSetterSubterfuge;
 
-    Map<String, ValueSetter> valueSetters = new HashMap<>();
+    private final Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public SkillSettingView(Fragment fragment, Bus bus) {
         super(fragment);
@@ -267,7 +267,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     @SuppressWarnings("ConstantConditions")
-    public String getString(int resId) {
+    private String getString(int resId) {
         Resources resources = getActivity().getResources();
 
         return resources.getString(resId);

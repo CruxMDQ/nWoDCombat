@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class NwodCombatApplication extends Application {
 
-    PersistenceLayer helper;
+    private PersistenceLayer helper;
 
     @Override
     public void onCreate() {

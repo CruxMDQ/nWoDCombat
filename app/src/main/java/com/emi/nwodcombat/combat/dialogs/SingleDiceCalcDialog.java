@@ -21,12 +21,12 @@ import butterknife.ButterKnife;
  * Created by Emi on 2/29/16.
  */
 public class SingleDiceCalcDialog extends DialogFragment implements OnValueChangedListener {
-    String title;
-    int number = 0;
-    int adapterPosition = 0;
-    AfterChoosingValueAndIndexListener listener;
+    private String title;
+    private int number = 0;
+    private int adapterPosition = 0;
+    private AfterChoosingValueAndIndexListener listener;
 
-    AlertDialog dialog;
+    private AlertDialog dialog;
 
     @Bind(R.id.nbpk) NumberPickerWidget nbpk;
 

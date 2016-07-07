@@ -44,11 +44,6 @@ public class CharacterListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         BusProvider.register(presenter);

@@ -41,8 +41,8 @@ public class AddSpecialtyDialog extends DialogFragment {
 
     private CharacterWizardModel model;
 
-    AlertDialog dialog;
-    public SpecialtyAdapter specialtyAdapter;
+    private AlertDialog dialog;
+    private SpecialtyAdapter specialtyAdapter;
 
     public static AddSpecialtyDialog newInstance(String title, String key, CharacterWizardModel model) {
         AddSpecialtyDialog fragment = new AddSpecialtyDialog();
@@ -157,7 +157,7 @@ public class AddSpecialtyDialog extends DialogFragment {
         ButterKnife.unbind(this);
     }
 
-    public int getLayout() {
+    private int getLayout() {
         return R.layout.dialog_new_specialty;
     }
 

@@ -33,7 +33,7 @@ public class RealmHelper implements PersistenceLayer {
     private static RealmHelper instance;
 
     private Realm realm;
-    private RealmConfiguration realmConfig;
+    private final RealmConfiguration realmConfig;
 
     public static RealmHelper getInstance(Context context) {
         if (instance == null) {

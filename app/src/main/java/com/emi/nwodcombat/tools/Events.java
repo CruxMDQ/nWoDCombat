@@ -5,7 +5,7 @@ package com.emi.nwodcombat.tools;
  */
 public class Events {
     public static class CharacterDeleted {
-        public long id;
+        public final long id;
 
         public CharacterDeleted(long id) {
             this.id = id;
@@ -13,7 +13,7 @@ public class Events {
     }
 
     public static class ExperiencePoolChanged {
-        public boolean isIncrease;
+        public final boolean isIncrease;
 
         public ExperiencePoolChanged(boolean isIncrease) {
             this.isIncrease = isIncrease;
@@ -21,7 +21,7 @@ public class Events {
     }
 
     public static class DemeanorChanged {
-        public int position;
+        public final int position;
 
         public DemeanorChanged(int position) {
             this.position = position;
@@ -30,7 +30,7 @@ public class Events {
 
     public static class NatureChanged {
 
-        public int position;
+        public final int position;
 
         public NatureChanged(int position) {
             this.position = position;
@@ -39,7 +39,7 @@ public class Events {
 
     public static class ViceChanged {
 
-        public int position;
+        public final int position;
 
         public ViceChanged(int position) {
             this.position = position;
@@ -48,7 +48,7 @@ public class Events {
 
     public static class VirtueChanged {
 
-        public int position;
+        public final int position;
 
         public VirtueChanged(int position) {
             this.position = position;
@@ -64,7 +64,7 @@ public class Events {
     }
 
     public static class CharacterDetail {
-        public Long id;
+        public final Long id;
 
         public CharacterDetail(Long id) {
             this.id = id;
@@ -72,9 +72,9 @@ public class Events {
     }
 
     public static class TextEntryChanged {
-        public String key;
-        public String type;
-        public String value;
+        public final String key;
+        public final String type;
+        public final String value;
 
         public TextEntryChanged(String key, String type, String value) {
             this.key = key;
@@ -84,9 +84,9 @@ public class Events {
     }
 
     public static class AttributeChanged {
-        public String key;
-        public String category;
-        public boolean isIncrease;
+        public final String key;
+        public final String category;
+        public final boolean isIncrease;
 
         public AttributeChanged(boolean isIncrease, String key, String traitCategory) {
             this.isIncrease = isIncrease;
@@ -96,9 +96,9 @@ public class Events {
     }
 
     public static class SkillChanged {
-        public String key;
-        public String category;
-        public boolean isIncrease;
+        public final String key;
+        public final String category;
+        public final boolean isIncrease;
 
         public SkillChanged(boolean isIncrease, String key, String traitCategory) {
             this.isIncrease = isIncrease;
@@ -108,10 +108,10 @@ public class Events {
     }
 
     public static class ValueChanged {
-        public String key;
-        public String kind;
-        public String category;
-        public boolean isIncrease;
+        public final String key;
+        public final String kind;
+        public final String category;
+        public final boolean isIncrease;
 
         public ValueChanged(boolean isIncrease, String key, String kind, String traitCategory) {
             this.isIncrease = isIncrease;
@@ -130,10 +130,10 @@ public class Events {
     }
 
     public static class SpecialtyClicked {
-        public boolean isChecked;
-        public String key;
-        public String category;
-        public String specialtyName;
+        public final boolean isChecked;
+        public final String key;
+        public final String category;
+        public final String specialtyName;
 
         public SpecialtyClicked(boolean isChecked, String key, String category, String specialtyName) {
             this.category = category;
@@ -144,7 +144,7 @@ public class Events {
     }
 
     public static class SpecialtyDialogClosing {
-        public String key;
+        public final String key;
 
         public SpecialtyDialogClosing(String key) {
             this.key = key;
@@ -152,8 +152,8 @@ public class Events {
     }
 
     public static class SpecialtyTapped {
-        public String key;
-        public String value;
+        public final String key;
+        public final String value;
 
         public SpecialtyTapped(String key, String value) {
             this.key = key;

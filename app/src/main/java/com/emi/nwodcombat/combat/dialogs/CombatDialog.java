@@ -31,7 +31,7 @@ public class CombatDialog extends DialogFragment {
     @Bind(R.id.txtAttackerRolls) TextView txtAttackerRolls;
     @Bind(R.id.txtResult) TextView txtResult;
 
-    AlertDialog dialog;
+    private AlertDialog dialog;
 
     public static CombatDialog newInstance(int attackerPool, int attackerRerollThreshold, int defense) {
         CombatDialog fragment = new CombatDialog();

@@ -13,8 +13,8 @@ import com.squareup.otto.Subscribe;
  */
 public class SummaryPresenter {
     private final Context context;
-    private SummaryView view;
-    private CharacterWizardModel model;
+    private final SummaryView view;
+    private final CharacterWizardModel model;
 
     public SummaryPresenter(CharacterWizardModel model, SummaryView view) {
         this.model = model;
@@ -66,7 +66,7 @@ public class SummaryPresenter {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public String getString(int resId) {
+    private String getString(int resId) {
         Resources resources = context.getResources();
 
         return resources.getString(resId);

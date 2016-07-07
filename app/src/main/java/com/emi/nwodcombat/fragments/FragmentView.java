@@ -17,9 +17,9 @@ import butterknife.ButterKnife;
  * Created by emiliano.desantis on 22/03/2016.
  */
 public class FragmentView {
-    private WeakReference<Fragment> fragmentRef;
+    private final WeakReference<Fragment> fragmentRef;
 
-    public FragmentView(Fragment fragment) {
+    protected FragmentView(Fragment fragment) {
         fragmentRef = new WeakReference<>(fragment);
     }
 

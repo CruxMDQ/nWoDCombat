@@ -30,11 +30,11 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
 
     @Bind(R.id.rvOptions) RecyclerView rvOptions;
 
-    String tag;
-    String title;
-    AfterSettingRulesListener listener;
+    private String tag;
+    private String title;
+    private AfterSettingRulesListener listener;
 
-    AlertDialog dialog;
+    private AlertDialog dialog;
 
     public static SpecialRollRulesDialog newInstance (String title, String tag, AfterSettingRulesListener listener) {
         SpecialRollRulesDialog fragment = new SpecialRollRulesDialog();

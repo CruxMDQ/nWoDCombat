@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
  * Created by Emi on 2/29/16.
  */
 public class ValuesAdapter<Value> extends RecyclerView.Adapter<ValuesAdapter.ViewHolder> {
-    public ArrayList<Value> mItems;
-    private Activity activity;
-    private int idLayout;
+    private final ArrayList<Value> mItems;
+    private final Activity activity;
+    private final int idLayout;
 
     public ValuesAdapter(Activity activity, int idLayout, ArrayList<Value> mItems) {
         this.activity = activity;

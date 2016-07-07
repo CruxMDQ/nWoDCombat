@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
@@ -142,7 +142,7 @@ public class ValueSetter extends LinearLayout {
         return R.layout.widget_value_setter;
     }
 
-    public void setValueName(String valueName) {
+    private void setValueName(String valueName) {
         this.valueName = valueName;
     }
 
@@ -163,7 +163,7 @@ public class ValueSetter extends LinearLayout {
         this.listener = listener;
     }
 
-    public void refreshPointsPanel() {
+    private void refreshPointsPanel() {
         panelValue.removeAllViews();
 
         for (int i = 0; i < currentValue; i++) {
@@ -178,11 +178,11 @@ public class ValueSetter extends LinearLayout {
 
     }
 
-    public void setMaximumValue(int maximumValue) {
+    private void setMaximumValue(int maximumValue) {
         this.maximumValue = maximumValue;
     }
 
-    public void setDefaultValue(int defaultValue) {
+    private void setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
     }
 
@@ -201,15 +201,15 @@ public class ValueSetter extends LinearLayout {
         return currentValue;
     }
 
-    public void setPointCost(int pointCost) {
+    private void setPointCost(int pointCost) {
         this.pointCost = pointCost;
     }
 
-    public void hideEditionPanel() {
+    private void hideEditionPanel() {
         panelEdition.setVisibility(INVISIBLE);
     }
 
-    public void showEditionPanel() {
+    private void showEditionPanel() {
         panelEdition.setVisibility(VISIBLE);
     }
 

@@ -22,11 +22,11 @@ import io.realm.RealmViewHolder;
  * Created by emiliano.desantis on 03/06/2016.
  */
 public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.ViewHolder>{
-    private Activity activity;
-    private int idLayout;
-    private Bus bus;
+    private final Activity activity;
+    private final int idLayout;
+    private final Bus bus;
 
-    private RealmList<Entry> specialties;
+    private final RealmList<Entry> specialties;
 
     public SpecialtyAdapter(RealmList<Entry> specialties, Activity activity, int idLayout, Bus bus) {
         this.specialties = specialties;

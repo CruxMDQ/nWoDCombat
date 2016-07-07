@@ -15,7 +15,7 @@ import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
-import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -47,7 +47,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     private final Bus bus;
 
     // This stores all the components that will increase or decrease the experience score
-    private Map<String, ValueSetter> valueSetters = new HashMap<>();
+    private final Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;

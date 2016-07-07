@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class CharacterWizardPresenter {
     private final Context context;
-    private CharacterWizardView view;
-    private CharacterWizardModel model;
-    private CharacterWizardPagerAdapter adapter;
-    private Bus bus;
+    private final CharacterWizardView view;
+    private final CharacterWizardModel model;
+    private final CharacterWizardPagerAdapter adapter;
+    private final Bus bus;
 
     public CharacterWizardPresenter(CharacterWizardModel model, CharacterWizardView view) {
         this.model = model;

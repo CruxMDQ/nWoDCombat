@@ -32,8 +32,7 @@ public class DynamicCombatFragment extends Fragment {
     }
     
     public static DynamicCombatFragment newInstance() {
-        DynamicCombatFragment fragment = new DynamicCombatFragment();
-        return fragment;
+        return new DynamicCombatFragment();
     }
     
     @Override

@@ -12,7 +12,7 @@ import io.realm.RealmResults;
 public class CharacterListModel {
 
     // Presenter reference
-    private RealmHelper helper;
+    private final RealmHelper helper;
 
     public CharacterListModel(RealmHelper helper) {
         this.helper = helper;

@@ -22,9 +22,9 @@ import io.realm.RealmViewHolder;
  * Created by emiliano.desantis on 28/03/2016.
  */
 public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Character, RealmCharacterAdapter.CharacterViewHolder> {
-    private Activity activity;
-    private int idLayout;
-    private Bus bus;
+    private final Activity activity;
+    private final int idLayout;
+    private final Bus bus;
 
     public RealmCharacterAdapter(RealmResults<Character> results,
                                  Activity activity, int idLayout,

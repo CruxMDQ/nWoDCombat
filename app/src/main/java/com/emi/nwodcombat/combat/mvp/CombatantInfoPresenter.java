@@ -11,8 +11,8 @@ import com.emi.nwodcombat.model.pojos.Rule;
  * Created by Emi on 3/1/16.
  */
 public class CombatantInfoPresenter implements CombatantInfoContract.InputListener, AfterSettingRulesListener {
-    private CombatantInfoContract.View view;
-    private FragmentManager fragmentManager;
+    private final CombatantInfoContract.View view;
+    private final FragmentManager fragmentManager;
 
     public CombatantInfoPresenter(CombatantInfoContract.View view, FragmentManager fragmentManager) {
         this.view = view;

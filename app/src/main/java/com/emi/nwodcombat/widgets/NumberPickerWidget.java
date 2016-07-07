@@ -136,7 +136,7 @@ public class NumberPickerWidget extends LinearLayout {
         return minimum;
     }
 
-    public void setMinimum(int minimum) {
+    private void setMinimum(int minimum) {
         this.minimum = minimum;
     }
 
@@ -144,7 +144,7 @@ public class NumberPickerWidget extends LinearLayout {
         return maximum;
     }
 
-    public void setMaximum(int maximum) {
+    private void setMaximum(int maximum) {
         this.maximum = maximum;
     }
 
