@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.widgets.ValueSetter;
 
 import butterknife.Bind;
@@ -32,6 +33,10 @@ public class SummaryView extends FragmentView {
     public SummaryView(Fragment fragment) {
         super(fragment);
         ButterKnife.bind(this, fragment.getView());
+    }
+
+    private void setUpValueSetter(ValueSetter setter, Trait trait) {
+        setter.setTrait(trait);
     }
 
     public void setAttrSummaryMental(String text) {
@@ -84,5 +89,29 @@ public class SummaryView extends FragmentView {
 
     public void setWillpower(int value) {
         valueSetterWillpower.setCurrentValue(value);
+    }
+
+    public void setUpValueSetterDefense(Trait defense) {
+        setUpValueSetter(valueSetterDefense, defense);
+    }
+
+    public void setUpValueSetterHealth(Trait health) {
+        setUpValueSetter(valueSetterHealth, health);
+    }
+
+    public void setUpValueSetterInitiative(Trait initiative) {
+        setUpValueSetter(valueSetterInitiative, initiative);
+    }
+
+    public void setUpValueSetterMorality(Trait morality) {
+        setUpValueSetter(valueSetterMorality, morality);
+    }
+
+    public void setUpValueSetterSpeed(Trait speed) {
+        setUpValueSetter(valueSetterSpeed, speed);
+    }
+
+    public void setUpValueSetterWillpower(Trait willpower) {
+        setUpValueSetter(valueSetterWillpower, willpower);
     }
 }

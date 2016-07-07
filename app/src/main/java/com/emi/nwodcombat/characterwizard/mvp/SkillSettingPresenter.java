@@ -2,9 +2,11 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.dialogs.AddSpecialtyDialog;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.BusProvider;
 import com.emi.nwodcombat.tools.Constants;
@@ -31,23 +33,80 @@ public class SkillSettingPresenter {
         this.view = view;
         this.context = view.getContext();
         this.bus = BusProvider.getInstance();
+        setUpUI();
+    }
+
+    private void setUpUI() {
+        String skill = getString(R.string.kind_skill);
+
+        view.setUpValueSetterAcademics(new Trait(
+            skill, getString(R.string.skill_academics), getString(R.string.cat_mental), null));
+        view.setUpValueSetterComputer(new Trait(
+            skill, getString(R.string.skill_computer), getString(R.string.cat_mental), null));
+        view.setUpValueSetterCrafts(new Trait(
+            skill, getString(R.string.skill_crafts), getString(R.string.cat_mental), null));
+        view.setUpValueSetterInvestigation(new Trait(
+            skill, getString(R.string.skill_investigation), getString(R.string.cat_mental), null));
+        view.setUpValueSetterMedicine(new Trait(
+            skill, getString(R.string.skill_medicine), getString(R.string.cat_mental), null));
+        view.setUpValueSetterOccult(new Trait(
+            skill, getString(R.string.skill_occult), getString(R.string.cat_mental), null));
+        view.setUpValueSetterPolitics(new Trait(
+            skill, getString(R.string.skill_politics), getString(R.string.cat_mental), null));
+        view.setUpValueSetterScience(new Trait(
+            skill, getString(R.string.skill_science), getString(R.string.cat_mental), null));
+
+        view.setUpValueSetterAthletics(new Trait(
+            skill, getString(R.string.skill_athletics), getString(R.string.cat_physical), null));
+        view.setUpValueSetterBrawl(new Trait(
+            skill, getString(R.string.skill_brawl), getString(R.string.cat_physical), null));
+        view.setUpValueSetterDrive(new Trait(
+            skill, getString(R.string.skill_drive), getString(R.string.cat_physical), null));
+        view.setUpValueSetterFirearms(new Trait(
+            skill, getString(R.string.skill_firearms), getString(R.string.cat_physical), null));
+        view.setUpValueSetterLarceny(new Trait(
+            skill, getString(R.string.skill_larceny), getString(R.string.cat_physical), null));
+        view.setUpValueSetterStealth(new Trait(
+            skill, getString(R.string.skill_stealth), getString(R.string.cat_physical), null));
+        view.setUpValueSetterSurvival(new Trait(
+            skill, getString(R.string.skill_survival), getString(R.string.cat_physical), null));
+        view.setUpValueSetterWeaponry(new Trait(
+            skill, getString(R.string.skill_weaponry), getString(R.string.cat_physical), null));
+
+        view.setUpValueSetterAnimalKen(new Trait(
+            skill, getString(R.string.skill_animal_ken), getString(R.string.cat_social), null));
+        view.setUpValueSetterEmpathy(new Trait(
+            skill, getString(R.string.skill_empathy), getString(R.string.cat_social), null));
+        view.setUpValueSetterExpression(new Trait(
+            skill, getString(R.string.skill_expression), getString(R.string.cat_social), null));
+        view.setUpValueSetterIntimidation(new Trait(
+            skill, getString(R.string.skill_intimidation), getString(R.string.cat_social), null));
+        view.setUpValueSetterPersuasion(new Trait(
+            skill, getString(R.string.skill_persuasion), getString(R.string.cat_social), null));
+        view.setUpValueSetterSocialize(new Trait(
+            skill, getString(R.string.skill_socialize), getString(R.string.cat_social), null));
+        view.setUpValueSetterStreetwise(new Trait(
+            skill, getString(R.string.skill_streetwise), getString(R.string.cat_social), null));
+        view.setUpValueSetterSubterfuge(new Trait(
+            skill, getString(R.string.skill_subterfuge), getString(R.string.cat_social), null));
+
     }
 
     @Subscribe
     public void onEntryChanged(Events.SkillChanged event) {
         int spent = 0;
         switch (event.category) {
-            case Constants.CONTENT_DESC_SKILL_MENTAL: {
+            case Constants.MENTAL: {
                 spent = model.getPointsSpentOnMentalSkills();
 
                 break;
             }
-            case Constants.CONTENT_DESC_SKILL_PHYSICAL: {
+            case Constants.PHYSICAL: {
                 spent = model.getPointsSpentOnPhysicalSkills();
 
                 break;
             }
-            case Constants.CONTENT_DESC_SKILL_SOCIAL: {
+            case Constants.SOCIAL: {
                 spent = model.getPointsSpentOnSocialSkills();
 
                 break;
@@ -187,5 +246,12 @@ public class SkillSettingPresenter {
 
     public void checkSettings() {
         view.toggleEditionPanel(model.isCheating());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public String getString(int resId) {
+        Resources resources = context.getResources();
+
+        return resources.getString(resId);
     }
 }

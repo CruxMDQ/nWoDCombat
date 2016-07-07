@@ -78,7 +78,6 @@ public class ValueSetter extends LinearLayout {
                 aAttrs.getString(R.styleable.ValueSetter_traitCategory1),
                 aAttrs.getString(R.styleable.ValueSetter_traitCategory2)));
 
-            setTraitCategory(aAttrs.getString(R.styleable.ValueSetter_traitCategory1));
             setPointCost(aAttrs.getInt(R.styleable.ValueSetter_pointCost, 1));
 
             currentValue = defaultValue;
@@ -122,8 +121,9 @@ public class ValueSetter extends LinearLayout {
     private void sendValueChange(int change, boolean condition) {
         if (condition) {
             listener.onTraitChanged(change,
-                ValueSetter.this.getContentDescription().toString(),
-                ValueSetter.this.getTraitCategory());
+                ValueSetter.this.getTrait().getName(),
+                ValueSetter.this.getTrait().getKind(),
+                ValueSetter.this.getTrait().getCategory1());
         }
     }
 
@@ -176,14 +176,6 @@ public class ValueSetter extends LinearLayout {
             panelValue.addView(rdb);
         }
 
-    }
-
-    public String getTraitCategory() {
-        return traitCategory;
-    }
-
-    public void setTraitCategory(String traitCategory) {
-        this.traitCategory = traitCategory;
     }
 
     public void setMaximumValue(int maximumValue) {
@@ -275,8 +267,8 @@ public class ValueSetter extends LinearLayout {
     @OnCheckedChanged(R.id.chkSpecialty)
     void onSpecialtyChecked() {
         listener.onSpecialtyTapped(chkSpecialty.isChecked(),
-            ValueSetter.this.getContentDescription().toString(),
-            ValueSetter.this.getTraitCategory());
+            ValueSetter.this.getTrait().toString(),
+            ValueSetter.this.getTrait().getCategory1());
     }
 
     public void enableSpecialtyCheckbox(boolean isEnabled) {
@@ -305,8 +297,8 @@ public class ValueSetter extends LinearLayout {
     @OnClick(R.id.btnSpecialty)
     void onSpecialtyClicked() {
         listener.onSpecialtyTapped(buttonHasSpecialties(),
-            ValueSetter.this.getContentDescription().toString(),
-            ValueSetter.this.getTraitCategory());
+            ValueSetter.this.getTrait().getName(),
+            ValueSetter.this.getTrait().getCategory1());
     }
 
     private boolean buttonHasSpecialties() {

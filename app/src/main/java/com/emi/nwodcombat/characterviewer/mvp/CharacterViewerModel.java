@@ -133,7 +133,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         return getPreferences().getBoolean(Constants.SETTING_CHEAT, false);
     }
 
-    public int findEntryValue(String constant, String category) {
+    public int findEntryValue(String constant, String kind) {
         try {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
@@ -143,35 +143,27 @@ public class CharacterViewerModel implements SpecialtiesModel {
                 return result;
             }
         } catch (NoSuchElementException e) {
-            return getDefaultScore(category);
+            return getDefaultScore(kind);
         }
-        return getDefaultScore(category);
+        return getDefaultScore(kind);
     }
 
-    private int getDefaultScore(String category) {
-        switch (category) {
-            case Constants.CONTENT_DESC_ATTR_MENTAL:
-            case Constants.CONTENT_DESC_ATTR_PHYSICAL:
-            case Constants.CONTENT_DESC_ATTR_SOCIAL:
+    private int getDefaultScore(String kind) {
+        switch (kind) {
+            case Constants.ATTRIBUTE:
                 return 1;
-            case Constants.CONTENT_DESC_SKILL_MENTAL:
-            case Constants.CONTENT_DESC_SKILL_PHYSICAL:
-            case Constants.CONTENT_DESC_SKILL_SOCIAL:
+            case Constants.SKILL:
                 return 0;
             default:
                 return 0;
         }
     }
 
-    public Integer getExperienceCost(String category) {
-        switch (category) {
-            case Constants.CONTENT_DESC_ATTR_MENTAL:
-            case Constants.CONTENT_DESC_ATTR_PHYSICAL:
-            case Constants.CONTENT_DESC_ATTR_SOCIAL:
+    public Integer getExperienceCost(String kind) {
+        switch (kind) {
+            case Constants.ATTRIBUTE:
                 return mContext.getResources().getInteger(R.integer.cost_attributes);
-            case Constants.CONTENT_DESC_SKILL_MENTAL:
-            case Constants.CONTENT_DESC_SKILL_PHYSICAL:
-            case Constants.CONTENT_DESC_SKILL_SOCIAL:
+            case Constants.SKILL:
                 return mContext.getResources().getInteger(R.integer.cost_skills);
             default:
                 return 0;
@@ -197,8 +189,8 @@ public class CharacterViewerModel implements SpecialtiesModel {
         return entry;
     }
 
-    public boolean checkIfCharacterHasEnoughXP(String category) {
-        Integer experienceCost = getExperienceCost(category);
+    public boolean checkIfCharacterHasEnoughXP(String kind) {
+        Integer experienceCost = getExperienceCost(kind);
 
         Integer experiencePool = getExperience();
 

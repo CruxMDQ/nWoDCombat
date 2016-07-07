@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -72,33 +74,60 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         setupWidgets();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void setupWidgets() {
-        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, Constants.CONTENT_DESC_SKILL_MENTAL);
-        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, Constants.CONTENT_DESC_SKILL_MENTAL);
+        String skill = getString(R.string.kind_skill);
 
-        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, Constants.CONTENT_DESC_SKILL_PHYSICAL);
-        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, Constants.CONTENT_DESC_SKILL_PHYSICAL);
+        setUpValueSetter(valueSetterAcademics, new Trait(
+            skill, getString(R.string.skill_academics), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterComputer, new Trait(
+            skill, getString(R.string.skill_computer), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterCrafts, new Trait(
+            skill, getString(R.string.skill_crafts), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterInvestigation, new Trait(
+            skill, getString(R.string.skill_investigation), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterMedicine, new Trait(
+            skill, getString(R.string.skill_medicine), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterOccult, new Trait(
+            skill, getString(R.string.skill_occult), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterPolitics, new Trait(
+            skill, getString(R.string.skill_politics), getString(R.string.cat_mental), null));
+        setUpValueSetter(valueSetterScience, new Trait(
+            skill, getString(R.string.skill_science), getString(R.string.cat_mental), null));
 
-        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, Constants.CONTENT_DESC_SKILL_SOCIAL);
-        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, Constants.CONTENT_DESC_SKILL_SOCIAL);
+        setUpValueSetter(valueSetterAthletics, new Trait(
+            skill, getString(R.string.skill_athletics), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterBrawl, new Trait(
+            skill, getString(R.string.skill_brawl), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterDrive, new Trait(
+            skill, getString(R.string.skill_drive), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterFirearms, new Trait(
+            skill, getString(R.string.skill_firearms), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterLarceny, new Trait(
+            skill, getString(R.string.skill_larceny), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterStealth, new Trait(
+            skill, getString(R.string.skill_stealth), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterSurvival, new Trait(
+            skill, getString(R.string.skill_survival), getString(R.string.cat_physical), null));
+        setUpValueSetter(valueSetterWeaponry, new Trait(
+            skill, getString(R.string.skill_weaponry), getString(R.string.cat_physical), null));
+
+        setUpValueSetter(valueSetterAnimalKen, new Trait(
+            skill, getString(R.string.skill_animal_ken), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterEmpathy, new Trait(
+            skill, getString(R.string.skill_empathy), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterExpression, new Trait(
+            skill, getString(R.string.skill_expression), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterIntimidation, new Trait(
+            skill, getString(R.string.skill_intimidation), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterPersuasion, new Trait(
+            skill, getString(R.string.skill_persuasion), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterSocialize, new Trait(
+            skill, getString(R.string.skill_socialize), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterStreetwise, new Trait(
+            skill, getString(R.string.skill_streetwise), getString(R.string.cat_social), null));
+        setUpValueSetter(valueSetterSubterfuge, new Trait(
+            skill, getString(R.string.skill_subterfuge), getString(R.string.cat_social), null));
 
         titleSkillsMental.setContentDescription(Constants.CONTENT_DESC_SKILL_MENTAL);
         titleSkillsPhysical.setContentDescription(Constants.CONTENT_DESC_SKILL_PHYSICAL);
@@ -106,7 +135,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
     }
 
     @Override
-    public void onTraitChanged(int value, String constant, String category) {
+    public void onTraitChanged(int value, String constant, String kind, String category) {
         bus.post(new Events.SkillChanged((value > 0), constant, category));
     }
 
@@ -187,12 +216,10 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         }
     }
 
-    private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory) {
-//        setter.enableSpecialtyCheckbox(true);
+    private void setUpValueSetter(ValueSetter setter, Trait trait) {
         setter.setListener(this);
-        setter.setContentDescription(skillName);
-        setter.setTraitCategory(skillCategory);
-        valueSetters.put(skillName, setter);
+        setter.setTrait(trait);
+        valueSetters.put(trait.getName(), setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
@@ -205,7 +232,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
 
     public void setSkillText(String key, @Nullable String specialtyName) {
         for (ValueSetter setter : valueSetters.values()) {
-            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+            if (setter.getTrait().getName().equalsIgnoreCase(key)) {
                 if (specialtyName != null) {
                     setter.setLabel(key + "\n(" + specialtyName + ")");
                 } else {
@@ -219,7 +246,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
 
     public void toggleSpecialty(String key, boolean activate) {
         for (ValueSetter setter : valueSetters.values()) {
-            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+                if (setter.getTrait().getName().equalsIgnoreCase(key)) {
                 setter.enableSpecialtyButton(activate);
                 break;
             }
@@ -228,7 +255,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
 
     public void updateStarButton(String key, boolean isChecked) {
         for (ValueSetter setter : valueSetters.values()) {
-            if (setter.getContentDescription().toString().equalsIgnoreCase(key)) {
+            if (setter.getTrait().getName().equalsIgnoreCase(key)) {
                 if (isChecked) {
                     setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
                 } else {
@@ -237,5 +264,108 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
                 break;
             }
         }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public String getString(int resId) {
+        Resources resources = getActivity().getResources();
+
+        return resources.getString(resId);
+    }
+
+    public void setUpValueSetterAcademics(Trait academics) {
+        setUpValueSetter(valueSetterAcademics, academics);
+    }
+
+    public void setUpValueSetterComputer(Trait computer) {
+        setUpValueSetter(valueSetterComputer, computer);
+    }
+
+    public void setUpValueSetterCrafts(Trait crafts) {
+        setUpValueSetter(valueSetterCrafts, crafts);
+    }
+
+    public void setUpValueSetterInvestigation(Trait investigation) {
+        setUpValueSetter(valueSetterInvestigation, investigation);
+    }
+
+    public void setUpValueSetterMedicine(Trait medicine) {
+        setUpValueSetter(valueSetterMedicine, medicine);
+    }
+
+    public void setUpValueSetterOccult(Trait occult) {
+        setUpValueSetter(valueSetterOccult, occult);
+    }
+
+    public void setUpValueSetterPolitics(Trait politics) {
+        setUpValueSetter(valueSetterPolitics, politics);
+    }
+
+    public void setUpValueSetterScience(Trait science) {
+        setUpValueSetter(valueSetterScience, science);
+    }
+
+    public void setUpValueSetterAthletics(Trait athletics) {
+        setUpValueSetter(valueSetterAthletics, athletics);
+    }
+
+    public void setUpValueSetterBrawl(Trait brawl) {
+        setUpValueSetter(valueSetterBrawl, brawl);
+    }
+
+    public void setUpValueSetterDrive(Trait drive) {
+        setUpValueSetter(valueSetterDrive, drive);
+    }
+
+    public void setUpValueSetterLarceny(Trait larceny) {
+        setUpValueSetter(valueSetterLarceny, larceny);
+    }
+
+    public void setUpValueSetterFirearms(Trait firearms) {
+        setUpValueSetter(valueSetterFirearms, firearms);
+    }
+
+    public void setUpValueSetterStealth(Trait stealth) {
+        setUpValueSetter(valueSetterStealth, stealth);
+    }
+
+    public void setUpValueSetterSurvival(Trait survival) {
+        setUpValueSetter(valueSetterSurvival, survival);
+    }
+
+    public void setUpValueSetterWeaponry(Trait weaponry) {
+        setUpValueSetter(valueSetterWeaponry, weaponry);
+    }
+
+    public void setUpValueSetterAnimalKen(Trait animalken) {
+        setUpValueSetter(valueSetterAnimalKen, animalken);
+    }
+
+    public void setUpValueSetterEmpathy(Trait empathy) {
+        setUpValueSetter(valueSetterEmpathy, empathy);
+    }
+
+    public void setUpValueSetterExpression(Trait expression) {
+        setUpValueSetter(valueSetterExpression, expression);
+    }
+
+    public void setUpValueSetterIntimidation(Trait intimidation) {
+        setUpValueSetter(valueSetterIntimidation, intimidation);
+    }
+
+    public void setUpValueSetterPersuasion(Trait persuasion) {
+        setUpValueSetter(valueSetterPersuasion, persuasion);
+    }
+
+    public void setUpValueSetterSocialize(Trait socialize) {
+        setUpValueSetter(valueSetterSocialize, socialize);
+    }
+
+    public void setUpValueSetterStreetwise(Trait streetwise) {
+        setUpValueSetter(valueSetterStreetwise, streetwise);
+    }
+
+    public void setUpValueSetterSubterfuge(Trait subterfuge) {
+        setUpValueSetter(valueSetterSubterfuge, subterfuge);
     }
 }
