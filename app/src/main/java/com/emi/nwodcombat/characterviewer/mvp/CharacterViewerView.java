@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +17,15 @@ import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
 import com.squareup.otto.Bus;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +47,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     private final Bus bus;
 
     // This stores all the components that will increase or decrease the experience score
-    private ArrayList<ValueSetter> valueSetters = new ArrayList<>();
+    private Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     @Bind(R.id.txtCharacterName) TextView txtCharacterName;
     @Bind(R.id.txtCharacterConcept) TextView txtCharacterConcept;
@@ -123,57 +126,9 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         ButterKnife.bind(this, fragment.getView());
     }
 
-    protected void setUpUI() {
-        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL, true);
-        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL, true);
-        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL, true);
-
-        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
-        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
-        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, Constants.CONTENT_DESC_ATTR_PHYSICAL, true);
-
-        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
-        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
-        setUpValueSetter(valueSetterComposure, Constants.ATTR_COM, Constants.CONTENT_DESC_ATTR_SOCIAL, true);
-
-        setUpValueSetter(valueSetterAcademics, Constants.SKILL_ACADEMICS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterComputer, Constants.SKILL_COMPUTER, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterCrafts, Constants.SKILL_CRAFTS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterInvestigation, Constants.SKILL_INVESTIGATION, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterMedicine, Constants.SKILL_MEDICINE, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterOccult, Constants.SKILL_OCCULT, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterPolitics, Constants.SKILL_POLITICS, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-        setUpValueSetter(valueSetterScience, Constants.SKILL_SCIENCE, Constants.CONTENT_DESC_SKILL_MENTAL, true);
-
-        setUpValueSetter(valueSetterAthletics, Constants.SKILL_ATHLETICS, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterBrawl, Constants.SKILL_BRAWL, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterDrive, Constants.SKILL_DRIVE, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterFirearms, Constants.SKILL_FIREARMS, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterLarceny, Constants.SKILL_LARCENY, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterStealth, Constants.SKILL_STEALTH, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterSurvival, Constants.SKILL_SURVIVAL, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-        setUpValueSetter(valueSetterWeaponry, Constants.SKILL_WEAPONRY, Constants.CONTENT_DESC_SKILL_PHYSICAL, true);
-
-        setUpValueSetter(valueSetterAnimalKen, Constants.SKILL_ANIMAL_KEN, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterEmpathy, Constants.SKILL_EMPATHY, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterExpression, Constants.SKILL_EXPRESSION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterIntimidation, Constants.SKILL_INTIMIDATION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterPersuasion, Constants.SKILL_PERSUASION, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterSocialize, Constants.SKILL_SOCIALIZE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterStreetwise, Constants.SKILL_STREETWISE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-        setUpValueSetter(valueSetterSubterfuge, Constants.SKILL_SUBTERFUGE, Constants.CONTENT_DESC_SKILL_SOCIAL, true);
-
-        setUpValueSetter(valueSetterDefense, Constants.TRAIT_DERIVED_DEFENSE, Constants.TRAIT_DERIVED_DEFENSE, false);
-        setUpValueSetter(valueSetterHealth, Constants.TRAIT_DERIVED_HEALTH, Constants.TRAIT_DERIVED_HEALTH, false);
-        setUpValueSetter(valueSetterInitiative, Constants.TRAIT_DERIVED_INITIATIVE, Constants.TRAIT_DERIVED_INITIATIVE, false);
-        setUpValueSetter(valueSetterMorality, Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY, true);
-        setUpValueSetter(valueSetterSpeed, Constants.TRAIT_DERIVED_SPEED, Constants.TRAIT_DERIVED_SPEED, false);
-        setUpValueSetter(valueSetterWillpower, Constants.TRAIT_DERIVED_WILLPOWER, Constants.TRAIT_DERIVED_WILLPOWER, true);
-    }
-
     @Override
-    public void onTraitChanged(int value, String constant, String category) {
-        bus.post(new Events.ValueChanged((value > 0), constant, category));
+    public void onTraitChanged(int value, String constant, String kind, String category) {
+        bus.post(new Events.ValueChanged((value > 0), constant, kind, category));
     }
 
     @Override
@@ -198,6 +153,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
      *
      * @param id
      */
+    @SuppressWarnings("ConstantConditions")
     public void showDeleteSnackbar(final long id) {
         // Just your run-of-the-mill Snackbar instantiation - nothing to see here
         final Snackbar snackbar = Snackbar.make(scrollCharView,
@@ -242,7 +198,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     }
 
     void changeWidgetValue(String key, int value) {
-        for (ValueSetter vs : valueSetters) {
+        for (ValueSetter vs : valueSetters.values()) {
             if (vs.getContentDescription().equals(key)) {
                 vs.setValue(value);
 
@@ -252,7 +208,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
     }
 
     void changeWidgetValue(String key, int value, int xpPool) {
-        for (ValueSetter vs : valueSetters) {
+        for (ValueSetter vs : valueSetters.values()) {
             if (vs.getContentDescription().equals(key)) {
                 vs.setValue(value);
 
@@ -348,7 +304,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
      * Method for triggering actions on all objects on the experienceSpenders watch list
      */
     public void notifyExperienceSpenders(int experiencePool) {
-        for (ValueSetter experienceSpender : valueSetters) {
+        for (ValueSetter experienceSpender : valueSetters.values()) {
             // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
             // I code this on an interface as opposed to simply adding a method to the widget?)
             experienceSpender.onCharacterExperienceChanged(experiencePool);
@@ -357,10 +313,10 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     public void setValues(RealmList<Entry> entries) {
         for (Entry entry : entries) {
-            for (ValueSetter setter : valueSetters) {
+            for (ValueSetter setter : valueSetters.values()) {
                 try {
                     if (entry.getKey()
-                        .equalsIgnoreCase(setter.getContentDescription().toString())) {
+                        .equalsIgnoreCase(setter.getTrait().getName())) {
                         setter.setCurrentValue(entry);
                     }
                 } catch (NullPointerException e) {
@@ -370,20 +326,195 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
     }
 
-    private void setUpValueSetter(ValueSetter setter, String skillName, String skillCategory, boolean addListener) {
-        if (addListener) {
-            setter.setListener(this);
-        }
-        setter.setContentDescription(skillName);
-        setter.setTraitCategory(skillCategory);
-        valueSetters.add(setter);
+    private void setUpValueSetter(ValueSetter setter, Trait trait) {
+        setter.setListener(this);
+        setter.setTrait(trait);
+        valueSetters.put(trait.getName(), setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
-        for (ValueSetter setter : valueSetters) {
+        for (ValueSetter setter : valueSetters.values()) {
             if (setter.getListener() != null) {
                 setter.toggleEditionPanel(isActive);
             }
         }
+    }
+
+    public void setValueLabel(String key, @Nullable String specialtyName) {
+        ValueSetter setter = valueSetters.get(key);
+
+        if (specialtyName != null) {
+            setter.setLabel(key + "\n(" + specialtyName + ")");
+        } else {
+            setter.setLabel(key);
+        }
+    }
+
+    public void updateStarButton(String key, boolean isChecked) {
+        ValueSetter setter = valueSetters.get(key);
+
+        setter.enableSpecialtyButton(isChecked);
+
+        if (isChecked) {
+            setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
+        } else {
+            setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
+        }
+    }
+
+    public void setUpValueSetterIntelligence(Trait intelligence) {
+        setUpValueSetter(valueSetterIntelligence, intelligence);
+    }
+    
+    public void setUpValueSetterWits(Trait wits) {
+        setUpValueSetter(valueSetterWits, wits);
+    }
+    
+    public void setUpValueSetterResolve(Trait resolve) {
+        setUpValueSetter(valueSetterResolve, resolve);
+    }
+
+    public void setUpValueSetterStrength(Trait strength) {
+        setUpValueSetter(valueSetterStrength, strength);
+    }
+
+    public void setUpValueSetterDexterity(Trait dexterity) {
+        setUpValueSetter(valueSetterDexterity, dexterity);
+    }
+
+    public void setUpValueSetterStamina(Trait stamina) {
+        setUpValueSetter(valueSetterStamina, stamina);
+    }
+
+    public void setUpValueSetterPresence(Trait presence) {
+        setUpValueSetter(valueSetterPresence, presence);
+    }
+
+    public void setUpValueSetterManipulation(Trait manipulation) {
+        setUpValueSetter(valueSetterManipulation, manipulation);
+    }
+
+    public void setUpValueSetterComposure(Trait composure) {
+        setUpValueSetter(valueSetterComposure, composure);
+    }
+
+    public void setUpValueSetterAcademics(Trait academics) {
+        setUpValueSetter(valueSetterAcademics, academics);
+    }
+
+    public void setUpValueSetterComputer(Trait computer) {
+        setUpValueSetter(valueSetterComputer, computer);
+    }
+
+    public void setUpValueSetterCrafts(Trait crafts) {
+        setUpValueSetter(valueSetterCrafts, crafts);
+    }
+
+    public void setUpValueSetterInvestigation(Trait investigation) {
+        setUpValueSetter(valueSetterInvestigation, investigation);
+    }
+
+    public void setUpValueSetterMedicine(Trait medicine) {
+        setUpValueSetter(valueSetterMedicine, medicine);
+    }
+
+    public void setUpValueSetterOccult(Trait occult) {
+        setUpValueSetter(valueSetterOccult, occult);
+    }
+
+    public void setUpValueSetterPolitics(Trait politics) {
+        setUpValueSetter(valueSetterPolitics, politics);
+    }
+
+    public void setUpValueSetterScience(Trait science) {
+        setUpValueSetter(valueSetterScience, science);
+    }
+
+    public void setUpValueSetterAthletics(Trait athletics) {
+        setUpValueSetter(valueSetterAthletics, athletics);
+    }
+
+    public void setUpValueSetterBrawl(Trait brawl) {
+        setUpValueSetter(valueSetterBrawl, brawl);
+    }
+
+    public void setUpValueSetterDrive(Trait drive) {
+        setUpValueSetter(valueSetterDrive, drive);
+    }
+
+    public void setUpValueSetterLarceny(Trait larceny) {
+        setUpValueSetter(valueSetterLarceny, larceny);
+    }
+
+    public void setUpValueSetterFirearms(Trait firearms) {
+        setUpValueSetter(valueSetterFirearms, firearms);
+    }
+
+    public void setUpValueSetterStealth(Trait stealth) {
+        setUpValueSetter(valueSetterStealth, stealth);
+    }
+
+    public void setUpValueSetterSurvival(Trait survival) {
+        setUpValueSetter(valueSetterSurvival, survival);
+    }
+
+    public void setUpValueSetterWeaponry(Trait weaponry) {
+        setUpValueSetter(valueSetterWeaponry, weaponry);
+    }
+
+    public void setUpValueSetterAnimalKen(Trait animalken) {
+        setUpValueSetter(valueSetterAnimalKen, animalken);
+    }
+
+    public void setUpValueSetterEmpathy(Trait empathy) {
+        setUpValueSetter(valueSetterEmpathy, empathy);
+    }
+
+    public void setUpValueSetterExpression(Trait expression) {
+        setUpValueSetter(valueSetterExpression, expression);
+    }
+
+    public void setUpValueSetterIntimidation(Trait intimidation) {
+        setUpValueSetter(valueSetterIntimidation, intimidation);
+    }
+
+    public void setUpValueSetterPersuasion(Trait persuasion) {
+        setUpValueSetter(valueSetterPersuasion, persuasion);
+    }
+
+    public void setUpValueSetterSocialize(Trait socialize) {
+        setUpValueSetter(valueSetterSocialize, socialize);
+    }
+
+    public void setUpValueSetterStreetwise(Trait streetwise) {
+        setUpValueSetter(valueSetterStreetwise, streetwise);
+    }
+
+    public void setUpValueSetterSubterfuge(Trait subterfuge) {
+        setUpValueSetter(valueSetterSubterfuge, subterfuge);
+    }
+
+    public void setUpValueSetterDefense(Trait defense) {
+        setUpValueSetter(valueSetterDefense, defense);
+    }
+
+    public void setUpValueSetterHealth(Trait health) {
+        setUpValueSetter(valueSetterHealth, health);
+    }
+
+    public void setUpValueSetterInitiative(Trait initiative) {
+        setUpValueSetter(valueSetterInitiative, initiative);
+    }
+
+    public void setUpValueSetterMorality(Trait morality) {
+        setUpValueSetter(valueSetterMorality, morality);
+    }
+
+    public void setUpValueSetterSpeed(Trait speed) {
+        setUpValueSetter(valueSetterSpeed, speed);
+    }
+
+    public void setUpValueSetterWillpower(Trait willpower) {
+        setUpValueSetter(valueSetterWillpower, willpower);
     }
 }

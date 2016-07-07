@@ -109,12 +109,14 @@ public class Events {
 
     public static class ValueChanged {
         public String key;
+        public String kind;
         public String category;
         public boolean isIncrease;
 
-        public ValueChanged(boolean isIncrease, String key, String traitCategory) {
+        public ValueChanged(boolean isIncrease, String key, String kind, String traitCategory) {
             this.isIncrease = isIncrease;
             this.key = key;
+            this.kind = kind;
             this.category = traitCategory;
         }
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
 
@@ -43,6 +44,7 @@ public class ValueSetter extends LinearLayout {
     private int defaultValue;
     private int maximumValue;
     private int currentValue;
+    private Trait trait;
 
     private OnTraitChangedListener listener;
 
@@ -62,13 +64,20 @@ public class ValueSetter extends LinearLayout {
             setValueName(aAttrs.getString(R.styleable.ValueSetter_valueName));
             setDefaultValue(aAttrs.getInteger(R.styleable.ValueSetter_valueDefault, 0));
 
+            int absoluteTraitMaximum;
+
             if (preferences.getBoolean(Constants.SETTING_IGNORE_STAT_CAPS, false)) {
-                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, 20));
+                absoluteTraitMaximum = 20;
             } else {
-                setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, 5));
+                absoluteTraitMaximum = 5;
             }
 
-            setTraitCategory(aAttrs.getString(R.styleable.ValueSetter_traitCategory));
+            setMaximumValue(aAttrs.getInteger(R.styleable.ValueSetter_valueMaximum, absoluteTraitMaximum));
+
+            setTrait(new Trait(aAttrs.getString(R.styleable.ValueSetter_traitKind),
+                aAttrs.getString(R.styleable.ValueSetter_traitCategory1),
+                aAttrs.getString(R.styleable.ValueSetter_traitCategory2)));
+
             setPointCost(aAttrs.getInt(R.styleable.ValueSetter_pointCost, 1));
 
             currentValue = defaultValue;
@@ -112,8 +121,9 @@ public class ValueSetter extends LinearLayout {
     private void sendValueChange(int change, boolean condition) {
         if (condition) {
             listener.onTraitChanged(change,
-                ValueSetter.this.getContentDescription().toString(),
-                ValueSetter.this.getTraitCategory());
+                ValueSetter.this.getTrait().getName(),
+                ValueSetter.this.getTrait().getKind(),
+                ValueSetter.this.getTrait().getCategory1());
         }
     }
 
@@ -168,14 +178,6 @@ public class ValueSetter extends LinearLayout {
 
     }
 
-    public String getTraitCategory() {
-        return traitCategory;
-    }
-
-    public void setTraitCategory(String traitCategory) {
-        this.traitCategory = traitCategory;
-    }
-
     public void setMaximumValue(int maximumValue) {
         this.maximumValue = maximumValue;
     }
@@ -225,18 +227,35 @@ public class ValueSetter extends LinearLayout {
 
     public void onCharacterExperienceChanged(int experiencePool) {
         showEditionPanel();
-        if (experiencePool >= pointCost) {
-            btnValueIncrease.setVisibility(VISIBLE);
-//            showEditionPanel();
-        } else {
-            btnValueIncrease.setVisibility(INVISIBLE);
-//            hideEditionPanel();
-        }
 
-        if (currentValue <= defaultValue) {
+        enableIncreaseButton(experiencePool >= pointCost);
+
+        enableDecreaseButton(currentValue <= defaultValue);
+
+        /** Pseudocode:
+         * Star should be visible if:
+         * - Experience is greater than 0
+         * - Current score is greater than 0
+         * - Value category is a skill
+         */
+        enableSpecialtyButton(experiencePool > 0
+            && currentValue > 0
+            && getTrait().getKind().equals(getResources().getString(R.string.kind_skill)));
+    }
+
+    private void enableDecreaseButton(boolean enable) {
+        if (enable) {
             btnValueDecrease.setVisibility(INVISIBLE);
         } else {
             btnValueDecrease.setVisibility(VISIBLE);
+        }
+    }
+
+    private void enableIncreaseButton(boolean enable) {
+        if (enable) {
+            btnValueIncrease.setVisibility(VISIBLE);
+        } else {
+            btnValueIncrease.setVisibility(INVISIBLE);
         }
     }
 
@@ -248,8 +267,8 @@ public class ValueSetter extends LinearLayout {
     @OnCheckedChanged(R.id.chkSpecialty)
     void onSpecialtyChecked() {
         listener.onSpecialtyTapped(chkSpecialty.isChecked(),
-            ValueSetter.this.getContentDescription().toString(),
-            ValueSetter.this.getTraitCategory());
+            ValueSetter.this.getTrait().toString(),
+            ValueSetter.this.getTrait().getCategory1());
     }
 
     public void enableSpecialtyCheckbox(boolean isEnabled) {
@@ -278,8 +297,8 @@ public class ValueSetter extends LinearLayout {
     @OnClick(R.id.btnSpecialty)
     void onSpecialtyClicked() {
         listener.onSpecialtyTapped(buttonHasSpecialties(),
-            ValueSetter.this.getContentDescription().toString(),
-            ValueSetter.this.getTraitCategory());
+            ValueSetter.this.getTrait().getName(),
+            ValueSetter.this.getTrait().getCategory1());
     }
 
     private boolean buttonHasSpecialties() {
@@ -297,5 +316,13 @@ public class ValueSetter extends LinearLayout {
 
     public void changeSpecialtyButtonBackground(int resId, String contentDescription) {
         btnSpecialty.setBackgroundResource(resId);
+    }
+
+    public Trait getTrait() {
+        return trait;
+    }
+
+    public void setTrait(Trait trait) {
+        this.trait = trait;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.interfaces.SpecialtiesModel;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -21,12 +22,13 @@ import com.emi.nwodcombat.tools.Constants;
 
 import java.util.NoSuchElementException;
 
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
  * Created by emiliano.desantis on 12/04/2016.
  */
-public class CharacterViewerModel {
+public class CharacterViewerModel implements SpecialtiesModel {
 
     private Context mContext;
     private long id;
@@ -131,7 +133,7 @@ public class CharacterViewerModel {
         return getPreferences().getBoolean(Constants.SETTING_CHEAT, false);
     }
 
-    public int findEntryValue(String constant, String category) {
+    public int findEntryValue(String constant, String kind) {
         try {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
@@ -141,35 +143,27 @@ public class CharacterViewerModel {
                 return result;
             }
         } catch (NoSuchElementException e) {
-            return getDefaultScore(category);
+            return getDefaultScore(kind);
         }
-        return getDefaultScore(category);
+        return getDefaultScore(kind);
     }
 
-    private int getDefaultScore(String category) {
-        switch (category) {
-            case Constants.CONTENT_DESC_ATTR_MENTAL:
-            case Constants.CONTENT_DESC_ATTR_PHYSICAL:
-            case Constants.CONTENT_DESC_ATTR_SOCIAL:
+    private int getDefaultScore(String kind) {
+        switch (kind) {
+            case Constants.ATTRIBUTE:
                 return 1;
-            case Constants.CONTENT_DESC_SKILL_MENTAL:
-            case Constants.CONTENT_DESC_SKILL_PHYSICAL:
-            case Constants.CONTENT_DESC_SKILL_SOCIAL:
+            case Constants.SKILL:
                 return 0;
             default:
                 return 0;
         }
     }
 
-    public Integer getExperienceCost(String category) {
-        switch (category) {
-            case Constants.CONTENT_DESC_ATTR_MENTAL:
-            case Constants.CONTENT_DESC_ATTR_PHYSICAL:
-            case Constants.CONTENT_DESC_ATTR_SOCIAL:
+    public Integer getExperienceCost(String kind) {
+        switch (kind) {
+            case Constants.ATTRIBUTE:
                 return mContext.getResources().getInteger(R.integer.cost_attributes);
-            case Constants.CONTENT_DESC_SKILL_MENTAL:
-            case Constants.CONTENT_DESC_SKILL_PHYSICAL:
-            case Constants.CONTENT_DESC_SKILL_SOCIAL:
+            case Constants.SKILL:
                 return mContext.getResources().getInteger(R.integer.cost_skills);
             default:
                 return 0;
@@ -195,11 +189,81 @@ public class CharacterViewerModel {
         return entry;
     }
 
-    public boolean checkIfCharacterHasEnoughXP(String category) {
-        Integer experienceCost = getExperienceCost(category);
+    public boolean checkIfCharacterHasEnoughXP(String kind) {
+        Integer experienceCost = getExperienceCost(kind);
 
         Integer experiencePool = getExperience();
 
         return experiencePool >= experienceCost;
+    }
+
+    public RealmList<Entry> getAllSpecialties() {
+        RealmList<Entry> skillsWithSpecialties = new RealmList<>();
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getExtras() != null && entry.getExtras().size() > 0) {
+                skillsWithSpecialties.add(entry);
+            }
+        }
+
+        return skillsWithSpecialties;
+    }
+
+    @Override
+    public Entry addSpecialty(String key, String specialtyName) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry specialty = Entry.newInstance();
+                specialty.setKey(Constants.SKILL_SPECIALTY);
+                specialty.setType(Constants.FIELD_TYPE_STRING);
+                specialty.setValue(specialtyName);
+
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
+
+                entry.getExtras().add(specialty);
+
+                // DONE Code step similar to skill saving here - remember that this has to be encapsulated within Realm transactions
+                helper.updateEntry(character.getId(), entry);
+
+                return specialty;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void removeSpecialty(String key, String specialty) {
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry entryToRemove = null;
+
+                for (Entry extra : entry.getExtras()) {
+                    if (extra.getValue() != null
+                        && extra.getValue().equalsIgnoreCase(specialty)) {
+                        entryToRemove = extra;
+                        break;
+                    }
+                }
+
+                if (entryToRemove != null) {
+                    entry.getExtras().remove(entryToRemove);
+                }
+
+                helper.updateEntry(character.getId(), entry);
+
+                break;
+            }
+        }
+    }
+
+    @Override
+    public int countSpecialties() {
+        return getAllSpecialties().size();
     }
 }

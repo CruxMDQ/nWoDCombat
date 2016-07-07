@@ -1,11 +1,13 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -49,17 +51,28 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     }
 
     private void setupWidgets() {
-        setUpValueSetter(valueSetterIntelligence, Constants.ATTR_INT, Constants.CONTENT_DESC_ATTR_MENTAL);
-        setUpValueSetter(valueSetterWits, Constants.ATTR_WIT, Constants.CONTENT_DESC_ATTR_MENTAL);
-        setUpValueSetter(valueSetterResolve, Constants.ATTR_RES, Constants.CONTENT_DESC_ATTR_MENTAL);
+        String attribute = getString(R.string.kind_attr);
 
-        setUpValueSetter(valueSetterStrength, Constants.ATTR_STR, Constants.CONTENT_DESC_ATTR_PHYSICAL);
-        setUpValueSetter(valueSetterDexterity, Constants.ATTR_DEX, Constants.CONTENT_DESC_ATTR_PHYSICAL);
-        setUpValueSetter(valueSetterStamina, Constants.ATTR_STA, Constants.CONTENT_DESC_ATTR_PHYSICAL);
+        setUpValueSetter(valueSetterIntelligence, new Trait(attribute, getString(R.string.attr_int),
+            getString(R.string.cat_mental), getString(R.string.cat_power)));
+        setUpValueSetter(valueSetterWits, new Trait(attribute, getString(R.string.attr_wits),
+            getString(R.string.cat_mental), getString(R.string.cat_finesse)));
+        setUpValueSetter(valueSetterResolve, new Trait(attribute, getString(R.string.attr_res),
+            getString(R.string.cat_mental), getString(R.string.cat_resistance)));
 
-        setUpValueSetter(valueSetterPresence, Constants.ATTR_PRE, Constants.CONTENT_DESC_ATTR_SOCIAL);
-        setUpValueSetter(valueSetterManipulation, Constants.ATTR_MAN, Constants.CONTENT_DESC_ATTR_SOCIAL);
-        setUpValueSetter(valueSetterComposure, Constants.ATTR_COM, Constants.CONTENT_DESC_ATTR_SOCIAL);
+        setUpValueSetter(valueSetterStrength, new Trait(attribute, getString(R.string.attr_str),
+            getString(R.string.cat_physical), getString(R.string.cat_power)));
+        setUpValueSetter(valueSetterDexterity, new Trait(attribute, getString(R.string.attr_dex),
+            getString(R.string.cat_physical), getString(R.string.cat_finesse)));
+        setUpValueSetter(valueSetterStamina, new Trait(attribute, getString(R.string.attr_sta), 
+            getString(R.string.cat_physical), getString(R.string.cat_resistance)));
+
+        setUpValueSetter(valueSetterPresence, new Trait(attribute, getString(R.string.attr_pre),
+            getString(R.string.cat_social), getString(R.string.cat_power)));
+        setUpValueSetter(valueSetterManipulation, new Trait(attribute, getString(R.string.attr_man),
+            getString(R.string.cat_social), getString(R.string.cat_finesse)));
+        setUpValueSetter(valueSetterComposure, new Trait(attribute, getString(R.string.attr_com),
+            getString(R.string.cat_social), getString(R.string.cat_resistance)));
 
         txtPoolMental.setContentDescription(Constants.CONTENT_DESC_ATTR_MENTAL);
         txtPoolPhysical.setContentDescription(Constants.CONTENT_DESC_ATTR_PHYSICAL);
@@ -67,7 +80,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     }
 
     @Override
-    public void onTraitChanged(int value, String constant, String category) {
+    public void onTraitChanged(int value, String constant, String kind, String category) {
         bus.post(new Events.AttributeChanged((value > 0), constant, category));
     }
 
@@ -113,11 +126,10 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         }
     }
 
-    private void setUpValueSetter(ValueSetter setter, String name, String category) {
+    private void setUpValueSetter(ValueSetter setter, Trait trait) {
         setter.setListener(this);
-        setter.setContentDescription(name);
-        setter.setTraitCategory(category);
-        valueSetters.put(name, setter);
+        setter.setTrait(trait);
+        valueSetters.put(trait.getName(), setter);
     }
 
     public void toggleEditionPanel(boolean isActive) {
@@ -138,5 +150,48 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
 
     public String getAttrsSocial() {
         return txtPoolSocial.getText().toString();
+    }
+
+    public void setUpValueSetterIntelligence(Trait intelligence) {
+        setUpValueSetter(valueSetterIntelligence, intelligence);
+    }
+
+    public void setUpValueSetterWits(Trait wits) {
+        setUpValueSetter(valueSetterWits, wits);
+    }
+
+    public void setUpValueSetterResolve(Trait resolve) {
+        setUpValueSetter(valueSetterResolve, resolve);
+    }
+
+    public void setUpValueSetterStrength(Trait strength) {
+        setUpValueSetter(valueSetterStrength, strength);
+    }
+
+    public void setUpValueSetterDexterity(Trait dexterity) {
+        setUpValueSetter(valueSetterDexterity, dexterity);
+    }
+
+    public void setUpValueSetterStamina(Trait stamina) {
+        setUpValueSetter(valueSetterStamina, stamina);
+    }
+
+    public void setUpValueSetterPresence(Trait presence) {
+        setUpValueSetter(valueSetterPresence, presence);
+    }
+
+    public void setUpValueSetterManipulation(Trait manipulation) {
+        setUpValueSetter(valueSetterManipulation, manipulation);
+    }
+
+    public void setUpValueSetterComposure(Trait composure) {
+        setUpValueSetter(valueSetterComposure, composure);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public String getString(int resId) {
+        Resources resources = getActivity().getResources();
+
+        return resources.getString(resId);
     }
 }

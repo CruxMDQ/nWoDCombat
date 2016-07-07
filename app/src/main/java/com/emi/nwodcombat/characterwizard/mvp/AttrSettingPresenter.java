@@ -2,8 +2,10 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
@@ -36,6 +38,33 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
         model.addOrUpdateEntry(Constants.ATTR_PRE, Constants.ABSOLUTE_MINIMUM_ATTR);
         model.addOrUpdateEntry(Constants.ATTR_MAN, Constants.ABSOLUTE_MINIMUM_ATTR);
         model.addOrUpdateEntry(Constants.ATTR_COM, Constants.ABSOLUTE_MINIMUM_ATTR);
+
+        setUpUI();
+    }
+
+    private void setUpUI() {
+        String attribute = getString(R.string.kind_attr);
+
+        view.setUpValueSetterIntelligence(new Trait(attribute, getString(R.string.attr_int),
+            getString(R.string.cat_mental), getString(R.string.cat_power)));
+        view.setUpValueSetterWits(new Trait(attribute, getString(R.string.attr_wits),
+            getString(R.string.cat_mental), getString(R.string.cat_finesse)));
+        view.setUpValueSetterResolve(new Trait(attribute, getString(R.string.attr_res),
+            getString(R.string.cat_mental), getString(R.string.cat_resistance)));
+
+        view.setUpValueSetterStrength(new Trait(attribute, getString(R.string.attr_str),
+            getString(R.string.cat_physical), getString(R.string.cat_power)));
+        view.setUpValueSetterDexterity(new Trait(attribute, getString(R.string.attr_dex),
+            getString(R.string.cat_physical), getString(R.string.cat_finesse)));
+        view.setUpValueSetterStamina(new Trait(attribute, getString(R.string.attr_sta),
+            getString(R.string.cat_physical), getString(R.string.cat_resistance)));
+
+        view.setUpValueSetterPresence(new Trait(attribute, getString(R.string.attr_pre),
+            getString(R.string.cat_social), getString(R.string.cat_power)));
+        view.setUpValueSetterManipulation(new Trait(attribute, getString(R.string.attr_man),
+            getString(R.string.cat_social), getString(R.string.cat_finesse)));
+        view.setUpValueSetterComposure(new Trait(attribute, getString(R.string.attr_com),
+            getString(R.string.cat_social), getString(R.string.cat_resistance)));
     }
 
     @Subscribe
@@ -78,15 +107,15 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
 
     private void setCategoryTitle(int spent, String category) {
         switch (category) {
-            case Constants.CONTENT_DESC_ATTR_MENTAL: {
+            case Constants.MENTAL: {
                 view.setMentalCategoryTitle(spent, context.getString(R.string.cat_mental));
                 break;
             }
-            case Constants.CONTENT_DESC_ATTR_PHYSICAL: {
+            case Constants.PHYSICAL: {
                 view.setPhysicalCategoryTitle(spent, context.getString(R.string.cat_physical));
                 break;
             }
-            case Constants.CONTENT_DESC_ATTR_SOCIAL: {
+            case Constants.SOCIAL: {
                 view.setSocialCategoryTitle(spent, context.getString(R.string.cat_social));
                 break;
             }
@@ -126,5 +155,12 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
             return 3;
         }
         return 0;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public String getString(int resId) {
+        Resources resources = context.getResources();
+
+        return resources.getString(resId);
     }
 }

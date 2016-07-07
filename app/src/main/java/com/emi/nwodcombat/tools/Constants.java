@@ -29,12 +29,12 @@ public class Constants {
 
     public static final String CONTENT_DESC_NBPK_BTN_MINUS = "Dice decrease for: ";
     public static final String CONTENT_DESC_NBPK_BTN_PLUS = "Dice increase for: ";
-    public static final String CONTENT_DESC_ATTR_MENTAL = "Mental attribute";
-    public static final String CONTENT_DESC_ATTR_PHYSICAL = "Physical attribute";
-    public static final String CONTENT_DESC_ATTR_SOCIAL = "Social attribute";
-    public static final String CONTENT_DESC_SKILL_MENTAL = "Mental skill";
-    public static final String CONTENT_DESC_SKILL_PHYSICAL = "Physical skill";
-    public static final String CONTENT_DESC_SKILL_SOCIAL = "Social skill";
+    public static final String CONTENT_DESC_ATTR_MENTAL = "Mental";
+    public static final String CONTENT_DESC_ATTR_PHYSICAL = "Physical";
+    public static final String CONTENT_DESC_ATTR_SOCIAL = "Social";
+    public static final String CONTENT_DESC_SKILL_MENTAL = "Mental";
+    public static final String CONTENT_DESC_SKILL_PHYSICAL = "Physical";
+    public static final String CONTENT_DESC_SKILL_SOCIAL = "Social";
 
     public static final String POOL_ATTR_MENTAL = "poolMentalAttrs";
     public static final String POOL_ATTR_PHYSICAL = "poolPhysicalAttrs";
@@ -135,4 +135,14 @@ public class Constants {
     public static final String SKILL_SPECIALTY = "Skill specialty";
     public static final String SKILL_SPECIALTY_EMPTY = "has no specialties";
     public static final String SKILL_SPECIALTY_LOADED = "has specialties";
+
+    public static final String ATTRIBUTE = "Attribute";
+    public static final String SKILL = "Skill";
+    public static final String MENTAL = "Mental";
+    public static final String PHYSICAL = "Physical";
+    public static final String SOCIAL = "Social";
+    public static final String POWER = "Power";
+    public static final String FINESSE = "Finesse";
+    public static final String RESISTANCE = "Resistance";
+
 }

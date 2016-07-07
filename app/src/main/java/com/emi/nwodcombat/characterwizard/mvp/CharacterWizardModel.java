@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.interfaces.SpecialtiesModel;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -28,7 +29,7 @@ import io.realm.RealmResults;
 /**
  * Created by emiliano.desantis on 12/05/2016.
  */
-public class CharacterWizardModel {
+public class CharacterWizardModel implements SpecialtiesModel {
     private Context context;
     private RealmHelper helper;
     private SharedPreferences preferences;
@@ -501,6 +502,7 @@ public class CharacterWizardModel {
         return willpower;
     }
 
+    @Override
     public Entry addSpecialty(String key, String specialtyName) {
         for (Entry entry : character.getEntries()) {
             if (entry.getKey() != null &&
@@ -527,6 +529,7 @@ public class CharacterWizardModel {
         return null;
     }
 
+    @Override
     public void removeSpecialty(String key, String specialty) {
         for (Entry entry : character.getEntries()) {
             if (entry.getKey() != null &&
@@ -583,6 +586,7 @@ public class CharacterWizardModel {
         return null;
     }
 
+    @Override
     public int countSpecialties() {
         int result = 0;
 

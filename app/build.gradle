@@ -45,7 +45,7 @@ dependencies {
     compile "com.squareup:otto:$rootProject.ext.ottoVersion"
     compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
     compile "io.realm:android-adapters:$rootProject.ext.realmAdaptersVersion"
-    compile "org.easyrules:easyrules-spring:$rootProject.ext.easyRulesVersion"
+//    compile "org.easyrules:easyrules-spring:$rootProject.ext.easyRulesVersion"
 
     testCompile "junit:junit:$rootProject.ext.jUnitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

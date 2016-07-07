@@ -2,11 +2,14 @@ package com.emi.nwodcombat.characterviewer.mvp;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.res.Resources;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.DemeanorsAdapter;
 import com.emi.nwodcombat.adapters.NaturesAdapter;
 import com.emi.nwodcombat.adapters.VicesAdapter;
 import com.emi.nwodcombat.adapters.VirtuesAdapter;
+import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
 import com.emi.nwodcombat.model.realm.Entry;
@@ -21,6 +24,9 @@ import com.emi.nwodcombat.tools.Events.ViceChanged;
 import com.emi.nwodcombat.tools.Events.VirtueChanged;
 import com.squareup.otto.Subscribe;
 
+import java.util.Iterator;
+
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 import static com.emi.nwodcombat.tools.Events.CharacterDeleted;
@@ -75,12 +81,137 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         view.setCharacterPlayer(queriedCharacter.getPlayer());
         view.setupExperienceSpendingWidget(queriedCharacter.getExperience());
 
-        view.setUpUI();
+        setUpUI();
 
         view.setValues(queriedCharacter.getEntries());
 
+        setSpecialties();
+
         if (!model.isCheating()) {
             view.notifyExperienceSpenders(experiencePool);
+        }
+    }
+
+    private void setUpUI() {
+        String attribute = getString(R.string.kind_attr);
+
+        String skill = getString(R.string.kind_skill);
+
+        String advantage = getString(R.string.kind_advantage);
+
+        view.setUpValueSetterIntelligence(new Trait(attribute, getString(R.string.attr_int),
+            getString(R.string.cat_mental), getString(R.string.cat_power)));
+        view.setUpValueSetterWits(new Trait(attribute, getString(R.string.attr_wits),
+            getString(R.string.cat_mental), getString(R.string.cat_finesse)));
+        view.setUpValueSetterResolve(new Trait(attribute, getString(R.string.attr_res),
+            getString(R.string.cat_mental), getString(R.string.cat_resistance)));
+
+        view.setUpValueSetterStrength(new Trait(attribute, getString(R.string.attr_str),
+            getString(R.string.cat_physical), getString(R.string.cat_power)));
+        view.setUpValueSetterDexterity(new Trait(attribute, getString(R.string.attr_dex),
+            getString(R.string.cat_physical), getString(R.string.cat_finesse)));
+        view.setUpValueSetterStamina(new Trait(attribute, getString(R.string.attr_sta),
+            getString(R.string.cat_physical), getString(R.string.cat_resistance)));
+
+        view.setUpValueSetterPresence(new Trait(attribute, getString(R.string.attr_pre),
+            getString(R.string.cat_social), getString(R.string.cat_power)));
+        view.setUpValueSetterManipulation(new Trait(attribute, getString(R.string.attr_man),
+            getString(R.string.cat_social), getString(R.string.cat_finesse)));
+        view.setUpValueSetterComposure(new Trait(attribute, getString(R.string.attr_com),
+            getString(R.string.cat_social), getString(R.string.cat_resistance)));
+
+        view.setUpValueSetterAcademics(new Trait(
+            skill, getString(R.string.skill_academics), getString(R.string.cat_mental), null));
+        view.setUpValueSetterComputer(new Trait(
+            skill, getString(R.string.skill_computer), getString(R.string.cat_mental), null));
+        view.setUpValueSetterCrafts(new Trait(
+            skill, getString(R.string.skill_crafts), getString(R.string.cat_mental), null));
+        view.setUpValueSetterInvestigation(new Trait(
+            skill, getString(R.string.skill_investigation), getString(R.string.cat_mental), null));
+        view.setUpValueSetterMedicine(new Trait(
+            skill, getString(R.string.skill_medicine), getString(R.string.cat_mental), null));
+        view.setUpValueSetterOccult(new Trait(
+            skill, getString(R.string.skill_occult), getString(R.string.cat_mental), null));
+        view.setUpValueSetterPolitics(new Trait(
+            skill, getString(R.string.skill_politics), getString(R.string.cat_mental), null));
+        view.setUpValueSetterScience(new Trait(
+            skill, getString(R.string.skill_science), getString(R.string.cat_mental), null));
+
+        view.setUpValueSetterAthletics(new Trait(
+            skill, getString(R.string.skill_athletics), getString(R.string.cat_physical), null));
+        view.setUpValueSetterBrawl(new Trait(
+            skill, getString(R.string.skill_brawl), getString(R.string.cat_physical), null));
+        view.setUpValueSetterDrive(new Trait(
+            skill, getString(R.string.skill_drive), getString(R.string.cat_physical), null));
+        view.setUpValueSetterFirearms(new Trait(
+            skill, getString(R.string.skill_firearms), getString(R.string.cat_physical), null));
+        view.setUpValueSetterLarceny(new Trait(
+            skill, getString(R.string.skill_larceny), getString(R.string.cat_physical), null));
+        view.setUpValueSetterStealth(new Trait(
+            skill, getString(R.string.skill_stealth), getString(R.string.cat_physical), null));
+        view.setUpValueSetterSurvival(new Trait(
+            skill, getString(R.string.skill_survival), getString(R.string.cat_physical), null));
+        view.setUpValueSetterWeaponry(new Trait(
+            skill, getString(R.string.skill_weaponry), getString(R.string.cat_physical), null));
+
+        view.setUpValueSetterAnimalKen(new Trait(
+            skill, getString(R.string.skill_animal_ken), getString(R.string.cat_social), null));
+        view.setUpValueSetterEmpathy(new Trait(
+            skill, getString(R.string.skill_empathy), getString(R.string.cat_social), null));
+        view.setUpValueSetterExpression(new Trait(
+            skill, getString(R.string.skill_expression), getString(R.string.cat_social), null));
+        view.setUpValueSetterIntimidation(new Trait(
+            skill, getString(R.string.skill_intimidation), getString(R.string.cat_social), null));
+        view.setUpValueSetterPersuasion(new Trait(
+            skill, getString(R.string.skill_persuasion), getString(R.string.cat_social), null));
+        view.setUpValueSetterSocialize(new Trait(
+            skill, getString(R.string.skill_socialize), getString(R.string.cat_social), null));
+        view.setUpValueSetterStreetwise(new Trait(
+            skill, getString(R.string.skill_streetwise), getString(R.string.cat_social), null));
+        view.setUpValueSetterSubterfuge(new Trait(
+            skill, getString(R.string.skill_subterfuge), getString(R.string.cat_social), null));
+
+        view.setUpValueSetterDefense(new Trait(advantage, getString(R.string.trait_defense),
+            getString(R.string.cat_derived), null));
+        view.setUpValueSetterHealth(new Trait(advantage, getString(R.string.trait_health),
+            getString(R.string.cat_derived), null));
+        view.setUpValueSetterInitiative(new Trait(advantage, getString(R.string.trait_initiative),
+            getString(R.string.cat_derived), null));
+        view.setUpValueSetterMorality(new Trait(advantage, getString(R.string.trait_morality),
+            getString(R.string.cat_derived), null));
+        view.setUpValueSetterSpeed(new Trait(advantage, getString(R.string.trait_speed),
+            getString(R.string.cat_derived), null));
+        view.setUpValueSetterWillpower(new Trait(advantage, getString(R.string.trait_willpower),
+            getString(R.string.cat_derived), null));
+    }
+
+    private void setSpecialties() {
+        RealmList<Entry> skillsWithSpecialties = model.getAllSpecialties();
+
+        for (int i = 0; i < skillsWithSpecialties.size(); i++) {
+            Entry entry = skillsWithSpecialties.get(i);
+
+            if (skillsWithSpecialties.size() > 0) {
+                StringBuilder builder = new StringBuilder();
+
+                Iterator iterator = entry.getExtras().iterator();
+
+                while (iterator.hasNext()) {
+                    Entry specialty = (Entry) iterator.next();
+
+                    builder.append(specialty.getValue());
+
+                    if (iterator.hasNext()) {
+                        builder.append(", ");
+                    }
+                }
+
+                view.setValueLabel(entry.getKey(), builder.toString());
+
+                view.updateStarButton(entry.getKey(), skillsWithSpecialties.size() > 0);
+            } else {
+                view.setValueLabel(entry.getKey(), null);
+            }
         }
     }
 
@@ -121,10 +252,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         // Cycle through the list of objects and if the name matches that of the first item on the
         // corresponding list for the character, set it as the selection for the spinner
         Demeanor currentDemeanor = queriedCharacter.getDemeanorTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getDemeanor();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getDemeanor();
 
         for (int i = 0; i < model.getDemeanors().size(); i++) {
             Demeanor cycledDemeanor = demeanors.get(i);
@@ -148,10 +279,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     private void setNaturesSpinnerSelection(RealmResults<Nature> natures) {
         Nature currentNature = queriedCharacter.getNatureTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getNature();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getNature();
 
         for (int i = 0; i < model.getNatures().size(); i++) {
             Nature cycledNature = natures.get(i);
@@ -174,10 +305,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     private void setVicesSpinnerSelection(RealmResults<Vice> vices) {
         Vice currentVice = queriedCharacter.getViceTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getVice();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getVice();
 
         for (int i = 0; i < model.getVices().size(); i++) {
             Vice cycledVice = vices.get(i);
@@ -200,10 +331,10 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     private void setVirtuesSpinnerSelection(RealmResults<Virtue> virtues) {
         Virtue currentVirtue = queriedCharacter.getVirtueTraits()
-                .where()
-                .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
-                .findFirst()
-                .getVirtue();
+            .where()
+            .equalTo(Constants.FIELD_TRAIT_ORDINAL, 0)
+            .findFirst()
+            .getVirtue();
 
         for (int i = 0; i < virtues.size(); i++) {
             Virtue cycledVirtue = virtues.get(i);
@@ -249,7 +380,8 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         // Pass the updating operation straight out to the model for handling
 
         // Retrieve object based on spinner position
-        model.updateDemeanorTrait(queriedCharacter.getId(), demeanorsAdapter.getItem(event.position));
+        model.updateDemeanorTrait(queriedCharacter.getId(),
+            demeanorsAdapter.getItem(event.position));
     }
 
     @Subscribe
@@ -272,26 +404,26 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         changeValue(event.isIncrease, event.key, event.category);
     }
 
-    private void changeValue(boolean isIncrease, String key, String category) {
+    private void changeValue(boolean isIncrease, String key, String kind) {
         // Determine whether it's an increase or a decrease
         Integer change = isIncrease ? 1 : -1;
 
         // Determine experience cost for raising this value
-        Integer experienceCost = model.getExperienceCost(category);
+        Integer experienceCost = model.getExperienceCost(kind);
 
         // Get character experience
         Integer experiencePool = model.getExperience();
 
 //        if (!model.isCheating()) {
 
-        int existingScore = model.findEntryValue(key, category);
+        int existingScore = model.findEntryValue(key, kind);
 
         int newScore;
 
         newScore = change + existingScore;
 
         if (!model.isCheating()) {
-            if (change > 0 && model.checkIfCharacterHasEnoughXP(category)) {
+            if (change > 0 && model.checkIfCharacterHasEnoughXP(kind)) {
 
                 experiencePool -= experienceCost;
 
@@ -324,5 +456,12 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     public void checkSettings() {
         view.toggleEditionPanel(model.isCheating());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public String getString(int resId) {
+        Resources resources = context.getResources();
+
+        return resources.getString(resId);
     }
 }
