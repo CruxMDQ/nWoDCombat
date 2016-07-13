@@ -22,8 +22,8 @@ import io.realm.RealmResults;
  */
 public class PersonalInfoPresenter {
     private final Context context;
-    private PersonalInfoView view;
-    private CharacterWizardModel model;
+    private final PersonalInfoView view;
+    private final CharacterWizardModel model;
 
     private DemeanorsAdapter demeanorsAdapter;
 
@@ -49,7 +49,7 @@ public class PersonalInfoPresenter {
         setupTestData();
     }
 
-    public void setupTestData() {
+    private void setupTestData() {
         if (Constants.MODE_TEST) {
             view.setName(context.getString(R.string.test_info_name));
             view.setConcept(context.getString(R.string.test_info_concept));
@@ -57,7 +57,7 @@ public class PersonalInfoPresenter {
         }
     }
 
-    public void setupDemeanorsSpinner() {
+    private void setupDemeanorsSpinner() {
         RealmResults<Demeanor> demeanors = model.getDemeanors();
 
         demeanorsAdapter = new DemeanorsAdapter(context, demeanors);
@@ -65,7 +65,7 @@ public class PersonalInfoPresenter {
         view.setDemeanorsSpinnerAdapter(demeanorsAdapter);
     }
 
-    public void setupNaturesSpinner() {
+    private void setupNaturesSpinner() {
         RealmResults<Nature> natures = model.getNatures();
 
         naturesAdapter = new NaturesAdapter(context, natures);
@@ -73,7 +73,7 @@ public class PersonalInfoPresenter {
         view.setNaturesSpinnerAdapter(naturesAdapter);
     }
 
-    public void setupVicesSpinner() {
+    private void setupVicesSpinner() {
         RealmResults<Vice> vices = model.getVices();
 
         vicesAdapter = new VicesAdapter(context, vices);
@@ -81,7 +81,7 @@ public class PersonalInfoPresenter {
         view.setVicesSpinnerAdapter(vicesAdapter);
     }
 
-    public void setupVirtuesSpinner() {
+    private void setupVirtuesSpinner() {
         RealmResults<Virtue> virtues = model.getVirtues();
 
         virtuesAdapter = new VirtuesAdapter(context, virtues);

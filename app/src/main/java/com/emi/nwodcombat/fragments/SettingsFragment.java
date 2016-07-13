@@ -70,17 +70,17 @@ public class SettingsFragment extends Fragment {
         });
     }
 
-    public int getLayout() {
+    private int getLayout() {
         return R.layout.fragment_settings;
     }
 
-    protected void setToolbarTitle(String title) {
+    private void setToolbarTitle(String title) {
         TextView txtToolbarTitle = (TextView) getActivity().findViewById(R.id.toolbar).getRootView().findViewById(R.id.txtToolbarTitle);
 
         txtToolbarTitle.setText(title);
     }
 
-    public String getToolbarTitle() {
+    private String getToolbarTitle() {
         return getString(R.string.title_settings);
     }
 }

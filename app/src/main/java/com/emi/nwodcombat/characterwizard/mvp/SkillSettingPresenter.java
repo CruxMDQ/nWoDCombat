@@ -25,8 +25,8 @@ import io.realm.RealmList;
 public class SkillSettingPresenter {
     private final Context context;
     private final Bus bus;
-    private SkillSettingView view;
-    private CharacterWizardModel model;
+    private final SkillSettingView view;
+    private final CharacterWizardModel model;
 
     public SkillSettingPresenter(CharacterWizardModel model, SkillSettingView view) {
         this.model = model;
@@ -249,7 +249,7 @@ public class SkillSettingPresenter {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public String getString(int resId) {
+    private String getString(int resId) {
         Resources resources = context.getResources();
 
         return resources.getString(resId);

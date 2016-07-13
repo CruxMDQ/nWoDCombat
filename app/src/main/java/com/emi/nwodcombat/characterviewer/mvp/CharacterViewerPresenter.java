@@ -37,9 +37,9 @@ import static com.emi.nwodcombat.tools.Events.ValueChanged;
  */
 public class CharacterViewerPresenter // implements OnSettingChangedListener  //implements OnTraitChangedListener {
 {
-    private Context context;
-    private CharacterViewerView view;
-    private CharacterViewerModel model;
+    private final Context context;
+    private final CharacterViewerView view;
+    private final CharacterViewerModel model;
 
     // Character object being viewed
     private Character queriedCharacter;
@@ -233,7 +233,7 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
 
     // Separate method for setting up a spinner; I've been trying to generify this but without
     // success so far - read below why
-    public void setupDemeanorsSpinner() {
+    private void setupDemeanorsSpinner() {
         // Initializing the spinner takes:
         // - a context
         // - a list of objects of the right class
@@ -267,7 +267,7 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         }
     }
 
-    public void setupNaturesSpinner() {
+    private void setupNaturesSpinner() {
         RealmResults<Nature> natures = model.getNatures();
 
         naturesAdapter = new NaturesAdapter(context, natures);
@@ -293,7 +293,7 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         }
     }
 
-    public void setupVicesSpinner() {
+    private void setupVicesSpinner() {
         RealmResults<Vice> vices = model.getVices();
 
         vicesAdapter = new VicesAdapter(context, vices);
@@ -319,7 +319,7 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
         }
     }
 
-    public void setupVirtuesSpinner() {
+    private void setupVirtuesSpinner() {
         RealmResults<Virtue> virtues = model.getVirtues();
 
         virtuesAdapter = new VirtuesAdapter(context, virtues);
@@ -459,7 +459,7 @@ public class CharacterViewerPresenter // implements OnSettingChangedListener  //
     }
 
     @SuppressWarnings("ConstantConditions")
-    public String getString(int resId) {
+    private String getString(int resId) {
         Resources resources = context.getResources();
 
         return resources.getString(resId);

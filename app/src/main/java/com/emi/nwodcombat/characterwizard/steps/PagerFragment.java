@@ -14,7 +14,7 @@ public abstract class PagerFragment extends Fragment {
 
     public abstract String getToolbarTitle();
 
-    public abstract int getLayout();
+    protected abstract int getLayout();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

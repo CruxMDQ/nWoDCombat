@@ -18,8 +18,8 @@ import static com.emi.nwodcombat.characterlist.mvp.CharacterListView.RemoveChara
  * http://www.tinmegali.com/en/model-view-presenter-mvp-in-android-part-2/
  */
 public class CharacterListPresenter {
-    private CharacterListView view;
-    private CharacterListModel model;
+    private final CharacterListView view;
+    private final CharacterListModel model;
 
     public CharacterListPresenter(CharacterListModel model, CharacterListView view) {
         this.model = model;

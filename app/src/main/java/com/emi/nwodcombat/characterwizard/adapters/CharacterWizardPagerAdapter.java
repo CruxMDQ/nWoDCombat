@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Emi on 3/3/16.
  */
 public class CharacterWizardPagerAdapter extends FragmentStatePagerAdapter {
-    private List<Class<? extends PagerFragment>> fragmentClasses;
+    private final List<Class<? extends PagerFragment>> fragmentClasses;
 //    private List<PagerStep> fragments;
 
     public CharacterWizardPagerAdapter(FragmentManager fm, List<Class<? extends PagerFragment>> fragmentClasses) {

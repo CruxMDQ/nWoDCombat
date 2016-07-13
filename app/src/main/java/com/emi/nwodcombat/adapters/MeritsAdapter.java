@@ -19,7 +19,7 @@ import io.realm.RealmBaseAdapter;
  * TODO UNTESTED - SPECIALTIES HAVE TO BE COMPLETED FIRST
  */
 public class MeritsAdapter extends RealmBaseAdapter<Merit> {
-    Context context;
+    private final Context context;
 
     public MeritsAdapter(Context context, OrderedRealmCollection<Merit> data) {
         super(context, data);
@@ -55,7 +55,7 @@ public class MeritsAdapter extends RealmBaseAdapter<Merit> {
     }
 
     private static class ViewHolder {
-        Context context;
+        final Context context;
 
         CheckBox checkBox;
         LinearLayout panelMeritValue;

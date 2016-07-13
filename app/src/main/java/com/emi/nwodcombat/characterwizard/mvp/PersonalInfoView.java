@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by emiliano.desantis on 18/05/2016.
  */
 public class PersonalInfoView extends FragmentView {
-    private Bus bus;
+    private final Bus bus;
 
     @Bind(R.id.editConcept) EditText editConcept;
     @Bind(R.id.editName) EditText editName;
@@ -97,7 +97,7 @@ public class PersonalInfoView extends FragmentView {
     }
 
     // TODO model is the one who knows if steps are complete
-    public boolean performStepCompletionCycle() {
+    private boolean performStepCompletionCycle() {
         boolean complete = checkCompletionConditions();
 
         if (complete) {

@@ -72,7 +72,7 @@ public class CharacterListView extends FragmentView {
     }
 
     public static class ErrorEvent {
-        public String message;
+        public final String message;
 
         ErrorEvent(String message) {
             this.message = message;
@@ -80,7 +80,7 @@ public class CharacterListView extends FragmentView {
     }
 
     public static class RemoveCharacterEvent {
-        public long id;
+        public final long id;
 
         RemoveCharacterEvent(long id) {
             this.id = id;

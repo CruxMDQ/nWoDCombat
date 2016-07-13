@@ -3,7 +3,7 @@ package com.emi.nwodcombat.model.pojos;
 /**
  * Created by Crux on 3/26/2016.
  */
-public class Record {
+class Record {
     private String name;
 
     public Record(String name) {
@@ -13,7 +13,7 @@ public class Record {
     public Record() {
     }
 
-    public String getName() {
+    private String getName() {
         return name;
     }
 

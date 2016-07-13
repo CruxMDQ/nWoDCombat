@@ -18,9 +18,9 @@ import com.squareup.otto.Subscribe;
 public class AttrSettingPresenter //implements OnSettingChangedListener {
 {
     private final Context context;
-    private AttrSettingView view;
-    private CharacterWizardModel model;
-    private Bus bus;
+    private final AttrSettingView view;
+    private final CharacterWizardModel model;
+    private final Bus bus;
 
     public AttrSettingPresenter(CharacterWizardModel model, AttrSettingView view, Bus bus) {
         this.model = model;
@@ -158,7 +158,7 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public String getString(int resId) {
+    private String getString(int resId) {
         Resources resources = context.getResources();
 
         return resources.getString(resId);

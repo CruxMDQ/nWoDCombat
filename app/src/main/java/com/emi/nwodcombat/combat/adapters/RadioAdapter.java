@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
 public class RadioAdapter<Rule> extends RecyclerView.Adapter<RadioAdapter.ViewHolder> {
     private final OnChoicePickedListener mListener;
     public int mSelectedItem = -1;
-    public ArrayList<Rule> mItems;
-    private Context mContext;
+    public final ArrayList<Rule> mItems;
+    private final Context mContext;
 
     public RadioAdapter(Context context, ArrayList<Rule> items, OnChoicePickedListener listener) {
         mListener = listener;

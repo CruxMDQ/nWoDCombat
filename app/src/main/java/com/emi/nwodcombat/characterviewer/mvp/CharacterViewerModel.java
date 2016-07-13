@@ -30,9 +30,9 @@ import io.realm.RealmResults;
  */
 public class CharacterViewerModel implements SpecialtiesModel {
 
-    private Context mContext;
-    private long id;
-    private RealmHelper helper;
+    private final Context mContext;
+    private final long id;
+    private final RealmHelper helper;
     private SharedPreferences preferences;
     private static Character character;
 
@@ -71,7 +71,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
      * Method for returning singleton instance of SharedPreferences
      * @return Preferences object containing app settings
      */
-    public SharedPreferences getPreferences() {
+    private SharedPreferences getPreferences() {
         if (preferences == null) {
             preferences = mContext.getSharedPreferences(Constants.TAG_SHARED_PREFS,
                 Context.MODE_PRIVATE);
@@ -138,9 +138,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
             if (entry != null && entry.getType().equals(Constants.FIELD_TYPE_INTEGER)) {
-                int result = Integer.valueOf(entry.getValue());
-
-                return result;
+                return Integer.valueOf(entry.getValue());
             }
         } catch (NoSuchElementException e) {
             return getDefaultScore(kind);
