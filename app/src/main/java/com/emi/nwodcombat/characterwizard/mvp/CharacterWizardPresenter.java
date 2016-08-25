@@ -5,6 +5,7 @@ import android.content.Context;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.adapters.CharacterWizardPagerAdapter;
 import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
+import com.emi.nwodcombat.characterwizard.steps.MeritsFragment;
 import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
 import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
@@ -47,6 +48,7 @@ public class CharacterWizardPresenter {
         classes.add(PersonalInfoFragment.class);
         classes.add(AttrSettingFragment.class);
         classes.add(SkillSettingFragment.class);
+        classes.add(MeritsFragment.class);
         classes.add(SummaryFragment.class);
 
         return classes;

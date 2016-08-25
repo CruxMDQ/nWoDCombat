@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.ValuesAdapter;
-import com.emi.nwodcombat.model.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.CombatRule;
 import com.emi.nwodcombat.model.pojos.Value;
 import com.emi.nwodcombat.tools.Constants;
 
@@ -35,7 +35,7 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     @Bind(R.id.lblCombatant) TextView lblCombatant;
 
     private String combatantTag;
-    private Rule rule;
+    private CombatRule rule;
     private ArrayList<Value> combatantValues;
 
     private CombatantInfoContract.InputListener actionListener;
@@ -86,7 +86,7 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     }
 
     private void setDefaultRules() {
-        rule = new Rule(Constants.DICE_RULE_10_AGAIN, 10);
+        rule = new CombatRule(Constants.DICE_RULE_10_AGAIN, 10);
 
         btnSetCombatantThreshold.setText(rule.getName());
     }
@@ -108,7 +108,7 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     }
 
     @Override
-    public void afterSettingRules(Rule rule) {
+    public void afterSettingRules(CombatRule rule) {
         this.rule = rule;
         btnSetCombatantThreshold.setText(rule.getName());
     }

@@ -1,4 +1,4 @@
-package com.emi.nwodcombat.charactercreator.interfaces;
+package com.emi.nwodcombat.interfaces;
 
 /**
  * Created by Crux on 3/26/2016.

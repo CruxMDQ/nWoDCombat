@@ -3,19 +3,19 @@ package com.emi.nwodcombat.model.pojos;
 /**
  * Created by Emi on 2/22/16.
  */
-public class Rule {
+public class CombatRule {
     private String name;
     private boolean isSelected;
     private int value;
     private String contentDescription;
 
-    public Rule(String name, boolean isSelected, int value) {
+    public CombatRule(String name, boolean isSelected, int value) {
         this.name = name;
         this.isSelected = isSelected;
         this.value = value;
     }
 
-    public Rule(String name, int value) {
+    public CombatRule(String name, int value) {
         this.name = name;
         this.value = value;
     }

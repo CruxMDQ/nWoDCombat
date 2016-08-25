@@ -7,11 +7,15 @@ import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.pojos.VicePojo;
 import com.emi.nwodcombat.model.pojos.VirtuePojo;
 import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
+import com.emi.nwodcombat.rules.Rule;
+import com.emi.nwodcombat.rules.RulesEngine;
+import com.emi.nwodcombat.tools.Constants;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -30,9 +34,45 @@ public class NwodCombatApplication extends Application {
 
         helper = RealmHelper.getInstance(this);
 
+        generateRules();
+
         generatePersonalityArchetypes();
         generateRealmVices();
         generateRealmVirtues();
+    }
+
+    private void generateRules() {
+        Rule rule = new Rule();
+
+        rule.setName("Dream");
+        rule.setNamespace("Awakened");
+        rule.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams withour a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
+
+        ArrayList<Entry> requisiteOne = new ArrayList<>();
+
+        Entry wits = new Entry();
+
+        wits.setKey(Constants.ATTR_WIT);
+        wits.setType(Constants.FIELD_TYPE_INTEGER);
+        wits.setValue(3);
+
+        requisiteOne.add(wits);
+
+        rule.addRequirement(requisiteOne);
+
+        ArrayList<Entry> requisiteTwo = new ArrayList<>();
+
+        Entry composure = new Entry();
+
+        composure.setKey(Constants.ATTR_COM);
+        composure.setType(Constants.FIELD_TYPE_INTEGER);
+        composure.setValue(3);
+
+        requisiteTwo.add(composure);
+
+        rule.addRequirement(requisiteTwo);
+
+        RulesEngine.addRule(rule);
     }
 
     private void generateRealmVirtues() {

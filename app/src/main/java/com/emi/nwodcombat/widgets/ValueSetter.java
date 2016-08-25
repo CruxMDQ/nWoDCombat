@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
+import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
@@ -49,6 +49,10 @@ public class ValueSetter extends LinearLayout {
     private OnTraitChangedListener listener;
 
     private int pointCost;
+
+    public ValueSetter(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
 
     public ValueSetter(Context context, AttributeSet attrs) {
         super(context, attrs);

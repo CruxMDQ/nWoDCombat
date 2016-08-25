@@ -1,13 +1,13 @@
 package com.emi.nwodcombat.combat.mvp;
 
-import com.emi.nwodcombat.model.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.CombatRule;
 
 /**
  * Created by Emi on 3/1/16.
  */
 public interface CombatantInfoContract {
     interface View {
-        void afterSettingRules(Rule rule);
+        void afterSettingRules(CombatRule rule);
 
         void setInputListener(InputListener listener);
     }

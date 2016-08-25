@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.charactercreator.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;

@@ -1,11 +1,14 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.MeritsAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.squareup.otto.Bus;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -14,6 +17,8 @@ import butterknife.ButterKnife;
  */
 public class MeritsView extends FragmentView {
     private final Bus bus;
+
+    @Bind(R.id.rvAvailableMerits) RecyclerView rvAvailableMerits;
 
     public MeritsView(Fragment fragment, Bus instance) {
         super(fragment);
@@ -26,5 +31,6 @@ public class MeritsView extends FragmentView {
     }
 
     public void setupRV(MeritsAdapter upRV) {
+        rvAvailableMerits.setAdapter(upRV);
     }
 }

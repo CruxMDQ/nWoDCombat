@@ -15,7 +15,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.RadioAdapter;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.interfaces.OnChoicePickedListener;
-import com.emi.nwodcombat.model.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.CombatRule;
 import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Rule rule = (Rule) adapter.mItems.get(adapter.mSelectedItem);
+                CombatRule rule = (CombatRule) adapter.mItems.get(adapter.mSelectedItem);
 
                 listener.afterSettingRules(rule);
             }
@@ -87,13 +87,13 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         ButterKnife.unbind(this);
     }
 
-    private ArrayList<Rule> generateRules() {
-        ArrayList<Rule> rules = new ArrayList<>();
+    private ArrayList<CombatRule> generateRules() {
+        ArrayList<CombatRule> rules = new ArrayList<>();
 
-        rules.add(new Rule(Constants.DICE_RULE_8_AGAIN, false, Constants.DICE_VALUE_8_AGAIN));
-        rules.add(new Rule(Constants.DICE_RULE_9_AGAIN, false, Constants.DICE_VALUE_9_AGAIN));
-        rules.add(new Rule(Constants.DICE_RULE_10_AGAIN, false, Constants.DICE_VALUE_10_AGAIN));
-        rules.add(new Rule(Constants.DICE_RULE_NO_AGAIN, false, Constants.DICE_VALUE_NO_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_8_AGAIN, false, Constants.DICE_VALUE_8_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_9_AGAIN, false, Constants.DICE_VALUE_9_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_10_AGAIN, false, Constants.DICE_VALUE_10_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_NO_AGAIN, false, Constants.DICE_VALUE_NO_AGAIN));
 
         return rules;
     }
