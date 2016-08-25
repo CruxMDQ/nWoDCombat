@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.characterwizard.adapters.CharacterWizardPagerAdapter;
+import com.emi.nwodcombat.characterwizard.steps.MeritsFragment;
 import com.emi.nwodcombat.fragments.FragmentView;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
 import butterknife.Bind;
@@ -45,12 +48,12 @@ public class CharacterWizardView extends FragmentView {
 
     @OnClick(R.id.btnPrevious)
     void onBtnPreviousClicked() {
-        bus.post(new WizardProgressEvent(pager.getCurrentItem(), false));
+        bus.post(new Events.WizardProgressEvent(pager.getCurrentItem(), false));
     }
 
     @OnClick(R.id.btnNext)
     void onBtnNextClicked() {
-        bus.post(new WizardProgressEvent(pager.getCurrentItem(), true));
+        bus.post(new Events.WizardProgressEvent(pager.getCurrentItem(), true));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -63,8 +66,31 @@ public class CharacterWizardView extends FragmentView {
         pager.setCurrentItem(pager.getCurrentItem() - 1);
     }
 
-    public void setAdapter(PagerAdapter adapter) {
+    public void setAdapter(final PagerAdapter adapter) {
         pager.setAdapter(adapter);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int indexOfMeritsFragment = ((CharacterWizardPagerAdapter) adapter).getFragmentClasses()
+                    .indexOf(MeritsFragment.class);
+
+                if (pager.getCurrentItem() == indexOfMeritsFragment) {
+                    // fire new event
+                    bus.post(new Events.MeritsFragmentLoaded());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void toggleNextButton(boolean isStepComplete) {
@@ -79,13 +105,4 @@ public class CharacterWizardView extends FragmentView {
         btnPrevious.setText(label);
     }
 
-    public static class WizardProgressEvent {
-        final int currentItem;
-        final boolean movesForward;
-
-        public WizardProgressEvent(int currentItem, boolean movesForward) {
-            this.currentItem = currentItem;
-            this.movesForward = movesForward;
-        }
-    }
 }

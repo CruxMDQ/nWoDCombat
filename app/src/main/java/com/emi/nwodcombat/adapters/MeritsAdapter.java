@@ -14,6 +14,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.rules.Rule;
 import com.squareup.otto.Bus;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmViewHolder;
@@ -73,21 +74,37 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Rule merit = merits.get(position);
 
+        holder.txtMeritName.setText(merit.getName());
+        holder.txtMeritDescription.setText(merit.getDescription());
+
+        holder.panelMeritValue.removeAllViews();
+
+        for (int i = 0; i < merit.getLevel(); i++) {
+            RadioButton rdb = new RadioButton(context);
+
+            rdb.setChecked(true);
+
+            rdb.setButtonDrawable(context.getResources().getDrawable(R.drawable.selector_points));
+
+            holder.panelMeritValue.addView(rdb);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (merits == null) return 0;
+        return merits.size();
     }
 
     public class ViewHolder extends RealmViewHolder {
         Context context;
 
-        CheckBox checkBox;
-        LinearLayout panelMeritValue;
-        TextView txtMeritName;
-        TextView txtMeritDescription;
+        @Bind(R.id.chkMerit) CheckBox checkBox;
+        @Bind(R.id.panelMeritValue) LinearLayout panelMeritValue;
+        @Bind(R.id.txtMeritName) TextView txtMeritName;
+        @Bind(R.id.txtMeritDescription) TextView txtMeritDescription;
 
         public ViewHolder(View itemView, Context context) {
             super(itemView);
@@ -108,5 +125,10 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
                 panelMeritValue.addView(rdb);
             }
         }
+    }
+
+    public void setMerits(OrderedRealmCollection<Rule> merits) {
+        this.merits = merits;
+        this.notifyDataSetChanged();
     }
 }

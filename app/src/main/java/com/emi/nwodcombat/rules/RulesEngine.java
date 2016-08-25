@@ -39,10 +39,12 @@ public class RulesEngine {
             // * --> Check that the rule is actually on the correct namespace
             if (rule.getNamespace().equalsIgnoreCase(namespace)) {
 
-                // * --> Evaluate the rule against all of the character entries
-                for (Entry entry : character.getEntries()) {
-                    shouldAdd = evaluateRequisites(rule, entry);
-                }
+//                for (Entry entry : character.getEntries()) {
+//                    shouldAdd = evaluateRequisites(rule, entry);
+//                }
+
+//                // * --> Evaluate the rule against all of the character entries
+                shouldAdd = evaluateRequisites(rule, character.getEntries());
             }
 
             if (shouldAdd) {
@@ -53,25 +55,77 @@ public class RulesEngine {
         return result;
     }
 
-    private static boolean evaluateRequisites(Rule rule, Entry entry) {
-        boolean shouldAdd = true;
+    private static boolean evaluateRequisites(Rule rule, RealmList<Entry> entries) {
+        ArrayList<Boolean> validations = new ArrayList<>();
 
         // * ----> Evaluate each of the rule's mandatory reqs against all of the character's entries
         for (ArrayList<Entry> requirementSet : rule.getRequirements()) {
+            boolean shouldAdd = false;
+
+            for (Entry requirement : requirementSet) {
+                for (Entry entry : entries) {
+
+                    // * ----> If the name matches, compare values
+                    String entryKey = entry.getKey();
+                    String requirementKey = requirement.getKey();
+
+                    if (entryKey.equalsIgnoreCase(requirementKey)) {
+
+                        // * ----> If the value is not enough, the character does not qualify for this resource
+                        Integer entryValue = Integer.valueOf(entry.getValue());
+                        Integer requiredValue = Integer.valueOf(requirement.getValue());
+
+                        shouldAdd = entryValue >= requiredValue;
+
+                        if (shouldAdd) break;
+                    }
+                    if (shouldAdd) break;
+                }
+            }
+
+            validations.add(shouldAdd);
+        }
+
+        for (Boolean validation : validations) {
+            if (!validation) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean evaluateRequisites(Rule rule, Entry entry) {
+        ArrayList<Boolean> validations = new ArrayList<>();
+
+        // * ----> Evaluate each of the rule's mandatory reqs against all of the character's entries
+        for (ArrayList<Entry> requirementSet : rule.getRequirements()) {
+            boolean shouldAdd = false;
 
             for (Entry requirement : requirementSet) {
                 // * ----> If the name matches, compare values
                 if (entry.getKey().equalsIgnoreCase(requirement.getKey())) {
 
                     // * ----> If the value is not enough, the character does not qualify for this resource
-                    shouldAdd = Integer.valueOf(entry.getValue()) >= Integer
-                        .valueOf(requirement.getValue());
+                    Integer entryValue = Integer.valueOf(entry.getValue());
+                    Integer requiredValue = Integer.valueOf(requirement.getValue());
+
+                    shouldAdd = entryValue >= requiredValue;
 
                     if (shouldAdd) break;
                 }
             }
+
+            validations.add(shouldAdd);
         }
-        return shouldAdd;
+
+        for (Boolean validation : validations) {
+            if (!validation) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // Method to add actions

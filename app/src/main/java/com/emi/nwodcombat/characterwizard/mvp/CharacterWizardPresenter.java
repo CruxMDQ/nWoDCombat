@@ -77,7 +77,7 @@ public class CharacterWizardPresenter {
     }
 
     @Subscribe
-    public void onWizardProgressEvent(CharacterWizardView.WizardProgressEvent event) {
+    public void onWizardProgressEvent(Events.WizardProgressEvent event) {
         int lastPage = adapter.getCount() - 1;
         int nextPage = event.movesForward ? event.currentItem + 1 : event.currentItem - 1;
 

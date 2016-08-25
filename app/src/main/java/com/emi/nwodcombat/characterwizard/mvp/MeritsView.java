@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.emi.nwodcombat.R;
@@ -31,6 +32,10 @@ public class MeritsView extends FragmentView {
     }
 
     public void setupRV(MeritsAdapter upRV) {
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+        lm.setOrientation(LinearLayoutManager.VERTICAL);
+        lm.setAutoMeasureEnabled(true);
+        rvAvailableMerits.setLayoutManager(lm);
         rvAvailableMerits.setAdapter(upRV);
     }
 }
