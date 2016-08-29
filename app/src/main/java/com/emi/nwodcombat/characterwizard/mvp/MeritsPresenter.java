@@ -11,6 +11,9 @@ import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.RealmList;
 
 /**
@@ -47,9 +50,13 @@ public class MeritsPresenter {
 
     @Subscribe
     public void onFragmentVisible(Events.MeritsFragmentLoaded event) {
-        RealmList<Rule> merits = RulesEngine.eval("Awakened", CharacterWizardModel.character);
+        List<String> namespaces = new ArrayList<>();
+
+        namespaces.add("Awakened");
+        namespaces.add("Merit");
+
+        RealmList<Rule> merits = RulesEngine.evaluate(namespaces, CharacterWizardModel.character);
+
         adapter.setMerits(merits);
-//        this.adapter = new MeritsAdapter(merits, this.context, R.layout.row_merit, BusProvider.getInstance());
-//        view.setupRV(adapter);
     }
 }

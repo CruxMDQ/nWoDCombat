@@ -22,6 +22,26 @@ public class Entry extends RealmObject {
         return new Entry();
     }
 
+    public static Entry newInstance(String key, String type, String value) {
+        Entry entry = new Entry();
+
+        entry.setKey(key);
+        entry.setType(type);
+        entry.setValue(value);
+
+        return entry;
+    }
+
+    public static Entry newInstance(String key, String type, int value) {
+        Entry entry = new Entry();
+
+        entry.setKey(key);
+        entry.setType(type);
+        entry.setValue(value);
+
+        return entry;
+    }
+
     public long getId() {
         return id;
     }

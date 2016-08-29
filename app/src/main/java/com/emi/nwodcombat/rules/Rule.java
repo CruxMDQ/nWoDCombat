@@ -1,8 +1,11 @@
 package com.emi.nwodcombat.rules;
 
 import com.emi.nwodcombat.model.realm.Entry;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import io.realm.RealmModel;
 
@@ -10,20 +13,12 @@ import io.realm.RealmModel;
  * Created by emiliano.desantis on 14/07/2016.
  */
 public class Rule implements RealmModel {
-    String namespace;       // sphere: discipline, arcane, invocation; spell: devotion, spell, charm; merit
     String name;
+    String hint;
     String description;
-    int level;
-    ArrayList<String> parameters = new ArrayList<>();
-    ArrayList<ArrayList<Entry>> requirements = new ArrayList<>();
-
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
+    List<Integer> levels = new ArrayList<>();
+    List<String> namespaces = new ArrayList<>(); // sphere: discipline, arcane, invocation; spell: devotion, spell, charm; merit
+    List<List<Entry>> requirements = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -41,31 +36,15 @@ public class Rule implements RealmModel {
         this.description = description;
     }
 
-    public int getLevel() {
-        return level;
+    public String getHint() {
+        return hint;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 
-    public ArrayList<String> getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(ArrayList<String> parameters) {
-        this.parameters = parameters;
-    }
-
-    public void addParameter(String parameter) {
-        this.parameters.add(parameter);
-    }
-
-    public void removeParameter(String parameter) {
-        this.parameters.remove(parameter);
-    }
-
-    public void addRequirement(ArrayList<Entry> entries) {
+    public void addRequirement(List<Entry> entries) {
         this.requirements.add(entries);
     }
 
@@ -73,7 +52,40 @@ public class Rule implements RealmModel {
         this.requirements.remove(object);
     }
 
-    public ArrayList<ArrayList<Entry>> getRequirements() {
+    public List<List<Entry>> getRequirements() {
         return this.requirements;
+    }
+
+    public void addLevels(Integer... integers) {
+        Collections.addAll(this.levels, integers);
+    }
+
+    public void removeLevel(Object object) {
+        this.levels.remove(object);
+    }
+
+    public List<Integer> getLevels() {
+        return this.levels;
+    }
+
+    public void addNamespace(String namespace) {
+        this.namespaces.add(namespace);
+    }
+
+    public void addNamespaces(String... namespaces) {
+        Collections.addAll(this.namespaces, namespaces);
+    }
+
+    public void removeNamespace(Object object) {
+        this.namespaces.remove(object);
+    }
+
+    public List<String> getNamespaces() {
+        return namespaces;
+    }
+
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
