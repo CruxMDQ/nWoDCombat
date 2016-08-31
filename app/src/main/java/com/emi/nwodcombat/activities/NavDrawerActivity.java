@@ -23,20 +23,22 @@ import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.drawer_layout) DrawerLayout drawer;
-    @Bind(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
     private ActionBarDrawerToggle toggle;
 
     private Bus bus;
+
+//    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
 
         ButterKnife.bind(this);
+//        unbinder = ButterKnife.bind(this);
 
         bus = BusProvider.getInstance();
         bus.register(this);
@@ -58,6 +61,12 @@ public class NavDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         loadCharacterList();
     }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        unbinder.unbind();
+//    }
 
     @Override
     public void onBackPressed() {

@@ -8,31 +8,30 @@ import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.widgets.ValueSetter;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Created by emiliano.desantis on 24/05/2016.
  */
 public class SummaryView extends FragmentView {
-    @Bind(R.id.txtSummaryAttrMental) TextView txtSummaryAttrMental;
-    @Bind(R.id.txtSummaryAttrPhysical) TextView txtSummaryAttrPhysical;
-    @Bind(R.id.txtSummaryAttrSocial) TextView txtSummaryAttrSocial;
-    @Bind(R.id.txtSummarySkillsMental) TextView txtSummarySkillsMental;
-    @Bind(R.id.txtSummarySkillsPhysical) TextView txtSummarySkillsPhysical;
-    @Bind(R.id.txtSummarySkillsSocial) TextView txtSummarySkillsSocial;
-    @Bind(R.id.txtSummarySpecialties) TextView txtSummarySpecialties;
+    @BindView(R.id.txtSummaryAttrMental) TextView txtSummaryAttrMental;
+    @BindView(R.id.txtSummaryAttrPhysical) TextView txtSummaryAttrPhysical;
+    @BindView(R.id.txtSummaryAttrSocial) TextView txtSummaryAttrSocial;
+    @BindView(R.id.txtSummarySkillsMental) TextView txtSummarySkillsMental;
+    @BindView(R.id.txtSummarySkillsPhysical) TextView txtSummarySkillsPhysical;
+    @BindView(R.id.txtSummarySkillsSocial) TextView txtSummarySkillsSocial;
+    @BindView(R.id.txtSummarySpecialties) TextView txtSummarySpecialties;
 
-    @Bind(R.id.valueSetterDefense) ValueSetter valueSetterDefense;
-    @Bind(R.id.valueSetterHealth) ValueSetter valueSetterHealth;
-    @Bind(R.id.valueSetterInitiative) ValueSetter valueSetterInitiative;
-    @Bind(R.id.valueSetterMorality) ValueSetter valueSetterMorality;
-    @Bind(R.id.valueSetterSpeed) ValueSetter valueSetterSpeed;
-    @Bind(R.id.valueSetterWillpower) ValueSetter valueSetterWillpower;
+    @BindView(R.id.valueSetterDefense) ValueSetter valueSetterDefense;
+    @BindView(R.id.valueSetterHealth) ValueSetter valueSetterHealth;
+    @BindView(R.id.valueSetterInitiative) ValueSetter valueSetterInitiative;
+    @BindView(R.id.valueSetterMorality) ValueSetter valueSetterMorality;
+    @BindView(R.id.valueSetterSpeed) ValueSetter valueSetterSpeed;
+    @BindView(R.id.valueSetterWillpower) ValueSetter valueSetterWillpower;
 
     public SummaryView(Fragment fragment) {
         super(fragment);
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
     }
 
     private void setUpValueSetter(ValueSetter setter, Trait trait) {

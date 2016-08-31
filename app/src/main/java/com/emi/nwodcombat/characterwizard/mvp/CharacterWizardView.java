@@ -14,8 +14,7 @@ import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -24,14 +23,14 @@ import butterknife.OnClick;
 public class CharacterWizardView extends FragmentView {
     private Bus bus;
 
-    @Bind(R.id.viewPager) ViewPager pager;
-    @Bind(R.id.btnPrevious) Button btnPrevious;
-    @Bind(R.id.btnNext) Button btnNext;
+    @BindView(R.id.viewPager) ViewPager pager;
+    @BindView(R.id.btnPrevious) Button btnPrevious;
+    @BindView(R.id.btnNext) Button btnNext;
 
     public CharacterWizardView(Fragment fragment, Bus instance) {
         super(fragment);
         this.bus = instance;
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
         disablePagerSwitchOnSwiping();
         btnPrevious.setEnabled(true);
     }

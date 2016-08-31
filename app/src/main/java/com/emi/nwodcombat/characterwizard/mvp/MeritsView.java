@@ -9,8 +9,7 @@ import com.emi.nwodcombat.adapters.MeritsAdapter;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Created by emiliano.desantis on 02/06/2016.
@@ -19,12 +18,12 @@ import butterknife.ButterKnife;
 public class MeritsView extends FragmentView {
     private final Bus bus;
 
-    @Bind(R.id.rvAvailableMerits) RecyclerView rvAvailableMerits;
+    @BindView(R.id.rvAvailableMerits) RecyclerView rvAvailableMerits;
 
     public MeritsView(Fragment fragment, Bus instance) {
         super(fragment);
         this.bus = instance;
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
     }
 
     public void setupUI() {

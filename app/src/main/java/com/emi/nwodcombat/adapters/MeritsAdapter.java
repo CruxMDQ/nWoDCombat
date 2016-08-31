@@ -15,7 +15,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.rules.Rule;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmViewHolder;
@@ -96,10 +96,10 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
     public class ViewHolder extends RealmViewHolder {
         Context context;
 
-        @Bind(R.id.chkMerit) CheckBox checkBox;
-        @Bind(R.id.panelMeritValue) LinearLayout panelMeritValue;
-        @Bind(R.id.txtMeritName) TextView txtMeritName;
-        @Bind(R.id.txtMeritDescription) TextView txtMeritDescription;
+        @BindView(R.id.chkMerit) CheckBox checkBox;
+        @BindView(R.id.panelMeritValue) LinearLayout panelMeritValue;
+        @BindView(R.id.txtMeritName) TextView txtMeritName;
+        @BindView(R.id.txtMeritDescription) TextView txtMeritDescription;
 
         public ViewHolder(View itemView, Context context) {
             super(itemView);

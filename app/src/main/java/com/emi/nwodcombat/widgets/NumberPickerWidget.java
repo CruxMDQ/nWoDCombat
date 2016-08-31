@@ -12,18 +12,19 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.interfaces.OnValueChangedListener;
 import com.emi.nwodcombat.tools.Constants;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Emi on 2/19/16.
  */
 public class NumberPickerWidget extends LinearLayout {
 
-    @Bind(R.id.txtTitle) TextView txtTitle;
-    @Bind(R.id.txtNumber) TextView txtNumber;
-    @Bind(R.id.btnDecrease) Button btnDecrease;
-    @Bind(R.id.btnIncrease) Button btnIncrease;
+    @BindView(R.id.txtTitle) TextView txtTitle;
+    @BindView(R.id.txtNumber) TextView txtNumber;
+    @BindView(R.id.btnDecrease) Button btnDecrease;
+    @BindView(R.id.btnIncrease) Button btnIncrease;
 
     private String title;
     private int number;
@@ -31,6 +32,8 @@ public class NumberPickerWidget extends LinearLayout {
     private int maximum;
 
     private OnValueChangedListener listener;
+
+    private Unbinder unbinder;
 
     public NumberPickerWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -82,7 +85,7 @@ public class NumberPickerWidget extends LinearLayout {
 
     private void inflateLayout() {
         View view = inflate(this.getContext(), getLayout(), this);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
     }
 
     private int getLayout() {

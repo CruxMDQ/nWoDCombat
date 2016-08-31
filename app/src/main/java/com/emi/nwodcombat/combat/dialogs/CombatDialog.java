@@ -15,8 +15,7 @@ import com.emi.nwodcombat.tools.Roller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Created by Emi on 2/29/16.
@@ -26,10 +25,10 @@ public class CombatDialog extends DialogFragment {
     private int attackerRerollThreshold;
     private int defense;
 
-    @Bind(R.id.txtAttackerPool) TextView txtAttackerPool;
-    @Bind(R.id.txtDefense) TextView txtDefense;
-    @Bind(R.id.txtAttackerRolls) TextView txtAttackerRolls;
-    @Bind(R.id.txtResult) TextView txtResult;
+    @BindView(R.id.txtAttackerPool) TextView txtAttackerPool;
+    @BindView(R.id.txtDefense) TextView txtDefense;
+    @BindView(R.id.txtAttackerRolls) TextView txtAttackerRolls;
+    @BindView(R.id.txtResult) TextView txtResult;
 
     AlertDialog dialog;
 
@@ -44,7 +43,7 @@ public class CombatDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         LinearLayout root = (LinearLayout) inflater.inflate(R.layout.dialog_combat, null);
-        ButterKnife.bind(this, root);
+//        ButterKnife.bind(this, root);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -117,7 +116,7 @@ public class CombatDialog extends DialogFragment {
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+//        ButterKnife.unbind(this);
     }
 
 }

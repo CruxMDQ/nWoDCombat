@@ -20,21 +20,24 @@ import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Emi on 2/19/16.
  */
 public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePickedListener {
 
-    @Bind(R.id.rvOptions) RecyclerView rvOptions;
+    @BindView(R.id.rvOptions) RecyclerView rvOptions;
 
     String tag;
     String title;
     AfterSettingRulesListener listener;
 
     AlertDialog dialog;
+
+    private Unbinder unbinder;
 
     public static SpecialRollRulesDialog newInstance (String title, String tag, AfterSettingRulesListener listener) {
         SpecialRollRulesDialog fragment = new SpecialRollRulesDialog();
@@ -47,7 +50,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         LinearLayout root = (LinearLayout) inflater.inflate(R.layout.dialog_special_rules, null);
-        ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
 
         final RadioAdapter adapter = new RadioAdapter(getActivity(), generateRules(), this);
 
@@ -84,7 +87,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     private ArrayList<CombatRule> generateRules() {

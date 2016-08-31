@@ -17,7 +17,7 @@ import com.emi.nwodcombat.model.pojos.Trait;
 import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -29,15 +29,15 @@ public class ValueSetter extends LinearLayout {
     private static SharedPreferences preferences;
     private boolean showEditionPanel;
 
-    @Bind(R.id.lblValue) TextView lblValue;
-    @Bind(R.id.panelValue) LinearLayout panelValue;
-    @Bind(R.id.panelEdition) LinearLayout panelEdition;
-    @Bind(R.id.btnValueDecrease) Button btnValueDecrease;
-    @Bind(R.id.btnValueIncrease) Button btnValueIncrease;
+    @BindView(R.id.lblValue) TextView lblValue;
+    @BindView(R.id.panelValue) LinearLayout panelValue;
+    @BindView(R.id.panelEdition) LinearLayout panelEdition;
+    @BindView(R.id.btnValueDecrease) Button btnValueDecrease;
+    @BindView(R.id.btnValueIncrease) Button btnValueIncrease;
 
-    @Bind(R.id.btnSpecialty) Button btnSpecialty;
-    @Bind(R.id.chkSpecialty) CheckBox chkSpecialty;
-    @Bind(R.id.chkTemplateSpecial) CheckBox chkTemplateSpecial;
+    @BindView(R.id.btnSpecialty) Button btnSpecialty;
+    @BindView(R.id.chkSpecialty) CheckBox chkSpecialty;
+    @BindView(R.id.chkTemplateSpecial) CheckBox chkTemplateSpecial;
 
     private String valueName;
     private String traitCategory;

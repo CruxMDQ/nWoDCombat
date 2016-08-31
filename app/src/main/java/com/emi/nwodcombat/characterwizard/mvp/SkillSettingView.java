@@ -19,8 +19,7 @@ import com.squareup.otto.Bus;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -30,47 +29,47 @@ import butterknife.OnClick;
 public class SkillSettingView extends FragmentView implements OnTraitChangedListener {
     private final Bus bus;
 
-    @Bind(R.id.titleSkillsMental) TextView titleSkillsMental;
-    @Bind(R.id.titleSkillsPhysical) TextView titleSkillsPhysical;
-    @Bind(R.id.titleSkillsSocial) TextView titleSkillsSocial;
+    @BindView(R.id.titleSkillsMental) TextView titleSkillsMental;
+    @BindView(R.id.titleSkillsPhysical) TextView titleSkillsPhysical;
+    @BindView(R.id.titleSkillsSocial) TextView titleSkillsSocial;
     
-    @Bind(R.id.panelSkillsMental) LinearLayout panelSkillsMental;
-    @Bind(R.id.panelSkillsPhysical) LinearLayout panelSkillsPhysical;
-    @Bind(R.id.panelSkillsSocial) LinearLayout panelSkillsSocial;
+    @BindView(R.id.panelSkillsMental) LinearLayout panelSkillsMental;
+    @BindView(R.id.panelSkillsPhysical) LinearLayout panelSkillsPhysical;
+    @BindView(R.id.panelSkillsSocial) LinearLayout panelSkillsSocial;
 
-    @Bind(R.id.valueSetterAcademics) ValueSetter valueSetterAcademics;
-    @Bind(R.id.valueSetterComputer) ValueSetter valueSetterComputer;
-    @Bind(R.id.valueSetterCrafts) ValueSetter valueSetterCrafts;
-    @Bind(R.id.valueSetterInvestigation) ValueSetter valueSetterInvestigation;
-    @Bind(R.id.valueSetterMedicine) ValueSetter valueSetterMedicine;
-    @Bind(R.id.valueSetterOccult) ValueSetter valueSetterOccult;
-    @Bind(R.id.valueSetterPolitics) ValueSetter valueSetterPolitics;
-    @Bind(R.id.valueSetterScience) ValueSetter valueSetterScience;
+    @BindView(R.id.valueSetterAcademics) ValueSetter valueSetterAcademics;
+    @BindView(R.id.valueSetterComputer) ValueSetter valueSetterComputer;
+    @BindView(R.id.valueSetterCrafts) ValueSetter valueSetterCrafts;
+    @BindView(R.id.valueSetterInvestigation) ValueSetter valueSetterInvestigation;
+    @BindView(R.id.valueSetterMedicine) ValueSetter valueSetterMedicine;
+    @BindView(R.id.valueSetterOccult) ValueSetter valueSetterOccult;
+    @BindView(R.id.valueSetterPolitics) ValueSetter valueSetterPolitics;
+    @BindView(R.id.valueSetterScience) ValueSetter valueSetterScience;
 
-    @Bind(R.id.valueSetterAthletics) ValueSetter valueSetterAthletics;
-    @Bind(R.id.valueSetterBrawl) ValueSetter valueSetterBrawl;
-    @Bind(R.id.valueSetterDrive) ValueSetter valueSetterDrive;
-    @Bind(R.id.valueSetterFirearms) ValueSetter valueSetterFirearms;
-    @Bind(R.id.valueSetterLarceny) ValueSetter valueSetterLarceny;
-    @Bind(R.id.valueSetterStealth) ValueSetter valueSetterStealth;
-    @Bind(R.id.valueSetterSurvival) ValueSetter valueSetterSurvival;
-    @Bind(R.id.valueSetterWeaponry) ValueSetter valueSetterWeaponry;
+    @BindView(R.id.valueSetterAthletics) ValueSetter valueSetterAthletics;
+    @BindView(R.id.valueSetterBrawl) ValueSetter valueSetterBrawl;
+    @BindView(R.id.valueSetterDrive) ValueSetter valueSetterDrive;
+    @BindView(R.id.valueSetterFirearms) ValueSetter valueSetterFirearms;
+    @BindView(R.id.valueSetterLarceny) ValueSetter valueSetterLarceny;
+    @BindView(R.id.valueSetterStealth) ValueSetter valueSetterStealth;
+    @BindView(R.id.valueSetterSurvival) ValueSetter valueSetterSurvival;
+    @BindView(R.id.valueSetterWeaponry) ValueSetter valueSetterWeaponry;
 
-    @Bind(R.id.valueSetterAnimalKen) ValueSetter valueSetterAnimalKen;
-    @Bind(R.id.valueSetterEmpathy) ValueSetter valueSetterEmpathy;
-    @Bind(R.id.valueSetterExpression) ValueSetter valueSetterExpression;
-    @Bind(R.id.valueSetterIntimidation) ValueSetter valueSetterIntimidation;
-    @Bind(R.id.valueSetterPersuasion) ValueSetter valueSetterPersuasion;
-    @Bind(R.id.valueSetterSocialize) ValueSetter valueSetterSocialize;
-    @Bind(R.id.valueSetterStreetwise) ValueSetter valueSetterStreetwise;
-    @Bind(R.id.valueSetterSubterfuge) ValueSetter valueSetterSubterfuge;
+    @BindView(R.id.valueSetterAnimalKen) ValueSetter valueSetterAnimalKen;
+    @BindView(R.id.valueSetterEmpathy) ValueSetter valueSetterEmpathy;
+    @BindView(R.id.valueSetterExpression) ValueSetter valueSetterExpression;
+    @BindView(R.id.valueSetterIntimidation) ValueSetter valueSetterIntimidation;
+    @BindView(R.id.valueSetterPersuasion) ValueSetter valueSetterPersuasion;
+    @BindView(R.id.valueSetterSocialize) ValueSetter valueSetterSocialize;
+    @BindView(R.id.valueSetterStreetwise) ValueSetter valueSetterStreetwise;
+    @BindView(R.id.valueSetterSubterfuge) ValueSetter valueSetterSubterfuge;
 
     Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public SkillSettingView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
         setupWidgets();
     }
 

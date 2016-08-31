@@ -14,8 +14,7 @@ import com.emi.nwodcombat.interfaces.AfterChoosingValueAndIndexListener;
 import com.emi.nwodcombat.interfaces.OnValueChangedListener;
 import com.emi.nwodcombat.widgets.NumberPickerWidget;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Created by Emi on 2/29/16.
@@ -28,7 +27,7 @@ public class SingleDiceCalcDialog extends DialogFragment implements OnValueChang
 
     AlertDialog dialog;
 
-    @Bind(R.id.nbpk) NumberPickerWidget nbpk;
+    @BindView(R.id.nbpk) NumberPickerWidget nbpk;
 
     public static SingleDiceCalcDialog newInstance (String title, int number, int adapterPosition, AfterChoosingValueAndIndexListener listener) {
         SingleDiceCalcDialog fragment = new SingleDiceCalcDialog();
@@ -42,7 +41,7 @@ public class SingleDiceCalcDialog extends DialogFragment implements OnValueChang
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         LinearLayout root = (LinearLayout) inflater.inflate(R.layout.dialog_single_dice, null);
-        ButterKnife.bind(this, root);
+//        ButterKnife.bind(this, root);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -76,7 +75,7 @@ public class SingleDiceCalcDialog extends DialogFragment implements OnValueChang
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+//        ButterKnife.unbind(this);
     }
 
     @Override

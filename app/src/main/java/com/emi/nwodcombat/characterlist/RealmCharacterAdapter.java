@@ -12,7 +12,7 @@ import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
@@ -56,7 +56,7 @@ public class RealmCharacterAdapter extends RealmBasedRecyclerViewAdapter<Charact
     }
 
     public static class CharacterViewHolder extends RealmViewHolder {
-        @Bind(R.id.rowCharacterName) TextView rowCharacterName;
+        @BindView(R.id.rowCharacterName) TextView rowCharacterName;
 
         public CharacterViewHolder(View itemView) {
             super(itemView);

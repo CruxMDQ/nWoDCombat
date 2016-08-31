@@ -15,7 +15,7 @@ import com.emi.nwodcombat.interfaces.AfterChoosingValueAndIndexListener;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -77,8 +77,8 @@ public class ValuesAdapter<Value> extends RecyclerView.Adapter<ValuesAdapter.Vie
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements AfterChoosingValueAndIndexListener {
-        @Bind(R.id.rowTxtName) public TextView txtName;
-        @Bind(R.id.rowPanelDice) public LinearLayout rowPanelDice;
+        @BindView(R.id.rowTxtName) public TextView txtName;
+        @BindView(R.id.rowPanelDice) public LinearLayout rowPanelDice;
 
         com.emi.nwodcombat.model.pojos.Value value;
 

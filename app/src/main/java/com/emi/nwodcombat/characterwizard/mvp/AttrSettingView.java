@@ -16,8 +16,7 @@ import com.squareup.otto.Bus;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Created by emiliano.desantis on 19/05/2016.
@@ -27,26 +26,26 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
 
     private final Bus bus;
 
-    @Bind(R.id.valueSetterInt) ValueSetter valueSetterIntelligence;
-    @Bind(R.id.valueSetterWits) ValueSetter valueSetterWits;
-    @Bind(R.id.valueSetterRes) ValueSetter valueSetterResolve;
-    @Bind(R.id.valueSetterStr) ValueSetter valueSetterStrength;
-    @Bind(R.id.valueSetterDex) ValueSetter valueSetterDexterity;
-    @Bind(R.id.valueSetterSta) ValueSetter valueSetterStamina;
-    @Bind(R.id.valueSetterPre) ValueSetter valueSetterPresence;
-    @Bind(R.id.valueSetterMan) ValueSetter valueSetterManipulation;
-    @Bind(R.id.valueSetterCom) ValueSetter valueSetterComposure;
+    @BindView(R.id.valueSetterInt) ValueSetter valueSetterIntelligence;
+    @BindView(R.id.valueSetterWits) ValueSetter valueSetterWits;
+    @BindView(R.id.valueSetterRes) ValueSetter valueSetterResolve;
+    @BindView(R.id.valueSetterStr) ValueSetter valueSetterStrength;
+    @BindView(R.id.valueSetterDex) ValueSetter valueSetterDexterity;
+    @BindView(R.id.valueSetterSta) ValueSetter valueSetterStamina;
+    @BindView(R.id.valueSetterPre) ValueSetter valueSetterPresence;
+    @BindView(R.id.valueSetterMan) ValueSetter valueSetterManipulation;
+    @BindView(R.id.valueSetterCom) ValueSetter valueSetterComposure;
 
-    @Bind(R.id.txtPoolMental) TextView txtPoolMental;
-    @Bind(R.id.txtPoolPhysical) TextView txtPoolPhysical;
-    @Bind(R.id.txtPoolSocial) TextView txtPoolSocial;
+    @BindView(R.id.txtPoolMental) TextView txtPoolMental;
+    @BindView(R.id.txtPoolPhysical) TextView txtPoolPhysical;
+    @BindView(R.id.txtPoolSocial) TextView txtPoolSocial;
 
     Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public AttrSettingView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
         setupWidgets();
     }
 
