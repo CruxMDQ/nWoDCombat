@@ -12,8 +12,7 @@ import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.tools.BusProvider;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 import butterknife.OnClick;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.RealmResults;
@@ -26,13 +25,13 @@ public class CharacterListView extends FragmentView {
     private final Bus bus;
     private RealmCharacterAdapter realmCharacterAdapter;
 
-    @Bind(R.id.rvCharacters) RealmRecyclerView rvCharacters;
-    @Bind(R.id.fabNewCharacter) FloatingActionButton fab;
+    @BindView(R.id.rvCharacters) RealmRecyclerView rvCharacters;
+    @BindView(R.id.fabNewCharacter) FloatingActionButton fab;
 
     public CharacterListView(Fragment fragment, Bus bus) {
         super(fragment);
         this.bus = bus;
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
         initializeRV();
     }
 

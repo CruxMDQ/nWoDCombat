@@ -16,17 +16,20 @@ import com.emi.nwodcombat.model.pojos.Value;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Emi on 3/1/16.
  */
 public class DynamicCombatFragment extends Fragment {
-    @Bind(R.id.panelCombatants) LinearLayout panelCombatants;
-    @Bind(R.id.fabDoCombat) FloatingActionButton fabDoCombat;
+    @BindView(R.id.panelCombatants) LinearLayout panelCombatants;
+    @BindView(R.id.fabDoCombat) FloatingActionButton fabDoCombat;
 
     private FragmentManager fragmentManager;
+
+    private Unbinder unbinder;
 
     public DynamicCombatFragment() {
     }
@@ -39,13 +42,19 @@ public class DynamicCombatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_combat_dynamic, container, false);
 
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         
         generateSampleFragments();
 
         setUpFAB();
         
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void setUpFAB() {

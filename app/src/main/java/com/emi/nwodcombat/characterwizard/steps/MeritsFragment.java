@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
 import com.emi.nwodcombat.characterwizard.mvp.MeritsPresenter;
 import com.emi.nwodcombat.characterwizard.mvp.MeritsView;
@@ -53,6 +54,6 @@ public class MeritsFragment extends PagerFragment {
 
     @Override
     public int getLayout() {
-        return 0;
+        return R.layout.fragment_pick_merits;
     }
 }

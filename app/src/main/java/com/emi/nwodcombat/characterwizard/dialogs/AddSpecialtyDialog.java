@@ -24,17 +24,18 @@ import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 03/06/2016.
  */
 public class AddSpecialtyDialog extends DialogFragment {
-    @Bind(R.id.editSpecialtyName) EditText editSpecialtyName;
-    @Bind(R.id.rvDialogSpecialties) RecyclerView rvDialogSpecialties;
-    @Bind(R.id.txtSpecError) TextView txtSpecError;
+    @BindView(R.id.editSpecialtyName) EditText editSpecialtyName;
+    @BindView(R.id.rvDialogSpecialties) RecyclerView rvDialogSpecialties;
+    @BindView(R.id.txtSpecError) TextView txtSpecError;
 
     private String title;
     private String key;
@@ -43,6 +44,8 @@ public class AddSpecialtyDialog extends DialogFragment {
 
     private AlertDialog dialog;
     private SpecialtyAdapter specialtyAdapter;
+
+    private Unbinder unbinder;
 
     public static AddSpecialtyDialog newInstance(String title, String key, CharacterWizardModel model) {
         AddSpecialtyDialog fragment = new AddSpecialtyDialog();
@@ -55,7 +58,7 @@ public class AddSpecialtyDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         LinearLayout root = (LinearLayout) inflater.inflate(getLayout(), null);
-        ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
 
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
         lm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -154,7 +157,7 @@ public class AddSpecialtyDialog extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     private int getLayout() {

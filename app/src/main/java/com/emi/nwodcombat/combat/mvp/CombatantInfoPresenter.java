@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.emi.nwodcombat.combat.dialogs.SpecialRollRulesDialog;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
-import com.emi.nwodcombat.model.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.CombatRule;
 
 /**
  * Created by Emi on 3/1/16.
@@ -27,7 +27,7 @@ public class CombatantInfoPresenter implements CombatantInfoContract.InputListen
     }
 
     @Override
-    public void afterSettingRules(@Nullable Rule rule) {
+    public void afterSettingRules(@Nullable CombatRule rule) {
         view.afterSettingRules(rule);
     }
 }

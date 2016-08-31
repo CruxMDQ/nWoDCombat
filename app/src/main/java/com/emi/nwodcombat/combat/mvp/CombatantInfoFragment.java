@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.ValuesAdapter;
-import com.emi.nwodcombat.model.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.CombatRule;
 import com.emi.nwodcombat.model.pojos.Value;
 import com.emi.nwodcombat.tools.Constants;
 
@@ -23,22 +23,25 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Emi on 3/1/16.
  */
 public class CombatantInfoFragment extends Fragment implements CombatantInfoContract.View {
-    @Bind(R.id.rvCombatantValues) RecyclerView rvCombatantValues;
-    @Bind(R.id.btnSetCombatantThreshold) Button btnSetCombatantThreshold;
-    @Bind(R.id.lblCombatant) TextView lblCombatant;
+    @BindView(R.id.rvCombatantValues) RecyclerView rvCombatantValues;
+    @BindView(R.id.btnSetCombatantThreshold) Button btnSetCombatantThreshold;
+    @BindView(R.id.lblCombatant) TextView lblCombatant;
 
     private String combatantTag;
-    private Rule rule;
+    private CombatRule rule;
     private ArrayList<Value> combatantValues;
 
     private CombatantInfoContract.InputListener actionListener;
+
+    private Unbinder unbinder;
 
     public CombatantInfoFragment() {
     }
@@ -70,7 +73,7 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info_combatant, container, false);
 
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         setUpUI();
 
@@ -82,11 +85,11 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     private void setDefaultRules() {
-        rule = new Rule(Constants.DICE_RULE_10_AGAIN, 10);
+        rule = new CombatRule(Constants.DICE_RULE_10_AGAIN, 10);
 
         btnSetCombatantThreshold.setText(rule.getName());
     }
@@ -108,7 +111,7 @@ public class CombatantInfoFragment extends Fragment implements CombatantInfoCont
     }
 
     @Override
-    public void afterSettingRules(Rule rule) {
+    public void afterSettingRules(CombatRule rule) {
         this.rule = rule;
         btnSetCombatantThreshold.setText(rule.getName());
     }

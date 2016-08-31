@@ -15,26 +15,29 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.combat.adapters.RadioAdapter;
 import com.emi.nwodcombat.interfaces.AfterSettingRulesListener;
 import com.emi.nwodcombat.interfaces.OnChoicePickedListener;
-import com.emi.nwodcombat.model.pojos.Rule;
+import com.emi.nwodcombat.model.pojos.CombatRule;
 import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Emi on 2/19/16.
  */
 public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePickedListener {
 
-    @Bind(R.id.rvOptions) RecyclerView rvOptions;
+    @BindView(R.id.rvOptions) RecyclerView rvOptions;
 
     private String tag;
     private String title;
     private AfterSettingRulesListener listener;
 
     private AlertDialog dialog;
+
+    private Unbinder unbinder;
 
     public static SpecialRollRulesDialog newInstance (String title, String tag, AfterSettingRulesListener listener) {
         SpecialRollRulesDialog fragment = new SpecialRollRulesDialog();
@@ -47,7 +50,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         LinearLayout root = (LinearLayout) inflater.inflate(R.layout.dialog_special_rules, null);
-        ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
 
         final RadioAdapter adapter = new RadioAdapter(getActivity(), generateRules(), this);
 
@@ -61,7 +64,7 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Rule rule = (Rule) adapter.mItems.get(adapter.mSelectedItem);
+                CombatRule rule = (CombatRule) adapter.mItems.get(adapter.mSelectedItem);
 
                 listener.afterSettingRules(rule);
             }
@@ -84,16 +87,16 @@ public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePi
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
-    private ArrayList<Rule> generateRules() {
-        ArrayList<Rule> rules = new ArrayList<>();
+    private ArrayList<CombatRule> generateRules() {
+        ArrayList<CombatRule> rules = new ArrayList<>();
 
-        rules.add(new Rule(Constants.DICE_RULE_8_AGAIN, false, Constants.DICE_VALUE_8_AGAIN));
-        rules.add(new Rule(Constants.DICE_RULE_9_AGAIN, false, Constants.DICE_VALUE_9_AGAIN));
-        rules.add(new Rule(Constants.DICE_RULE_10_AGAIN, false, Constants.DICE_VALUE_10_AGAIN));
-        rules.add(new Rule(Constants.DICE_RULE_NO_AGAIN, false, Constants.DICE_VALUE_NO_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_8_AGAIN, false, Constants.DICE_VALUE_8_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_9_AGAIN, false, Constants.DICE_VALUE_9_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_10_AGAIN, false, Constants.DICE_VALUE_10_AGAIN));
+        rules.add(new CombatRule(Constants.DICE_RULE_NO_AGAIN, false, Constants.DICE_VALUE_NO_AGAIN));
 
         return rules;
     }

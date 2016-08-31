@@ -23,16 +23,22 @@ import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class NavDrawerActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.drawer_layout) DrawerLayout drawer;
-    @Bind(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+
+    private ActionBarDrawerToggle toggle;
+
+    private Bus bus;
+
+//    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +46,27 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
 
         ButterKnife.bind(this);
+//        unbinder = ButterKnife.bind(this);
 
-        // Converted from field to local variable
-        Bus bus = BusProvider.getInstance();
+        bus = BusProvider.getInstance();
         bus.register(this);
 
         setSupportActionBar(toolbar);
 
-        // Converted from field to local variable
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
         loadCharacterList();
     }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        unbinder.unbind();
+//    }
 
     @Override
     public void onBackPressed() {
@@ -104,7 +114,6 @@ public class NavDrawerActivity extends AppCompatActivity
                 loadCombatFragment();
                 break;
             case R.id.nav_manage:
-
                 break;
             case R.id.nav_share:
 
@@ -132,6 +141,7 @@ public class NavDrawerActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.flContent, DynamicCombatFragment.newInstance()).addToBackStack(null).commit();
     }
 
+    //VSM this is memory consuming, use a better approach. Maybe a ViewPager is the best option.
     private void loadNewCharacterWizard() {
         CharacterWizardFragment fragment = new CharacterWizardFragment();
 
@@ -150,13 +160,13 @@ public class NavDrawerActivity extends AppCompatActivity
                 .addToBackStack(Constants.TAG_FRAG_SETTINGS).commit();
     }
 
-//    public void onCharacterCreatorFinish() {
-//        loadCharacterList();
-//    }
+    public void onCharacterCreatorFinish() {
+        loadCharacterList();
+    }
 
-//    public String getToolbarTitle() {
-//        return getString(R.string.app_name);
-//    }
+    public String getToolbarTitle() {
+        return getString(R.string.app_name);
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {

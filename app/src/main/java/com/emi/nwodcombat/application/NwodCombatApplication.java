@@ -7,14 +7,19 @@ import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
 import com.emi.nwodcombat.model.pojos.VicePojo;
 import com.emi.nwodcombat.model.pojos.VirtuePojo;
 import com.emi.nwodcombat.model.realm.Demeanor;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.model.realm.Nature;
 import com.emi.nwodcombat.model.realm.Vice;
 import com.emi.nwodcombat.model.realm.Virtue;
 import com.emi.nwodcombat.persistence.PersistenceLayer;
 import com.emi.nwodcombat.persistence.RealmHelper;
+import com.emi.nwodcombat.rules.Rule;
+import com.emi.nwodcombat.rules.RulesEngine;
+import com.emi.nwodcombat.tools.Constants;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Emi on 3/14/16.
@@ -30,9 +35,29 @@ public class NwodCombatApplication extends Application {
 
         helper = RealmHelper.getInstance(this);
 
+        generateRules();
+
         generatePersonalityArchetypes();
         generateRealmVices();
         generateRealmVirtues();
+    }
+
+    private void generateRules() {
+        Rule rule = new Rule();
+
+        rule.setName("Dream");
+        rule.setHint("Your character can search for answers within her dreams.");
+        rule.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
+
+        rule.addLevels(1, 2, 3, 4, 5);
+
+        rule.addNamespaces("Awakened", "Merit");
+
+        rule.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
+
+        rule.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
+
+        RulesEngine.addRule(rule);
     }
 
     private void generateRealmVirtues() {

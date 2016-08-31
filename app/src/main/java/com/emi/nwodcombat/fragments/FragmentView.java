@@ -12,15 +12,18 @@ import com.emi.nwodcombat.R;
 import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by emiliano.desantis on 22/03/2016.
  */
 public class FragmentView {
-    private final WeakReference<Fragment> fragmentRef;
+    private final Unbinder unbinder;
+    private WeakReference<Fragment> fragmentRef;
 
-    protected FragmentView(Fragment fragment) {
+    public FragmentView(Fragment fragment) {
         fragmentRef = new WeakReference<>(fragment);
+        unbinder = ButterKnife.bind(this, fragment.getView());
     }
 
     @Nullable
@@ -48,7 +51,7 @@ public class FragmentView {
 
 
     public void unbind() {
-        ButterKnife.unbind(fragmentRef.get());
+        unbinder.unbind();
     }
 
     @SuppressWarnings("ConstantConditions")

@@ -1,6 +1,9 @@
 package com.emi.nwodcombat.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -9,75 +12,104 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
-import com.emi.nwodcombat.model.realm.Merit;
+import com.emi.nwodcombat.rules.Rule;
+import com.squareup.otto.Bus;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
-import io.realm.RealmBaseAdapter;
+import io.realm.RealmViewHolder;
 
 /**
  * Created by emiliano.desantis on 02/06/2016.
- * TODO UNTESTED - SPECIALTIES HAVE TO BE COMPLETED FIRST
  */
-public class MeritsAdapter extends RealmBaseAdapter<Merit> {
-    private final Context context;
+public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder> {
+    final Context context;
+    final int idLayout;
+    final Bus bus;
 
-    public MeritsAdapter(Context context, OrderedRealmCollection<Merit> data) {
-        super(context, data);
+    OrderedRealmCollection<Rule> merits;
+
+    public MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, int idLayout, Bus bus) {
         this.context = context;
+        this.merits = data;
+        this.idLayout = idLayout;
+        this.bus = bus;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-
-        if (convertView == null) {
-            convertView =  inflater.inflate(R.layout.row_merit, parent, false);
-
-            holder = new ViewHolder(context);
-
-            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
-            holder.panelMeritValue = (LinearLayout) convertView.findViewById(R.id.panelMeritValue);
-            holder.txtMeritDescription = (TextView) convertView.findViewById(R.id.txtMeritDescription);
-            holder.txtMeritName = (TextView) convertView.findViewById(R.id.txtMeritName);
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        Merit item = adapterData.get(position);
-
-        holder.setValue(item.getCost());
-        holder.txtMeritName.setText(item.getName());
-        holder.txtMeritDescription.setText(item.getDescription());
-
-        return null;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        final View view = inflater.inflate(idLayout, parent, false);
+        return new ViewHolder(view, context);
     }
 
-    private static class ViewHolder {
-        final Context context;
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Rule merit = merits.get(position);
 
-        CheckBox checkBox;
-        LinearLayout panelMeritValue;
-        TextView txtMeritName;
-        TextView txtMeritDescription;
+        holder.txtMeritName.setText(merit.getName());
+        holder.txtMeritDescription.setText(merit.getHint());
 
-        public ViewHolder(Context context) {
-            this.context = context;
-        }
+        holder.panelMeritValue.removeAllViews();
 
-        public void setValue(int value) {
-            panelMeritValue.removeAllViews();
+        for (Integer level : merit.getLevels()) {
+            LinearLayout container = new LinearLayout(context);
 
-            for (int i = 0; i < value; i++) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            int dpValue = 5;
+            float d = context.getResources().getDisplayMetrics().density;
+            int margin = (int)(dpValue * d);
+
+            params.gravity = Gravity.CENTER_VERTICAL;
+            params.setMargins(margin, 0, 0, margin);
+
+            container.setLayoutParams(params);
+
+            container.setOrientation(LinearLayout.HORIZONTAL);
+
+            for (int i = 0; i < level; i++) {
                 RadioButton rdb = new RadioButton(context);
 
-                rdb.setChecked(true);
+                rdb.setChecked(false);
 
-                rdb.setButtonDrawable(context.getResources().getDrawable(R.drawable.selector_points));
+                rdb.setButtonDrawable(
+                    context.getResources().getDrawable(R.drawable.selector_points));
 
-                panelMeritValue.addView(rdb);
+                rdb.setClickable(false);
+
+                container.addView(rdb);
             }
+
+            holder.panelMeritValue.addView(container);
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        if (merits == null) return 0;
+        return merits.size();
+    }
+
+    public class ViewHolder extends RealmViewHolder {
+        Context context;
+
+        @BindView(R.id.chkMerit) CheckBox checkBox;
+        @BindView(R.id.panelMeritValue) LinearLayout panelMeritValue;
+        @BindView(R.id.txtMeritName) TextView txtMeritName;
+        @BindView(R.id.txtMeritDescription) TextView txtMeritDescription;
+
+        public ViewHolder(View itemView, Context context) {
+            super(itemView);
+            this.context = context;
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    public void setMerits(OrderedRealmCollection<Rule> merits) {
+        this.merits = merits;
+        this.notifyDataSetChanged();
     }
 }

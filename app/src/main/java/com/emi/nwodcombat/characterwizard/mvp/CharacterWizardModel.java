@@ -625,4 +625,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
             entry.setId(i + lastId);
         }
     }
+
+    public static Character getCharacter() {
+        return character;
+    }
 }

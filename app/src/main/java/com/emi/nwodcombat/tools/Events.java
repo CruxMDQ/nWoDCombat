@@ -160,4 +160,18 @@ public class Events {
             this.value = value;
         }
     }
+
+    public static class WizardProgressEvent {
+        public final int currentItem;
+        public final boolean movesForward;
+
+        public WizardProgressEvent(int currentItem, boolean movesForward) {
+            this.currentItem = currentItem;
+            this.movesForward = movesForward;
+        }
+    }
+
+    public static class MeritsFragmentLoaded {
+        public MeritsFragmentLoaded() {}
+    }
 }

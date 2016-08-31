@@ -13,7 +13,7 @@ import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmList;
 import io.realm.RealmViewHolder;
@@ -62,8 +62,8 @@ public class SpecialtyAdapter extends RecyclerView.Adapter<SpecialtyAdapter.View
     }
 
     public class ViewHolder extends RealmViewHolder {
-        @Bind(R.id.rowSpecialtyName) TextView rowSpecialtyName;
-        @Bind(R.id.btnDelete) ImageButton btnDelete;
+        @BindView(R.id.rowSpecialtyName) TextView rowSpecialtyName;
+        @BindView(R.id.btnDelete) ImageButton btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);

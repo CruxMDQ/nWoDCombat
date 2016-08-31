@@ -13,7 +13,7 @@ import com.emi.nwodcombat.interfaces.OnChoicePickedListener;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -51,7 +51,8 @@ public class RadioAdapter<Rule> extends RecyclerView.Adapter<RadioAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @Bind(R.id.rdbChoice)
+        @BindView(R.id.rdbChoice)
+
         public RadioButton mRadio;
 
         public ViewHolder(final View inflate) {

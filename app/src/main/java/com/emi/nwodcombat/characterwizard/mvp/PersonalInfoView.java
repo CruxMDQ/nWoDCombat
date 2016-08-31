@@ -18,8 +18,7 @@ import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Created by emiliano.desantis on 18/05/2016.
@@ -27,19 +26,19 @@ import butterknife.ButterKnife;
 public class PersonalInfoView extends FragmentView {
     private final Bus bus;
 
-    @Bind(R.id.editConcept) EditText editConcept;
-    @Bind(R.id.editName) EditText editName;
-    @Bind(R.id.editPlayer) EditText editPlayer;
+    @BindView(R.id.editConcept) EditText editConcept;
+    @BindView(R.id.editName) EditText editName;
+    @BindView(R.id.editPlayer) EditText editPlayer;
 
-    @Bind(R.id.spinnerDemeanor) Spinner spinnerDemeanor;
-    @Bind(R.id.spinnerNature) Spinner spinnerNature;
-    @Bind(R.id.spinnerVice) Spinner spinnerVice;
-    @Bind(R.id.spinnerVirtue) Spinner spinnerVirtue;
+    @BindView(R.id.spinnerDemeanor) Spinner spinnerDemeanor;
+    @BindView(R.id.spinnerNature) Spinner spinnerNature;
+    @BindView(R.id.spinnerVice) Spinner spinnerVice;
+    @BindView(R.id.spinnerVirtue) Spinner spinnerVirtue;
 
     public PersonalInfoView(Fragment fragment, Bus instance) {
         super(fragment);
         this.bus = instance;
-        ButterKnife.bind(this, fragment.getView());
+//        ButterKnife.bind(this, fragment.getView());
         setUpTextWatcher();
     }
 

@@ -14,17 +14,20 @@ import android.widget.TextView;
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.tools.Constants;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Crux on 3/10/2016.
  */
 public class SettingsFragment extends Fragment {
+    private Unbinder unbinder;
+
     private SharedPreferences preferences;
 
-    @Bind(R.id.chkCheat) CheckBox chkCheat;
-    @Bind(R.id.chkIgnoreStatCaps) CheckBox chkIgnoreStatCaps;
+    @BindView(R.id.chkCheat) CheckBox chkCheat;
+    @BindView(R.id.chkIgnoreStatCaps) CheckBox chkIgnoreStatCaps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,9 +35,15 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(
             getLayout(), container, false);
 
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

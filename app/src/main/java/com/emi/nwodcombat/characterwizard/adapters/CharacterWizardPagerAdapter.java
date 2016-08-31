@@ -12,8 +12,7 @@ import java.util.List;
  * Created by Emi on 3/3/16.
  */
 public class CharacterWizardPagerAdapter extends FragmentStatePagerAdapter {
-    private final List<Class<? extends PagerFragment>> fragmentClasses;
-//    private List<PagerStep> fragments;
+    private List<Class<? extends PagerFragment>> fragmentClasses;
 
     public CharacterWizardPagerAdapter(FragmentManager fm, List<Class<? extends PagerFragment>> fragmentClasses) {
         super(fm);
@@ -36,5 +35,9 @@ public class CharacterWizardPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return this.fragmentClasses.size();
+    }
+
+    public List<Class<? extends PagerFragment>> getFragmentClasses() {
+        return fragmentClasses;
     }
 }
