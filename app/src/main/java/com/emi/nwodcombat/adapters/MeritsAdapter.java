@@ -102,6 +102,13 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
                 for (int i = 0; i < level; i++) {
                     inflater.inflate(R.layout.dot_empty, container, true);
                 }
+
+                if (merit.getLevels().indexOf(level) < merit.getLevels().size() - 1) {
+                    TextView txtSeparator = new TextView(context);
+                    txtSeparator.setText(", ");
+
+                    container.addView(txtSeparator);
+                }
             }
             holder.panelMeritValue.addView(container);
         }
