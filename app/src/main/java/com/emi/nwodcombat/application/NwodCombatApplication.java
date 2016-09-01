@@ -43,21 +43,51 @@ public class NwodCombatApplication extends Application {
     }
 
     private void generateRules() {
-        Rule rule = new Rule();
+        Rule dream = new Rule();
 
-        rule.setName("Dream");
-        rule.setHint("Your character can search for answers within her dreams.");
-        rule.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
+        dream.setName("Dream");
+        dream.setHint("Your character can search for answers within her dreams.");
+        dream.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
 
-        rule.addLevels(1, 2, 3, 4, 5);
+        dream.addLevels(1, 2, 3, 4, 5);
 
-        rule.addNamespaces("Awakened", "Merit");
+        dream.addNamespaces("Awakened", "Merit");
 
-        rule.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
+        dream.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
 
-        rule.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
+        dream.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
 
-        RulesEngine.addRule(rule);
+        RulesEngine.addRule(dream);
+
+        Rule trainedObserver = new Rule();
+
+        trainedObserver.setName("Trained Observer");
+        trainedObserver.setHint("Your character has spent years in the field, catching tiny details and digging for secrets.");
+        trainedObserver.setDescription("Your character has spent years in the field, catching tiny details and digging for secrets.");
+
+        trainedObserver.addLevels(1, 3);
+
+        trainedObserver.addNamespaces("Common", "Merit");
+
+        trainedObserver.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
+
+        trainedObserver.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
+
+        RulesEngine.addRule(trainedObserver);
+
+        Rule commonSense = new Rule();
+
+        commonSense.setName("Common Sense");
+        commonSense.setHint("Your character has an exceptionally sound and rational mind.");
+        commonSense.setDescription("Your character has an exceptionally sound and rational mind. Within a moment\'s thought, she can weigh potential courses of action and outcomes.");
+
+        commonSense.addLevels(3);
+
+        commonSense.addNamespaces("Common", "Merit");
+
+        //parameters: Wits, Composure
+
+        RulesEngine.addRule(commonSense);
     }
 
     private void generateRealmVirtues() {

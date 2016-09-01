@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
@@ -168,16 +168,19 @@ public class ValueSetter extends LinearLayout {
     }
 
     private void refreshPointsPanel() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         panelValue.removeAllViews();
 
         for (int i = 0; i < currentValue; i++) {
-            RadioButton rdb = new RadioButton(getContext());
+//            RadioButton rdb = new RadioButton(getContext());
+//
+//            rdb.setChecked(true);
+//
+//            rdb.setButtonDrawable(getContext().getResources().getDrawable(R.drawable.selector_points));
+//
+//            panelValue.addView(rdb);
 
-            rdb.setChecked(true);
-
-            rdb.setButtonDrawable(getContext().getResources().getDrawable(R.drawable.selector_points));
-
-            panelValue.addView(rdb);
+            inflate(getContext(), R.layout.dot_solid, panelValue);
         }
 
     }

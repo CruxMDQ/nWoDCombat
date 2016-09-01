@@ -36,7 +36,28 @@ public class ArrayHelper {
         }
     }
 
-// --Commented out by Inspection START (07/07/2016 01:13 PM):
+    // Source: http://stackoverflow.com/a/7143170
+    public static boolean isIncreasing(int[] arr) {
+        for(int i = 0 ; i < arr.length - 1; i++) { // finish at length - 1
+            if (arr[i] > arr[i+1]) {
+                return false; // found elements that are out of order - return false
+            }
+        }
+        return true; // nothing out of order found - return true
+    }
+
+    public static boolean isIncreasingAndContiguous(List<Integer> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+
+//            if (list.get(i) > list.get(i+1)) {
+            if (list.get(i) != list.get(i+1) - 1) {
+                return false; // found elements that are out of order - return false
+            }
+        }
+        return true; // nothing out of order found - return true
+    }
+
+    // --Commented out by Inspection START (07/07/2016 01:13 PM):
 //    public static <T extends Entry> Entry findEntry(List<T> list, final long id) {
 //        return Iterables.find(list, new Predicate<T>() {
 //            public boolean apply(T instance) {

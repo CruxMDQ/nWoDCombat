@@ -18,7 +18,6 @@ import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 02/06/2016.
- * TODO UNTESTED - SPECIALTIES HAVE TO BE COMPLETED FIRST
  */
 public class MeritsPresenter {
     private final CharacterWizardModel model;
@@ -33,7 +32,7 @@ public class MeritsPresenter {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
-        this.adapter = new MeritsAdapter(null, this.context, R.layout.row_merit, BusProvider.getInstance());
+        this.adapter = new MeritsAdapter(null, this.context, BusProvider.getInstance());
         setupWidgets();
     }
 
@@ -52,6 +51,7 @@ public class MeritsPresenter {
     public void onFragmentVisible(Events.MeritsFragmentLoaded event) {
         List<String> namespaces = new ArrayList<>();
 
+        namespaces.add("Common");
         namespaces.add("Awakened");
         namespaces.add("Merit");
 

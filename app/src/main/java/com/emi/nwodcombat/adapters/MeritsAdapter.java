@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -8,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.rules.Rule;
+import com.emi.nwodcombat.tools.ArrayHelper;
 import com.squareup.otto.Bus;
+
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,10 +33,10 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
 
     OrderedRealmCollection<Rule> merits;
 
-    public MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, int idLayout, Bus bus) {
+    public MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, Bus bus) {
         this.context = context;
         this.merits = data;
-        this.idLayout = idLayout;
+        this.idLayout = R.layout.row_merit;
         this.bus = bus;
     }
 
@@ -46,6 +49,8 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+
         Rule merit = merits.get(position);
 
         holder.txtMeritName.setText(merit.getName());
@@ -53,38 +58,74 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
 
         holder.panelMeritValue.removeAllViews();
 
-        for (Integer level : merit.getLevels()) {
-            LinearLayout container = new LinearLayout(context);
+        int dpValue = 5;
+        float d = context.getResources().getDisplayMetrics().density;
+        int margin = (int)(dpValue * d);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (ArrayHelper.isIncreasingAndContiguous(merit.getLevels()) && merit.getLevels().size() > 1) {
+            LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
 
-            int dpValue = 5;
-            float d = context.getResources().getDisplayMetrics().density;
-            int margin = (int)(dpValue * d);
+            int min = Collections.min(merit.getLevels());
+            int max = Collections.max(merit.getLevels());
 
-            params.gravity = Gravity.CENTER_VERTICAL;
-            params.setMargins(margin, 0, 0, margin);
-
-            container.setLayoutParams(params);
-
-            container.setOrientation(LinearLayout.HORIZONTAL);
-
-            for (int i = 0; i < level; i++) {
-                RadioButton rdb = new RadioButton(context);
-
-                rdb.setChecked(false);
-
-                rdb.setButtonDrawable(
-                    context.getResources().getDrawable(R.drawable.selector_points));
-
-                rdb.setClickable(false);
-
-                container.addView(rdb);
+            TextView txtOpen = new TextView(context);
+            txtOpen.setText("(");
+            
+            container.addView(txtOpen);
+            
+            for (int i = 0; i < min; i++) {
+                inflater.inflate(R.layout.dot_empty, container, true);
             }
+
+            TextView txtTo = new TextView(context);
+            txtTo.setText("to");
+            txtTo.setLayoutParams(generateParams(margin, 0, margin, 0));
+            
+            container.addView(txtTo);
+
+            for (int i = 0; i < max; i++) {
+                inflater.inflate(R.layout.dot_empty, container, true);
+            }
+
+            TextView txtClose = new TextView(context);
+            txtClose.setText(")");
+
+            container.addView(txtClose);
 
             holder.panelMeritValue.addView(container);
         }
+        else
+        {
+            LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
+
+            for (Integer level : merit.getLevels()) {
+                for (int i = 0; i < level; i++) {
+                    inflater.inflate(R.layout.dot_empty, container, true);
+                }
+            }
+            holder.panelMeritValue.addView(container);
+        }
+    }
+
+    @NonNull
+    private LinearLayout createContainer(LinearLayout.LayoutParams params) {
+        LinearLayout container = new LinearLayout(context);
+
+        container.setLayoutParams(params);
+
+        container.setOrientation(LinearLayout.HORIZONTAL);
+
+        return container;
+    }
+
+    @NonNull
+    private LinearLayout.LayoutParams generateParams(int left, int top, int right, int bottom) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.gravity = Gravity.CENTER_VERTICAL;
+        params.setMargins(left, top, right, bottom);
+        return params;
     }
 
     @Override

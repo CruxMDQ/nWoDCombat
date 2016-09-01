@@ -47,23 +47,7 @@ public class RulesEngine {
                     boolean shouldAdd = false;
 
                     for (Entry requirement : requirementSet) {
-                        for (Entry entry : character.getEntries()) {
-
-                            // * ----> If the name matches, compare values
-                            if (validateKeys(entry, requirement)) {
-
-                                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER)) {
-                                    // * ----> If the value is not enough, the character does not qualify for this resource
-                                    shouldAdd = compareIntegers(requirement, entry);
-                                }
-
-                                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_STRING)) {
-                                    shouldAdd = compareStrings(requirement, entry);
-                                }
-
-                                if (shouldAdd) break;
-                            }
-                        }
+                        shouldAdd = checkRequirement(character, requirement);
                     }
 
                     validations.add(shouldAdd);
@@ -76,6 +60,29 @@ public class RulesEngine {
         }
 
         return result;
+    }
+
+    private static boolean checkRequirement(Character character, Entry requirement) {
+        boolean shouldAdd = false;
+
+        for (Entry entry : character.getEntries()) {
+            // * ----> If the name matches, compare values
+            if (validateKeys(entry, requirement)) {
+
+                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER)) {
+                    // * ----> If the value is not enough, the character does not qualify for this resource
+                    shouldAdd = compareIntegers(requirement, entry);
+                }
+
+                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_STRING)) {
+                    shouldAdd = compareStrings(requirement, entry);
+                }
+
+                if (shouldAdd) break;
+            }
+        }
+
+        return shouldAdd;
     }
 
     private static boolean checkValidations(List<Boolean> validations) {

@@ -1,330 +1,353 @@
-diff --git a/app/src/main/java/com/emi/nwodcombat/characterwizard/adapters/CharacterWizardPagerAdapter.java b/app/src/main/java/com/emi/nwodcombat/characterwizard/adapters/CharacterWizardPagerAdapter.java
-new file mode 100644
-index 0000000..71bc15d
---- /dev/null
-+++ b/app/src/main/java/com/emi/nwodcombat/characterwizard/adapters/CharacterWizardPagerAdapter.java
-@@ -0,0 +1,40 @@
-+package com.emi.nwodcombat.characterwizard.adapters;
+diff --git a/app/src/main/java/com/emi/nwodcombat/adapters/MeritsAdapter.java b/app/src/main/java/com/emi/nwodcombat/adapters/MeritsAdapter.java
+index 7870a90..08505f2 100644
+--- a/app/src/main/java/com/emi/nwodcombat/adapters/MeritsAdapter.java
++++ b/app/src/main/java/com/emi/nwodcombat/adapters/MeritsAdapter.java
+@@ -1,6 +1,7 @@
+ package com.emi.nwodcombat.adapters;
+ 
+ import android.content.Context;
++import android.support.annotation.NonNull;
+ import android.support.v7.widget.RecyclerView;
+ import android.view.Gravity;
+ import android.view.LayoutInflater;
+@@ -13,8 +14,11 @@ import android.widget.TextView;
+ 
+ import com.emi.nwodcombat.R;
+ import com.emi.nwodcombat.rules.Rule;
++import com.emi.nwodcombat.tools.ArrayHelper;
+ import com.squareup.otto.Bus;
+ 
++import java.util.Collections;
 +
+ import butterknife.BindView;
+ import butterknife.ButterKnife;
+ import io.realm.OrderedRealmCollection;
+@@ -30,10 +34,10 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
+ 
+     OrderedRealmCollection<Rule> merits;
+ 
+-    public MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, int idLayout, Bus bus) {
++    public MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, Bus bus) {
+         this.context = context;
+         this.merits = data;
+-        this.idLayout = idLayout;
++        this.idLayout = R.layout.row_merit;
+         this.bus = bus;
+     }
+ 
+@@ -53,24 +57,45 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
+ 
+         holder.panelMeritValue.removeAllViews();
+ 
+-        for (Integer level : merit.getLevels()) {
+-            LinearLayout container = new LinearLayout(context);
++        int dpValue = 5;
++        float d = context.getResources().getDisplayMetrics().density;
++        int margin = (int)(dpValue * d);
 +
-+import android.app.FragmentManager;
-+import android.support.v13.app.FragmentStatePagerAdapter;
++        LinearLayout.LayoutParams params = generateParams(margin, margin, margin, margin);
 +
-+import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
++        if (ArrayHelper.isIncreasingAndContiguous(merit.getLevels()) && merit.getLevels().size() > 1) {
++            LinearLayout container = createContainer(params);
 +
-+import java.util.List;
++            holder.panelMeritValue.removeAllViews();
+ 
+-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
++            int min = Collections.min(merit.getLevels());
++            int max = Collections.max(merit.getLevels());
 +
-+/**
-+ * Created by Emi on 3/3/16.
-+ */
-+public class CharacterWizardPagerAdapter extends FragmentStatePagerAdapter {
-+    private List<Class<? extends PagerFragment>> fragmentClasses;
-+//    private List<PagerStep> fragments;
++            TextView txtOpen = new TextView(context);
++            txtOpen.setText("(");
++            
++            container.addView(txtOpen);
++            
++            for (int i = 0; i < min; i++) {
++                RadioButton rdb = new RadioButton(context);
 +
-+    public CharacterWizardPagerAdapter(FragmentManager fm, List<Class<? extends PagerFragment>> fragmentClasses) {
-+        super(fm);
-+        this.fragmentClasses = fragmentClasses;
-+    }
++                rdb.setChecked(false);
+ 
+-            int dpValue = 5;
+-            float d = context.getResources().getDisplayMetrics().density;
+-            int margin = (int)(dpValue * d);
++                rdb.setButtonDrawable(
++                    context.getResources().getDrawable(R.drawable.selector_points));
+ 
+-            params.gravity = Gravity.CENTER_VERTICAL;
+-            params.setMargins(margin, 0, 0, margin);
++                rdb.setClickable(false);
+ 
+-            container.setLayoutParams(params);
++                container.addView(rdb);
++            }
+ 
+-            container.setOrientation(LinearLayout.HORIZONTAL);
++            TextView txtTo = new TextView(context);
++            txtTo.setText("to");
++            txtTo.setLayoutParams(generateParams(margin, 0, margin, 0));
++            
++            container.addView(txtTo);
+ 
+-            for (int i = 0; i < level; i++) {
++            for (int i = 0; i < max; i++) {
+                 RadioButton rdb = new RadioButton(context);
+ 
+                 rdb.setChecked(false);
+@@ -83,8 +108,57 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
+                 container.addView(rdb);
+             }
+ 
++            TextView txtClose = new TextView(context);
++            txtClose.setText(")");
 +
-+    @Override
-+    public PagerFragment getItem(int position) {
-+        try {
-+            return fragmentClasses.get(position).newInstance();
-+        } catch (InstantiationException e) {
-+            e.printStackTrace();
-+        } catch (IllegalAccessException e) {
-+            e.printStackTrace();
-+        }
++            container.addView(txtClose);
 +
-+        return null;
-+    }
+             holder.panelMeritValue.addView(container);
+         }
++        else
++        {
++            LinearLayout container = createContainer(params);
 +
-+    @Override
-+    public int getCount() {
-+        return this.fragmentClasses.size();
-+    }
-+}
-diff --git a/app/src/main/java/com/emi/nwodcombat/characterwizard/adapters/SpecialtyAdapter.java b/app/src/main/java/com/emi/nwodcombat/characterwizard/adapters/SpecialtyAdapter.java
-new file mode 100644
-index 0000000..a5a3427
---- /dev/null
-+++ b/app/src/main/java/com/emi/nwodcombat/characterwizard/adapters/SpecialtyAdapter.java
-@@ -0,0 +1,56 @@
-+package com.emi.nwodcombat.characterwizard.adapters;
++            holder.panelMeritValue.removeAllViews();
 +
-+import android.app.Activity;
-+import android.view.LayoutInflater;
-+import android.view.View;
-+import android.view.ViewGroup;
-+import android.widget.TextView;
++            for (Integer level : merit.getLevels()) {
++                for (int i = 0; i < level; i++) {
++                    RadioButton rdb = new RadioButton(context);
 +
-+import com.emi.nwodcombat.R;
-+import com.emi.nwodcombat.model.realm.Entry;
-+import com.squareup.otto.Bus;
++                    rdb.setChecked(false);
 +
-+import butterknife.Bind;
-+import butterknife.ButterKnife;
-+import io.realm.RealmBasedRecyclerViewAdapter;
-+import io.realm.RealmResults;
-+import io.realm.RealmViewHolder;
++                    rdb.setButtonDrawable(
++                        context.getResources().getDrawable(R.drawable.selector_points));
 +
-+/**
-+ * Created by emiliano.desantis on 03/06/2016.
-+ */
-+public class SpecialtyAdapter extends RealmBasedRecyclerViewAdapter<Entry, SpecialtyAdapter.ViewHolder>{
-+    private Activity activity;
-+    private int idLayout;
-+    private Bus bus;
++                    rdb.setClickable(false);
 +
-+    public SpecialtyAdapter(RealmResults<Entry> specialties, Activity activity, int idLayout, boolean automaticUpdate, boolean animateIdType, Bus bus) {
-+        super (activity, specialties, automaticUpdate, animateIdType);
-+        this.activity = activity;
-+        this.idLayout = idLayout;
-+        this.bus = bus;
-+    }
-+
-+    @Override
-+    public ViewHolder onCreateRealmViewHolder(ViewGroup parent, int i) {
-+        LayoutInflater inflater = LayoutInflater.from(activity);
-+        final View view = inflater.inflate(idLayout, parent, false);
-+        return new ViewHolder(view);
-+    }
-+
-+    @Override
-+    public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-+        Entry specialty = realmResults.get(position);
-+//        final Long id = specialty.getId();
-+        viewHolder.rowSpecialtyName.setText(specialty.getValue());
-+    }
-+
-+    public class ViewHolder extends RealmViewHolder {
-+        @Bind(R.id.rowSpecialtyName) TextView rowSpecialtyName;
-+
-+        public ViewHolder(View itemView) {
-+            super(itemView);
-+            ButterKnife.bind(this, itemView);
-+        }
-+    }
-+}
-diff --git a/app/src/main/java/com/emi/nwodcombat/characterwizard/dialogs/AddSpecialtyDialog.java b/app/src/main/java/com/emi/nwodcombat/characterwizard/dialogs/AddSpecialtyDialog.java
-new file mode 100644
-index 0000000..f975e99
---- /dev/null
-+++ b/app/src/main/java/com/emi/nwodcombat/characterwizard/dialogs/AddSpecialtyDialog.java
-@@ -0,0 +1,119 @@
-+package com.emi.nwodcombat.characterwizard.dialogs;
-+
-+import android.app.AlertDialog;
-+import android.app.Dialog;
-+import android.app.DialogFragment;
-+import android.content.DialogInterface;
-+import android.os.Bundle;
-+import android.view.KeyEvent;
-+import android.view.LayoutInflater;
-+import android.view.inputmethod.EditorInfo;
-+import android.widget.Button;
-+import android.widget.EditText;
-+import android.widget.LinearLayout;
-+import android.widget.TextView;
-+
-+import com.emi.nwodcombat.R;
-+import com.emi.nwodcombat.characterwizard.adapters.SpecialtyAdapter;
-+import com.emi.nwodcombat.characterwizard.mvp.CharacterWizardModel;
-+import com.emi.nwodcombat.model.realm.Entry;
-+import com.emi.nwodcombat.utils.BusProvider;
-+
-+import butterknife.Bind;
-+import butterknife.ButterKnife;
-+import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-+import io.realm.RealmList;
-+
-+/**
-+ * Created by emiliano.desantis on 03/06/2016.
-+ */
-+public class AddSpecialtyDialog extends DialogFragment {
-+    @Bind(R.id.editSpecialtyName) EditText editSpecialtyName;
-+    @Bind(R.id.rvDialogSpecialties) RealmRecyclerView rvDialogSpecialties;
-+
-+    private String title;
-+    private String key;
-+
-+    private CharacterWizardModel model;
-+
-+    AlertDialog dialog;
-+    private SpecialtyAdapter specialtyAdapter;
-+
-+    public static AddSpecialtyDialog newInstance(String title, String key, CharacterWizardModel model) {
-+        AddSpecialtyDialog fragment = new AddSpecialtyDialog();
-+        fragment.title = title;
-+        fragment.key = key;
-+        fragment.model = model;
-+        return fragment;
-+    }
-+
-+    public Dialog onCreateDialog(Bundle savedInstanceState) {
-+        LayoutInflater inflater = LayoutInflater.from(getActivity());
-+        LinearLayout root = (LinearLayout) inflater.inflate(getLayout(), null);
-+        ButterKnife.bind(this, root);
-+
-+        specialtyAdapter = new SpecialtyAdapter(null, getActivity(), R.layout.row_specialty, true, false,
-+            BusProvider.getInstance());
-+
-+        fillAdapter(model.getSpecialties(key));
-+
-+        rvDialogSpecialties.setAdapter(specialtyAdapter);
-+
-+        editSpecialtyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-+            @Override
-+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-+                if (actionId == EditorInfo.IME_ACTION_DONE) {
-+                    // TODO Code model addition of new specialty
-+                    model.addSpecialty(key, editSpecialtyName.getText().toString());
-+                    return true;
++                    container.addView(rdb);
 +                }
-+                return false;
++
++                holder.panelMeritValue.addView(container);
 +            }
-+        });
-+
-+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-+
-+        alertDialogBuilder.setView(root);
-+
-+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-+            @Override
-+            public void onClick(DialogInterface dialog, int which) {
-+                dismiss();
-+            }
-+        });
-+
-+        alertDialogBuilder.setTitle(title);
-+
-+        dialog = alertDialogBuilder.create();
-+
-+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-+            @Override
-+            public void onShow(DialogInterface dialogInterface) {
-+                Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-+                positive.setEnabled(false);
-+            }
-+        });
-+
-+        return dialog;
++        }
 +    }
 +
-+    private void fillAdapter(RealmList<Entry> specialties) {
-+        try {
-+            specialtyAdapter.updateRealmResults(specialties.where().findAll());
-+        } catch (NoSuchMethodError e) {
-+            e.printStackTrace();
++    @NonNull
++    private LinearLayout createContainer(LinearLayout.LayoutParams params) {
++        LinearLayout container = new LinearLayout(context);
++
++        container.setLayoutParams(params);
++
++        container.setOrientation(LinearLayout.HORIZONTAL);
++
++        return container;
++    }
++
++    @NonNull
++    private LinearLayout.LayoutParams generateParams(int left, int top, int right, int bottom) {
++        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
++            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
++
++        params.gravity = Gravity.CENTER_VERTICAL;
++        params.setMargins(left, top, right, bottom);
++        return params;
+     }
+ 
+     @Override
+diff --git a/app/src/main/java/com/emi/nwodcombat/application/NwodCombatApplication.java b/app/src/main/java/com/emi/nwodcombat/application/NwodCombatApplication.java
+index 65fb065..eb6926b 100644
+--- a/app/src/main/java/com/emi/nwodcombat/application/NwodCombatApplication.java
++++ b/app/src/main/java/com/emi/nwodcombat/application/NwodCombatApplication.java
+@@ -43,21 +43,51 @@ public class NwodCombatApplication extends Application {
+     }
+ 
+     private void generateRules() {
+-        Rule rule = new Rule();
++        Rule dream = new Rule();
+ 
+-        rule.setName("Dream");
+-        rule.setHint("Your character can search for answers within her dreams.");
+-        rule.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
++        dream.setName("Dream");
++        dream.setHint("Your character can search for answers within her dreams.");
++        dream.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
+ 
+-        rule.addLevels(1, 2, 3, 4, 5);
++        dream.addLevels(1, 2, 3, 4, 5);
+ 
+-        rule.addNamespaces("Awakened", "Merit");
++        dream.addNamespaces("Awakened", "Merit");
+ 
+-        rule.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
++        dream.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
+ 
+-        rule.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
++        dream.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
+ 
+-        RulesEngine.addRule(rule);
++        RulesEngine.addRule(dream);
++
++        Rule trainedObserver = new Rule();
++
++        trainedObserver.setName("Trained Observer");
++        trainedObserver.setHint("Your character has spent years in the field, catching tiny details and digging for secrets.");
++        trainedObserver.setDescription("Your character has spent years in the field, catching tiny details and digging for secrets.");
++
++        trainedObserver.addLevels(1, 3);
++
++        trainedObserver.addNamespaces("Common", "Merit");
++
++        trainedObserver.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
++
++        trainedObserver.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
++
++        RulesEngine.addRule(trainedObserver);
++
++        Rule commonSense = new Rule();
++
++        commonSense.setName("Common Sense");
++        commonSense.setHint("Your character has an exceptionally sound and rational mind.");
++        commonSense.setDescription("Your character has an exceptionally sound and rational mind. Within a moment\'s thought, she can weigh potential courses of action and outcomes.");
++
++        commonSense.addLevels(3);
++
++        commonSense.addNamespaces("Common", "Merit");
++
++        //parameters: Wits, Composure
++
++        RulesEngine.addRule(commonSense);
+     }
+ 
+     private void generateRealmVirtues() {
+diff --git a/app/src/main/java/com/emi/nwodcombat/characterwizard/mvp/MeritsPresenter.java b/app/src/main/java/com/emi/nwodcombat/characterwizard/mvp/MeritsPresenter.java
+index 63e87ac..9a91b49 100644
+--- a/app/src/main/java/com/emi/nwodcombat/characterwizard/mvp/MeritsPresenter.java
++++ b/app/src/main/java/com/emi/nwodcombat/characterwizard/mvp/MeritsPresenter.java
+@@ -18,7 +18,6 @@ import io.realm.RealmList;
+ 
+ /**
+  * Created by emiliano.desantis on 02/06/2016.
+- * TODO UNTESTED - SPECIALTIES HAVE TO BE COMPLETED FIRST
+  */
+ public class MeritsPresenter {
+     private final CharacterWizardModel model;
+@@ -33,7 +32,7 @@ public class MeritsPresenter {
+         this.model = model;
+         this.view = view;
+         this.context = view.getContext();
+-        this.adapter = new MeritsAdapter(null, this.context, R.layout.row_merit, BusProvider.getInstance());
++        this.adapter = new MeritsAdapter(null, this.context, BusProvider.getInstance());
+         setupWidgets();
+     }
+ 
+@@ -52,6 +51,7 @@ public class MeritsPresenter {
+     public void onFragmentVisible(Events.MeritsFragmentLoaded event) {
+         List<String> namespaces = new ArrayList<>();
+ 
++        namespaces.add("Common");
+         namespaces.add("Awakened");
+         namespaces.add("Merit");
+ 
+diff --git a/app/src/main/java/com/emi/nwodcombat/rules/RulesEngine.java b/app/src/main/java/com/emi/nwodcombat/rules/RulesEngine.java
+index 6c56fbb..631776e 100644
+--- a/app/src/main/java/com/emi/nwodcombat/rules/RulesEngine.java
++++ b/app/src/main/java/com/emi/nwodcombat/rules/RulesEngine.java
+@@ -47,23 +47,7 @@ public class RulesEngine {
+                     boolean shouldAdd = false;
+ 
+                     for (Entry requirement : requirementSet) {
+-                        for (Entry entry : character.getEntries()) {
+-
+-                            // * ----> If the name matches, compare values
+-                            if (validateKeys(entry, requirement)) {
+-
+-                                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER)) {
+-                                    // * ----> If the value is not enough, the character does not qualify for this resource
+-                                    shouldAdd = compareIntegers(requirement, entry);
+-                                }
+-
+-                                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_STRING)) {
+-                                    shouldAdd = compareStrings(requirement, entry);
+-                                }
+-
+-                                if (shouldAdd) break;
+-                            }
+-                        }
++                        shouldAdd = checkRequirement(character, requirement);
+                     }
+ 
+                     validations.add(shouldAdd);
+@@ -78,6 +62,29 @@ public class RulesEngine {
+         return result;
+     }
+ 
++    private static boolean checkRequirement(Character character, Entry requirement) {
++        boolean shouldAdd = false;
++
++        for (Entry entry : character.getEntries()) {
++            // * ----> If the name matches, compare values
++            if (validateKeys(entry, requirement)) {
++
++                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_INTEGER)) {
++                    // * ----> If the value is not enough, the character does not qualify for this resource
++                    shouldAdd = compareIntegers(requirement, entry);
++                }
++
++                if (requirement.getType().equalsIgnoreCase(Constants.FIELD_TYPE_STRING)) {
++                    shouldAdd = compareStrings(requirement, entry);
++                }
++
++                if (shouldAdd) break;
++            }
 +        }
 +
++        return shouldAdd;
 +    }
 +
-+    @Override
-+    public void onDestroyView() {
-+        super.onDestroyView();
-+        ButterKnife.unbind(this);
+     private static boolean checkValidations(List<Boolean> validations) {
+         for (Boolean validation : validations) {
+             if (!validation) {
+diff --git a/app/src/main/java/com/emi/nwodcombat/tools/ArrayHelper.java b/app/src/main/java/com/emi/nwodcombat/tools/ArrayHelper.java
+index 6ff0403..5e378b3 100644
+--- a/app/src/main/java/com/emi/nwodcombat/tools/ArrayHelper.java
++++ b/app/src/main/java/com/emi/nwodcombat/tools/ArrayHelper.java
+@@ -36,7 +36,28 @@ public class ArrayHelper {
+         }
+     }
+ 
+-// --Commented out by Inspection START (07/07/2016 01:13 PM):
++    // Source: http://stackoverflow.com/a/7143170
++    public static boolean isIncreasing(int[] arr) {
++        for(int i = 0 ; i < arr.length - 1; i++) { // finish at length - 1
++            if (arr[i] > arr[i+1]) {
++                return false; // found elements that are out of order - return false
++            }
++        }
++        return true; // nothing out of order found - return true
 +    }
 +
-+    public int getLayout() {
-+        return R.layout.dialog_new_specialty;
++    public static boolean isIncreasingAndContiguous(List<Integer> list) {
++        for (int i = 0; i < list.size() - 1; i++) {
++
++//            if (list.get(i) > list.get(i+1)) {
++            if (list.get(i) != list.get(i+1) - 1) {
++                return false; // found elements that are out of order - return false
++            }
++        }
++        return true; // nothing out of order found - return true
 +    }
 +
-+}
-diff --git a/app/src/main/res/drawable/star.xml b/app/src/main/res/drawable/star.xml
-new file mode 100644
-index 0000000..e1478a8
---- /dev/null
-+++ b/app/src/main/res/drawable/star.xml
-@@ -0,0 +1,4 @@
-+<vector android:height="48dp" android:viewportHeight="24.0"
-+    android:viewportWidth="24.0" android:width="48dp" xmlns:android="http://schemas.android.com/apk/res/android">
-+    <path android:fillColor="#FF000000" android:pathData="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"/>
-+</vector>
-diff --git a/app/src/main/res/drawable/star_outline.xml b/app/src/main/res/drawable/star_outline.xml
-new file mode 100644
-index 0000000..c180dd8
---- /dev/null
-+++ b/app/src/main/res/drawable/star_outline.xml
-@@ -0,0 +1,4 @@
-+<vector android:height="48dp" android:viewportHeight="24.0"
-+    android:viewportWidth="24.0" android:width="48dp" xmlns:android="http://schemas.android.com/apk/res/android">
-+    <path android:fillColor="#FF000000" android:pathData="M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66M22,9.24L14.81,8.63L12,2L9.19,8.63L2,9.24L7.45,13.97L5.82,21L12,17.27L18.18,21L16.54,13.97L22,9.24Z"/>
-+</vector>
-diff --git a/app/src/main/res/layout/dialog_new_specialty.xml b/app/src/main/res/layout/dialog_new_specialty.xml
-new file mode 100644
-index 0000000..fb78a8e
---- /dev/null
-+++ b/app/src/main/res/layout/dialog_new_specialty.xml
-@@ -0,0 +1,27 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-+              xmlns:app="http://schemas.android.com/apk/res-auto"
-+              android:orientation="vertical"
-+              android:layout_width="match_parent"
-+              android:layout_height="match_parent">
-+
-+    <EditText
-+        android:id="@+id/editSpecialtyName"
-+        android:layout_width="match_parent"
-+        android:layout_height="wrap_content"
-+        android:layout_margin="@dimen/spacing_large"
-+        android:hint="@string/hint_type_specialty_name"
-+        android:inputType="text"
-+        android:imeOptions="actionDone"/>
-+
-+    <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
-+        android:id="@+id/rvDialogSpecialties"
-+        android:layout_width="match_parent"
-+        android:layout_height="0dp"
-+        android:layout_weight="1"
-+        app:rrvIsRefreshable="true"
-+        app:rrvLayoutType="LinearLayout">
-+
-+    </co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView>
-+
-+</LinearLayout>
-\ No newline at end of file
-diff --git a/app/src/main/res/layout/row_specialty.xml b/app/src/main/res/layout/row_specialty.xml
-new file mode 100644
-index 0000000..e6bfa7d
---- /dev/null
-+++ b/app/src/main/res/layout/row_specialty.xml
-@@ -0,0 +1,17 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-+              android:orientation="horizontal"
-+              android:layout_width="match_parent"
-+              android:layout_height="wrap_content"
-+              android:layout_margin="@dimen/spacing_normal"
-+              android:layout_gravity="center">
-+    <TextView
-+        android:id="@+id/rowSpecialtyName"
-+        android:text="Name:"
-+        android:layout_marginRight="@dimen/spacing_normal"
-+        android:layout_marginEnd="@dimen/spacing_normal"
-+        android:layout_width="match_parent"
-+        android:layout_height="wrap_content"
-+        android:gravity="center"/>
-+
-+</LinearLayout>
-\ No newline at end of file
-diff --git a/app/src/main/res/layout/rv_specialties_empty.xml b/app/src/main/res/layout/rv_specialties_empty.xml
-new file mode 100644
-index 0000000..eebab03
---- /dev/null
-+++ b/app/src/main/res/layout/rv_specialties_empty.xml
-@@ -0,0 +1,12 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<FrameLayout
-+    xmlns:android="http://schemas.android.com/apk/res/android"
-+    android:layout_width="match_parent"
-+    android:layout_height="match_parent">
-+    <TextView
-+        android:layout_width="wrap_content"
-+        android:layout_height="wrap_content"
-+        android:layout_gravity="center"
-+        android:gravity="center"
-+        android:text="@string/rv_merits_notice_empty"/>
-+</FrameLayout>
-\ No newline at end of file
++    // --Commented out by Inspection START (07/07/2016 01:13 PM):
+ //    public static <T extends Entry> Entry findEntry(List<T> list, final long id) {
+ //        return Iterables.find(list, new Predicate<T>() {
+ //            public boolean apply(T instance) {
+diff --git a/app/src/main/res/layout/row_merit.xml b/app/src/main/res/layout/row_merit.xml
+index 7e81da0..1fbe591 100644
+--- a/app/src/main/res/layout/row_merit.xml
++++ b/app/src/main/res/layout/row_merit.xml
+@@ -4,7 +4,7 @@
+               android:layout_marginEnd="@dimen/spacing_normal"
+               android:layout_marginStart="@dimen/spacing_normal"
+               android:layout_width="match_parent"
+-              android:layout_height="match_parent">
++              android:layout_height="wrap_content">
+ 
+     <LinearLayout
+         android:layout_width="match_parent"
