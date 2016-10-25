@@ -76,11 +76,10 @@ public class CharacterWizardView extends FragmentView {
 
             @Override
             public void onPageSelected(int position) {
-                int indexOfMeritsFragment = ((CharacterWizardPagerAdapter) adapter).getFragmentClasses()
+                final int indexOfMeritsFragment = ((CharacterWizardPagerAdapter) adapter)
                     .indexOf(MeritsFragment.class);
 
-                if (pager.getCurrentItem() == indexOfMeritsFragment) {
-                    // fire new event
+                if (pager.getCurrentItem() == indexOfMeritsFragment) {// fire new event
                     bus.post(new Events.MeritsFragmentLoaded());
                 }
             }

@@ -40,4 +40,8 @@ public class CharacterWizardPagerAdapter extends FragmentStatePagerAdapter {
     public List<Class<? extends PagerFragment>> getFragmentClasses() {
         return fragmentClasses;
     }
+
+    public int indexOf(Object object) {
+        return fragmentClasses.indexOf(object);
+    }
 }

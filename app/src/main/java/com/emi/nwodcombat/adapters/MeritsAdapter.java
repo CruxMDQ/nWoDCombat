@@ -25,15 +25,20 @@ import io.realm.RealmViewHolder;
 
 /**
  * Created by emiliano.desantis on 02/06/2016.
+ * Implements item 1 from Effective Java, 2nd Edition
  */
-public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder> {
+final public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder> {
     final Context context;
     final int idLayout;
     final Bus bus;
 
     OrderedRealmCollection<Rule> merits;
 
-    public MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, Bus bus) {
+    public static MeritsAdapter newInstance(OrderedRealmCollection<Rule> data, Context context, Bus busInstance) {
+        return new MeritsAdapter(data, context, busInstance);
+    }
+
+    private MeritsAdapter(OrderedRealmCollection<Rule> data, Context context, Bus bus) {
         this.context = context;
         this.merits = data;
         this.idLayout = R.layout.row_merit;
@@ -62,17 +67,18 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
         float d = context.getResources().getDisplayMetrics().density;
         int margin = (int)(dpValue * d);
 
+        LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
+
+        TextView txtOpen = new TextView(context);
+        txtOpen.setText("(");
+
+        container.addView(txtOpen);
+
         if (ArrayHelper.isIncreasingAndContiguous(merit.getLevels()) && merit.getLevels().size() > 1) {
-            LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
 
             int min = Collections.min(merit.getLevels());
             int max = Collections.max(merit.getLevels());
 
-            TextView txtOpen = new TextView(context);
-            txtOpen.setText("(");
-            
-            container.addView(txtOpen);
-            
             for (int i = 0; i < min; i++) {
                 inflater.inflate(R.layout.dot_empty, container, true);
             }
@@ -86,18 +92,9 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
             for (int i = 0; i < max; i++) {
                 inflater.inflate(R.layout.dot_empty, container, true);
             }
-
-            TextView txtClose = new TextView(context);
-            txtClose.setText(")");
-
-            container.addView(txtClose);
-
-            holder.panelMeritValue.addView(container);
         }
         else
         {
-            LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
-
             for (Integer level : merit.getLevels()) {
                 for (int i = 0; i < level; i++) {
                     inflater.inflate(R.layout.dot_empty, container, true);
@@ -110,8 +107,14 @@ public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder
                     container.addView(txtSeparator);
                 }
             }
-            holder.panelMeritValue.addView(container);
         }
+
+        TextView txtClose = new TextView(context);
+        txtClose.setText(")");
+
+        container.addView(txtClose);
+
+        holder.panelMeritValue.addView(container);
     }
 
     @NonNull

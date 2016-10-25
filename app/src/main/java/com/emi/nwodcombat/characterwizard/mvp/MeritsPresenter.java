@@ -2,7 +2,6 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.content.Context;
 
-import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.adapters.MeritsAdapter;
 import com.emi.nwodcombat.rules.Rule;
 import com.emi.nwodcombat.rules.RulesEngine;
@@ -32,7 +31,7 @@ public class MeritsPresenter {
         this.model = model;
         this.view = view;
         this.context = view.getContext();
-        this.adapter = new MeritsAdapter(null, this.context, BusProvider.getInstance());
+        this.adapter = MeritsAdapter.newInstance(null, this.context, BusProvider.getInstance());
         setupWidgets();
     }
 

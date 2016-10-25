@@ -41,23 +41,23 @@ public class CharacterWizardModel implements SpecialtiesModel {
         helper = RealmHelper.getInstance(this.context);
     }
 
-    public RealmResults<Virtue> getVirtues() {
+    RealmResults<Virtue> getVirtues() {
         return helper.getList(Virtue.class);
     }
 
-    public RealmResults<Vice> getVices() {
+    RealmResults<Vice> getVices() {
         return helper.getList(Vice.class);
     }
 
-    public RealmResults<Nature> getNatures() {
+    RealmResults<Nature> getNatures() {
         return helper.getList(Nature.class);
     }
 
-    public RealmResults<Demeanor> getDemeanors() {
+    RealmResults<Demeanor> getDemeanors() {
         return helper.getList(Demeanor.class);
     }
 
-    public boolean isCheating() {
+    boolean isCheating() {
         return getPreferences().getBoolean(Constants.SETTING_CHEAT, false);
     }
 
@@ -73,11 +73,11 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return preferences;
     }
 
-    public void setupNewCharacter() {
+    void setupNewCharacter() {
         character = new Character();
     }
 
-    public void addOrUpdateDemeanorTrait(Demeanor demeanor) {
+    void addOrUpdateDemeanorTrait(Demeanor demeanor) {
 
         // This object will be posted for handling by the model
         DemeanorTrait demeanorTrait = new DemeanorTrait();
@@ -102,7 +102,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         character.getDemeanorTraits().add(demeanorTrait);
     }
 
-    public void addOrUpdateNatureTrait(Nature nature) {
+    void addOrUpdateNatureTrait(Nature nature) {
         NatureTrait natureTrait = new NatureTrait();
         natureTrait.setType(Constants.CHARACTER_NATURE);
         natureTrait.setNature(nature);
@@ -121,7 +121,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         character.getNatureTraits().add(natureTrait);
     }
 
-    public void addOrUpdateViceTrait(Vice vice) {
+    void addOrUpdateViceTrait(Vice vice) {
         ViceTrait viceTrait = new ViceTrait();
         viceTrait.setType(Constants.CHARACTER_VICE);
         viceTrait.setVice(vice);
@@ -140,7 +140,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         character.getViceTraits().add(viceTrait);
     }
 
-    public void addOrUpdateVirtueTrait(Virtue virtue) {
+    void addOrUpdateVirtueTrait(Virtue virtue) {
         VirtueTrait virtueTrait = new VirtueTrait();
         
         virtueTrait.setType(Constants.CHARACTER_VIRTUE);
@@ -160,7 +160,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         character.getVirtueTraits().add(virtueTrait);
     }
 
-    public Entry addOrUpdateEntry(String key, String type, String value) {
+    Entry addOrUpdateEntry(String key, String type, String value) {
         Entry entry = Entry.newInstance()
             .setKey(key)
             .setType(type)
@@ -179,7 +179,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return entry;
     }
 
-    public Entry addOrUpdateEntry(String key, Integer change) {
+    Entry addOrUpdateEntry(String key, Integer change) {
         Entry entry = Entry.newInstance()
             .setKey(key)
             .setType(Constants.FIELD_TYPE_INTEGER)
@@ -202,15 +202,15 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getPointsSpent(idArray, Constants.ATTR_PTS_TERTIARY, 1);
     }
 
-    public int getPointsSpentOnAttrMental() {
+    int getPointsSpentOnAttrMental() {
         return getPointsSpentOnAttributes(R.array.attributes_mental);
     }
 
-    public int getPointsSpentOnAttrPhysical() {
+    int getPointsSpentOnAttrPhysical() {
         return getPointsSpentOnAttributes(R.array.attributes_physical);
     }
 
-    public int getPointsSpentOnAttrSocial() {
+    int getPointsSpentOnAttrSocial() {
         return getPointsSpentOnAttributes(R.array.attributes_social);
     }
 
@@ -218,15 +218,15 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getPointsSpent(idArray, 0, 0);
     }
 
-    public int getPointsSpentOnMentalSkills() {
+    int getPointsSpentOnMentalSkills() {
         return getPointsSpentOnSkills(R.array.skills_mental);
     }
 
-    public int getPointsSpentOnPhysicalSkills() {
+    int getPointsSpentOnPhysicalSkills() {
         return getPointsSpentOnSkills(R.array.skills_physical);
     }
 
-    public int getPointsSpentOnSocialSkills() {
+    int getPointsSpentOnSocialSkills() {
         return getPointsSpentOnSkills(R.array.skills_social);
     }
 
@@ -240,7 +240,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return result;
     }
 
-    public int findEntryValue(String constant, int defaultValue) {
+    int findEntryValue(String constant, int defaultValue) {
         try {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
@@ -253,7 +253,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return defaultValue;
     }
 
-    public String getMentalAttrSummary() {
+    String getMentalAttrSummary() {
         ArrayList<Entry> entries = new ArrayList<>();
 
         entries.add(character.getIntelligence());
@@ -263,7 +263,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getStatBlock(entries);
     }
 
-    public String getPhysicalAttrSummary() {
+    String getPhysicalAttrSummary() {
         ArrayList<Entry> entries = new ArrayList<>();
 
         entries.add(character.getStrength());
@@ -273,7 +273,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getStatBlock(entries);
     }
 
-    public String getSocialAttrSummary() {
+    String getSocialAttrSummary() {
         ArrayList<Entry> entries = new ArrayList<>();
 
         entries.add(character.getIntelligence());
@@ -283,7 +283,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getStatBlock(entries);
     }
 
-    public String getMentalSkillsSummary() {
+    String getMentalSkillsSummary() {
         ArrayList<Entry> entries = new ArrayList<>();
 
         if (character.getAcademics() != null) {
@@ -314,7 +314,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getStatBlock(entries);
     }
 
-    public String getPhysicalSkillsSummary() {
+    String getPhysicalSkillsSummary() {
         ArrayList<Entry> entries = new ArrayList<>();
 
         if (character.getAthletics() != null) {
@@ -345,7 +345,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getStatBlock(entries);
     }
 
-    public String getSocialSkillsSummary() {
+    String getSocialSkillsSummary() {
         ArrayList<Entry> entries = new ArrayList<>();
 
         if (character.getAnimalKen() != null) {
@@ -376,7 +376,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return getStatBlock(entries);
     }
 
-    public String getSpecialtiesSummary() {
+    String getSpecialtiesSummary() {
         StringBuilder builder = new StringBuilder();
         /**
          * Pseudocode:
@@ -430,7 +430,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return builder.toString();
     }
 
-    public void save() {
+    void save() {
         // FIXME Added to prevent a crash on the character viewer. May, no, WILL be axed later.
         addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER, String.valueOf(0));
 
@@ -443,7 +443,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         setupNewCharacter();
     }
 
-    public int calculateDefense() {
+    int calculateDefense() {
         int defense = Math.min(Integer.valueOf(character.getDexterity().getValue()),
                 Integer.valueOf(character.getWits().getValue()));
 
@@ -453,14 +453,14 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return defense;
     }
 
-    public int calculateMorality() {
+    int calculateMorality() {
         addOrUpdateEntry(Constants.TRAIT_MORALITY, Constants.FIELD_TYPE_INTEGER,
                 String.valueOf(Constants.TRAIT_MORALITY_DEFAULT));
 
         return Constants.TRAIT_MORALITY_DEFAULT;
     }
 
-    public int calculateHealth() {
+    int calculateHealth() {
         int health = Integer.valueOf(character.getStamina().getValue()) +
                 Constants.TRAIT_SIZE_DEFAULT;
 
@@ -470,7 +470,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return health;
     }
 
-    public int calculateInitiative() {
+    int calculateInitiative() {
         int initiative = Integer.valueOf(character.getComposure().getValue()) +
                 Integer.valueOf(character.getDexterity().getValue());
 
@@ -480,7 +480,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return initiative;
     }
 
-    public int calculateSpeed() {
+    int calculateSpeed() {
         int speed = Integer.valueOf(character.getStrength().getValue()) +
                 Integer.valueOf(character.getDexterity().getValue());
 
@@ -490,7 +490,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return speed;
     }
 
-    public int calculateWillpower() {
+    int calculateWillpower() {
         int willpower = Integer.valueOf(character.getResolve().getValue()) +
                 Integer.valueOf(character.getComposure().getValue());
 
