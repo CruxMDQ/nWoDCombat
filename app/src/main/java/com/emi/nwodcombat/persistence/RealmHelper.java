@@ -33,7 +33,6 @@ public class RealmHelper implements PersistenceLayer {
     private static RealmHelper instance;
 
     private Realm realm;
-    private final RealmConfiguration realmConfig;
 
     public static RealmHelper getInstance(Context context) {
         if (instance == null) {
@@ -43,8 +42,9 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     private RealmHelper(Context context) {
-        RealmConfiguration.Builder builder = new RealmConfiguration.Builder(context);
-        realmConfig = builder.build();
+        Realm.init(context);
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(realmConfig);
 
         try {
             realm = Realm.getInstance(realmConfig);
