@@ -19,7 +19,7 @@ public class SummaryFragment extends PagerFragment {
 
     private void createPresenter() {
         presenter = new SummaryPresenter(
-                new CharacterWizardModel(getActivity()),
+                CharacterWizardModel.getInstance(),
                 new SummaryView(this)
         );
     }

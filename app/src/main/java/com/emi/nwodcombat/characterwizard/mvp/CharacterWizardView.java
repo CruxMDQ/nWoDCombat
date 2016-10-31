@@ -9,7 +9,10 @@ import android.widget.Button;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.characterwizard.adapters.CharacterWizardPagerAdapter;
+import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.MeritsFragment;
+import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
+import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
@@ -70,36 +73,42 @@ public class CharacterWizardView extends FragmentView {
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
-                final int indexOfMeritsFragment = ((CharacterWizardPagerAdapter) adapter)
-                    .indexOf(MeritsFragment.class);
+                CharacterWizardPagerAdapter pagerAdapter = (CharacterWizardPagerAdapter) adapter;
 
-                if (pager.getCurrentItem() == indexOfMeritsFragment) {// fire new event
+                final int indexOfInfoFragment = pagerAdapter.indexOf(PersonalInfoFragment.class);
+                final int indexOfAttrsFragment = pagerAdapter.indexOf(AttrSettingFragment.class);
+                final int indexOfSkillsFragment = pagerAdapter.indexOf(SkillSettingFragment.class);
+                final int indexOfMeritsFragment = pagerAdapter.indexOf(MeritsFragment.class);
+
+                if (pager.getCurrentItem() == indexOfInfoFragment) {
+                    bus.post(new Events.InfoFragmentLoaded());
+                } else if (pager.getCurrentItem() == indexOfAttrsFragment) {
+                    bus.post(new Events.AttrsFragmentLoaded());
+                } else if (pager.getCurrentItem() == indexOfSkillsFragment) {
+                    bus.post(new Events.SkillsFragmentLoaded());
+                } else if (pager.getCurrentItem() == indexOfMeritsFragment) {// fire new event
                     bus.post(new Events.MeritsFragmentLoaded());
                 }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) { }
         });
     }
 
-    public void toggleNextButton(boolean isStepComplete) {
+    void toggleNextButton(boolean isStepComplete) {
         btnNext.setEnabled(isStepComplete);
     }
 
-    public void setNextLabel(String label) {
+    void setNextLabel(String label) {
         btnNext.setText(label);
     }
 
-    public void setPreviousLabel(String label) {
+    void setPreviousLabel(String label) {
         btnPrevious.setText(label);
     }
 

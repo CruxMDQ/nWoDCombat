@@ -21,7 +21,7 @@ public class AttrSettingFragment extends PagerFragment {
 
     private void createPresenter() {
         Bus bus = BusProvider.getInstance();
-        presenter = new AttrSettingPresenter(new CharacterWizardModel(getActivity()),
+        presenter = new AttrSettingPresenter(CharacterWizardModel.getInstance(),
                 new AttrSettingView(this, bus), bus);
     }
 

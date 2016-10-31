@@ -24,7 +24,7 @@ public class CharacterListPresenter {
     public CharacterListPresenter(CharacterListModel model, CharacterListView view) {
         this.model = model;
         this.view = view;
-        view.updateRV(model.getList());
+        view.updateRV(model.getCompletedCharactersList(true));
     }
 
     @Subscribe

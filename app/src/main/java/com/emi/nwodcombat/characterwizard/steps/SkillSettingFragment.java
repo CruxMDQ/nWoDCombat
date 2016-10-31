@@ -21,7 +21,7 @@ public class SkillSettingFragment extends PagerFragment {
     }
 
     private void createPresenter() {
-        presenter = new SkillSettingPresenter(new CharacterWizardModel(getActivity()),
+        presenter = new SkillSettingPresenter(CharacterWizardModel.getInstance(),
                 new SkillSettingView(this, BusProvider.getInstance()));
     }
 

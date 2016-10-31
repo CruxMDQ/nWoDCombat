@@ -137,23 +137,23 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     // Triggered when experience increases via tapping of the 'plus' button on the view
     @OnClick(R.id.btnAddExp)
-    public void onExperienceAdded() {
+    void onExperienceAdded() {
         bus.post(new Events.ExperiencePoolChanged(true));
     }
 
     // Triggered when experience increases via tapping of the 'minus' button on the view
     @OnClick(R.id.btnRemoveExp)
-    public void onExperienceRemoved() {
+    void onExperienceRemoved() {
         bus.post(new Events.ExperiencePoolChanged(false));
     }
 
     /**
      * Callback from presenter; handles what happens when the 'Delete' button is tapped
      *
-     * @param id
+     * @param id ID of character being deleted
      */
     @SuppressWarnings("ConstantConditions")
-    public void showDeleteSnackbar(final long id) {
+    void showDeleteSnackbar(final long id) {
         // Just your run-of-the-mill Snackbar instantiation - nothing to see here
         final Snackbar snackbar = Snackbar.make(scrollCharView,
                 getActivity().getString(R.string.alert_character_delete), Snackbar.LENGTH_SHORT);
@@ -170,15 +170,15 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         snackbar.show();
     }
 
-    public void setCharacterName(String characterName) {
+    void setCharacterName(String characterName) {
         txtCharacterName.setText(characterName);
     }
 
-    public void setCharacterConcept(String concept) {
+    void setCharacterConcept(String concept) {
         txtCharacterConcept.setText(concept);
     }
 
-    public void setCharacterPlayer(String player) {
+    void setCharacterPlayer(String player) {
         txtCharacterPlayer.setText(player);
     }
 
@@ -187,12 +187,12 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
      * exactly equal to a ValueSetter (which invites again the question: is it worth handling
      * separately? Just how much experience is a character going to have at any time?)
      */
-    public void setupExperienceSpendingWidget(Entry experience) {
+    void setupExperienceSpendingWidget(Entry experience) {
         txtExperience.setTag(experience);
         txtExperience.setText(experience.getValue());
     }
 
-    public void setExperience(String experience) {
+    void setExperience(String experience) {
         txtExperience.setText(experience);
     }
 
@@ -220,7 +220,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
     }
 
-    public void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
+    void setDemeanorsSpinnerAdapter(DemeanorsAdapter demeanors) {
         spinnerDemeanor.setAdapter(demeanors);
 
         // Vanilla listener setting - could have been managed as a parameter, except for one of one
@@ -238,11 +238,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
 
     }
 
-    public void setDemeanorsSpinnerSelection(int index) {
+    void setDemeanorsSpinnerSelection(int index) {
         spinnerDemeanor.setSelection(index);
     }
 
-    public void setNaturesSpinnerAdapter(NaturesAdapter natures) {
+    void setNaturesSpinnerAdapter(NaturesAdapter natures) {
         spinnerNature.setAdapter(natures);
 
         spinnerNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -257,11 +257,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
-    public void setNaturesSpinnerSelection(int index) {
+    void setNaturesSpinnerSelection(int index) {
         spinnerNature.setSelection(index);
     }
 
-    public void setVicesSpinnerAdapter(VicesAdapter vices) {
+    void setVicesSpinnerAdapter(VicesAdapter vices) {
         spinnerVice.setAdapter(vices);
 
         spinnerVice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -276,11 +276,11 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
-    public void setVicesSpinnerSelection(int index) {
+    void setVicesSpinnerSelection(int index) {
         spinnerVice.setSelection(index);
     }
 
-    public void setVirtuesSpinnerAdapter(VirtuesAdapter virtues) {
+    void setVirtuesSpinnerAdapter(VirtuesAdapter virtues) {
         spinnerVirtue.setAdapter(virtues);
 
         spinnerVirtue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -295,14 +295,14 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         });
     }
 
-    public void setVirtuesSpinnerSelection(int index) {
+    void setVirtuesSpinnerSelection(int index) {
         spinnerVirtue.setSelection(index);
     }
 
     /**
      * Method for triggering actions on all objects on the experienceSpenders watch list
      */
-    public void notifyExperienceSpenders(int experiencePool) {
+    void notifyExperienceSpenders(int experiencePool) {
         for (ValueSetter experienceSpender : valueSetters.values()) {
             // What happens, so far, depends on what is coded on ValueSetterWidget (just why did
             // I code this on an interface as opposed to simply adding a method to the widget?)
@@ -331,7 +331,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         valueSetters.put(trait.getName(), setter);
     }
 
-    public void toggleEditionPanel(boolean isActive) {
+    void toggleEditionPanel(boolean isActive) {
         for (ValueSetter setter : valueSetters.values()) {
             if (setter.getListener() != null) {
                 setter.toggleEditionPanel(isActive);
@@ -339,7 +339,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
     }
 
-    public void setValueLabel(String key, @Nullable String specialtyName) {
+    void setValueLabel(String key, @Nullable String specialtyName) {
         ValueSetter setter = valueSetters.get(key);
 
         if (specialtyName != null) {
@@ -349,7 +349,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
     }
 
-    public void updateStarButton(String key, boolean isChecked) {
+    void updateStarButton(String key, boolean isChecked) {
         ValueSetter setter = valueSetters.get(key);
 
         setter.enableSpecialtyButton(isChecked);
@@ -361,159 +361,159 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
         }
     }
 
-    public void setUpValueSetterIntelligence(Trait intelligence) {
+    void setUpValueSetterIntelligence(Trait intelligence) {
         setUpValueSetter(valueSetterIntelligence, intelligence);
     }
     
-    public void setUpValueSetterWits(Trait wits) {
+    void setUpValueSetterWits(Trait wits) {
         setUpValueSetter(valueSetterWits, wits);
     }
     
-    public void setUpValueSetterResolve(Trait resolve) {
+    void setUpValueSetterResolve(Trait resolve) {
         setUpValueSetter(valueSetterResolve, resolve);
     }
 
-    public void setUpValueSetterStrength(Trait strength) {
+    void setUpValueSetterStrength(Trait strength) {
         setUpValueSetter(valueSetterStrength, strength);
     }
 
-    public void setUpValueSetterDexterity(Trait dexterity) {
+    void setUpValueSetterDexterity(Trait dexterity) {
         setUpValueSetter(valueSetterDexterity, dexterity);
     }
 
-    public void setUpValueSetterStamina(Trait stamina) {
+    void setUpValueSetterStamina(Trait stamina) {
         setUpValueSetter(valueSetterStamina, stamina);
     }
 
-    public void setUpValueSetterPresence(Trait presence) {
+    void setUpValueSetterPresence(Trait presence) {
         setUpValueSetter(valueSetterPresence, presence);
     }
 
-    public void setUpValueSetterManipulation(Trait manipulation) {
+    void setUpValueSetterManipulation(Trait manipulation) {
         setUpValueSetter(valueSetterManipulation, manipulation);
     }
 
-    public void setUpValueSetterComposure(Trait composure) {
+    void setUpValueSetterComposure(Trait composure) {
         setUpValueSetter(valueSetterComposure, composure);
     }
 
-    public void setUpValueSetterAcademics(Trait academics) {
+    void setUpValueSetterAcademics(Trait academics) {
         setUpValueSetter(valueSetterAcademics, academics);
     }
 
-    public void setUpValueSetterComputer(Trait computer) {
+    void setUpValueSetterComputer(Trait computer) {
         setUpValueSetter(valueSetterComputer, computer);
     }
 
-    public void setUpValueSetterCrafts(Trait crafts) {
+    void setUpValueSetterCrafts(Trait crafts) {
         setUpValueSetter(valueSetterCrafts, crafts);
     }
 
-    public void setUpValueSetterInvestigation(Trait investigation) {
+    void setUpValueSetterInvestigation(Trait investigation) {
         setUpValueSetter(valueSetterInvestigation, investigation);
     }
 
-    public void setUpValueSetterMedicine(Trait medicine) {
+    void setUpValueSetterMedicine(Trait medicine) {
         setUpValueSetter(valueSetterMedicine, medicine);
     }
 
-    public void setUpValueSetterOccult(Trait occult) {
+    void setUpValueSetterOccult(Trait occult) {
         setUpValueSetter(valueSetterOccult, occult);
     }
 
-    public void setUpValueSetterPolitics(Trait politics) {
+    void setUpValueSetterPolitics(Trait politics) {
         setUpValueSetter(valueSetterPolitics, politics);
     }
 
-    public void setUpValueSetterScience(Trait science) {
+    void setUpValueSetterScience(Trait science) {
         setUpValueSetter(valueSetterScience, science);
     }
 
-    public void setUpValueSetterAthletics(Trait athletics) {
+    void setUpValueSetterAthletics(Trait athletics) {
         setUpValueSetter(valueSetterAthletics, athletics);
     }
 
-    public void setUpValueSetterBrawl(Trait brawl) {
+    void setUpValueSetterBrawl(Trait brawl) {
         setUpValueSetter(valueSetterBrawl, brawl);
     }
 
-    public void setUpValueSetterDrive(Trait drive) {
+    void setUpValueSetterDrive(Trait drive) {
         setUpValueSetter(valueSetterDrive, drive);
     }
 
-    public void setUpValueSetterLarceny(Trait larceny) {
+    void setUpValueSetterLarceny(Trait larceny) {
         setUpValueSetter(valueSetterLarceny, larceny);
     }
 
-    public void setUpValueSetterFirearms(Trait firearms) {
+    void setUpValueSetterFirearms(Trait firearms) {
         setUpValueSetter(valueSetterFirearms, firearms);
     }
 
-    public void setUpValueSetterStealth(Trait stealth) {
+    void setUpValueSetterStealth(Trait stealth) {
         setUpValueSetter(valueSetterStealth, stealth);
     }
 
-    public void setUpValueSetterSurvival(Trait survival) {
+    void setUpValueSetterSurvival(Trait survival) {
         setUpValueSetter(valueSetterSurvival, survival);
     }
 
-    public void setUpValueSetterWeaponry(Trait weaponry) {
+    void setUpValueSetterWeaponry(Trait weaponry) {
         setUpValueSetter(valueSetterWeaponry, weaponry);
     }
 
-    public void setUpValueSetterAnimalKen(Trait animalken) {
+    void setUpValueSetterAnimalKen(Trait animalken) {
         setUpValueSetter(valueSetterAnimalKen, animalken);
     }
 
-    public void setUpValueSetterEmpathy(Trait empathy) {
+    void setUpValueSetterEmpathy(Trait empathy) {
         setUpValueSetter(valueSetterEmpathy, empathy);
     }
 
-    public void setUpValueSetterExpression(Trait expression) {
+    void setUpValueSetterExpression(Trait expression) {
         setUpValueSetter(valueSetterExpression, expression);
     }
 
-    public void setUpValueSetterIntimidation(Trait intimidation) {
+    void setUpValueSetterIntimidation(Trait intimidation) {
         setUpValueSetter(valueSetterIntimidation, intimidation);
     }
 
-    public void setUpValueSetterPersuasion(Trait persuasion) {
+    void setUpValueSetterPersuasion(Trait persuasion) {
         setUpValueSetter(valueSetterPersuasion, persuasion);
     }
 
-    public void setUpValueSetterSocialize(Trait socialize) {
+    void setUpValueSetterSocialize(Trait socialize) {
         setUpValueSetter(valueSetterSocialize, socialize);
     }
 
-    public void setUpValueSetterStreetwise(Trait streetwise) {
+    void setUpValueSetterStreetwise(Trait streetwise) {
         setUpValueSetter(valueSetterStreetwise, streetwise);
     }
 
-    public void setUpValueSetterSubterfuge(Trait subterfuge) {
+    void setUpValueSetterSubterfuge(Trait subterfuge) {
         setUpValueSetter(valueSetterSubterfuge, subterfuge);
     }
 
-    public void setUpValueSetterDefense(Trait defense) {
+    void setUpValueSetterDefense(Trait defense) {
         setUpValueSetter(valueSetterDefense, defense);
     }
 
-    public void setUpValueSetterHealth(Trait health) {
+    void setUpValueSetterHealth(Trait health) {
         setUpValueSetter(valueSetterHealth, health);
     }
 
-    public void setUpValueSetterInitiative(Trait initiative) {
+    void setUpValueSetterInitiative(Trait initiative) {
         setUpValueSetter(valueSetterInitiative, initiative);
     }
 
-    public void setUpValueSetterMorality(Trait morality) {
+    void setUpValueSetterMorality(Trait morality) {
         setUpValueSetter(valueSetterMorality, morality);
     }
 
-    public void setUpValueSetterSpeed(Trait speed) {
+    void setUpValueSetterSpeed(Trait speed) {
         setUpValueSetter(valueSetterSpeed, speed);
     }
 
-    public void setUpValueSetterWillpower(Trait willpower) {
+    void setUpValueSetterWillpower(Trait willpower) {
         setUpValueSetter(valueSetterWillpower, willpower);
     }
 }

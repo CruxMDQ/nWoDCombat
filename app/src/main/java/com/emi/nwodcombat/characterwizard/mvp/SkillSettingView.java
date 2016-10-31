@@ -3,6 +3,7 @@ package com.emi.nwodcombat.characterwizard.mvp;
 import android.app.Fragment;
 import android.content.res.Resources;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.model.pojos.Trait;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -21,6 +23,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 23/05/2016.
@@ -366,5 +369,20 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
 
     public void setUpValueSetterSubterfuge(Trait subterfuge) {
         setUpValueSetter(valueSetterSubterfuge, subterfuge);
+    }
+
+    public void setValues(RealmList<Entry> entries) {
+        for (Entry entry : entries) {
+            for (ValueSetter setter : valueSetters.values()) {
+                try {
+                    if (entry.getKey()
+                        .equalsIgnoreCase(setter.getTrait().getName())) {
+                        setter.setCurrentValue(entry);
+                    }
+                } catch (NullPointerException e) {
+                    Log.e(this.getClass().toString(), "" + e.getMessage());
+                }
+            }
+        }
     }
 }

@@ -95,6 +95,11 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public <T extends RealmObject> long save(T item) {
         realm.beginTransaction();
+
+        if (item.getClass().equals(Character.class)) {
+            ((Character)item).setComplete(true);
+        }
+
         realm.copyToRealm(item);
         realm.commitTransaction();
         return 0;
@@ -139,6 +144,13 @@ public class RealmHelper implements PersistenceLayer {
     @Override
     public <T extends RealmObject> RealmResults<T> getList(Class<T> klass) {
         return realm.where(klass).findAll();
+    }
+
+    public RealmResults<Character> getCompletedCharacterList() {
+        RealmResults results = realm.where(Character.class).equalTo("isComplete", Boolean.valueOf(true))
+            .findAll();
+
+        return results;
     }
 
     @Override
@@ -199,6 +211,22 @@ public class RealmHelper implements PersistenceLayer {
         return false;
     }
 
+    public boolean updateEntry(Character character, Entry entry) {
+        for (Entry cycledEntry : character.getEntries()) {
+            if (cycledEntry.getKey().equals(entry.getKey())) {
+                realm.beginTransaction();
+
+                cycledEntry.setValue(String.valueOf(entry.getValue()));
+
+                realm.commitTransaction();
+
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     public void addEntry(Long characterId, String key, String type, String value) {
         Character characterToUpdate = get(Character.class, characterId);
 
@@ -214,20 +242,29 @@ public class RealmHelper implements PersistenceLayer {
         realm.commitTransaction();
     }
 
-    public int getDemeanorTraitCount() {
-        return getCount(DemeanorTrait.class);
-    }
+    public void addEntry(Long characterId, Entry entry) {
+        Character characterToUpdate = get(Character.class, characterId);
 
-    public int getNatureTraitCount() {
-        return getCount(NatureTrait.class);
-    }
+        entry.setId(getLastId(Entry.class));
 
-    public int getViceTraitCount() {
-        return getCount(ViceTrait.class);
-    }
+        realm.beginTransaction();
+        characterToUpdate.getEntries().add(entry);
+        realm.commitTransaction();
 
-    public int getVirtueTraitCount() {
-        return getCount(VirtueTrait.class);
+//        for (Entry t : character.getEntries()) {
+//            if (t.getKey().equals(entry.getKey())) {
+//                entry.setId(t.getId());
+//
+//                character.getEntries().set(character.getEntries().indexOf(t), entry);
+//
+//                realm.commitTransaction();
+//
+//                return;
+//            }
+//        }
+//        character.getEntries().add(entry);
+//
+//        realm.commitTransaction();
     }
 
     public void updateDemeanorTrait(Long characterId, DemeanorTrait demeanorTrait) {
@@ -236,16 +273,26 @@ public class RealmHelper implements PersistenceLayer {
         Long ordinal = demeanorTrait.getOrdinal();
         Demeanor demeanor = demeanorTrait.getDemeanor();
 
-        for (DemeanorTrait trait : characterToUpdate.getDemeanorTraits()) {
-            if (trait.getOrdinal().equals(ordinal)) {
-                realm.beginTransaction();
+        RealmList<DemeanorTrait> demeanorTraits = characterToUpdate.getDemeanorTraits();
 
-                trait.setDemeanor(demeanor);
+        if (demeanorTraits.size() > 0) {
+            for (DemeanorTrait trait : demeanorTraits) {
+                if (trait.getOrdinal().equals(ordinal)) {
+                    realm.beginTransaction();
 
-                realm.commitTransaction();
+                    trait.setDemeanor(demeanor);
 
-                break;
+                    realm.commitTransaction();
+
+                    break;
+                }
             }
+        } else {
+            realm.beginTransaction();
+
+            demeanorTraits.add(demeanorTrait);
+
+            realm.commitTransaction();
         }
     }
 
@@ -255,54 +302,84 @@ public class RealmHelper implements PersistenceLayer {
         Long ordinal = natureTrait.getOrdinal();
         Nature nature = natureTrait.getNature();
 
-        for (NatureTrait trait : characterToUpdate.getNatureTraits()) {
-            if (trait.getOrdinal().equals(ordinal)) {
-                realm.beginTransaction();
+        RealmList<NatureTrait> natureTraits = characterToUpdate.getNatureTraits();
 
-                trait.setNature(nature);
+        if (natureTraits.size() > 0) {
+            for (NatureTrait trait : natureTraits) {
+                if (trait.getOrdinal().equals(ordinal)) {
+                    realm.beginTransaction();
 
-                realm.commitTransaction();
+                    trait.setNature(nature);
 
-                break;
+                    realm.commitTransaction();
+
+                    break;
+                }
             }
+        } else {
+            realm.beginTransaction();
+
+            natureTraits.add(natureTrait);
+
+            realm.commitTransaction();
         }
     }
 
-    public void updateViceTrait(Long characterId, ViceTrait ViceTrait) {
+    public void updateViceTrait(Long characterId, ViceTrait viceTrait) {
         Character characterToUpdate = get(Character.class, characterId);
 
-        Long ordinal = ViceTrait.getOrdinal();
-        Vice Vice = ViceTrait.getVice();
+        Long ordinal = viceTrait.getOrdinal();
+        Vice Vice = viceTrait.getVice();
 
-        for (ViceTrait trait : characterToUpdate.getViceTraits()) {
-            if (trait.getOrdinal().equals(ordinal)) {
-                realm.beginTransaction();
+        RealmList<ViceTrait> viceTraits = characterToUpdate.getViceTraits();
 
-                trait.setVice(Vice);
+        if (viceTraits.size() > 0) {
+            for (ViceTrait trait : viceTraits) {
+                if (trait.getOrdinal().equals(ordinal)) {
+                    realm.beginTransaction();
 
-                realm.commitTransaction();
+                    trait.setVice(Vice);
 
-                break;
+                    realm.commitTransaction();
+
+                    break;
+                }
             }
+        } else {
+            realm.beginTransaction();
+
+            viceTraits.add(viceTrait);
+
+            realm.commitTransaction();
         }
     }
-
-    public void updateVirtueTrait(Long characterId, VirtueTrait VirtueTrait) {
+    
+    public void updateVirtueTrait(Long characterId, VirtueTrait virtueTrait) {
         Character characterToUpdate = get(Character.class, characterId);
 
-        Long ordinal = VirtueTrait.getOrdinal();
-        Virtue Virtue = VirtueTrait.getVirtue();
+        Long ordinal = virtueTrait.getOrdinal();
+        Virtue Virtue = virtueTrait.getVirtue();
 
-        for (VirtueTrait trait : characterToUpdate.getVirtueTraits()) {
-            if (trait.getOrdinal().equals(ordinal)) {
-                realm.beginTransaction();
+        RealmList<VirtueTrait> virtueTraits = characterToUpdate.getVirtueTraits();
 
-                trait.setVirtue(Virtue);
+        if (virtueTraits.size() > 0) {
+            for (VirtueTrait trait : virtueTraits) {
+                if (trait.getOrdinal().equals(ordinal)) {
+                    realm.beginTransaction();
 
-                realm.commitTransaction();
+                    trait.setVirtue(Virtue);
 
-                break;
+                    realm.commitTransaction();
+
+                    break;
+                }
             }
+        } else {
+            realm.beginTransaction();
+
+            virtueTraits.add(virtueTrait);
+
+            realm.commitTransaction();
         }
     }
 
@@ -324,5 +401,89 @@ public class RealmHelper implements PersistenceLayer {
         }
 
         return false;
+    }
+
+    public RealmObject createObject(Class<? extends RealmObject> klass, long id) {
+        realm.beginTransaction();
+
+        RealmObject result = realm.createObject(klass, id);
+
+        realm.commitTransaction();
+
+        return result;
+    }
+
+    public String getEntryValue(Long characterId, String constant) {
+        Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId)
+            .findFirst();
+
+        String value = character.getEntries().where().equalTo("key", constant).findFirst().getValue();
+
+        return value;
+    }
+
+    public Entry addSpecialty(Long characterId, String key, Entry specialty) {
+        Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId)
+            .findFirst();
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                realm.beginTransaction();
+
+                if (entry.getExtras() == null) {
+                    entry.setExtras(new RealmList<Entry>());
+                }
+
+                entry.getExtras().add(specialty);
+
+                realm.commitTransaction();
+
+                return specialty;
+            }
+        }
+        return null;
+    }
+
+    public void removeSpecialty(Long characterId, String key, String specialty) {
+        Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId)
+            .findFirst();
+
+        for (Entry entry : character.getEntries()) {
+            if (entry.getKey() != null &&
+                entry.getKey().equalsIgnoreCase(key)) {
+
+                Entry entryToRemove = null;
+
+                for (Entry extra : entry.getExtras()) {
+                    if (extra.getValue() != null
+                        && extra.getValue().equalsIgnoreCase(specialty)) {
+                        entryToRemove = extra;
+                        break;
+                    }
+                }
+
+                if (entryToRemove != null) {
+                    realm.beginTransaction();
+
+                    entry.getExtras().remove(entryToRemove);
+
+                    realm.commitTransaction();
+                }
+
+                break;
+            }
+        }
+    }
+
+    public long saveCharacter(Character item) {
+        realm.beginTransaction();
+
+        item.setComplete(true);
+
+        realm.copyToRealm(item);
+        realm.commitTransaction();
+        return 0;
     }
 }

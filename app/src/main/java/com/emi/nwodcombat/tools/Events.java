@@ -171,6 +171,18 @@ public class Events {
         }
     }
 
+    public static class InfoFragmentLoaded {
+        public InfoFragmentLoaded() {}
+    }
+
+    public static class AttrsFragmentLoaded {
+        public AttrsFragmentLoaded() {}
+    }
+
+    public static class SkillsFragmentLoaded {
+        public SkillsFragmentLoaded() {}
+    }
+
     public static class MeritsFragmentLoaded {
         public MeritsFragmentLoaded() {}
     }

@@ -28,18 +28,13 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
         this.context = view.getContext();
         this.bus = bus;
 
-        // Block required for minimum starting values. Ugly as frak, but simple until a better idea comes up.
-        model.addOrUpdateEntry(Constants.ATTR_INT, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_WIT, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_RES, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_STR, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_DEX, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_STA, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_PRE, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_MAN, Constants.ABSOLUTE_MINIMUM_ATTR);
-        model.addOrUpdateEntry(Constants.ATTR_COM, Constants.ABSOLUTE_MINIMUM_ATTR);
+        setUpView();
+    }
 
+    private void setUpView() {
         setUpUI();
+
+        view.setValues(model.getEntries());
     }
 
     private void setUpUI() {
@@ -126,7 +121,6 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
         view.toggleEditionPanel(model.isCheating());
     }
 
-    //TODO move to presenter take a look SkillSettingView and SkillSettingPresenter
     private boolean checkCategoriesAreAllDifferent() {
         int mental = getCategoryPriority(view.getAttrsMental());
         int physical = getCategoryPriority(view.getAttrsPhysical());
@@ -162,5 +156,12 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
         Resources resources = context.getResources();
 
         return resources.getString(resId);
+    }
+
+    @Subscribe
+    public void onFragmentVisible(Events.AttrsFragmentLoaded event) {
+        model.refreshCharacter();
+
+        view.setValues(model.getEntries());
     }
 }

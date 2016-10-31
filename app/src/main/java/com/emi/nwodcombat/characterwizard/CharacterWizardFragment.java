@@ -45,7 +45,7 @@ public class CharacterWizardFragment extends Fragment {
 
     private void createPresenter() {
         presenter = new CharacterWizardPresenter(
-                new CharacterWizardModel(getActivity()),
+                CharacterWizardModel.getInstance(),
                 new CharacterWizardView(this, BusProvider.getInstance()));
     }
 }

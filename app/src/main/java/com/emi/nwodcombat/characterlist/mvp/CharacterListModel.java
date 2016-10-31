@@ -43,4 +43,8 @@ public class CharacterListModel {
     public RealmResults<Character> getList() {
         return helper.getList(Character.class);
     }
+
+    RealmResults<Character> getCompletedCharactersList(boolean isComplete) {
+        return helper.getCompletedCharacterList();
+    }
 }

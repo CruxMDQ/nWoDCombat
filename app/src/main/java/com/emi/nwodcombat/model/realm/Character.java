@@ -12,6 +12,7 @@ import com.emi.nwodcombat.tools.Constants;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by emiliano.desantis on 05/04/2016.
@@ -20,6 +21,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Character extends RealmObject {
     @PrimaryKey
+    @Required
     private Long id;
 
     private RealmList<DemeanorTrait> demeanorTraits = new RealmList<>();
@@ -27,6 +29,8 @@ public class Character extends RealmObject {
     private RealmList<ViceTrait> viceTraits = new RealmList<>();
     private RealmList<VirtueTrait> virtueTraits = new RealmList<>();
     private RealmList<Entry> entries = new RealmList<>();
+
+    private boolean isComplete;
 
     public Long getId() {
         return id;
@@ -38,10 +42,6 @@ public class Character extends RealmObject {
 
     public RealmList<Entry> getEntries() {
         return entries;
-    }
-
-    public void setEntries(RealmList<Entry> entries) {
-        this.entries = entries;
     }
 
     public int getValue(@NonNull String code) {
@@ -241,31 +241,23 @@ public class Character extends RealmObject {
         return demeanorTraits;
     }
 
-    public void setDemeanorTraits(RealmList<DemeanorTrait> demeanorTraits) {
-        this.demeanorTraits = demeanorTraits;
-    }
-
     public RealmList<NatureTrait> getNatureTraits() {
         return natureTraits;
-    }
-
-    public void setNatureTraits(RealmList<NatureTrait> natureTraits) {
-        this.natureTraits = natureTraits;
     }
 
     public RealmList<ViceTrait> getViceTraits() {
         return viceTraits;
     }
 
-    public void setViceTraits(RealmList<ViceTrait> viceTraits) {
-        this.viceTraits = viceTraits;
-    }
-
     public RealmList<VirtueTrait> getVirtueTraits() {
         return virtueTraits;
     }
 
-    public void setVirtueTraits(RealmList<VirtueTrait> virtueTraits) {
-        this.virtueTraits = virtueTraits;
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.emi.nwodcombat.R;
+import com.emi.nwodcombat.application.NwodCombatApplication;
 import com.emi.nwodcombat.interfaces.SpecialtiesModel;
 import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.model.realm.Demeanor;
@@ -16,12 +17,10 @@ import com.emi.nwodcombat.model.realm.wrappers.NatureTrait;
 import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.persistence.RealmHelper;
-import com.emi.nwodcombat.tools.ArrayHelper;
 import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -30,15 +29,41 @@ import io.realm.RealmResults;
  * Created by emiliano.desantis on 12/05/2016.
  */
 public class CharacterWizardModel implements SpecialtiesModel {
-    private final Context context;
+
+    static private CharacterWizardModel instance;
+
     private final RealmHelper helper;
     private SharedPreferences preferences;
+    private Character character;
+    private Long characterId;
 
-    private static Character character = new Character();
+    private CharacterWizardModel() {
+        helper = RealmHelper.getInstance(NwodCombatApplication.getAppContext());
+        characterId = helper.getLastId(Character.class);
+        character = (Character) helper.createObject(Character.class, characterId);
 
-    public CharacterWizardModel(Context context) {
-        this.context = context;
-        helper = RealmHelper.getInstance(this.context);
+        setUpDefaultValues();
+    }
+
+    private void setUpDefaultValues() {
+        addOrUpdateEntry(Constants.ATTR_INT, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_WIT, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_RES, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_STR, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_DEX, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_STA, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_PRE, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_MAN, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addOrUpdateEntry(Constants.ATTR_COM, Constants.ABSOLUTE_MINIMUM_ATTR);
+
+        addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, 0);
+    }
+
+    static public CharacterWizardModel getInstance() {
+        if (instance == null) {
+            instance = new CharacterWizardModel();
+        }
+        return instance;
     }
 
     RealmResults<Virtue> getVirtues() {
@@ -67,8 +92,9 @@ public class CharacterWizardModel implements SpecialtiesModel {
      */
     private SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = context.getSharedPreferences(Constants.TAG_SHARED_PREFS,
-                Context.MODE_PRIVATE);
+            preferences = NwodCombatApplication.getAppContext()
+                .getSharedPreferences(Constants.TAG_SHARED_PREFS,
+                    Context.MODE_PRIVATE);
         }
         return preferences;
     }
@@ -89,17 +115,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         // editing: first, second, third, or whatever
         demeanorTrait.setOrdinal(0L);
 
-        for (DemeanorTrait trait : character.getDemeanorTraits()) {
-            if (trait.getOrdinal().equals(demeanorTrait.getOrdinal())) {
-                demeanorTrait.setId(demeanor.getId());
-                character.getDemeanorTraits().set(character.getDemeanorTraits().indexOf(trait), demeanorTrait);
-                return;
-            }
-        }
-
-        demeanorTrait.setId(helper.getLastId(DemeanorTrait.class), character.getDemeanorTraits().size());
-
-        character.getDemeanorTraits().add(demeanorTrait);
+        helper.updateDemeanorTrait(characterId, demeanorTrait);
     }
 
     void addOrUpdateNatureTrait(Nature nature) {
@@ -108,17 +124,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         natureTrait.setNature(nature);
         natureTrait.setOrdinal(0L);
 
-        for (NatureTrait trait : character.getNatureTraits()) {
-            if (trait.getOrdinal().equals(natureTrait.getOrdinal())) {
-                natureTrait.setId(nature.getId());
-                character.getNatureTraits().set(character.getNatureTraits().indexOf(trait), natureTrait);
-                return;
-            }
-        }
-
-        natureTrait.setId(helper.getLastId(NatureTrait.class), character.getNatureTraits().size());
-
-        character.getNatureTraits().add(natureTrait);
+        helper.updateNatureTrait(characterId, natureTrait);
     }
 
     void addOrUpdateViceTrait(Vice vice) {
@@ -127,17 +133,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         viceTrait.setVice(vice);
         viceTrait.setOrdinal(0L);
 
-        for (ViceTrait trait : character.getViceTraits()) {
-            if (trait.getOrdinal().equals(viceTrait.getOrdinal())) {
-                viceTrait.setId(vice.getId());
-                character.getViceTraits().set(character.getViceTraits().indexOf(trait), viceTrait);
-                return;
-            }
-        }
-
-        viceTrait.setId(helper.getLastId(ViceTrait.class), character.getViceTraits().size());
-
-        character.getViceTraits().add(viceTrait);
+        helper.updateViceTrait(characterId, viceTrait);
     }
 
     void addOrUpdateVirtueTrait(Virtue virtue) {
@@ -147,55 +143,28 @@ public class CharacterWizardModel implements SpecialtiesModel {
         virtueTrait.setVirtue(virtue);
         virtueTrait.setOrdinal(0L);
 
-        for (VirtueTrait trait : character.getVirtueTraits()) {
-            if (trait.getOrdinal().equals(virtueTrait.getOrdinal())) {
-                virtueTrait.setId(trait.getId());
-                character.getVirtueTraits().set(character.getVirtueTraits().indexOf(trait), virtueTrait);
-                return;
-            }
-        }
-
-        virtueTrait.setId(helper.getLastId(VirtueTrait.class), character.getVirtueTraits().size());
-
-        character.getVirtueTraits().add(virtueTrait);
+        helper.updateVirtueTrait(characterId, virtueTrait);
     }
 
-    Entry addOrUpdateEntry(String key, String type, String value) {
+    private Entry addOrUpdateEntry(String key, String type, String value) {
         Entry entry = Entry.newInstance()
             .setKey(key)
             .setType(type)
             .setValue(value);
 
-        for (Entry t : character.getEntries()) {
-            if (t.getKey().equals(entry.getKey())) {
-                entry.setId(t.getId());
-                character.getEntries().set(character.getEntries().indexOf(t), entry);
-                return entry;
-            }
+        if (!helper.updateEntry(character, entry)) {
+            helper.addEntry(characterId, entry);
         }
-
-        character.getEntries().add(entry);
 
         return entry;
     }
 
     Entry addOrUpdateEntry(String key, Integer change) {
-        Entry entry = Entry.newInstance()
-            .setKey(key)
-            .setType(Constants.FIELD_TYPE_INTEGER)
-            .setValue(change);
+        return addOrUpdateEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(change));
+    }
 
-        for (Entry t : character.getEntries()) {
-            if (t.getKey().equals(entry.getKey())) {
-                entry.setId(t.getId());
-                character.getEntries().set(character.getEntries().indexOf(t), entry);
-                return entry;
-            }
-        }
-
-        character.getEntries().add(entry);
-
-        return entry;
+    Entry addOrUpdateEntry(String key, String value) {
+        return addOrUpdateEntry(key, Constants.FIELD_TYPE_STRING, value);
     }
 
     private int getPointsSpentOnAttributes(int idArray) {
@@ -233,24 +202,22 @@ public class CharacterWizardModel implements SpecialtiesModel {
     private int getPointsSpent(int idArray, int takeawayValue, int defaultValue) {
         int result = 0 - takeawayValue;
 
-        for (String skill : context.getResources().getStringArray(idArray)) {
+        for (String skill : NwodCombatApplication.getAppContext().
+            getResources().getStringArray(idArray)) {
             result += findEntryValue(skill, defaultValue);
         }
 
         return result;
     }
 
-    int findEntryValue(String constant, int defaultValue) {
+    Integer findEntryValue(String constant, int defaultValue) {
         try {
-            Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
+            String value = helper.getEntryValue(character.getId(), constant);
 
-            if (entry != null && entry.getType().equals(Constants.FIELD_TYPE_INTEGER)) {
-                return Integer.valueOf(entry.getValue());
-            }
-        } catch (NoSuchElementException e) {
+            return Integer.valueOf(value);
+        } catch (Exception e) {
             return defaultValue;
         }
-        return defaultValue;
     }
 
     String getMentalAttrSummary() {
@@ -431,14 +398,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
     }
 
     void save() {
-        // FIXME Added to prevent a crash on the character viewer. May, no, WILL be axed later.
-        addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER, String.valueOf(0));
-
-        character.setId(helper.getLastId(Character.class));
-
-        setEntryIDs();
-
-        helper.save(character);
+        helper.saveCharacter(character);
 
         setupNewCharacter();
     }
@@ -447,15 +407,13 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int defense = Math.min(Integer.valueOf(character.getDexterity().getValue()),
                 Integer.valueOf(character.getWits().getValue()));
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_DEFENSE, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(defense));
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_DEFENSE, defense);
 
         return defense;
     }
 
     int calculateMorality() {
-        addOrUpdateEntry(Constants.TRAIT_MORALITY, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(Constants.TRAIT_MORALITY_DEFAULT));
+        addOrUpdateEntry(Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY_DEFAULT);
 
         return Constants.TRAIT_MORALITY_DEFAULT;
     }
@@ -464,8 +422,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int health = Integer.valueOf(character.getStamina().getValue()) +
                 Constants.TRAIT_SIZE_DEFAULT;
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_HEALTH, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(health));
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_HEALTH, health);
 
         return health;
     }
@@ -474,8 +431,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int initiative = Integer.valueOf(character.getComposure().getValue()) +
                 Integer.valueOf(character.getDexterity().getValue());
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_INITIATIVE, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(initiative));
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_INITIATIVE, initiative);
 
         return initiative;
     }
@@ -484,8 +440,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int speed = Integer.valueOf(character.getStrength().getValue()) +
                 Integer.valueOf(character.getDexterity().getValue());
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_SPEED, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(speed));
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_SPEED, speed);
 
         return speed;
     }
@@ -494,62 +449,24 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int willpower = Integer.valueOf(character.getResolve().getValue()) +
                 Integer.valueOf(character.getComposure().getValue());
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_WILLPOWER, Constants.FIELD_TYPE_INTEGER,
-                String.valueOf(willpower));
+        addOrUpdateEntry(Constants.TRAIT_DERIVED_WILLPOWER, willpower);
 
         return willpower;
     }
 
     @Override
     public Entry addSpecialty(String key, String specialtyName) {
-        for (Entry entry : character.getEntries()) {
-            if (entry.getKey() != null &&
-                entry.getKey().equalsIgnoreCase(key)) {
+        Entry specialty = Entry.newInstance();
+        specialty.setKey(Constants.SKILL_SPECIALTY);
+        specialty.setType(Constants.FIELD_TYPE_STRING);
+        specialty.setValue(specialtyName);
 
-                Entry specialty = Entry.newInstance();
-                specialty.setKey(Constants.SKILL_SPECIALTY);
-                specialty.setType(Constants.FIELD_TYPE_STRING);
-                specialty.setValue(specialtyName);
-
-                // Specialty ID fields are only set when the character is saved
-//                specialty.setId(helper.getLastId(Entry.class), character.getEntries().size());
-
-                if (entry.getExtras() == null) {
-                    entry.setExtras(new RealmList<Entry>());
-                }
-
-                entry.getExtras().add(specialty);
-//                entry.setSecondaryData(specialty);
-
-                return specialty;
-            }
-        }
-        return null;
+        return helper.addSpecialty(character.getId(), key, specialty);
     }
 
     @Override
     public void removeSpecialty(String key, String specialty) {
-        for (Entry entry : character.getEntries()) {
-            if (entry.getKey() != null &&
-                entry.getKey().equalsIgnoreCase(key)) {
-
-                Entry entryToRemove = null;
-
-                for (Entry extra : entry.getExtras()) {
-                    if (extra.getValue() != null
-                        && extra.getValue().equalsIgnoreCase(specialty)) {
-                        entryToRemove = extra;
-                        break;
-                    }
-                }
-
-                if (entryToRemove != null) {
-                    entry.getExtras().remove(entryToRemove);
-                }
-
-                break;
-            }
-        }
+        helper.removeSpecialty(character.getId(), key, specialty);
     }
 
     private RealmList<Entry> getAllSpecialties() {
@@ -600,33 +517,18 @@ public class CharacterWizardModel implements SpecialtiesModel {
             }
         }
 
-//        for (Entry entry : character.getEntries()) {
-//            if (entry.getSecondaryData() != null &&
-//                entry.getSecondaryData().getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
-//                result++;
-//            }
-//        }
-
         return result;
     }
 
-    private void setEntryIDs() {
-        RealmList<Entry> entries = new RealmList<>();
-
-        entries.addAll(character.getEntries());
-
-        entries.addAll(getAllSpecialties());
-
-        long lastId = helper.getLastId(Entry.class);
-
-        for (int i = 0; i < entries.size(); i++) {
-            Entry entry = entries.get(i);
-
-            entry.setId(i + lastId);
-        }
+    public Character getCharacter() {
+        return character;
     }
 
-    public static Character getCharacter() {
-        return character;
+    void refreshCharacter() {
+        character = helper.get(Character.class, characterId);
+    }
+
+    RealmList<Entry> getEntries() {
+        return character.getEntries();
     }
 }

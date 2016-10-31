@@ -25,7 +25,7 @@ public class MeritsFragment extends PagerFragment {
     }
 
     private void createPresenter() {
-        presenter = new MeritsPresenter(new CharacterWizardModel(getActivity()),
+        presenter = new MeritsPresenter(CharacterWizardModel.getInstance(),
             new MeritsView(this, BusProvider.getInstance()));
     }
 

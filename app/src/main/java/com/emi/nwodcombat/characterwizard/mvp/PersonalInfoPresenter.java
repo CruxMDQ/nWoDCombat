@@ -91,9 +91,6 @@ public class PersonalInfoPresenter {
 
     @Subscribe
     public void onDemeanorTraitChangedEvent(Events.DemeanorChanged event) {
-        // Pass the updating operation straight out to the model for handling
-
-        // Retrieve object based on spinner position
         model.addOrUpdateDemeanorTrait(demeanorsAdapter.getItem(event.position));
     }
 
@@ -114,6 +111,11 @@ public class PersonalInfoPresenter {
 
     @Subscribe
     public void onEntryChanged(Events.TextEntryChanged event) {
-        model.addOrUpdateEntry(event.key, event.type, event.value);
+        model.addOrUpdateEntry(event.key, event.value);
+    }
+
+    @Subscribe
+    public void onFragmentVisible(Events.InfoFragmentLoaded event) {
+        model.refreshCharacter();
     }
 }

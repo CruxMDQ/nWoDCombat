@@ -2,12 +2,14 @@ package com.emi.nwodcombat.characterwizard.mvp;
 
 import android.app.Fragment;
 import android.content.res.Resources;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.interfaces.OnTraitChangedListener;
 import com.emi.nwodcombat.model.pojos.Trait;
+import com.emi.nwodcombat.model.realm.Entry;
 import com.emi.nwodcombat.tools.Constants;
 import com.emi.nwodcombat.tools.Events;
 import com.emi.nwodcombat.widgets.ValueSetter;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 19/05/2016.
@@ -40,7 +43,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
     @BindView(R.id.txtPoolPhysical) TextView txtPoolPhysical;
     @BindView(R.id.txtPoolSocial) TextView txtPoolSocial;
 
-    Map<String, ValueSetter> valueSetters = new HashMap<>();
+    private Map<String, ValueSetter> valueSetters = new HashMap<>();
 
     public AttrSettingView(Fragment fragment, Bus bus) {
         super(fragment);
@@ -131,7 +134,7 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         valueSetters.put(trait.getName(), setter);
     }
 
-    public void toggleEditionPanel(boolean isActive) {
+    void toggleEditionPanel(boolean isActive) {
         if (isActive) {
             for (ValueSetter setter : valueSetters.values()) {
                 setter.toggleEditionPanel(true);
@@ -139,51 +142,51 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         }
     }
 
-    public String getAttrsMental() {
+    String getAttrsMental() {
         return txtPoolMental.getText().toString();
     }
 
-    public String getAttrsPhysical() {
+    String getAttrsPhysical() {
         return txtPoolPhysical.getText().toString();
     }
 
-    public String getAttrsSocial() {
+    String getAttrsSocial() {
         return txtPoolSocial.getText().toString();
     }
 
-    public void setUpValueSetterIntelligence(Trait intelligence) {
+    void setUpValueSetterIntelligence(Trait intelligence) {
         setUpValueSetter(valueSetterIntelligence, intelligence);
     }
 
-    public void setUpValueSetterWits(Trait wits) {
+    void setUpValueSetterWits(Trait wits) {
         setUpValueSetter(valueSetterWits, wits);
     }
 
-    public void setUpValueSetterResolve(Trait resolve) {
+    void setUpValueSetterResolve(Trait resolve) {
         setUpValueSetter(valueSetterResolve, resolve);
     }
 
-    public void setUpValueSetterStrength(Trait strength) {
+    void setUpValueSetterStrength(Trait strength) {
         setUpValueSetter(valueSetterStrength, strength);
     }
 
-    public void setUpValueSetterDexterity(Trait dexterity) {
+    void setUpValueSetterDexterity(Trait dexterity) {
         setUpValueSetter(valueSetterDexterity, dexterity);
     }
 
-    public void setUpValueSetterStamina(Trait stamina) {
+    void setUpValueSetterStamina(Trait stamina) {
         setUpValueSetter(valueSetterStamina, stamina);
     }
 
-    public void setUpValueSetterPresence(Trait presence) {
+    void setUpValueSetterPresence(Trait presence) {
         setUpValueSetter(valueSetterPresence, presence);
     }
 
-    public void setUpValueSetterManipulation(Trait manipulation) {
+    void setUpValueSetterManipulation(Trait manipulation) {
         setUpValueSetter(valueSetterManipulation, manipulation);
     }
 
-    public void setUpValueSetterComposure(Trait composure) {
+    void setUpValueSetterComposure(Trait composure) {
         setUpValueSetter(valueSetterComposure, composure);
     }
 
@@ -192,5 +195,20 @@ public class AttrSettingView extends FragmentView implements OnTraitChangedListe
         Resources resources = getActivity().getResources();
 
         return resources.getString(resId);
+    }
+
+    public void setValues(RealmList<Entry> entries) {
+        for (Entry entry : entries) {
+            for (ValueSetter setter : valueSetters.values()) {
+                try {
+                    if (entry.getKey()
+                        .equalsIgnoreCase(setter.getTrait().getName())) {
+                        setter.setCurrentValue(entry);
+                    }
+                } catch (NullPointerException e) {
+                    Log.e(this.getClass().toString(), "" + e.getMessage());
+                }
+            }
+        }
     }
 }

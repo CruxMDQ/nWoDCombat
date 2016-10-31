@@ -1,6 +1,7 @@
 package com.emi.nwodcombat.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.model.pojos.PersonalityArchetypePojo;
@@ -27,11 +28,15 @@ import java.util.Arrays;
  */
 public class NwodCombatApplication extends Application {
 
+    private static Context appContext;
+
     private PersistenceLayer helper;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        appContext = this;
 
         helper = RealmHelper.getInstance(this);
 
@@ -438,5 +443,9 @@ public class NwodCombatApplication extends Application {
             helper.save(Nature.class, jsonObjects);
             helper.save(Demeanor.class, jsonObjects);
         }
+    }
+
+    public static Context getAppContext() {
+        return appContext;
     }
 }

@@ -54,7 +54,7 @@ public class MeritsPresenter {
         namespaces.add("Awakened");
         namespaces.add("Merit");
 
-        RealmList<Rule> merits = RulesEngine.evaluate(namespaces, CharacterWizardModel.getCharacter());
+        RealmList<Rule> merits = RulesEngine.evaluate(namespaces, model.getCharacter());
 
         adapter.setMerits(merits);
     }

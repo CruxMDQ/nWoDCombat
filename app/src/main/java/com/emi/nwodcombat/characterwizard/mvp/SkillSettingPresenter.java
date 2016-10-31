@@ -254,4 +254,11 @@ public class SkillSettingPresenter {
 
         return resources.getString(resId);
     }
+
+    @Subscribe
+    public void onFragmentVisible(Events.SkillsFragmentLoaded event) {
+        model.refreshCharacter();
+
+        view.setValues(model.getEntries());
+    }
 }

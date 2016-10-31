@@ -20,7 +20,7 @@ public class PersonalInfoFragment extends PagerFragment {
 
     private void createPresenter() {
         presenter = new PersonalInfoPresenter(
-                new CharacterWizardModel(getActivity()),
+                CharacterWizardModel.getInstance(),
                 new PersonalInfoView(this, BusProvider.getInstance())
         );
     }
