@@ -21,6 +21,7 @@ import butterknife.Unbinder;
 /**
  * Created by Crux on 3/10/2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class SettingsFragment extends Fragment {
     private Unbinder unbinder;
 

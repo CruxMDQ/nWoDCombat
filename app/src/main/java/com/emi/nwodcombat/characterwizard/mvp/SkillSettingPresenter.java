@@ -118,6 +118,48 @@ public class SkillSettingPresenter {
         bus.post(new Events.StepCompletionChecked(model.isCheating() || checkCategoriesAreAllDifferent()));
     }
 
+    @Subscribe
+    public void onFragmentVisible(Events.SkillsFragmentLoaded event) {
+        model.refreshCharacter();
+
+        view.setValues(model.getEntries());
+
+        showSpecialtiesIfPresent();
+    }
+
+    @Subscribe
+    public void onSpecialtyDialogClosing(Events.SpecialtyDialogClosing event) {
+        RealmList<Entry> specialties = model.getSpecialties(event.key);
+
+        if (specialties.size() > 0) {
+            StringBuilder builder = new StringBuilder();
+
+            Iterator iterator = specialties.iterator();
+
+            while (iterator.hasNext()) {
+                Entry specialty = (Entry) iterator.next();
+
+                builder.append(specialty.getValue());
+
+                if (iterator.hasNext()) {
+                    builder.append(", ");
+                }
+            }
+
+            view.setSkillText(event.key, builder.toString());
+        } else {
+            view.setSkillText(event.key, null);
+        }
+        view.updateStarButton(event.key, specialties.size() > 0);
+    }
+
+    @Subscribe
+    public void onSpecialtyTapped(Events.SpecialtyClicked event) {
+        AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance(
+            context.getString(R.string.dialog_specialty_title), event.key, model);
+        dialog.show(view.getFragmentManager(), dialog.getClass().toString());
+    }
+
     private boolean checkCategoriesAreAllDifferent() {
         int mental = getCategoryPriority(view.getSkillsMental());
         int physical = getCategoryPriority(view.getSkillsPhysical());
@@ -152,39 +194,6 @@ public class SkillSettingPresenter {
         return 0;
     }
 
-    @Subscribe
-    public void onSpecialtyTapped(Events.SpecialtyClicked event) {
-        AddSpecialtyDialog dialog = AddSpecialtyDialog.newInstance(
-            context.getString(R.string.dialog_specialty_title), event.key, model);
-        dialog.show(view.getFragmentManager(), dialog.getClass().toString());
-    }
-
-    @Subscribe
-    public void onSpecialtyDialogClosing(Events.SpecialtyDialogClosing event) {
-        RealmList<Entry> specialties = model.getSpecialties(event.key);
-
-        if (specialties.size() > 0) {
-            StringBuilder builder = new StringBuilder();
-
-            Iterator iterator = specialties.iterator();
-
-            while (iterator.hasNext()) {
-                Entry specialty = (Entry) iterator.next();
-
-                builder.append(specialty.getValue());
-
-                if (iterator.hasNext()) {
-                    builder.append(", ");
-                }
-            }
-
-            view.setSkillText(event.key, builder.toString());
-        } else {
-            view.setSkillText(event.key, null);
-        }
-        view.updateStarButton(event.key, specialties.size() > 0);
-    }
-
     private void changeValue(boolean isIncrease, String key, String category, int spent) {
         Integer change = isIncrease ? 1 : -1;
 
@@ -210,15 +219,23 @@ public class SkillSettingPresenter {
             view.changeWidgetValue(key, skillValue);
         }
 
+        showSpecialty(key, newValue);
+    }
+
+    private void showSpecialty(String key, int newValue) {
         int specialties = model.countSpecialties();
 
         if (specialties < Constants.SKILL_SPECIALTIES_STARTING) {
             if (newValue > 0) {
-                view.toggleSpecialty(key, true);
+                view.showSpecialty(key, true);
             } else if (newValue == 0) {
-                view.toggleSpecialty(key, false);
+                view.showSpecialty(key, false);
             }
         }
+    }
+
+    private void toggleSpecialty(String key, boolean hasSpecialty) {
+        view.updateStarButton(key, hasSpecialty);
     }
 
     private void setCategoryTitle(int spent, String category) {
@@ -255,10 +272,14 @@ public class SkillSettingPresenter {
         return resources.getString(resId);
     }
 
-    @Subscribe
-    public void onFragmentVisible(Events.SkillsFragmentLoaded event) {
-        model.refreshCharacter();
+    private void showSpecialtiesIfPresent() {
+        RealmList<Entry> entries = model.getEntries();
 
-        view.setValues(model.getEntries());
+        for (Entry entry : entries) {
+            if (entry.hasSpecialties()) {
+                showSpecialty(entry.getKey(), 1);
+                toggleSpecialty(entry.getKey(), true);
+            }
+        }
     }
 }

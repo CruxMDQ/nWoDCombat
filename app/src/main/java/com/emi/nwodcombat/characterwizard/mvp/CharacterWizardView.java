@@ -23,6 +23,7 @@ import butterknife.OnClick;
 /**
  * Created by emiliano.desantis on 12/05/2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class CharacterWizardView extends FragmentView {
     private final Bus bus;
 

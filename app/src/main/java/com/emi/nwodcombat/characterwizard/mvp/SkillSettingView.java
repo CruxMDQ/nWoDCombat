@@ -29,6 +29,7 @@ import io.realm.RealmList;
  * Created by emiliano.desantis on 23/05/2016.
  * View for third step of character creator wizard done implementing MVP.
  */
+@SuppressWarnings("WeakerAccess")
 public class SkillSettingView extends FragmentView implements OnTraitChangedListener {
     private final Bus bus;
 
@@ -246,7 +247,7 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
         }
     }
 
-    public void toggleSpecialty(String key, boolean activate) {
+    public void showSpecialty(String key, boolean activate) {
         for (ValueSetter setter : valueSetters.values()) {
                 if (setter.getTrait().getName().equalsIgnoreCase(key)) {
                 setter.enableSpecialtyButton(activate);
@@ -260,8 +261,10 @@ public class SkillSettingView extends FragmentView implements OnTraitChangedList
             if (setter.getTrait().getName().equalsIgnoreCase(key)) {
                 if (isChecked) {
                     setter.changeSpecialtyButtonBackground(R.drawable.star, Constants.SKILL_SPECIALTY_LOADED);
+                    setter.setHasSpecialty(true);
                 } else {
                     setter.changeSpecialtyButtonBackground(R.drawable.star_outline, Constants.SKILL_SPECIALTY_EMPTY);
+                    setter.setHasSpecialty(false);
                 }
                 break;
             }

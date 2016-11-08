@@ -43,27 +43,27 @@ public class CharacterViewerModel implements SpecialtiesModel {
         character = getQueriedCharacter();
     }
 
-    public Character getQueriedCharacter() {
+    Character getQueriedCharacter() {
         return helper.get(Character.class, id);
     }
 
-    public RealmResults<Virtue> getVirtues() {
+    RealmResults<Virtue> getVirtues() {
         return helper.getList(Virtue.class);
     }
 
-    public RealmResults<Vice> getVices() {
+    RealmResults<Vice> getVices() {
         return helper.getList(Vice.class);
     }
 
-    public RealmResults<Nature> getNatures() {
+    RealmResults<Nature> getNatures() {
         return helper.getList(Nature.class);
     }
 
-    public RealmResults<Demeanor> getDemeanors() {
+    RealmResults<Demeanor> getDemeanors() {
         return helper.getList(Demeanor.class);
     }
 
-    public void deleteCharacter(long id) {
+    void deleteCharacter(long id) {
         helper.delete(Character.class, id);
     }
 
@@ -79,7 +79,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         return preferences;
     }
 
-    public void updateDemeanorTrait(Long characterId, Demeanor demeanor) {
+    void updateDemeanorTrait(Long characterId, Demeanor demeanor) {
 
         DemeanorTrait demeanorTrait = new DemeanorTrait();
 
@@ -93,7 +93,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         helper.updateDemeanorTrait(characterId, demeanorTrait);
     }
 
-    public void updateNatureTrait(Long characterId, Nature nature) {
+    void updateNatureTrait(Long characterId, Nature nature) {
         NatureTrait natureTrait = new NatureTrait();
         natureTrait.setType(Constants.CHARACTER_NATURE);
         natureTrait.setNature(nature);
@@ -102,7 +102,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         helper.updateNatureTrait(characterId, natureTrait);
     }
 
-    public void updateViceTrait(Long characterId, Vice vice) {
+    void updateViceTrait(Long characterId, Vice vice) {
         ViceTrait viceTrait = new ViceTrait();
         viceTrait.setType(Constants.CHARACTER_VICE);
         viceTrait.setVice(vice);
@@ -112,7 +112,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
     }
 
 
-    public void updateVirtueTrait(Long characterId, Virtue virtue) {
+    void updateVirtueTrait(Long characterId, Virtue virtue) {
         VirtueTrait virtueTrait = new VirtueTrait();
         virtueTrait.setType(Constants.CHARACTER_VIRTUE);
         virtueTrait.setVirtue(virtue);
@@ -121,19 +121,19 @@ public class CharacterViewerModel implements SpecialtiesModel {
         helper.updateVirtueTrait(characterId, virtueTrait);
     }
 
-    public void updateEntry(Long characterId, Long entryId, int value) {
+    void updateEntry(Long characterId, Long entryId, int value) {
         helper.updateEntry(characterId, entryId, String.valueOf(value));
     }
 
-    public int getExperience() {
+    int getExperience() {
         return Integer.valueOf(getQueriedCharacter().getExperience().getValue());
     }
 
-    public boolean isCheating() {
+    boolean isCheating() {
         return getPreferences().getBoolean(Constants.SETTING_CHEAT, false);
     }
 
-    public int findEntryValue(String constant, String kind) {
+    int findEntryValue(String constant, String kind) {
         try {
             Entry entry = ArrayHelper.findEntry(character.getEntries(), constant);
 
@@ -157,7 +157,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         }
     }
 
-    public Integer getExperienceCost(String kind) {
+    Integer getExperienceCost(String kind) {
         switch (kind) {
             case Constants.ATTRIBUTE:
                 return mContext.getResources().getInteger(R.integer.cost_attributes);
@@ -168,8 +168,8 @@ public class CharacterViewerModel implements SpecialtiesModel {
         }
     }
 
-    public Entry addOrUpdateEntry(String key, String type, String value) {
-        Entry entry = Entry.newInstance()
+    Entry addOrUpdateEntry(String key, String type, String value) {
+        Entry entry = Entry.newInstance(helper.getLastId(Entry.class))
             .setKey(key)
             .setType(type)
             .setValue(value);
@@ -187,7 +187,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         return entry;
     }
 
-    public boolean checkIfCharacterHasEnoughXP(String kind) {
+    boolean checkIfCharacterHasEnoughXP(String kind) {
         Integer experienceCost = getExperienceCost(kind);
 
         Integer experiencePool = getExperience();
@@ -195,7 +195,7 @@ public class CharacterViewerModel implements SpecialtiesModel {
         return experiencePool >= experienceCost;
     }
 
-    public RealmList<Entry> getAllSpecialties() {
+    RealmList<Entry> getAllSpecialties() {
         RealmList<Entry> skillsWithSpecialties = new RealmList<>();
 
         for (Entry entry : character.getEntries()) {

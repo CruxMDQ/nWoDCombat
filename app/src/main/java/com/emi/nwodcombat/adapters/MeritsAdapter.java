@@ -28,11 +28,11 @@ import io.realm.RealmViewHolder;
  * Implements item 1 from Effective Java, 2nd Edition
  */
 final public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.ViewHolder> {
-    final Context context;
-    final int idLayout;
-    final Bus bus;
+    private final Context context;
+    private final int idLayout;
+    private final Bus bus;
 
-    OrderedRealmCollection<Rule> merits;
+    private OrderedRealmCollection<Rule> merits;
 
     public static MeritsAdapter newInstance(OrderedRealmCollection<Rule> data, Context context, Bus busInstance) {
         return new MeritsAdapter(data, context, busInstance);

@@ -20,6 +20,7 @@ import butterknife.BindView;
 /**
  * Created by Emi on 2/29/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class CombatDialog extends DialogFragment {
     private int attackerPool;
     private int attackerRerollThreshold;

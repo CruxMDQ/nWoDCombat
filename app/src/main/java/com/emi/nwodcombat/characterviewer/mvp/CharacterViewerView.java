@@ -40,6 +40,7 @@ import io.realm.RealmList;
  * - Any 'new' operation done within a method is not testable
  * - Only public, package or protected methods are testable
  */
+@SuppressWarnings("WeakerAccess")
 public class CharacterViewerView extends FragmentView implements OnTraitChangedListener
 {
     // Otto bus is used to forward actions to the model
@@ -316,7 +317,7 @@ public class CharacterViewerView extends FragmentView implements OnTraitChangedL
                 try {
                     if (entry.getKey()
                         .equalsIgnoreCase(setter.getTrait().getName())) {
-                        setter.setCurrentValue(entry);
+                        setter.setStartingValue(entry);
                     }
                 } catch (NullPointerException e) {
                     Log.e(this.getClass().toString(), "" + e.getMessage());

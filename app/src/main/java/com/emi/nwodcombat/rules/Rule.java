@@ -13,12 +13,12 @@ import io.realm.RealmModel;
  * Created by emiliano.desantis on 14/07/2016.
  */
 public class Rule implements RealmModel {
-    String name;
-    String hint;
-    String description;
-    List<Integer> levels = new ArrayList<>();
-    List<String> namespaces = new ArrayList<>(); // sphere: discipline, arcane, invocation; spell: devotion, spell, charm; merit
-    List<List<Entry>> requirements = new ArrayList<>();
+    private String name;
+    private String hint;
+    private String description;
+    private List<Integer> levels = new ArrayList<>();
+    private List<String> namespaces = new ArrayList<>(); // sphere: discipline, arcane, invocation; spell: devotion, spell, charm; merit
+    private List<List<Entry>> requirements = new ArrayList<>();
 
     public String getName() {
         return name;

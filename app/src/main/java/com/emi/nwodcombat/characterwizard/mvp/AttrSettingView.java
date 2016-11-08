@@ -25,6 +25,7 @@ import io.realm.RealmList;
  * Created by emiliano.desantis on 19/05/2016.
  * View for second step of character creator wizard done in MVP.
  */
+@SuppressWarnings("WeakerAccess")
 public class AttrSettingView extends FragmentView implements OnTraitChangedListener {
 
     private final Bus bus;

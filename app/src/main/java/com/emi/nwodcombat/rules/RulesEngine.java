@@ -13,7 +13,7 @@ import io.realm.RealmList;
  * Created by emiliano.desantis on 14/07/2016.
  */
 public class RulesEngine {
-    static List<Rule> rules = new ArrayList<>();
+    private static List<Rule> rules = new ArrayList<>();
 
     // Method to add rules
     static public void addRule(Rule rule) {

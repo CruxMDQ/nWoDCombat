@@ -19,6 +19,7 @@ import butterknife.BindView;
 /**
  * Created by Emi on 2/29/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class SingleDiceCalcDialog extends DialogFragment implements OnValueChangedListener {
     private String title;
     private int number = 0;

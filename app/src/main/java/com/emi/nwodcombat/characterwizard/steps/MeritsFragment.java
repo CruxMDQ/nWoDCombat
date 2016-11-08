@@ -53,7 +53,7 @@ public class MeritsFragment extends PagerFragment {
     }
 
     @Override
-    public int getLayout() {
+    protected int getLayout() {
         return R.layout.fragment_pick_merits;
     }
 }

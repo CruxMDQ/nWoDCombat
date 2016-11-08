@@ -19,6 +19,7 @@ import butterknife.Unbinder;
 /**
  * Created by Emi on 2/19/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class NumberPickerWidget extends LinearLayout {
 
     @BindView(R.id.txtTitle) TextView txtTitle;

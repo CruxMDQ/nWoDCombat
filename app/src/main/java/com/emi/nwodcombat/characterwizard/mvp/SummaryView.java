@@ -13,6 +13,7 @@ import butterknife.BindView;
 /**
  * Created by emiliano.desantis on 24/05/2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class SummaryView extends FragmentView {
     @BindView(R.id.txtSummaryAttrMental) TextView txtSummaryAttrMental;
     @BindView(R.id.txtSummaryAttrPhysical) TextView txtSummaryAttrPhysical;

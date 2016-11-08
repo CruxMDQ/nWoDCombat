@@ -27,6 +27,7 @@ import butterknife.Unbinder;
 /**
  * Created by Emi on 2/19/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class SpecialRollRulesDialog extends DialogFragment implements OnChoicePickedListener {
 
     @BindView(R.id.rvOptions) RecyclerView rvOptions;

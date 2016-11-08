@@ -41,11 +41,11 @@ public class CharacterListView extends FragmentView {
         rvCharacters.setAdapter(realmCharacterAdapter);
     }
 
-    public void showSnackBar(String s) {
+    void showSnackBar(String s) {
         Snackbar.make(rvCharacters, s, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void showAlert(String message) {
+    void showAlert(String message) {
         AlertDialog.Builder d = new AlertDialog.Builder(getActivity());
         d.setTitle(R.string.alert_title);
         d.setMessage(message);
@@ -54,11 +54,11 @@ public class CharacterListView extends FragmentView {
     }
 
     @OnClick(R.id.fabNewCharacter)
-    public void fabPressed() {
+    void fabPressed() {
         bus.post(new FabPressedEvent());
     }
 
-    public void updateRV(RealmResults<Character> characters) {
+    void updateRV(RealmResults<Character> characters) {
         try {
             realmCharacterAdapter.updateRealmResults(characters);
         } catch (NoSuchMethodError e) {
@@ -66,19 +66,19 @@ public class CharacterListView extends FragmentView {
         }
     }
 
-    public static class FabPressedEvent {
+    static class FabPressedEvent {
 
     }
 
-    public static class ErrorEvent {
-        public final String message;
+    static class ErrorEvent {
+        final String message;
 
         ErrorEvent(String message) {
             this.message = message;
         }
     }
 
-    public static class RemoveCharacterEvent {
+    static class RemoveCharacterEvent {
         public final long id;
 
         RemoveCharacterEvent(long id) {
@@ -86,7 +86,7 @@ public class CharacterListView extends FragmentView {
         }
     }
 
-    public static class NewCharacterEvent {
+    static class NewCharacterEvent {
         String name;
     }
 }

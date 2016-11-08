@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,6 +24,7 @@ import butterknife.OnClick;
 /**
  * Created by Emi on 3/1/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class ValueSetter extends LinearLayout {
     private static SharedPreferences preferences;
     private boolean showEditionPanel;
@@ -39,8 +39,9 @@ public class ValueSetter extends LinearLayout {
     @BindView(R.id.chkSpecialty) CheckBox chkSpecialty;
     @BindView(R.id.chkTemplateSpecial) CheckBox chkTemplateSpecial;
 
+    private Boolean hasSpecialty = false;
+
     private String valueName;
-    private String traitCategory;
     private int defaultValue;
     private int maximumValue;
     private int currentValue;
@@ -155,10 +156,6 @@ public class ValueSetter extends LinearLayout {
         lblValue.setText(label);
     }
 
-    public String getValueName() {
-        return valueName;
-    }
-
     public OnTraitChangedListener getListener() {
         return listener;
     }
@@ -168,21 +165,11 @@ public class ValueSetter extends LinearLayout {
     }
 
     private void refreshPointsPanel() {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
         panelValue.removeAllViews();
 
         for (int i = 0; i < currentValue; i++) {
-//            RadioButton rdb = new RadioButton(getContext());
-//
-//            rdb.setChecked(true);
-//
-//            rdb.setButtonDrawable(getContext().getResources().getDrawable(R.drawable.selector_points));
-//
-//            panelValue.addView(rdb);
-
             inflate(getContext(), R.layout.dot_solid, panelValue);
         }
-
     }
 
     private void setMaximumValue(int maximumValue) {
@@ -200,12 +187,13 @@ public class ValueSetter extends LinearLayout {
 
     public void setCurrentValue(Entry entry) {
         this.setCurrentValue(Integer.valueOf(entry.getValue()));
-        this.setDefaultValue(Integer.valueOf(entry.getValue()));
         this.setTag(entry);
     }
 
-    public int getCurrentValue() {
-        return currentValue;
+    public void setStartingValue(Entry entry) {
+        this.setCurrentValue(Integer.valueOf(entry.getValue()));
+        this.setDefaultValue(Integer.valueOf(entry.getValue()));
+        this.setTag(entry);
     }
 
     private void setPointCost(int pointCost) {
@@ -331,5 +319,13 @@ public class ValueSetter extends LinearLayout {
 
     public void setTrait(Trait trait) {
         this.trait = trait;
+    }
+
+    public boolean hasSpecialty() {
+        return hasSpecialty;
+    }
+
+    public void setHasSpecialty(boolean hasSpecialty) {
+        this.hasSpecialty = hasSpecialty;
     }
 }

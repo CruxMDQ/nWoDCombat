@@ -23,6 +23,7 @@ import butterknife.Unbinder;
 /**
  * Created by Emi on 3/1/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class DynamicCombatFragment extends Fragment {
     @BindView(R.id.panelCombatants) LinearLayout panelCombatants;
     @BindView(R.id.fabDoCombat) FloatingActionButton fabDoCombat;

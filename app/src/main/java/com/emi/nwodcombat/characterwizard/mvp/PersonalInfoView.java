@@ -23,6 +23,7 @@ import butterknife.BindView;
 /**
  * Created by emiliano.desantis on 18/05/2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class PersonalInfoView extends FragmentView {
     private final Bus bus;
 

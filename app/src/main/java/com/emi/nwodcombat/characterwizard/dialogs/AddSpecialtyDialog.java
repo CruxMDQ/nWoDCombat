@@ -31,7 +31,9 @@ import io.realm.RealmList;
 
 /**
  * Created by emiliano.desantis on 03/06/2016.
+ * TODO Fix issue with added specialty entry overwriting entries in main list instead of being added under the corresponding skill entry.
  */
+@SuppressWarnings("WeakerAccess")
 public class AddSpecialtyDialog extends DialogFragment {
     @BindView(R.id.editSpecialtyName) EditText editSpecialtyName;
     @BindView(R.id.rvDialogSpecialties) RecyclerView rvDialogSpecialties;
@@ -42,7 +44,6 @@ public class AddSpecialtyDialog extends DialogFragment {
 
     private CharacterWizardModel model;
 
-    private AlertDialog dialog;
     private SpecialtyAdapter specialtyAdapter;
 
     private Unbinder unbinder;
@@ -119,7 +120,7 @@ public class AddSpecialtyDialog extends DialogFragment {
 
         alertDialogBuilder.setTitle(title);
 
-        dialog = alertDialogBuilder.create();
+        AlertDialog dialog = alertDialogBuilder.create();
 
 //        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 //            @Override

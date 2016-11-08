@@ -456,7 +456,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
 
     @Override
     public Entry addSpecialty(String key, String specialtyName) {
-        Entry specialty = Entry.newInstance();
+        Entry specialty = Entry.newInstance(helper.getLastId(Entry.class));
+
         specialty.setKey(Constants.SKILL_SPECIALTY);
         specialty.setType(Constants.FIELD_TYPE_STRING);
         specialty.setValue(specialtyName);

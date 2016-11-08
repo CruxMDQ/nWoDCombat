@@ -13,8 +13,8 @@ import butterknife.BindView;
 
 /**
  * Created by emiliano.desantis on 02/06/2016.
- * TODO UNTESTED - SPECIALTIES HAVE TO BE COMPLETED FIRST
  */
+@SuppressWarnings("WeakerAccess")
 public class MeritsView extends FragmentView {
     private final Bus bus;
 

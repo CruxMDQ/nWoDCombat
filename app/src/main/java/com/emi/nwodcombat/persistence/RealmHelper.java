@@ -146,11 +146,11 @@ public class RealmHelper implements PersistenceLayer {
         return realm.where(klass).findAll();
     }
 
+    @SuppressWarnings("unchecked")
     public RealmResults<Character> getCompletedCharacterList() {
-        RealmResults results = realm.where(Character.class).equalTo("isComplete", Boolean.valueOf(true))
+        return (RealmResults) realm.where(Character.class)
+            .equalTo("isComplete", true)
             .findAll();
-
-        return results;
     }
 
     @Override
@@ -230,12 +230,10 @@ public class RealmHelper implements PersistenceLayer {
     public void addEntry(Long characterId, String key, String type, String value) {
         Character characterToUpdate = get(Character.class, characterId);
 
-        Entry entry = Entry.newInstance()
+        Entry entry = Entry.newInstance(getLastId(Entry.class))
             .setKey(key)
             .setType(type)
             .setValue(value);
-
-        entry.setId(getLastId(Entry.class));
 
         realm.beginTransaction();
         characterToUpdate.getEntries().add(entry);
@@ -417,9 +415,7 @@ public class RealmHelper implements PersistenceLayer {
         Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId)
             .findFirst();
 
-        String value = character.getEntries().where().equalTo("key", constant).findFirst().getValue();
-
-        return value;
+        return character.getEntries().where().equalTo("key", constant).findFirst().getValue();
     }
 
     public Entry addSpecialty(Long characterId, String key, Entry specialty) {

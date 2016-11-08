@@ -21,7 +21,7 @@ public class FragmentView {
     private final Unbinder unbinder;
     private WeakReference<Fragment> fragmentRef;
 
-    public FragmentView(Fragment fragment) {
+    protected FragmentView(Fragment fragment) {
         fragmentRef = new WeakReference<>(fragment);
         unbinder = ButterKnife.bind(this, fragment.getView());
     }

@@ -30,6 +30,7 @@ import butterknife.Unbinder;
 /**
  * Created by Emi on 3/1/16.
  */
+@SuppressWarnings("WeakerAccess")
 public class CombatantInfoFragment extends Fragment implements CombatantInfoContract.View {
     @BindView(R.id.rvCombatantValues) RecyclerView rvCombatantValues;
     @BindView(R.id.btnSetCombatantThreshold) Button btnSetCombatantThreshold;
