@@ -260,4 +260,10 @@ public class Character extends RealmObject {
     public void setComplete(boolean complete) {
         isComplete = complete;
     }
+
+    public void cascadeDelete() {
+        entries.deleteAllFromRealm(); // The cascade part
+        deleteFromRealm(); // delete this object
+    }
+
 }

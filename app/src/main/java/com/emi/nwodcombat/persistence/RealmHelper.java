@@ -158,6 +158,10 @@ public class RealmHelper implements PersistenceLayer {
         return realm.where(klass).equalTo(Constants.FIELD_ID, id).findFirst();
     }
 
+    public <T extends RealmObject> T get(Class<T> klass, String key) {
+        return realm.where(klass).equalTo(Constants.FIELD_KEY, key).findFirst();
+    }
+
     @Override
     public int getCount(Class className) {
         return getList(className).size();
@@ -181,6 +185,16 @@ public class RealmHelper implements PersistenceLayer {
         realm.beginTransaction();
 
         T target = realm.where(clazz).equalTo(Constants.FIELD_ID, id).findAll().first();
+
+        target.deleteFromRealm();
+
+        realm.commitTransaction();
+    }
+
+    public <T extends RealmObject> void delete(Class<T> clazz, String key) {
+        realm.beginTransaction();
+
+        T target = realm.where(clazz).equalTo(Constants.FIELD_KEY, key).findAll().first();
 
         target.deleteFromRealm();
 
@@ -212,6 +226,8 @@ public class RealmHelper implements PersistenceLayer {
     }
 
     public boolean updateEntry(Character character, Entry entry) {
+        boolean updated = false;
+
         for (Entry cycledEntry : character.getEntries()) {
             if (cycledEntry.getKey().equals(entry.getKey())) {
                 realm.beginTransaction();
@@ -220,11 +236,30 @@ public class RealmHelper implements PersistenceLayer {
 
                 realm.commitTransaction();
 
-                return true;
+                updated = true;
+
+                break;
             }
         }
-        return false;
+        return updated;
+    }
 
+    public boolean updateEntry(long characterId, String key, String value) {
+        Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId).findFirst();
+
+        Entry target = character.getEntries().where().equalTo(Constants.FIELD_KEY, key).findFirst();
+
+        if (target != null) {
+            realm.beginTransaction();
+
+            target.setValue(value);
+
+            realm.commitTransaction();
+
+            return true;
+        }
+
+        return false;
     }
 
     public void addEntry(Long characterId, String key, String type, String value) {

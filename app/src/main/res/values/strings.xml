@@ -307,4 +307,5 @@
     <string name="button_cancel">Cancel</string>
     <string name="dialog_specialty_title">Add new specialty</string>
     <string name="error_specialty_limit_reached">Character already has 3 specialties!</string>
+    <string name="to">to</string>
 </resources>

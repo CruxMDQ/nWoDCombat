@@ -4,6 +4,10 @@ package com.emi.nwodcombat.tools;
  * Created by Emi on 2/18/16.
  */
 public class Constants {
+    private Constants() {
+        throw new AssertionError("This class is NOT MEANT FOR INSTANTIATION!");
+    }
+
     public static final boolean MODE_TEST = true;
 
     public static final String TYPEFACE_FOLDER = "fonts/";
@@ -123,6 +127,8 @@ public class Constants {
     public static final String ARG_CLASS_ARGS = "ClassArguments";
 
     public static final String FIELD_ID = "id";
+    public static final String FIELD_KEY = "key";
+    public static final String FIELD_VALUE = "value";
 
     public static final String FIELD_TYPE_STRING = "String";
     public static final String FIELD_TYPE_INTEGER = "Integer";
@@ -145,4 +151,16 @@ public class Constants {
     public static final String FINESSE = "Finesse";
     public static final String RESISTANCE = "Resistance";
 
+    public static final String MERIT_TRAINED_OBSERVER_DESC = "Your character has spent years in the field, catching tiny details and digging for secrets.";
+    public static final String NAMESPACE_AWAKENED = "Awakened";
+    public static final String NAMESPACE_MERIT = "Merit";
+    public static final String NAMESPACE_COMMON = "Common";
+    public static final String MERIT_DREAM = "Dream";
+    public static final String MERIT_DREAM_HINT = "Your character can search for answers within her dreams.";
+    public static final String MERIT_DREAM_DESC = "Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.";
+    public static final String MERIT_TRAINED_OBSERVER = "Trained Observer";
+    public static final String MERIT_TRAINED_OBSERVER_HINT = "Your character has spent years in the field, catching tiny details and digging for secrets.";
+    public static final String MERIT_COMMON_SENSE = "Common Sense";
+    public static final String MERIT_COMMON_SENSE_HINT = "Your character has an exceptionally sound and rational mind.";
+    public static final String MERIT_COMMON_SENSE_DESC = "Your character has an exceptionally sound and rational mind. Within a moment\'s thought, she can weigh potential courses of action and outcomes.";
 }

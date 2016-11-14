@@ -39,8 +39,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
 
     private CharacterWizardModel() {
         helper = RealmHelper.getInstance(NwodCombatApplication.getAppContext());
-        characterId = helper.getLastId(Character.class);
-        character = (Character) helper.createObject(Character.class, characterId);
+
+        createCharacter();
 
         setUpDefaultValues();
     }
@@ -147,7 +147,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
     }
 
     private Entry addOrUpdateEntry(String key, String type, String value) {
-        Entry entry = Entry.newInstance()
+        Entry entry = Entry.newInstance(helper.getLastId(Entry.class))
             .setKey(key)
             .setType(type)
             .setValue(value);
@@ -470,22 +470,22 @@ public class CharacterWizardModel implements SpecialtiesModel {
         helper.removeSpecialty(character.getId(), key, specialty);
     }
 
-    private RealmList<Entry> getAllSpecialties() {
-        RealmList<Entry> specialties = new RealmList<>();
-
-        for (Entry entry : character.getEntries()) {
-            if (entry.getExtras() != null) {
-                for (Entry extra : entry.getExtras()) {
-                    // If skill has specialties
-                    if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
-                        specialties.add(extra);
-                    }
-                }
-            }
-        }
-
-        return specialties;
-    }
+//    private RealmList<Entry> getAllSpecialties() {
+//        RealmList<Entry> specialties = new RealmList<>();
+//
+//        for (Entry entry : character.getEntries()) {
+//            if (entry.getExtras() != null) {
+//                for (Entry extra : entry.getExtras()) {
+//                    // If skill has specialties
+//                    if (extra.getKey().equalsIgnoreCase(Constants.SKILL_SPECIALTY)) {
+//                        specialties.add(extra);
+//                    }
+//                }
+//            }
+//        }
+//
+//        return specialties;
+//    }
 
     public RealmList<Entry> getSpecialties(String key) {
         for (Entry entry : character.getEntries()) {
@@ -531,5 +531,52 @@ public class CharacterWizardModel implements SpecialtiesModel {
 
     RealmList<Entry> getEntries() {
         return character.getEntries();
+    }
+
+    Entry getEntry(String name) {
+        return helper.get(Entry.class, name);
+    }
+
+    void deleteEntry(String name) {
+        helper.delete(Entry.class, name);
+    }
+
+    void deleteCharacter() {
+        helper.delete(Character.class, characterId);
+        createCharacter();
+    }
+
+    private void createCharacter() {
+        characterId = helper.getLastId(Character.class);
+        character = (Character) helper.createObject(Character.class, characterId);
+    }
+
+    boolean hasEntry(String name) {
+        Entry entry = helper.get(Entry.class, name);
+
+        return entry != null;
+    }
+
+    Entry addEntry(String key, int value) {
+        return addEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(value));
+    }
+
+    Entry addEntry(String key, String value) {
+        return addEntry(key, Constants.FIELD_TYPE_STRING, value);
+    }
+
+    Entry addEntry(String key, String type, String value) {
+        Entry entry = Entry.newInstance(helper.getLastId(Entry.class))
+            .setKey(key)
+            .setType(type)
+            .setValue(value);
+
+        helper.addEntry(characterId, entry);
+
+        return entry;
+    }
+
+    void updateEntry(String key, String value) {
+        helper.updateEntry(characterId, key, value);
     }
 }

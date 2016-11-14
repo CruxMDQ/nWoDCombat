@@ -10,6 +10,7 @@ import com.emi.nwodcombat.characterwizard.steps.PagerFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
 import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.SummaryFragment;
+import com.emi.nwodcombat.model.realm.Character;
 import com.emi.nwodcombat.tools.BusProvider;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
@@ -86,6 +87,7 @@ public class CharacterWizardPresenter {
         if (nextPage < 0) {
             // If yes, then remove the fragment altogether from the view
             view.getActivity().getFragmentManager().popBackStack();
+            model.getCharacter().cascadeDelete();
             return;
         }
 
@@ -109,4 +111,10 @@ public class CharacterWizardPresenter {
         }
     }
 
+    public void destroyCharacter() {
+        Character character = model.getCharacter();
+        if (!character.isComplete()) {
+            model.deleteCharacter();
+        }
+    }
 }

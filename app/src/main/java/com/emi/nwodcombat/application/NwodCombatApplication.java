@@ -20,7 +20,7 @@ import com.emi.nwodcombat.tools.Constants;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Emi on 3/14/16.
@@ -48,49 +48,34 @@ public class NwodCombatApplication extends Application {
     }
 
     private void generateRules() {
-        Rule dream = new Rule();
-
-        dream.setName("Dream");
-        dream.setHint("Your character can search for answers within her dreams.");
-        dream.setDescription("Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.");
-
-        dream.addLevels(1, 2, 3, 4, 5);
-
-        dream.addNamespaces("Awakened", "Merit");
-
-        dream.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
-
-        dream.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
+        Rule dream = new Rule.Builder(Constants.MERIT_DREAM, Constants.MERIT_DREAM_HINT, Constants.MERIT_DREAM_DESC)
+            .levels(1, 2, 3, 4, 5)
+            .namespaces(Constants.NAMESPACE_AWAKENED, Constants.NAMESPACE_MERIT)
+            .requirements(
+                Collections.singletonList(
+                    Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)),
+                Collections.singletonList(
+                    Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)))
+            .build();
 
         RulesEngine.addRule(dream);
 
-        Rule trainedObserver = new Rule();
-
-        trainedObserver.setName("Trained Observer");
-        trainedObserver.setHint("Your character has spent years in the field, catching tiny details and digging for secrets.");
-        trainedObserver.setDescription("Your character has spent years in the field, catching tiny details and digging for secrets.");
-
-        trainedObserver.addLevels(1, 3);
-
-        trainedObserver.addNamespaces("Common", "Merit");
-
-        trainedObserver.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)));
-
-        trainedObserver.addRequirement(Arrays.asList(Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)));
+        Rule trainedObserver = new Rule.Builder(Constants.MERIT_TRAINED_OBSERVER, Constants.MERIT_TRAINED_OBSERVER_HINT, Constants.MERIT_TRAINED_OBSERVER_DESC)
+            .levels(1, 3)
+            .namespaces(Constants.NAMESPACE_COMMON, Constants.NAMESPACE_MERIT)
+            .requirements(
+                Collections.singletonList(
+                    Entry.newInstance(Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER, 3)),
+                Collections.singletonList(
+                    Entry.newInstance(Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER, 3)))
+            .build();
 
         RulesEngine.addRule(trainedObserver);
 
-        Rule commonSense = new Rule();
-
-        commonSense.setName("Common Sense");
-        commonSense.setHint("Your character has an exceptionally sound and rational mind.");
-        commonSense.setDescription("Your character has an exceptionally sound and rational mind. Within a moment\'s thought, she can weigh potential courses of action and outcomes.");
-
-        commonSense.addLevels(3);
-
-        commonSense.addNamespaces("Common", "Merit");
-
-        //parameters: Wits, Composure
+        Rule commonSense = new Rule.Builder(Constants.MERIT_COMMON_SENSE, Constants.MERIT_COMMON_SENSE_HINT, Constants.MERIT_COMMON_SENSE_DESC)
+            .levels(3)
+            .namespaces(Constants.NAMESPACE_COMMON, Constants.NAMESPACE_MERIT)
+            .build();
 
         RulesEngine.addRule(commonSense);
     }

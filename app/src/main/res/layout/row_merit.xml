@@ -9,12 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/chkMerit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/txtMeritName"
@@ -30,6 +26,27 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_gravity="center_vertical">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/panelEditMerit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnMeritDecrease"
+                android:layout_width="@dimen/btn_value_setter"
+                android:layout_height="@dimen/btn_value_setter"
+                android:background="@drawable/fab_reject"
+                android:text="@string/button_minus"/>
+
+            <Button
+                android:id="@+id/btnMeritIncrease"
+                android:layout_width="@dimen/btn_value_setter"
+                android:layout_height="@dimen/btn_value_setter"
+                android:background="@drawable/fab_accept"
+                android:text="@string/button_plus"/>
         </LinearLayout>
     </LinearLayout>
 

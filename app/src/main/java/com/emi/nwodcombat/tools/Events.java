@@ -1,5 +1,8 @@
 package com.emi.nwodcombat.tools;
 
+import com.emi.nwodcombat.adapters.MeritsAdapter;
+import com.emi.nwodcombat.rules.Rule;
+
 /**
  * Created by emiliano.desantis on 18/05/2016.
  */
@@ -185,5 +188,17 @@ public class Events {
 
     public static class MeritsFragmentLoaded {
         public MeritsFragmentLoaded() {}
+    }
+
+    public static class MeritValueChanged {
+        public MeritsAdapter.ViewHolder holder;
+        public Rule rule;
+        public boolean isIncrease;
+
+        public MeritValueChanged(MeritsAdapter.ViewHolder holder, Rule rule, boolean isIncrease) {
+            this.holder = holder;
+            this.rule = rule;
+            this.isIncrease = isIncrease;
+        }
     }
 }

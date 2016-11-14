@@ -1,16 +1,16 @@
 package com.emi.nwodcombat.rules;
 
 import com.emi.nwodcombat.model.realm.Entry;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import io.realm.RealmModel;
 
 /**
  * Created by emiliano.desantis on 14/07/2016.
+ * Implements item 2 of Effective Java, 2nd Edition
  */
 public class Rule implements RealmModel {
     private String name;
@@ -20,72 +20,76 @@ public class Rule implements RealmModel {
     private List<String> namespaces = new ArrayList<>(); // sphere: discipline, arcane, invocation; spell: devotion, spell, charm; merit
     private List<List<Entry>> requirements = new ArrayList<>();
 
-    public String getName() {
-        return name;
+    static public class Builder {
+        // Mandatory parameters
+        private String name;
+        private String hint;
+        private String description;
+
+        // At least one value on each of those is required
+        private List<Integer> levels = new ArrayList<>();
+        private List<String> namespaces = new ArrayList<>(); // sphere: discipline, arcane, invocation; spell: devotion, spell, charm; merit
+
+        // A few merits, to name something, have no requirements
+        private List<List<Entry>> requirements = new ArrayList<>();
+
+        public Builder(String name, String hint, String description) {
+            this.name = name;
+            this.hint = hint;
+            this.description = description;
+        }
+
+        public Builder levels(Integer... levels) {
+            this.levels = Arrays.asList(levels);
+            return this;
+        }
+
+        public Builder namespaces(String... namespaces) {
+            this.namespaces = Arrays.asList(namespaces);
+            return this;
+        }
+
+        @SafeVarargs
+        public final Builder requirements(List<Entry>... requirements) {
+            this.requirements = Arrays.asList(requirements);
+            return this;
+        }
+
+        public Rule build() {
+            return new Rule(this);
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private Rule(Builder builder) {
+        this.name = builder.name;
+        this.hint = builder.hint;
+        this.description = builder.description;
+        this.levels = builder.levels;
+        this.namespaces = builder.namespaces;
+        this.requirements = builder.requirements;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getHint() {
         return hint;
     }
 
-    public void setHint(String hint) {
-        this.hint = hint;
-    }
-
-    public void addRequirement(List<Entry> entries) {
-        this.requirements.add(entries);
-    }
-
-    public void removeRequirement(Object object) {
-        this.requirements.remove(object);
-    }
-
-    public List<List<Entry>> getRequirements() {
+    List<List<Entry>> getRequirements() {
         return this.requirements;
-    }
-
-    public void addLevels(Integer... integers) {
-        Collections.addAll(this.levels, integers);
-    }
-
-    public void removeLevel(Object object) {
-        this.levels.remove(object);
     }
 
     public List<Integer> getLevels() {
         return this.levels;
     }
 
-    public void addNamespace(String namespace) {
-        this.namespaces.add(namespace);
-    }
-
-    public void addNamespaces(String... namespaces) {
-        Collections.addAll(this.namespaces, namespaces);
-    }
-
-    public void removeNamespace(Object object) {
-        this.namespaces.remove(object);
-    }
-
-    public List<String> getNamespaces() {
+    List<String> getNamespaces() {
         return namespaces;
-    }
-
-    public String toJson() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
     }
 }

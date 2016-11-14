@@ -7,13 +7,14 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emi.nwodcombat.R;
 import com.emi.nwodcombat.rules.Rule;
 import com.emi.nwodcombat.tools.ArrayHelper;
+import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
 
 import java.util.Collections;
@@ -53,68 +54,27 @@ final public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        Rule merit = merits.get(position);
+        final Rule merit = merits.get(position);
 
-        holder.txtMeritName.setText(merit.getName());
-        holder.txtMeritDescription.setText(merit.getHint());
+        holder.displayCurrentAndPossiblePointValues(inflater, merit, 0);
 
-        holder.panelMeritValue.removeAllViews();
-
-        int dpValue = 5;
-        float d = context.getResources().getDisplayMetrics().density;
-        int margin = (int)(dpValue * d);
-
-        LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
-
-        TextView txtOpen = new TextView(context);
-        txtOpen.setText("(");
-
-        container.addView(txtOpen);
-
-        if (ArrayHelper.isIncreasingAndContiguous(merit.getLevels()) && merit.getLevels().size() > 1) {
-
-            int min = Collections.min(merit.getLevels());
-            int max = Collections.max(merit.getLevels());
-
-            for (int i = 0; i < min; i++) {
-                inflater.inflate(R.layout.dot_empty, container, true);
+        holder.btnMeritIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bus.post(new Events.MeritValueChanged(holder, merit, true));
             }
+        });
 
-            TextView txtTo = new TextView(context);
-            txtTo.setText("to");
-            txtTo.setLayoutParams(generateParams(margin, 0, margin, 0));
-            
-            container.addView(txtTo);
-
-            for (int i = 0; i < max; i++) {
-                inflater.inflate(R.layout.dot_empty, container, true);
+        // This button should ONLY be visible if the character already has the merit
+         holder.btnMeritDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bus.post(new Events.MeritValueChanged(holder, merit, false));
             }
-        }
-        else
-        {
-            for (Integer level : merit.getLevels()) {
-                for (int i = 0; i < level; i++) {
-                    inflater.inflate(R.layout.dot_empty, container, true);
-                }
-
-                if (merit.getLevels().indexOf(level) < merit.getLevels().size() - 1) {
-                    TextView txtSeparator = new TextView(context);
-                    txtSeparator.setText(", ");
-
-                    container.addView(txtSeparator);
-                }
-            }
-        }
-
-        TextView txtClose = new TextView(context);
-        txtClose.setText(")");
-
-        container.addView(txtClose);
-
-        holder.panelMeritValue.addView(container);
+        });
     }
 
     @NonNull
@@ -144,10 +104,17 @@ final public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.View
         return merits.size();
     }
 
+    public void setMerits(OrderedRealmCollection<Rule> merits) {
+        this.merits = merits;
+        this.notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RealmViewHolder {
         Context context;
 
-        @BindView(R.id.chkMerit) CheckBox checkBox;
+        @BindView(R.id.btnMeritDecrease) Button btnMeritDecrease;
+        @BindView(R.id.btnMeritIncrease) Button btnMeritIncrease;
+        @BindView(R.id.panelEditMerit) LinearLayout panelEditMerit;
         @BindView(R.id.panelMeritValue) LinearLayout panelMeritValue;
         @BindView(R.id.txtMeritName) TextView txtMeritName;
         @BindView(R.id.txtMeritDescription) TextView txtMeritDescription;
@@ -157,10 +124,91 @@ final public class MeritsAdapter extends RecyclerView.Adapter<MeritsAdapter.View
             this.context = context;
             ButterKnife.bind(this, itemView);
         }
-    }
 
-    public void setMerits(OrderedRealmCollection<Rule> merits) {
-        this.merits = merits;
-        this.notifyDataSetChanged();
+        public void displayCurrentAndPossiblePointValues(LayoutInflater inflater, Rule merit, int currentValue) {
+            txtMeritName.setText(merit.getName());
+            txtMeritDescription.setText(merit.getHint());
+
+            panelMeritValue.removeAllViews();
+
+            // TODO Consider whether this value here should be a constant
+            int margin = calculateMargin(5);
+
+            LinearLayout container = createContainer(generateParams(margin, margin, margin, margin));
+
+            showCurrentValue(inflater, currentValue, margin, container);
+
+            TextView txtOpen = new TextView(context);
+            txtOpen.setText("(");
+
+            container.addView(txtOpen);
+
+            if (ArrayHelper.isIncreasingAndContiguous(merit.getLevels()) && merit.getLevels().size() > 1) {
+                assembleContiguous(inflater, merit, margin, container);
+            }
+            else
+            {
+                assembleNonContiguous(inflater, merit, container);
+            }
+
+            TextView txtClose = new TextView(context);
+            txtClose.setText(")");
+
+            container.addView(txtClose);
+
+            panelMeritValue.addView(container);
+        }
+
+        private void assembleNonContiguous(LayoutInflater inflater, Rule merit, LinearLayout container) {
+            for (Integer level : merit.getLevels()) {
+                for (int i = 0; i < level; i++) {
+                    inflater.inflate(R.layout.dot_empty, container, true);
+                }
+
+                if (merit.getLevels().indexOf(level) < merit.getLevels().size() - 1) {
+                    TextView txtSeparator = new TextView(context);
+                    txtSeparator.setText(", ");
+
+                    container.addView(txtSeparator);
+                }
+            }
+        }
+
+        private void assembleContiguous(LayoutInflater inflater, Rule merit, int margin, LinearLayout container) {
+            int min = Collections.min(merit.getLevels());
+            int max = Collections.max(merit.getLevels());
+
+            for (int i = 0; i < min; i++) {
+                inflater.inflate(R.layout.dot_empty, container, true);
+            }
+
+            TextView txtTo = new TextView(context);
+            txtTo.setText(R.string.to);
+            txtTo.setLayoutParams(generateParams(margin, 0, margin, 0));
+
+            container.addView(txtTo);
+
+            for (int i = 0; i < max; i++) {
+                inflater.inflate(R.layout.dot_empty, container, true);
+            }
+        }
+
+        private void showCurrentValue(LayoutInflater inflater, int currentValue, int margin, LinearLayout container) {
+            if (currentValue > 0) {
+
+                LinearLayout subContainer = createContainer(generateParams(margin, 0, margin, 0));
+
+                for (int i = 0; i < currentValue; i++) {
+                    inflater.inflate(R.layout.dot_solid, subContainer, true);
+                }
+
+                container.addView(subContainer);
+            }
+        }
+
+        private int calculateMargin(int dpValue) {
+            float d = context.getResources().getDisplayMetrics().density;
+            return (int)(dpValue * d);
+        }
     }
 }
