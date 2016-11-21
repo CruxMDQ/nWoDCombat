@@ -13,6 +13,7 @@ import com.emi.nwodcombat.characterwizard.steps.AttrSettingFragment;
 import com.emi.nwodcombat.characterwizard.steps.MeritsFragment;
 import com.emi.nwodcombat.characterwizard.steps.PersonalInfoFragment;
 import com.emi.nwodcombat.characterwizard.steps.SkillSettingFragment;
+import com.emi.nwodcombat.characterwizard.steps.SummaryFragment;
 import com.emi.nwodcombat.fragments.FragmentView;
 import com.emi.nwodcombat.tools.Events;
 import com.squareup.otto.Bus;
@@ -84,6 +85,7 @@ public class CharacterWizardView extends FragmentView {
                 final int indexOfAttrsFragment = pagerAdapter.indexOf(AttrSettingFragment.class);
                 final int indexOfSkillsFragment = pagerAdapter.indexOf(SkillSettingFragment.class);
                 final int indexOfMeritsFragment = pagerAdapter.indexOf(MeritsFragment.class);
+                final int indexOfSummaryFragment = pagerAdapter.indexOf(SummaryFragment.class);
 
                 if (pager.getCurrentItem() == indexOfInfoFragment) {
                     bus.post(new Events.InfoFragmentLoaded());
@@ -93,6 +95,8 @@ public class CharacterWizardView extends FragmentView {
                     bus.post(new Events.SkillsFragmentLoaded());
                 } else if (pager.getCurrentItem() == indexOfMeritsFragment) {// fire new event
                     bus.post(new Events.MeritsFragmentLoaded());
+                } else if (pager.getCurrentItem() == indexOfSummaryFragment) {
+                    bus.post(new Events.WizardComplete());
                 }
             }
 

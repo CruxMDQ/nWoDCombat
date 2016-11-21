@@ -92,7 +92,7 @@ public class AttrSettingPresenter //implements OnSettingChangedListener {
         int delta = isIncrease ? 1 : -1;
         Integer change = delta + model.findEntryValue(key, Constants.ABSOLUTE_MINIMUM_ATTR);
 
-        view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(key, change).getValue()));
+        view.changeWidgetValue(key, Integer.valueOf(model.addOrUpdateEntry(Constants.NAMESPACE_ATTRIBUTE, key, change).getValue()));
 
         // If point allocation is not limited by category, do this instead
         if (!model.isCheating() && ((change > 0 && spent < Constants.ATTR_PTS_PRIMARY) || (change < 0 && spent > 0))) {

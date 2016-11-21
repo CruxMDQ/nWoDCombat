@@ -23,7 +23,7 @@ public class SummaryPresenter {
 
         setUpUI();
 
-        populateView();
+//        populateView();
     }
 
     private void setUpUI() {
@@ -56,6 +56,7 @@ public class SummaryPresenter {
         view.setSkillSummaryPhysical(model.getPhysicalSkillsSummary());
         view.setSkillSummarySocial(model.getSocialSkillsSummary());
         view.setSkillSummarySpecialties(model.getSpecialtiesSummary());
+        view.setMeritsSummary(model.getMeritsSummary());
 
         view.setDefense(model.calculateDefense());
         view.setHealth(model.calculateHealth());

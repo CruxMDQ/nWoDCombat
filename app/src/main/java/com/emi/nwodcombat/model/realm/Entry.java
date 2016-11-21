@@ -15,10 +15,38 @@ public class Entry extends RealmObject {
     @PrimaryKey
     private long id;
 
+    private String namespace;
     private String key;
     private String value;
     private String type;
     private RealmList<Entry> extras;
+
+    static public class Builder {
+        private long id;
+        private String namespace;
+        private String key;
+        private String value;
+        private String type;
+
+        public Builder(long id, String namespace, String key, String value, String type) {
+            this.id = id;
+            this.namespace = namespace;
+            this.key = key;
+            this.value = value;
+            this.type = type;
+        }
+
+        public Entry build() {
+            Entry result = new Entry();
+            result.id = id;
+            result.namespace = namespace;
+            result.key = key;
+            result.type = type;
+            result.value = value;
+
+            return result;
+        }
+    }
 
     public static Entry newInstance() {
         return new Entry();
@@ -28,6 +56,22 @@ public class Entry extends RealmObject {
         Entry entry = new Entry();
 
         entry.setId(id);
+
+        return entry;
+    }
+
+    public static Entry newInstance(String namespace, String key, String type, String value) {
+        Entry entry = Entry.newInstance(key, type, value);
+
+        entry.namespace = namespace;
+
+        return entry;
+    }
+
+    public static Entry newInstance(String namespace, String key, String type, int value) {
+        Entry entry = Entry.newInstance(key, type, value);
+
+        entry.namespace = namespace;
 
         return entry;
     }
@@ -112,5 +156,13 @@ public class Entry extends RealmObject {
             }
         }
         return false;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }

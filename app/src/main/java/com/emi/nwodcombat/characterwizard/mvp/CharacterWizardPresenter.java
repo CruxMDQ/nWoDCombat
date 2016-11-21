@@ -87,16 +87,17 @@ public class CharacterWizardPresenter {
         if (nextPage < 0) {
             // If yes, then remove the fragment altogether from the view
             view.getActivity().getFragmentManager().popBackStack();
-            model.getCharacter().cascadeDelete();
+            model.deleteCharacter();
             return;
         }
 
         if (nextPage > lastPage) {
             finishWizard();
             return;
-        } else if (event.movesForward && nextPage == lastPage) {
-            bus.post(new Events.WizardComplete());
         }
+//        else if (event.movesForward && nextPage == lastPage) {
+//            bus.post(new Events.WizardComplete());
+//        }
 
         view.setNextLabel(nextPage == lastPage ? context.getString(R.string.button_finish)
                 : context.getString(R.string.button_next));

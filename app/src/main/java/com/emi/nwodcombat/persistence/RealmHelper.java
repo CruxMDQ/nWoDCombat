@@ -16,6 +16,7 @@ import com.emi.nwodcombat.model.realm.wrappers.ViceTrait;
 import com.emi.nwodcombat.model.realm.wrappers.VirtueTrait;
 import com.emi.nwodcombat.tools.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -244,7 +245,7 @@ public class RealmHelper implements PersistenceLayer {
         return updated;
     }
 
-    public boolean updateEntry(long characterId, String key, String value) {
+    public Entry updateEntry(long characterId, String key, String value) {
         Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId).findFirst();
 
         Entry target = character.getEntries().where().equalTo(Constants.FIELD_KEY, key).findFirst();
@@ -255,11 +256,9 @@ public class RealmHelper implements PersistenceLayer {
             target.setValue(value);
 
             realm.commitTransaction();
-
-            return true;
         }
 
-        return false;
+        return target;
     }
 
     public void addEntry(Long characterId, String key, String type, String value) {
@@ -516,5 +515,36 @@ public class RealmHelper implements PersistenceLayer {
         realm.copyToRealm(item);
         realm.commitTransaction();
         return 0;
+    }
+
+    public List<Entry> getAllCharacterMerits(long characterId) {
+        Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId).findFirst();
+
+//        List<Entry> entries = character.getEntries().where()
+//            .equalTo(Constants.FIELD_NAMESPACE, Constants.NAMESPACE_MERIT).findAll();
+//
+//        return entries;
+
+        List<Entry> results = new ArrayList<>();
+
+        for (Entry entry :  character.getEntries()) {
+            if (entry.getNamespace().equalsIgnoreCase(Constants.NAMESPACE_MERIT)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    public void deleteCharacter(Long characterId) {
+//            entries.deleteAllFromRealm(); // The cascade part
+//            deleteFromRealm(); // delete this object
+        Character character = realm.where(Character.class).equalTo(Constants.FIELD_ID, characterId).findFirst();
+
+        realm.beginTransaction();
+
+        character.cascadeDelete();
+
+        realm.commitTransaction();
     }
 }

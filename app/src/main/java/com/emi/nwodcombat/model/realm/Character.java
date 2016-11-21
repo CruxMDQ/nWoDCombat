@@ -265,5 +265,4 @@ public class Character extends RealmObject {
         entries.deleteAllFromRealm(); // The cascade part
         deleteFromRealm(); // delete this object
     }
-
 }

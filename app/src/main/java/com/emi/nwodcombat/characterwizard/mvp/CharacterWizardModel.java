@@ -21,6 +21,7 @@ import com.emi.nwodcombat.tools.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -46,17 +47,27 @@ public class CharacterWizardModel implements SpecialtiesModel {
     }
 
     private void setUpDefaultValues() {
-        addOrUpdateEntry(Constants.ATTR_INT, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_WIT, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_RES, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_STR, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_DEX, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_STA, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_PRE, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_MAN, Constants.ABSOLUTE_MINIMUM_ATTR);
-        addOrUpdateEntry(Constants.ATTR_COM, Constants.ABSOLUTE_MINIMUM_ATTR);
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_INT, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_WIT, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_RES, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_STR, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_DEX, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_STA, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_PRE, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_MAN, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
+        addEntry(Constants.NAMESPACE_ATTRIBUTE, Constants.ATTR_COM, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.ABSOLUTE_MINIMUM_ATTR));
 
-        addOrUpdateEntry(Constants.CHARACTER_EXPERIENCE, 0);
+        addEntry(Constants.CHARACTER_EXPERIENCE, Constants.CHARACTER_EXPERIENCE, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(0));
     }
 
     static public CharacterWizardModel getInstance() {
@@ -144,27 +155,6 @@ public class CharacterWizardModel implements SpecialtiesModel {
         virtueTrait.setOrdinal(0L);
 
         helper.updateVirtueTrait(characterId, virtueTrait);
-    }
-
-    private Entry addOrUpdateEntry(String key, String type, String value) {
-        Entry entry = Entry.newInstance(helper.getLastId(Entry.class))
-            .setKey(key)
-            .setType(type)
-            .setValue(value);
-
-        if (!helper.updateEntry(character, entry)) {
-            helper.addEntry(characterId, entry);
-        }
-
-        return entry;
-    }
-
-    Entry addOrUpdateEntry(String key, Integer change) {
-        return addOrUpdateEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(change));
-    }
-
-    Entry addOrUpdateEntry(String key, String value) {
-        return addOrUpdateEntry(key, Constants.FIELD_TYPE_STRING, value);
     }
 
     private int getPointsSpentOnAttributes(int idArray) {
@@ -407,13 +397,15 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int defense = Math.min(Integer.valueOf(character.getDexterity().getValue()),
                 Integer.valueOf(character.getWits().getValue()));
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_DEFENSE, defense);
+        addEntry(Constants.NAMESPACE_ADVANTAGE, Constants.TRAIT_DERIVED_DEFENSE, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(defense));
 
         return defense;
     }
 
     int calculateMorality() {
-        addOrUpdateEntry(Constants.TRAIT_MORALITY, Constants.TRAIT_MORALITY_DEFAULT);
+        addEntry(Constants.NAMESPACE_ADVANTAGE, Constants.TRAIT_MORALITY, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(Constants.TRAIT_MORALITY_DEFAULT));
 
         return Constants.TRAIT_MORALITY_DEFAULT;
     }
@@ -422,7 +414,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int health = Integer.valueOf(character.getStamina().getValue()) +
                 Constants.TRAIT_SIZE_DEFAULT;
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_HEALTH, health);
+        addEntry(Constants.NAMESPACE_ADVANTAGE, Constants.TRAIT_DERIVED_HEALTH, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(health));
 
         return health;
     }
@@ -431,7 +424,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int initiative = Integer.valueOf(character.getComposure().getValue()) +
                 Integer.valueOf(character.getDexterity().getValue());
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_INITIATIVE, initiative);
+        addEntry(Constants.NAMESPACE_ADVANTAGE, Constants.TRAIT_DERIVED_INITIATIVE, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(initiative));
 
         return initiative;
     }
@@ -440,7 +434,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int speed = Integer.valueOf(character.getStrength().getValue()) +
                 Integer.valueOf(character.getDexterity().getValue());
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_SPEED, speed);
+        addEntry(Constants.NAMESPACE_ADVANTAGE, Constants.TRAIT_DERIVED_SPEED, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(speed));
 
         return speed;
     }
@@ -449,7 +444,8 @@ public class CharacterWizardModel implements SpecialtiesModel {
         int willpower = Integer.valueOf(character.getResolve().getValue()) +
                 Integer.valueOf(character.getComposure().getValue());
 
-        addOrUpdateEntry(Constants.TRAIT_DERIVED_WILLPOWER, willpower);
+        addEntry(Constants.NAMESPACE_ADVANTAGE, Constants.TRAIT_DERIVED_WILLPOWER, Constants.FIELD_TYPE_INTEGER,
+            String.valueOf(willpower));
 
         return willpower;
     }
@@ -542,7 +538,7 @@ public class CharacterWizardModel implements SpecialtiesModel {
     }
 
     void deleteCharacter() {
-        helper.delete(Character.class, characterId);
+        helper.deleteCharacter(characterId);
         createCharacter();
     }
 
@@ -557,26 +553,36 @@ public class CharacterWizardModel implements SpecialtiesModel {
         return entry != null;
     }
 
-    Entry addEntry(String key, int value) {
-        return addEntry(key, Constants.FIELD_TYPE_INTEGER, String.valueOf(value));
+    Entry addOrUpdateEntry(String namespace, String key, Integer change) {
+        if (!hasEntry(key)) {
+            return addEntry(namespace, key, Constants.FIELD_TYPE_INTEGER, String.valueOf(change));
+        } else {
+            return updateEntry(key, String.valueOf(change));
+        }
     }
 
-    Entry addEntry(String key, String value) {
-        return addEntry(key, Constants.FIELD_TYPE_STRING, value);
+    Entry addOrUpdateEntry(String namespace, String key, String value) {
+        if (!hasEntry(key)) {
+            return addEntry(namespace, key, Constants.FIELD_TYPE_STRING, value);
+        } else {
+            return updateEntry(key, value);
+        }
     }
 
-    Entry addEntry(String key, String type, String value) {
-        Entry entry = Entry.newInstance(helper.getLastId(Entry.class))
-            .setKey(key)
-            .setType(type)
-            .setValue(value);
+    Entry addEntry(String namespace, String key, String type, String value) {
+        Entry entry = new Entry.Builder(helper.getLastId(Entry.class), namespace, key, value, type)
+            .build();
 
         helper.addEntry(characterId, entry);
 
         return entry;
     }
 
-    void updateEntry(String key, String value) {
-        helper.updateEntry(characterId, key, value);
+    Entry updateEntry(String key, String value) {
+        return helper.updateEntry(characterId, key, value);
+    }
+
+    List<Entry> getMeritsSummary() {
+        return helper.getAllCharacterMerits(characterId);
     }
 }

@@ -233,6 +233,32 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/txtMerits"
+            android:text="@string/title_merits"
+            android:textAllCaps="true"
+            style="@style/style_text_card_title"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_half"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/bkgd_cat_panel">
+
+            <LinearLayout
+                android:id="@+id/panelSummaryMerits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:layout_marginBottom="@dimen/spacing_half"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
             android:id="@+id/txtDerivedTraits"
             android:text="@string/title_traits_derived"
             android:textAllCaps="true"

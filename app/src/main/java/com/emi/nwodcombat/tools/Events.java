@@ -78,11 +78,13 @@ public class Events {
         public final String key;
         public final String type;
         public final String value;
+        public final String namespace;
 
-        public TextEntryChanged(String key, String type, String value) {
+        public TextEntryChanged(String namespace, String key, String type, String value) {
             this.key = key;
             this.type = type;
             this.value = value;
+            this.namespace = namespace;
         }
     }
 

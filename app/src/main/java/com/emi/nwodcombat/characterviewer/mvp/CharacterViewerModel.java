@@ -148,9 +148,9 @@ public class CharacterViewerModel implements SpecialtiesModel {
 
     private int getDefaultScore(String kind) {
         switch (kind) {
-            case Constants.ATTRIBUTE:
+            case Constants.NAMESPACE_ATTRIBUTE:
                 return 1;
-            case Constants.SKILL:
+            case Constants.NAMESPACE_SKILL:
                 return 0;
             default:
                 return 0;
@@ -159,9 +159,9 @@ public class CharacterViewerModel implements SpecialtiesModel {
 
     Integer getExperienceCost(String kind) {
         switch (kind) {
-            case Constants.ATTRIBUTE:
+            case Constants.NAMESPACE_ATTRIBUTE:
                 return mContext.getResources().getInteger(R.integer.cost_attributes);
-            case Constants.SKILL:
+            case Constants.NAMESPACE_SKILL:
                 return mContext.getResources().getInteger(R.integer.cost_skills);
             default:
                 return 0;

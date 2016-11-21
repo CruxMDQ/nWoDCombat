@@ -105,8 +105,11 @@ public class MeritsPresenter {
             if (event.isIncrease) {
                 if (Collections.max(levels) != currentScore) {
                     int currentIndex = levels.indexOf(currentScore);
-                    int nextIndex = currentIndex + 1;
-                    updatedScore = levels.get(nextIndex);
+                    if (currentIndex < levels.size()) {
+                        int location = currentIndex + 1;
+                        Integer integer = levels.get(location);
+                        updatedScore = integer;
+                    }
 
                     // TODO Introduce comparison against free merit points
                     // int cost = nextScore - currentScore;
@@ -114,24 +117,29 @@ public class MeritsPresenter {
                     updatedScore = currentScore;
                 }
             } else {
-                if (Collections.min(levels) != currentScore) {
+                if (Collections.min(levels) == currentScore) {
+                    updatedScore = 0;
+                } else {
                     int currentIndex = levels.indexOf(currentScore);
-                    int previousIndex = currentIndex - 1;
-                    updatedScore = levels.get(previousIndex);
+                    if (currentIndex > 0) {
+                        int location = currentIndex - 1;
+                        Integer integer = levels.get(location);
+                        updatedScore = integer;
+                    }
+//                    int previousIndex = currentIndex - 1;
+//                    if (levels.contains(updatedScore)) {
+//                        updatedScore = levels.get(previousIndex);
+//                    }
 
                     // TODO Introduce comparison against free merit points
                     // int cost = nextScore - currentScore;
                 }
             }
 
-            if (!model.hasEntry(name)) {
-                model.addEntry(name, Constants.FIELD_TYPE_INTEGER, String.valueOf(updatedScore));
-            } else {
-                model.updateEntry(name, String.valueOf(updatedScore));
-            }
+            model.addOrUpdateEntry(Constants.NAMESPACE_MERIT, name, String.valueOf(updatedScore));
         } else {
             updatedScore = levels.get(0);
-            model.addOrUpdateEntry(name, updatedScore);
+            model.addOrUpdateEntry(Constants.NAMESPACE_MERIT, name, updatedScore);
         }
 
         event.holder.displayCurrentAndPossiblePointValues(

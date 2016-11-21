@@ -34,7 +34,7 @@ public class CharacterWizardFragment extends Fragment {
     @Override
     public void onPause() {
         BusProvider.unregister(presenter);
-        presenter.destroyCharacter();
+//        presenter.destroyCharacter();
         super.onPause();
     }
 

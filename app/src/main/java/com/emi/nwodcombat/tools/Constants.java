@@ -40,17 +40,6 @@ public class Constants {
     public static final String CONTENT_DESC_SKILL_PHYSICAL = "Physical";
     public static final String CONTENT_DESC_SKILL_SOCIAL = "Social";
 
-    public static final String POOL_ATTR_MENTAL = "poolMentalAttrs";
-    public static final String POOL_ATTR_PHYSICAL = "poolPhysicalAttrs";
-    public static final String POOL_ATTR_SOCIAL = "poolSocialAttrs";
-    public static final String POOL_SKILL_MENTAL = "poolMentalSkills";
-    public static final String POOL_SKILL_PHYSICAL = "poolPhysicalSkills";
-    public static final String POOL_SKILL_SOCIAL = "poolSocialSkills";
-
-    public static final String CATEGORY_PRIMARY = "Primary";
-    public static final String CATEGORY_SECONDARY = "Secondary";
-    public static final String CATEGORY_TERTIARY = "Tertiary";
-
     public static final int ATTR_PTS_PRIMARY = 5;
     public static final int ATTR_PTS_SECONDARY = 4;
     public static final int ATTR_PTS_TERTIARY = 3;
@@ -121,14 +110,10 @@ public class Constants {
     public static final int TRAIT_MORALITY_DEFAULT = 7;
     public static final int TRAIT_SIZE_DEFAULT = 5;
 
-    public static final String ARG_CLASS = "Class";
-    public static final String ARG_TITLE = "Title";
-    public static final String ARG_HINT = "Hint";
-    public static final String ARG_CLASS_ARGS = "ClassArguments";
-
     public static final String FIELD_ID = "id";
     public static final String FIELD_KEY = "key";
     public static final String FIELD_VALUE = "value";
+    public static final String FIELD_NAMESPACE = "namespace";
 
     public static final String FIELD_TYPE_STRING = "String";
     public static final String FIELD_TYPE_INTEGER = "Integer";
@@ -142,8 +127,6 @@ public class Constants {
     public static final String SKILL_SPECIALTY_EMPTY = "has no specialties";
     public static final String SKILL_SPECIALTY_LOADED = "has specialties";
 
-    public static final String ATTRIBUTE = "Attribute";
-    public static final String SKILL = "Skill";
     public static final String MENTAL = "Mental";
     public static final String PHYSICAL = "Physical";
     public static final String SOCIAL = "Social";
@@ -151,16 +134,21 @@ public class Constants {
     public static final String FINESSE = "Finesse";
     public static final String RESISTANCE = "Resistance";
 
-    public static final String MERIT_TRAINED_OBSERVER_DESC = "Your character has spent years in the field, catching tiny details and digging for secrets.";
-    public static final String NAMESPACE_AWAKENED = "Awakened";
-    public static final String NAMESPACE_MERIT = "Merit";
-    public static final String NAMESPACE_COMMON = "Common";
     public static final String MERIT_DREAM = "Dream";
     public static final String MERIT_DREAM_HINT = "Your character can search for answers within her dreams.";
     public static final String MERIT_DREAM_DESC = "Your character can dig within her dreams for prophetic answers to primordial truths. She may enter her own dreams without a meditation roll when she sleeps, and if she has a basic understanding of something she wishes to divine from her dreams, you may use this Merit. Your character must sleep or meditate for at least four hours. Then, ask the Storyteller a yes or no question about the topic at hand. He must answer accurately, but can use \"maybe\" if the answer is truly neither yes or no. Depending on the answer, you may ask additional questions, up to your Dream Merit dots. You can use that many questions per chapter.";
     public static final String MERIT_TRAINED_OBSERVER = "Trained Observer";
     public static final String MERIT_TRAINED_OBSERVER_HINT = "Your character has spent years in the field, catching tiny details and digging for secrets.";
+    public static final String MERIT_TRAINED_OBSERVER_DESC = "Your character has spent years in the field, catching tiny details and digging for secrets.";
     public static final String MERIT_COMMON_SENSE = "Common Sense";
     public static final String MERIT_COMMON_SENSE_HINT = "Your character has an exceptionally sound and rational mind.";
     public static final String MERIT_COMMON_SENSE_DESC = "Your character has an exceptionally sound and rational mind. Within a moment\'s thought, she can weigh potential courses of action and outcomes.";
+
+    public static final String NAMESPACE_ATTRIBUTE = "Attribute";
+    public static final String NAMESPACE_SKILL = "Skill";
+    public static final String NAMESPACE_AWAKENED = "Awakened";
+    public static final String NAMESPACE_MERIT = "Merit";
+    public static final String NAMESPACE_COMMON = "Common";
+    public static final String NAMESPACE_ADVANTAGE = "Advantage";
+    public static final String NAMESPACE_PERSONAL_INFO = "Personal info";
 }

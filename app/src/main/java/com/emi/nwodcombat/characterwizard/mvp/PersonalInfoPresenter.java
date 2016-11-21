@@ -111,7 +111,7 @@ public class PersonalInfoPresenter {
 
     @Subscribe
     public void onEntryChanged(Events.TextEntryChanged event) {
-        model.addOrUpdateEntry(event.key, event.value);
+        model.addOrUpdateEntry(event.namespace, event.key, event.value);
     }
 
     @Subscribe

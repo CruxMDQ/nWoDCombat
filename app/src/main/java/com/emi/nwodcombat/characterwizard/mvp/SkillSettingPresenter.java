@@ -204,7 +204,7 @@ public class SkillSettingPresenter {
         if (!model.isCheating()) {
 
             if (newValue >= 0 && spent < Constants.SKILL_PTS_PRIMARY || spent > 0) {
-                Integer skillValue = Integer.valueOf(model.addOrUpdateEntry(key, newValue).getValue());
+                Integer skillValue = Integer.valueOf(model.addOrUpdateEntry(Constants.NAMESPACE_SKILL, key, newValue).getValue());
 
                 view.changeWidgetValue(key, skillValue);
                 spent += isIncrease ? 1 : -1;
@@ -214,7 +214,7 @@ public class SkillSettingPresenter {
         }
         else    // If point allocation is not limited by category, do this instead
         {
-            Integer skillValue = Integer.valueOf(model.addOrUpdateEntry(key, newValue).getValue());
+            Integer skillValue = Integer.valueOf(model.addOrUpdateEntry(Constants.NAMESPACE_SKILL, key, newValue).getValue());
 
             view.changeWidgetValue(key, skillValue);
         }
